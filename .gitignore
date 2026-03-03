@@ -1,0 +1,27 @@
+# ── Entornos y dependencias ──
+.venv/
+__pycache__/
+*.pyc
+node_modules/
+
+# ── Secretos (NUNCA subir) ──
+.env
+backend/.env
+*.env.local
+
+# ── IDE / Sistema ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Agente AI (contexto local) ──
+.agent/
+.gemini/
+
+# ── Archivos temporales ──
+*.log
+tmp/
