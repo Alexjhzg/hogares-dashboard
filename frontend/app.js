@@ -33,9 +33,58 @@ const $ = id => document.getElementById(id);
 
 // ─── Bootstrap ──────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
     updateModuleInfo();
     init();
 });
+
+// ─── Theme Management ───────────────────────────
+function initTheme() {
+    const defaultDark = true; // Por defecto es premium dark
+    const storedTheme = localStorage.getItem('esca_theme');
+
+    let isDark = defaultDark;
+    if (storedTheme === 'light') isDark = false;
+    else if (storedTheme === 'dark') isDark = true;
+
+    applyTheme(isDark);
+
+    const btn = $('btnThemeToggle');
+    if (btn) {
+        btn.addEventListener('click', () => {
+            const isCurrentlyDark = document.documentElement.classList.contains('dark');
+            applyTheme(!isCurrentlyDark);
+        });
+    }
+}
+
+function applyTheme(isDark) {
+    if (isDark) {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('esca_theme', 'dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('esca_theme', 'light');
+    }
+
+    // Si hay gráficos renderizados, forzamos su actualización de color
+    updateChartsTheme(isDark);
+}
+
+function updateChartsTheme(isDark) {
+    const textColor = isDark ? '#94a3b8' : '#475569';
+    const gridColor = isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)';
+
+    Chart.defaults.color = textColor;
+    Chart.defaults.scale.grid.color = gridColor;
+
+    // Redraw all active charts
+    Object.values(charts).forEach(chart => {
+        if (chart && typeof chart.update === 'function') {
+            chart.update('none'); // Update without animation
+        }
+    });
+}
 
 async function init() {
     console.log('app.js: Iniciando init()...');
@@ -145,15 +194,14 @@ function renderChartHorario() {
 
 function initMap() {
     if (map) return;
-    // Create base layers: Carto Dark, OpenStreetMap (streets) and Esri World Imagery (satellite)
-    const cartoDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CARTO' });
+    // Create base layers: OpenStreetMap (streets) and Esri World Imagery (satellite)
     const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' });
     const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri' });
 
-    map = L.map('mapView', { center: [10.4806, -66.8983], zoom: 12, layers: [cartoDark] }); // CCS default
+    map = L.map('mapView', { center: [10.4806, -66.8983], zoom: 12, layers: [osm] }); // CCS default
 
     // Layer control and scale
-    const baseLayers = { 'Carto Dark': cartoDark, 'OpenStreetMap': osm, 'Satellite (Esri)': esriSat };
+    const baseLayers = { 'OpenStreetMap': osm, 'Satellite (Esri)': esriSat };
     L.control.layers(baseLayers, null, { collapsed: false }).addTo(map);
     L.control.scale().addTo(map);
     markerCluster = L.markerClusterGroup({
@@ -169,30 +217,105 @@ function renderMap() {
     markerCluster.clearLayers();
 
     const points = filtered.filter(r => r._meta.lat && r._meta.lng);
+
+    // ─── Map KPI Updates ───
+    const completedOnMap = points.filter(r => /totalment/i.test(r._meta.nota)).length;
+    const agentsOnMap = new Set(points.map(r => r._meta.cedula)).size;
+    const flaggedDistance = points.filter(r => r._meta.flag_distance_gt_500).length;
+    const munsOnMap = new Set(points.map(r => r._meta.mun).filter(m => m && m !== 'N/A'));
+    const parsOnMap = new Set(points.map(r => r._meta.par).filter(p => p && p !== 'N/A'));
+    const nodosOnMap = new Set(points.map(r => r._meta.nodo).filter(n => n && n !== 'N/A'));
+
+    if ($('mapKpiPoints')) $('mapKpiPoints').textContent = points.length;
+    if ($('mapKpiComplete')) $('mapKpiComplete').textContent = completedOnMap;
+    if ($('mapKpiAgents')) $('mapKpiAgents').textContent = agentsOnMap;
+    if ($('mapKpiFlagged')) $('mapKpiFlagged').textContent = flaggedDistance;
+
+    // Coverage badge
+    const badge = $('mapCoverageBadge');
+    if (badge && points.length > 0) {
+        badge.classList.remove('hidden');
+        if ($('mapMunCount')) $('mapMunCount').textContent = munsOnMap.size;
+        if ($('mapParCount')) $('mapParCount').textContent = parsOnMap.size;
+        if ($('mapNodoCount')) $('mapNodoCount').textContent = nodosOnMap.size;
+    }
+
+    // ─── Create Color-Coded Circle Markers ───
     const markers = points.map(r => {
         const m = r._meta;
-        const color = m.estado === 'completada' ? '#10B981' : '#F59E0B';
+        const isComplete = /totalment/i.test(m.nota);
+        const isFlagged = m.flag_distance_gt_500;
+
+        // Color priority: flagged (red) > partial (orange) > complete (green)
+        let color, borderColor, label;
+        if (isFlagged) {
+            color = '#EF4444'; borderColor = '#DC2626'; label = '⚠ Flag Distancia';
+        } else if (isComplete) {
+            color = '#10B981'; borderColor = '#059669'; label = 'Efectiva';
+        } else {
+            color = '#F59E0B'; borderColor = '#D97706'; label = 'No Respuesta';
+        }
+
+        const durText = m.durMin !== null ? `${Math.round(m.durMin)} min` : '—';
+        const distText = m.distance_m !== null ? `${Math.round(m.distance_m)} m` : '—';
+
         const html = `
-            <div class="p-4 min-w-[200px] bg-brand-950 text-slate-200 border border-white/10 rounded-xl">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-[10px] font-bold text-slate-500 uppercase">Encuestador</span>
-                    <span class="w-2 h-2 rounded-full" style="background:${color}"></span>
+            <div class="p-4 min-w-[240px] bg-[#0f172a] text-slate-200 rounded-xl" style="font-family:'Inter',sans-serif">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Encuestador</span>
+                    <span class="px-2 py-0.5 rounded-md text-[9px] font-bold text-white" style="background:${color}">${label}</span>
                 </div>
-                <div class="font-bold text-sm mb-1">${m.nombre}</div>
-                <div class="text-[10px] text-slate-400 mb-3">${m.fecha}</div>
-                <div class="grid grid-cols-2 gap-2 border-t border-white/5 pt-2">
+                <div class="font-bold text-sm text-white mb-0.5">${m.nombre}</div>
+                <div class="text-[10px] text-slate-400 mb-3">${m.fecha} · ${m.cedula}</div>
+                <div class="grid grid-cols-3 gap-2 border-t border-white/5 pt-3 mb-3">
                     <div>
-                        <div class="text-[8px] uppercase text-slate-500">Municipio</div>
-                        <div class="text-[10px] font-bold">${m.mun}</div>
+                        <div class="text-[8px] uppercase text-slate-500 font-bold">Municipio</div>
+                        <div class="text-[10px] font-bold text-white">${m.mun}</div>
                     </div>
-                     <div>
-                        <div class="text-[8px] uppercase text-slate-500">Condición</div>
-                        <div class="text-[10px] font-bold">${m.condicion}</div>
+                    <div>
+                        <div class="text-[8px] uppercase text-slate-500 font-bold">Parroquia</div>
+                        <div class="text-[10px] font-bold text-white">${m.par || '—'}</div>
+                    </div>
+                    <div>
+                        <div class="text-[8px] uppercase text-slate-500 font-bold">Nodo</div>
+                        <div class="text-[10px] font-bold text-white">${m.nodo || '—'}</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2 border-t border-white/5 pt-3 mb-3">
+                    <div>
+                        <div class="text-[8px] uppercase text-slate-500 font-bold">Duración</div>
+                        <div class="text-[10px] font-bold" style="color:${m.durMin !== null && m.durMin < 15 ? '#EF4444' : '#10B981'}">${durText}</div>
+                    </div>
+                    <div>
+                        <div class="text-[8px] uppercase text-slate-500 font-bold">Distancia</div>
+                        <div class="text-[10px] font-bold" style="color:${isFlagged ? '#EF4444' : '#94a3b8'}">${distText}</div>
+                    </div>
+                    <div>
+                        <div class="text-[8px] uppercase text-slate-500 font-bold">Uso</div>
+                        <div class="text-[10px] font-bold text-white">${(m.uso || '—').replace(/_/g, ' ')}</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 border-t border-white/5 pt-3">
+                    <div>
+                        <div class="text-[8px] uppercase text-slate-500 font-bold">Condición</div>
+                        <div class="text-[10px] font-bold text-white">${(m.condicion || '—').replace(/_/g, ' ')}</div>
+                    </div>
+                    <div>
+                        <div class="text-[8px] uppercase text-slate-500 font-bold">Hogares / Pers.</div>
+                        <div class="text-[10px] font-bold text-white">${m.hogares} / ${m.totalPers}</div>
                     </div>
                 </div>
             </div>
         `;
-        return L.marker([m.lat, m.lng]).bindPopup(html, { className: 'custom-popup', maxWidth: 300 });
+
+        return L.circleMarker([m.lat, m.lng], {
+            radius: 7,
+            fillColor: color,
+            color: borderColor,
+            weight: 2,
+            opacity: 0.9,
+            fillOpacity: 0.7,
+        }).bindPopup(html, { className: 'custom-popup', maxWidth: 320 });
     });
 
     markerCluster.addLayers(markers);
@@ -200,6 +323,8 @@ function renderMap() {
         const bounds = markerCluster.getBounds();
         if (bounds.isValid()) map.fitBounds(bounds, { padding: [50, 50] });
     }
+
+    if (window.lucide) lucide.createIcons();
 }
 
 function switchTab(tabId) {
@@ -221,11 +346,28 @@ function switchTab(tabId) {
         content.classList.toggle('hidden-tab', !isTarget);
     });
 
-    // Special handling for Map and Charts
+    // Special handling for Map, Charts and Grid
     if (tabId === 'tab-mapa') {
         if (!map) initMap();
         setTimeout(() => map.invalidateSize(), 150);
         renderMap();
+    }
+
+    if (tabId === 'tab-ranking') {
+        if (rankingTabulator) {
+            setTimeout(() => {
+                rankingTabulator.redraw(true);
+            }, 50);
+        }
+    }
+
+    if (tabId === 'tab-datos') {
+        if (detailTable) {
+            setTimeout(() => {
+                detailTable.redraw(true);
+                if (window.lucide) lucide.createIcons();
+            }, 50);
+        }
     }
 
     setTimeout(() => {
@@ -723,12 +865,18 @@ function baseChartOpts() {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-            legend: { labels: { color: '#8b949e', font: { size: 11 } } },
-            tooltip: { backgroundColor: '#1c2128', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1 }
+            legend: { labels: { font: { size: 11, family: "'Inter', sans-serif" } } },
+            tooltip: {
+                backgroundColor: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff',
+                titleColor: document.documentElement.classList.contains('dark') ? '#f1f5f9' : '#0f172a',
+                bodyColor: document.documentElement.classList.contains('dark') ? '#e2e8f0' : '#334155',
+                borderColor: document.documentElement.classList.contains('dark') ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+                borderWidth: 1
+            }
         },
         scales: {
-            x: { ticks: { color: '#8b949e', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
-            y: { ticks: { color: '#8b949e', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+            x: { ticks: { font: { size: 10, family: "'Inter', sans-serif" } }, grid: {} },
+            y: { ticks: { font: { size: 10, family: "'Inter', sans-serif" } }, grid: {} }
         }
     };
 }
@@ -888,10 +1036,13 @@ function renderRankingTable() {
     const tableData = rows.map((m, i) => ({
         pos: i + 1,
         nombre: m.nombre,
+        cedula: m.cedula,
         encuestas: m.encuestas,
         completadas: m.completadas,
-        avgDur: m.avgDur != null ? Math.round(m.avgDur) : '--',
+        pctCompleta: m.pctCompleta,
+        avgDur: m.avgDur != null ? Math.round(m.avgDur) : null,
         personas: m.personas,
+        municipios: m.municipios.size,
         score: m.score,
     }));
 
@@ -899,30 +1050,110 @@ function renderRankingTable() {
         rankingTabulator = new Tabulator('#rankingTable', {
             data: tableData,
             layout: 'fitColumns',
-            height: '360px',
-            placeholder: 'Sin datos',
+            height: '420px',
+            responsiveLayout: 'collapse',
+            placeholder: '<div style="padding:40px;text-align:center;color:#64748b;font-size:13px;font-family:Inter,sans-serif;">Sin datos de agentes</div>',
+            initialSort: [{ column: 'score', dir: 'desc' }],
             columns: [
-                { title: '#', field: 'pos', width: 50, hozAlign: 'center', headerSort: false },
-                { title: 'Nombre', field: 'nombre', minWidth: 150 },
-                { title: 'Enc.', field: 'encuestas', hozAlign: 'center', width: 70, sorter: 'number' },
-                { title: 'Comp.', field: 'completadas', hozAlign: 'center', width: 70, sorter: 'number' },
                 {
-                    title: 'Dur. Prom.', field: 'avgDur', hozAlign: 'center', width: 90,
+                    formatter: 'responsiveCollapse', width: 30, minWidth: 30, hozAlign: 'center',
+                    headerSort: false, resizable: false, responsive: 0
+                },
+                {
+                    title: '#', field: 'pos', width: 55, hozAlign: 'center', headerSort: false,
+                    frozen: true, responsive: 0,
                     formatter: function (cell) {
                         const v = cell.getValue();
-                        return v !== '--' ? v + ' min' : '--';
+                        if (v === 1) return '<span style="font-size:18px" title="1er lugar">🥇</span>';
+                        if (v === 2) return '<span style="font-size:18px" title="2do lugar">🥈</span>';
+                        if (v === 3) return '<span style="font-size:18px" title="3er lugar">🥉</span>';
+                        return `<span style="color:#64748b;font-weight:800;font-size:12px;font-family:'Outfit',sans-serif">${v}</span>`;
                     }
                 },
-                { title: 'Personas', field: 'personas', hozAlign: 'center', width: 80, sorter: 'number' },
                 {
-                    title: 'Score', field: 'score', hozAlign: 'center', width: 70, sorter: 'number',
+                    title: 'Agente', field: 'nombre', minWidth: 140, frozen: true, responsive: 0,
+                    formatter: function (cell) {
+                        const d = cell.getData();
+                        return `<div>
+                            <div style="font-weight:800;color:#f1f5f9;font-size:12px;line-height:1.3;font-family:Inter,sans-serif;">${d.nombre}</div>
+                            <div style="font-size:9px;color:#64748b;font-weight:600;letter-spacing:0.03em;font-family:Inter,sans-serif;">${d.cedula}</div>
+                        </div>`;
+                    }
+                },
+                {
+                    title: 'Vol.', field: 'encuestas', hozAlign: 'center', width: 65,
+                    sorter: 'number', responsive: 0,
+                    formatter: function (cell) {
+                        return `<span style="font-weight:800;color:#3B82F6;font-family:'Outfit',sans-serif;font-size:14px">${cell.getValue()}</span>`;
+                    }
+                },
+                {
+                    title: '% Efect.', field: 'pctCompleta', hozAlign: 'center', width: 90,
+                    sorter: 'number', responsive: 2,
+                    formatter: function (cell) {
+                        const v = cell.getValue();
+                        const color = v >= 80 ? '#10B981' : v >= 50 ? '#F59E0B' : '#EF4444';
+                        const bg = v >= 80 ? 'rgba(16,185,129,0.15)' : v >= 50 ? 'rgba(245,158,11,0.15)' : 'rgba(239,68,68,0.15)';
+                        return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+                            <span style="font-weight:800;color:${color};font-size:12px;font-family:'Outfit',sans-serif">${v}%</span>
+                            <div style="width:100%;height:4px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden">
+                                <div style="width:${v}%;height:100%;background:${color};border-radius:4px;transition:width 0.6s ease"></div>
+                            </div>
+                        </div>`;
+                    }
+                },
+                {
+                    title: 'Dur.', field: 'avgDur', hozAlign: 'center', width: 80,
+                    sorter: 'number', responsive: 3,
+                    formatter: function (cell) {
+                        const v = cell.getValue();
+                        if (v === null) return '<span style="color:#475569">—</span>';
+                        let color, icon;
+                        if (v < 15) { color = '#EF4444'; icon = '⚡'; }
+                        else if (v < 25) { color = '#F59E0B'; icon = '⏱'; }
+                        else { color = '#10B981'; icon = '✓'; }
+                        return `<span style="color:${color};font-weight:700;font-size:11px" title="${v} min promedio">${icon} ${v}m</span>`;
+                    }
+                },
+                {
+                    title: 'Pers.', field: 'personas', hozAlign: 'center', width: 65,
+                    sorter: 'number', responsive: 4,
+                    formatter: function (cell) {
+                        return `<span style="font-weight:600;color:#94a3b8">${cell.getValue()}</span>`;
+                    }
+                },
+                {
+                    title: 'Mun.', field: 'municipios', hozAlign: 'center', width: 60,
+                    sorter: 'number', responsive: 4,
+                    formatter: function (cell) {
+                        return `<span style="font-weight:600;color:#8B5CF6">${cell.getValue()}</span>`;
+                    }
+                },
+                {
+                    title: 'Score', field: 'score', hozAlign: 'center', width: 90,
+                    sorter: 'number', responsive: 0,
                     formatter: function (cell) {
                         const v = cell.getValue();
                         const color = v >= 70 ? '#10B981' : v >= 40 ? '#F59E0B' : '#EF4444';
-                        return `<span style="color:${color};font-weight:bold">${v}</span>`;
+                        const bg = v >= 70 ? 'rgba(16,185,129,0.12)' : v >= 40 ? 'rgba(245,158,11,0.12)' : 'rgba(239,68,68,0.12)';
+                        return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+                            <span style="font-weight:900;color:${color};font-size:14px;font-family:'Outfit',sans-serif">${v}</span>
+                            <div style="width:100%;height:5px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden">
+                                <div style="width:${v}%;height:100%;background:linear-gradient(90deg,${color},${color}aa);border-radius:4px;transition:width 0.6s ease"></div>
+                            </div>
+                        </div>`;
                     }
                 },
             ],
+        });
+
+        // Row click → filter dashboard by agent
+        rankingTabulator.on('rowClick', function (e, row) {
+            const cedula = row.getData().cedula;
+            if (cedula && $('filterEncuestador')) {
+                $('filterEncuestador').value = cedula;
+                applyFilters();
+            }
         });
     } else {
         rankingTabulator.setData(tableData);
@@ -962,44 +1193,127 @@ function renderEncuestadorCards() {
     </div>`).join('');
 }
 
-// Tabulator-based detail explorer
+// Tabulator-based detail explorer with advanced features
 function initGrid() {
     if (detailTable) return;
     detailTable = new Tabulator('#detailGrid', {
         data: [],
         layout: 'fitColumns',
-        height: '500px',
+        height: '100%',
         pagination: true,
         paginationSize: ROWS_PER_PAGE,
         paginationSizeSelector: [10, 25, 50, 100],
         movableColumns: true,
-        placeholder: 'Sin datos cargados',
+        responsiveLayout: 'collapse',
+        clipboard: true, // Enable clipboard support
+        placeholder: '<div style="padding:40px;text-align:center;color:#64748b;font-size:14px;font-family:Inter,sans-serif;">Cargando base de datos...</div>',
+        columnHeaderVertAlign: 'bottom',
         columns: [
-            { title: 'Cédula', field: 'cedula', headerFilter: 'input', minWidth: 100 },
-            { title: 'Nombre', field: 'nombre', headerFilter: 'input', minWidth: 150 },
-            { title: 'Control', field: 'control', headerFilter: 'input', minWidth: 100 },
-            { title: 'Fecha', field: 'fecha', headerFilter: 'input', minWidth: 100, sorter: 'date', sorterParams: { format: 'yyyy-MM-dd' } },
-            { title: 'Municipio', field: 'mun', headerFilter: 'input', minWidth: 100 },
-            { title: 'Parroquia', field: 'par', headerFilter: 'input', minWidth: 100 },
-            { title: 'Nodo', field: 'nodo', headerFilter: 'input', minWidth: 80 },
             {
-                title: 'Estado', field: 'estado', headerFilter: 'input', minWidth: 90,
-                formatter: function (cell) {
-                    const v = cell.getValue();
-                    const color = v === 'completada' ? '#10B981' : '#F59E0B';
-                    return `<span style="color:${color};font-weight:600">${v}</span>`;
-                }
+                formatter: 'responsiveCollapse', width: 30, minWidth: 30, hozAlign: 'center',
+                headerSort: false, resizable: false, responsive: 0
             },
-            { title: 'Condición', field: 'condicion', headerFilter: 'input', minWidth: 100 },
-            { title: 'Uso', field: 'uso', headerFilter: 'input', minWidth: 80 },
+            {
+                title: 'Identificación',
+                columns: [
+                    { title: 'Cédula', field: 'cedula', headerFilter: 'input', minWidth: 90, frozen: true, responsive: 0 },
+                    { title: 'Nombre', field: 'nombre', headerFilter: 'input', minWidth: 140, frozen: true, responsive: 0 },
+                    { title: 'Control', field: 'control', headerFilter: 'input', width: 90, responsive: 2 },
+                ]
+            },
+            {
+                title: 'Contexto',
+                columns: [
+                    { title: 'Fecha', field: 'fecha', headerFilter: 'input', width: 100, sorter: 'date', responsive: 1 },
+                    { title: 'Municipio', field: 'mun', headerFilter: 'input', width: 100, responsive: 2 },
+                    { title: 'Parroquia', field: 'par', headerFilter: 'input', width: 100, responsive: 4 },
+                ]
+            },
+            {
+                title: 'Métricas',
+                columns: [
+                    {
+                        title: 'Estado', field: 'estado', width: 100, responsive: 0,
+                        headerFilter: 'list', headerFilterParams: { valuesLookup: true, clearable: true },
+                        formatter: function (cell) {
+                            const v = cell.getValue();
+                            const color = v === 'completada' ? '#10B981' : '#F59E0B';
+                            const label = v === 'completada' ? 'EFECTIVA' : 'PARCIAL';
+                            return `<span style="color:${color};font-weight:700;font-size:10px;letter-spacing:0.02em">${label}</span>`;
+                        }
+                    },
+                    {
+                        title: 'Dur.', field: 'durMin', width: 70, hozAlign: 'center', responsive: 2,
+                        formatter: function (cell) {
+                            const v = cell.getValue();
+                            if (v === null) return '—';
+                            const color = v < 15 ? '#EF4444' : v < 25 ? '#F59E0B' : '#10B981';
+                            return `<span style="color:${color};font-weight:800;font-family:Outfit,sans-serif;">${v}m</span>`;
+                        }
+                    },
+                    {
+                        title: 'Dist.', field: 'dist', width: 70, hozAlign: 'center', responsive: 3,
+                        formatter: function (cell) {
+                            const v = cell.getValue();
+                            if (v === null) return '—';
+                            const isFlagged = cell.getData().flagDist;
+                            const color = isFlagged ? '#EF4444' : '#94a3b8';
+                            return `<span style="color:${color};font-weight:600">${v}m ${isFlagged ? '⚠' : ''}</span>`;
+                        }
+                    },
+                ]
+            },
+            {
+                title: 'Social',
+                columns: [
+                    { title: 'Hog.', field: 'hogares', width: 50, hozAlign: 'center', responsive: 4 },
+                    { title: 'Pers.', field: 'personas', width: 50, hozAlign: 'center', responsive: 4 },
+                ]
+            },
+            {
+                title: 'Acciones', width: 160, headerSort: false, hozAlign: 'center', responsive: 0,
+                formatter: function (cell) {
+                    return `
+                        <div class="flex gap-2">
+                            <button class="tab-action-btn btn-view" onclick="event.stopPropagation(); window.showDetailById('${cell.getData().id}')">
+                                <i data-lucide="eye" style="width:12px;height:12px"></i> VER
+                            </button>
+                            ${cell.getData().lat ? `
+                            <button class="tab-action-btn btn-locate" onclick="event.stopPropagation(); window.showLocationById('${cell.getData().id}')">
+                                <i data-lucide="map-pin" style="width:12px;height:12px"></i>
+                            </button>` : ''}
+                        </div>
+                    `;
+                }
+            }
         ],
+        rowFormatter: function (row) {
+            const data = row.getData();
+            if (data.estado === 'completada') row.getElement().classList.add('row-complete');
+            else if (data.estado === 'parcial') row.getElement().classList.add('row-partial');
+            if (data.flagDist || data.flagDur) row.getElement().classList.add('row-flagged');
+        }
     });
 
     detailTable.on('rowClick', function (e, row) {
         const rec = row.getData()._rec;
         if (rec) showDetailModal(rec);
     });
+
+    detailTable.on('tableBuilt', () => {
+        if (window.lucide) lucide.createIcons();
+    });
 }
+
+// Global helpers for inline buttons
+window.showDetailById = (id) => {
+    const rec = filtered.find(r => r._meta.control === id || r._uuid === id);
+    if (rec) showDetailModal(rec);
+};
+window.showLocationById = (id) => {
+    const rec = filtered.find(r => r._meta.control === id || r._uuid === id);
+    if (rec) showLocationModal(rec);
+};
 
 function updateGrid(data = filtered) {
     if (!detailTable) initGrid();
@@ -1007,6 +1321,7 @@ function updateGrid(data = filtered) {
         const m = rec._meta || {};
         return {
             _rec: rec,
+            id: m.control || rec._uuid,
             cedula: m.cedula || '',
             nombre: m.nombre || '',
             control: m.control || '',
@@ -1015,8 +1330,14 @@ function updateGrid(data = filtered) {
             par: m.par || '',
             nodo: m.nodo || '',
             estado: m.estado || '',
-            condicion: m.condicion || '',
-            uso: m.uso || '',
+            durMin: m.durMin,
+            dist: m.distance_m ? Math.round(m.distance_m) : null,
+            flagDist: m.flag_distance_gt_500,
+            flagDur: m.flag_short_duration,
+            hogares: m.hogares || 0,
+            personas: m.totalPers || 0,
+            lat: m.lat,
+            lng: m.lng
         };
     });
     detailTable.setData(rows);
@@ -1141,12 +1462,11 @@ function showLocationModal(rec) {
     // Initialize map if needed
     if (!locMap) {
         // Create same base layers as main map for consistent view options
-        const cartoDark = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CARTO' });
         const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' });
         const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri' });
 
-        locMap = L.map('locMap', { center: [lat, lng], zoom: 16, layers: [cartoDark] });
-        const baseLayersLoc = { 'Carto Dark': cartoDark, 'OpenStreetMap': osm, 'Satellite (Esri)': esriSat };
+        locMap = L.map('locMap', { center: [lat, lng], zoom: 16, layers: [osm] });
+        const baseLayersLoc = { 'OpenStreetMap': osm, 'Satellite (Esri)': esriSat };
         L.control.layers(baseLayersLoc, null, { collapsed: false }).addTo(locMap);
         L.control.scale().addTo(locMap);
     } else {
