@@ -17,6 +17,9 @@ let detailTable;
 let rankingTabulator;
 const ROWS_PER_PAGE = 25;
 
+// MM-111
+let mm111Table = null;
+
 // map of household situation codes to readable labels
 // TODO: replace the placeholder strings with actual descriptions from the form
 
@@ -159,6 +162,30 @@ async function init() {
     await loadAssets();
 
     if (window.lucide) lucide.createIcons();
+}
+
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active', 'bg-white', 'dark:bg-slate-800', 'text-brand-blue', 'dark:text-white', 'shadow-sm');
+        b.classList.add('text-slate-500', 'hover:bg-slate-200', 'dark:hover:bg-slate-800');
+        if (b.dataset.tab === tabId) {
+            b.classList.add('active', 'bg-white', 'dark:bg-slate-800', 'text-brand-blue', 'dark:text-white', 'shadow-sm');
+            b.classList.remove('text-slate-500', 'hover:bg-slate-200', 'dark:hover:bg-slate-800');
+        }
+    });
+
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden-tab'));
+    const target = $(tabId);
+    if (target) {
+        target.classList.remove('hidden-tab');
+        if (tabId === 'tab-ranking' && rankingTabulator) rankingTabulator.redraw();
+        if (tabId === 'tab-datos' && detailTable) detailTable.redraw();
+        if (tabId === 'tab-mapa' && map) setTimeout(() => map.invalidateSize(), 150);
+        if (tabId === 'tab-mm111') {
+            if (mm111Table) mm111Table.redraw();
+            if (!mm111Table && filtered.length > 0) initMM111Grid();
+        }
+    }
 }
 
 function renderChartHorario() {
@@ -810,6 +837,7 @@ function renderAll() {
     renderEncuestadorCards();
     updateGrid();
     renderMap();
+    renderMM111();
     if (window.lucide) lucide.createIcons();
 }
 
@@ -1447,6 +1475,183 @@ function showDetailModal(rec) {
 }
 
 function closeDetailModal() { const m = $('detailModal'); if (m) { m.classList.add('hidden'); if (_lastFocused && typeof _lastFocused.focus === 'function') { try { _lastFocused.focus(); } catch (e) { } } } }
+
+// ─── MODULE: MM-111 ──────────────────────────────
+function renderMM111() {
+    const searchBtn = $('btnLoadMM111');
+    const searchInput = $('mm111SearchControl');
+    if (!searchBtn || !searchInput) return;
+
+    // Populate options from filtered
+    const uniqueControls = new Set();
+    filtered.forEach(r => {
+        if (r._meta.control) uniqueControls.add(r._meta.control);
+    });
+
+    // Sort and build options
+    const controls = [...uniqueControls].sort();
+
+    // Keep the first default option and append the rest
+    searchInput.innerHTML = '<option value="">Seleccionar Control...</option>' +
+        controls.map(c => `<option value="${c}">${c}</option>`).join('');
+
+    searchBtn.onclick = () => loadMM111ControlData(searchInput.value.trim());
+    searchInput.onchange = () => {
+        loadMM111ControlData(searchInput.value.trim());
+    };
+
+    // If there's an active query, re-render. If not, try to render the first available control
+    const currentVal = searchInput.value.trim();
+    if (currentVal) {
+        loadMM111ControlData(currentVal);
+    } else {
+        // Try getting the first control from filtered
+        const firstControlRecord = filtered.find(r => r._meta.control);
+        if (firstControlRecord) {
+            searchInput.value = firstControlRecord._meta.control;
+            loadMM111ControlData(firstControlRecord._meta.control);
+        }
+    }
+}
+
+function loadMM111ControlData(controlNro) {
+    if (!controlNro) return;
+
+    // Find all records matching this control
+    const constrolRecords = filtered.filter(r => String(r._meta.control).toLowerCase() === String(controlNro).toLowerCase());
+
+    if (constrolRecords.length === 0) {
+        // Reset view
+        clearMM111Header();
+        if (mm111Table) mm111Table.clearData();
+        return;
+    }
+
+    const first = constrolRecords[0];
+
+    // Update Header 
+    // Uses S1 geo variables specifically requested
+    $('mm111Entidad').textContent = first['S1/ent'] || first._meta.mun || 'N/A';
+    $('mm111Municipio').textContent = first._meta.mun || 'N/A';
+    $('mm111Parroquia').textContent = first._meta.par || 'N/A';
+    $('mm111CPoblado').textContent = first['S1/cpoblado'] || 'N/A';
+
+    // Attempt to extract numeric codes (usually present in raw Kobo options, simple fallback string extract)
+    const extractCode = (str, sliceLast = null) => {
+        if (!str) return '--';
+        const match = String(str).match(/^(\d+)/);
+        let code = match ? match[1] : '--';
+        if (code !== '--' && sliceLast) {
+            code = code.slice(-sliceLast);
+        }
+        return code;
+    };
+
+    $('mm111EntidadCod').textContent = extractCode(first['S1/ent']) || '--';
+    $('mm111MunicipioCod').textContent = extractCode(first._meta.mun, 2) || '--';
+    $('mm111ParroquiaCod').textContent = extractCode(first._meta.par, 2) || '--';
+    $('mm111CPobladoCod').textContent = extractCode(first['S1/cpoblado']) || '--';
+
+    // Update Control Bar
+    // Using mapping names derived from previous analysis
+    const formatSuffix = (val, length) => val && String(val).trim() !== '-' ? String(val).slice(-length) : '-';
+
+    $('mm111Segmento').textContent = first['S1/segmento'] || first['group_segmeto_sector/segmento'] || '-';
+    $('mm111Sector').textContent = first['S1/sector'] || first['group_segmeto_sector/sector'] || '-';
+    $('mm111Nodo').textContent = first._meta.nodo || '-';
+    $('mm111Semana').textContent = formatSuffix(first._meta.semana, 2);
+    $('mm111ControlNro').textContent = formatSuffix(first._meta.control, 4);
+
+    // Lote and Control Maestro
+    $('mm111Lote').textContent = first['group_sh53u78/lote'] || '-';
+    $('mm111ControlMaestro').textContent = first['group_sh53u78/control_maestro'] || '-';
+
+    // Update Table
+    updateMM111Grid(constrolRecords);
+}
+
+function clearMM111Header() {
+    ['mm111Entidad', 'mm111Municipio', 'mm111Parroquia', 'mm111CPoblado'].forEach(id => $(id).textContent = '---');
+    ['mm111EntidadCod', 'mm111MunicipioCod', 'mm111ParroquiaCod', 'mm111CPobladoCod'].forEach(id => $(id).textContent = '--');
+    ['mm111Segmento', 'mm111Sector', 'mm111Nodo', 'mm111Semana', 'mm111ControlMaestro', 'mm111Lote'].forEach(id => $(id).textContent = '-');
+    $('mm111ControlNro').textContent = '0000';
+}
+
+function initMM111Grid() {
+    if (mm111Table) return;
+
+    mm111Table = new Tabulator('#mm111Grid', {
+        data: [],
+        layout: 'fitColumns',
+        height: '100%',
+        responsiveLayout: 'collapse',
+        clipboard: true, // Allow copying out
+        placeholder: '<div style="padding:40px;text-align:center;color:#64748b;font-size:14px;font-family:Inter,sans-serif;">Ingrese un Número de Control para visualizar las planillas.</div>',
+        columns: [
+            { title: 'Línea', field: 'linea', width: 60, hozAlign: 'center', headerSort: false, frozen: true },
+            { title: 'Serie', field: 'serie', width: 70, hozAlign: 'center', headerSort: false, frozen: true },
+            { title: 'Manz.', field: 'manzana', width: 60, hozAlign: 'center', headerSort: false },
+            { title: 'Parc.', field: 'parcela', width: 60, hozAlign: 'center', headerSort: false },
+            { title: 'Edif.', field: 'edificacion', width: 60, hozAlign: 'center', headerSort: false },
+            { title: 'Estruc.', field: 'estructura', width: 70, hozAlign: 'center', headerSort: false },
+            { title: 'Uso U.I.', field: 'uso', minWidth: 100, headerSort: false },
+            { title: 'Lado Manz.', field: 'ladoManz', width: 90, hozAlign: 'center', headerSort: false },
+            { title: 'Dirección (Sector/Calle/Av)', field: 'direccion', minWidth: 160, headerSort: false },
+            { title: 'Razón Inclusión', field: 'razon', minWidth: 120, headerSort: false },
+            {
+                title: 'Agente',
+                field: 'agente',
+                width: 100,
+                headerSort: false,
+                formatter: function (cell) {
+                    return `<span style="font-size:10px; color:#64748b;">${cell.getValue()}</span>`;
+                }
+            }
+        ]
+    });
+
+    $('btnMM111CSV').addEventListener('click', () => {
+        if (mm111Table) mm111Table.download("csv", `MM111_${$('mm111ControlNro').textContent}.csv`);
+    });
+
+    $('btnMM111PDF').addEventListener('click', () => {
+        // Using built in tabulator download if jsPDF plugin is loaded, otherwise alert.
+        try {
+            if (mm111Table) mm111Table.download("pdf", `MM111_${$('mm111ControlNro').textContent}.pdf`, {
+                orientation: "landscape",
+                title: `Planilla MM-111 - Control: ${$('mm111ControlNro').textContent}`
+            });
+        } catch (e) {
+            alert("El plugin PDF no está cargado. Use Exportar a CSV.");
+        }
+    });
+}
+
+function updateMM111Grid(records) {
+    if (!mm111Table) initMM111Grid();
+
+    const rows = records.map((rec, i) => {
+        return {
+            id: rec._uuid,
+            linea: rec['group_sh53u78/n_linea'] || (i + 1),
+            serie: rec['group_sh53u78/n_serie'] || '-',
+            manzana: rec['S1/manzana'] || '-',
+            parcela: rec['S1/parcela'] || '-',
+            edificacion: rec['S1/Edificaci_n'] || rec['S1/edificacion'] || '-',
+            estructura: rec['S1/estructura'] || '-', // Fallback if exists
+            uso: rec._meta.uso || '-',
+            ladoManz: rec['S1/lado_manz'] || '-',
+            direccion: rec['S1/P_nomsect'] || rec['S1/direccion'] || rec._meta.nota || '-',
+            razon: rec['Condici_n_de_ocupaci_n/condicion_de_ocupacion'] || rec._meta.condicion || '-',
+            agente: rec._meta.nombre ? rec._meta.nombre.split(' ')[0] : 'N/A'
+        };
+    });
+
+    // Sort by line number to match form
+    rows.sort((a, b) => parseInt(a.linea) - parseInt(b.linea));
+
+    mm111Table.setData(rows);
+}
 
 // Location modal with Leaflet
 function showLocationModal(rec) {

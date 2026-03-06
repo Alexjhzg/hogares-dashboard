@@ -618,3 +618,196 @@ input[type="number"]::-webkit-outer-spin-button {
         padding: 0.75rem 1rem !important;
     }
 }
+
+/* ─── MM-111 Custom Styles ─────────────────────── */
+.mm111-table-wrapper {
+    /* Ensure tabulator takes full height of absolute positioned parent */
+    height: 100%;
+    width: 100%;
+}
+
+.mm111-table-wrapper .tabulator {
+    height: 100% !important;
+    border-width: 0;
+}
+
+/* Tabulator specialized styling for the Census Grid */
+.mm111-table-wrapper .tabulator-row {
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2) !important;
+}
+
+.dark .mm111-table-wrapper .tabulator-row {
+    border-bottom: 1px solid rgba(30, 41, 59, 0.5) !important;
+}
+
+.mm111-table-wrapper .tabulator-row:nth-child(even) {
+    background-color: rgba(248, 250, 252, 0.5);
+    /* slate-50 */
+}
+
+.dark .mm111-table-wrapper .tabulator-row:nth-child(even) {
+    background-color: rgba(15, 23, 42, 0.3) !important;
+    /* slate-900 */
+}
+
+/* Formal census headers */
+.mm111-table-wrapper .tabulator-header {
+    background-color: #f1f5f9 !important;
+    /* slate-100 */
+    border-bottom: 2px solid #cbd5e1 !important;
+    /* slate-300 */
+}
+
+.dark .mm111-table-wrapper .tabulator-header {
+    background-color: #0f172a !important;
+    /* slate-900 */
+    border-bottom: 2px solid #334155 !important;
+    /* slate-700 */
+}
+
+.mm111-table-wrapper .tabulator-col-title {
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+    color: #475569;
+    /* slate-600 */
+    letter-spacing: 0.05em;
+    white-space: normal !important;
+    /* Allow multi-line titles for tight cols */
+    text-align: center;
+}
+
+.dark .mm111-table-wrapper .tabulator-col-title {
+    color: #94a3b8;
+    /* slate-400 */
+}
+
+.mm111-table-wrapper .tabulator-cell {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1e293b;
+    /* slate-800 */
+}
+
+html.dark .mm111-table-wrapper .tabulator-cell {
+    color: #e2e8f0;
+    /* slate-200 */
+}
+
+/* Distinct row hover */
+.mm111-table-wrapper .tabulator-row.tabulator-selectable:hover {
+    background-color: rgba(59, 130, 246, 0.05) !important;
+    /* brand-blue/5 */
+}
+
+/* -------------------------------------------------------------------------- */
+/*                            MODULE: MM-111 VISOR                           */
+/* -------------------------------------------------------------------------- */
+
+/* Header Background - Institutional Style */
+.mm111-bg-header {
+    background: linear-gradient(180deg, rgba(241, 245, 249, 1) 0%, rgba(226, 232, 240, 1) 100%);
+}
+
+html.dark .mm111-bg-header {
+    background: linear-gradient(180deg, rgba(30, 41, 59, 1) 0%, rgba(15, 23, 42, 1) 100%);
+}
+
+.mm111-field-group {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+html.dark .mm111-field-group {
+    background: rgba(15, 23, 42, 0.5);
+}
+
+.mm111-code-badge {
+    @apply border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-white px-2 py-0.5 rounded font-mono text-[10px] font-bold shadow-sm;
+}
+
+.mm111-control-highlight {
+    background-color: #fef08a !important;
+    /* Tailwind yellow-200 */
+    box-shadow: inset 0 0 10px rgba(250, 204, 21, 0.2);
+}
+
+html.dark .mm111-control-highlight {
+    background-color: #854d0e !important;
+    /* Tailwind yellow-800 */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+html.dark .mm111-control-highlight label,
+html.dark .mm111-control-highlight div {
+    color: white !important;
+}
+
+/* Tabulator MM111 Specific Tweaks */
+#mm111Grid.tabulator {
+    background: transparent !important;
+    border: none;
+}
+
+#mm111Grid .tabulator-header {
+    border-bottom: 2px solid #0f172a;
+    background: #f8fafc;
+}
+
+html.dark #mm111Grid .tabulator-header {
+    border-bottom: 2px solid #cbd5e1;
+    background: #1e293b;
+}
+
+#mm111Grid .tabulator-col {
+    background: transparent !important;
+}
+
+#mm111Grid .tabulator-col-title {
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #334155;
+    white-space: normal !important;
+    text-align: center;
+    line-height: 1.2;
+}
+
+html.dark #mm111Grid .tabulator-col-title {
+    color: #94a3b8;
+}
+
+#mm111Grid .tabulator-row {
+    border-bottom: 1px solid #e2e8f0;
+    min-height: 32px !important;
+}
+
+html.dark #mm111Grid .tabulator-row {
+    border-bottom: 1px solid #334155;
+}
+
+#mm111Grid .tabulator-cell {
+    padding: 6px 4px !important;
+    font-size: 11px;
+    font-weight: 500;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    /* Monospace for form values */
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+html.dark #mm111Grid .tabulator-cell {
+    color: #e2e8f0;
+}
+
+/* Zebra striping for readability in data dense table */
+#mm111Grid .tabulator-row:nth-child(even) {
+    background-color: rgba(241, 245, 249, 0.4);
+}
+
+html.dark #mm111Grid .tabulator-row:nth-child(even) {
+    background-color: rgba(30, 41, 59, 0.4);
+}

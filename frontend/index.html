@@ -252,6 +252,7 @@
       <button data-tab="tab-ranking" class="tab-btn"><i data-lucide="bar-chart-2" class="w-4 h-4"></i>
         Desempeño</button>
       <button data-tab="tab-datos" class="tab-btn"><i data-lucide="database" class="w-4 h-4"></i> DB Raw</button>
+      <button data-tab="tab-mm111" class="tab-btn"><i data-lucide="clipboard-list" class="w-4 h-4"></i> MM-111</button>
     </nav>
 
     <!-- MODULO: RESUMEN -->
@@ -564,6 +565,177 @@
           <div id="detailGrid" class="absolute inset-0 border-0"></div>
         </div>
       </div>
+    </div>
+
+    <!-- MODULO: MM-111 VERIFICACION FÍSICA -->
+    <div id="tab-mm111" class="tab-content flex flex-col gap-6 hidden-tab h-[calc(100vh-180px)]">
+
+      <!-- Cabecera Institucional y Geográfica -->
+      <div class="glass-panel rounded-2xl p-6 border-t-4 border-t-brand-blue flex flex-col gap-6 shadow-sm">
+        <div
+          class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-200 dark:border-slate-800 pb-4">
+          <div class="flex items-center gap-4">
+            <div
+              class="h-12 w-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-700">
+              <svg class="w-8 h-8 text-slate-800 dark:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4" />
+                <path d="M14 2v6h6" />
+                <path d="m3 12.5 5 5 9-9" />
+              </svg>
+            </div>
+            <div>
+              <h1 class="text-xl md:text-2xl font-black font-outfit tracking-tight text-slate-800 dark:text-white">Marco
+                Maestro de Muestreo (VIV MM-111)</h1>
+              <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">(CRTE) - INSTITUTO NACIONAL DE
+                ESTADÍSTICA</p>
+            </div>
+          </div>
+
+          <div class="mt-4 md:mt-0 flex flex-col items-end">
+            <label class="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1">Seleccionar Planilla
+              Física (Control Nro.)</label>
+            <div class="flex items-center gap-2">
+              <div class="relative w-64">
+                <i data-lucide="list-filter"
+                  class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                <select id="mm111SearchControl"
+                  class="w-full bg-slate-50 dark:bg-[#0B1120] border-2 border-brand-blue/30 rounded-xl pl-10 pr-8 py-2 text-sm text-slate-800 dark:text-white font-bold outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 transition-all font-outfit appearance-none cursor-pointer">
+                  <option value="">Seleccionar Control...</option>
+                </select>
+                <i data-lucide="chevron-down"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+              </div>
+              <button id="btnLoadMM111" class="btn-primary py-2.5 px-6">Localizar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Segmento Geográfico -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div
+            class="p-3 bg-slate-50 dark:bg-[#0B1120]/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
+            <div>
+              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Entidad Federal</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Entidad">---
+              </p>
+            </div>
+            <div
+              class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700"
+              id="mm111EntidadCod">--</div>
+          </div>
+          <div
+            class="p-3 bg-slate-50 dark:bg-[#0B1120]/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
+            <div>
+              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Municipio</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Municipio">---
+              </p>
+            </div>
+            <div
+              class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700"
+              id="mm111MunicipioCod">--</div>
+          </div>
+          <div
+            class="p-3 bg-slate-50 dark:bg-[#0B1120]/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
+            <div>
+              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Parroquia</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Parroquia">---
+              </p>
+            </div>
+            <div
+              class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700"
+              id="mm111ParroquiaCod">--</div>
+          </div>
+          <div
+            class="p-3 bg-slate-50 dark:bg-[#0B1120]/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
+            <div>
+              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Centro Poblado</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111CPoblado">---
+              </p>
+            </div>
+            <div
+              class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700"
+              id="mm111CPobladoCod">--</div>
+          </div>
+        </div>
+
+        <!-- Barra de Controles Operativos -->
+        <div
+          class="flex flex-wrap items-center bg-slate-100 dark:bg-[#0B1120] border border-slate-200 dark:border-slate-800 rounded-xl divide-x divide-slate-200 dark:divide-slate-800 overflow-hidden">
+          <div class="px-4 py-2 flex-col items-center flex-1 min-w-[100px] text-center"><span
+              class="text-[9px] uppercase font-bold text-slate-500">Segmento</span>
+            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Segmento">-
+            </div>
+          </div>
+          <div class="px-4 py-2 flex-col items-center flex-1 min-w-[100px] text-center"><span
+              class="text-[9px] uppercase font-bold text-slate-500">Sector</span>
+            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Sector">-</div>
+          </div>
+          <div class="px-4 py-2 flex-col items-center flex-1 min-w-[100px] text-center"><span
+              class="text-[9px] uppercase font-bold text-slate-500">Nodo</span>
+            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Nodo">-</div>
+          </div>
+          <div
+            class="px-4 py-2 flex-col items-center flex-1 min-w-[100px] text-center bg-slate-50 dark:bg-brand-950/20">
+            <span class="text-[9px] uppercase font-bold text-slate-500">Semana</span>
+            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Semana">-</div>
+          </div>
+          <div
+            class="px-4 py-2 flex-col items-center flex-1 min-w-[140px] text-center bg-slate-50 dark:bg-brand-950/20">
+            <span class="text-[9px] uppercase font-bold text-slate-500">Control Maestro</span>
+            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300 truncate"
+              id="mm111ControlMaestro">-</div>
+          </div>
+          <div
+            class="px-5 py-2 flex-col items-center flex-1 min-w-[120px] text-center bg-[#FDE68A] dark:bg-[#FBBF24] border-x-4 border-white dark:border-[#0f172a]">
+            <span class="text-[10px] uppercase font-black text-[#92400E]">Control Nro.</span>
+            <div class="text-lg font-black font-outfit text-[#78350F]" id="mm111ControlNro">0000</div>
+          </div>
+          <div class="px-4 py-2 flex-col items-center flex-1 min-w-[100px] text-center"><span
+              class="text-[9px] uppercase font-bold text-slate-500">Lote</span>
+            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Lote">-</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de Listado de Viviendas -->
+      <div
+        class="card-premium flex-1 flex flex-col p-0 overflow-hidden border-2 border-slate-200 dark:border-slate-700">
+        <div
+          class="p-4 bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+          <h3 class="font-outfit font-black text-sm uppercase tracking-wide flex items-center gap-2"><i
+              data-lucide="table-2" class="w-4 h-4 text-brand-blue"></i> Listado MM-111 Base</h3>
+          <div class="flex gap-2">
+            <button id="btnMM111CSV" class="btn-secondary py-1.5 px-3 text-xs"><i data-lucide="file-spreadsheet"
+                class="w-3.5 h-3.5"></i> CSV</button>
+            <button id="btnMM111PDF" class="btn-secondary py-1.5 px-3 text-xs"><i data-lucide="file-text"
+                class="w-3.5 h-3.5"></i> PDF</button>
+          </div>
+        </div>
+
+        <div class="flex-1 bg-white dark:bg-[#0B1120] relative mm111-table-wrapper">
+          <!-- The absolute positioning keeps tabulator contained so flex-1 works correctly -->
+          <div id="mm111Grid" class="absolute inset-0 border-0"></div>
+        </div>
+
+        <!-- Leyenda Footer -->
+        <div
+          class="bg-slate-800 text-slate-300 p-3 border-t border-slate-700 flex flex-col md:flex-row items-center gap-4 text-[9px] font-bold font-outfit">
+          <span class="text-white uppercase tracking-widest bg-slate-700 px-3 py-1 rounded">Códigos de Razón:</span>
+          <div class="flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-2">
+            <span><b class="text-[#FBBF24]">01.</b> DEMOLIDA</span>
+            <span><b class="text-[#FBBF24]">02.</b> CONSOLIDADA</span>
+            <span><b class="text-[#FBBF24]">03.</b> MAL LISTADA</span>
+            <span><b class="text-[#FBBF24]">04.</b> FUERA DE ÁREA</span>
+            <span><b class="text-[#FBBF24]">05.</b> NEGOCIO PERM.</span>
+            <span><b class="text-[#FBBF24]">06.</b> INADECUADA</span>
+            <span><b class="text-[#FBBF24]">07.</b> NO EXISTE</span>
+            <span><b class="text-[#FBBF24]">08.</b> OTRA</span>
+            <span><b class="text-[#FBBF24]">09.</b> INGRESADA</span>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </main>
