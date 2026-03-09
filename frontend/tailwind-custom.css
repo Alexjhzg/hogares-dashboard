@@ -178,9 +178,7 @@ canvas {
 }
 
 /* ─── Tabulator Dark Theme Overrides ─────────────────── */
-.tabulator,
-.tabulator .tabulator-tableholder,
-.tabulator .tabulator-table {
+.tabulator {
     background-color: transparent !important;
     border: none !important;
     font-family: 'Inter', sans-serif !important;
@@ -206,21 +204,21 @@ canvas {
     letter-spacing: 0.1em !important;
 }
 
-.tabulator .tabulator-tableholder .tabulator-table .tabulator-row,
-.tabulator .tabulator-tableholder .tabulator-table .tabulator-row.tabulator-row-even,
-.tabulator .tabulator-tableholder .tabulator-table .tabulator-row.tabulator-row-odd {
+.tabulator .tabulator-row,
+.tabulator .tabulator-row.tabulator-row-even,
+.tabulator .tabulator-row.tabulator-row-odd {
     background-color: transparent !important;
     border-bottom: 1px solid var(--border-light) !important;
     transition: background-color 0.15s ease;
 }
 
-.tabulator .tabulator-tableholder .tabulator-table .tabulator-row:hover {
+.tabulator .tabulator-row:hover {
     background-color: var(--tabulator-row-hover) !important;
     border-left: 2px solid #3B82F6 !important;
     cursor: pointer;
 }
 
-.tabulator .tabulator-tableholder .tabulator-table .tabulator-row .tabulator-cell {
+.tabulator .tabulator-row .tabulator-cell {
     border-right: 1px solid var(--border-light) !important;
     padding: 10px 12px !important;
 }
@@ -411,7 +409,7 @@ canvas {
 }
 
 /* Alternating row stripe (subtle) */
-.tabulator .tabulator-tableholder .tabulator-table .tabulator-row.tabulator-row-even {
+.tabulator .tabulator-row.tabulator-row-even {
     background-color: var(--tabulator-row-even) !important;
 }
 
@@ -741,73 +739,4 @@ html.dark .mm111-control-highlight {
 html.dark .mm111-control-highlight label,
 html.dark .mm111-control-highlight div {
     color: white !important;
-}
-
-/* Tabulator MM111 Specific Tweaks */
-#mm111Grid.tabulator {
-    background: transparent !important;
-    border: none;
-}
-
-#mm111Grid .tabulator-header {
-    border-bottom: 2px solid #0f172a;
-    background: #f8fafc;
-}
-
-html.dark #mm111Grid .tabulator-header {
-    border-bottom: 2px solid #cbd5e1;
-    background: #1e293b;
-}
-
-#mm111Grid .tabulator-col {
-    background: transparent !important;
-}
-
-#mm111Grid .tabulator-col-title {
-    font-size: 10px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #334155;
-    white-space: normal !important;
-    text-align: center;
-    line-height: 1.2;
-}
-
-html.dark #mm111Grid .tabulator-col-title {
-    color: #94a3b8;
-}
-
-#mm111Grid .tabulator-row {
-    border-bottom: 1px solid #e2e8f0;
-    min-height: 32px !important;
-}
-
-html.dark #mm111Grid .tabulator-row {
-    border-bottom: 1px solid #334155;
-}
-
-#mm111Grid .tabulator-cell {
-    padding: 6px 4px !important;
-    font-size: 11px;
-    font-weight: 500;
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-    /* Monospace for form values */
-    color: #0f172a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-html.dark #mm111Grid .tabulator-cell {
-    color: #e2e8f0;
-}
-
-/* Zebra striping for readability in data dense table */
-#mm111Grid .tabulator-row:nth-child(even) {
-    background-color: rgba(241, 245, 249, 0.4);
-}
-
-html.dark #mm111Grid .tabulator-row:nth-child(even) {
-    background-color: rgba(30, 41, 59, 0.4);
 }

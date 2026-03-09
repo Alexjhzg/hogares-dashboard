@@ -101,6 +101,8 @@ def normalize_record(rec: dict) -> dict:
     mapped["centro_poblado"] = rec.get("S1/cpoblado")
 
     # Manzana
+    mapped["segmento"] = rec.get("S1/segmento") or rec.get("S1/group_segmeto_sector/segmento") or rec.get("group_segmeto_sector/segmento")
+    mapped["sector"] = rec.get("S1/sector") or rec.get("S1/group_segmeto_sector/sector") or rec.get("group_segmeto_sector/sector")
     mapped["manzana"] = rec.get("S1/manzana")
     mapped["lado_manz"] = rec.get("S1/lado_manz")
     mapped["parcela"] = rec.get("S1/parcela")

@@ -700,41 +700,39 @@
 
       <!-- Tabla de Listado de Viviendas -->
       <div
-        class="card-premium flex-1 flex flex-col p-0 overflow-hidden border-2 border-slate-200 dark:border-slate-700">
-        <div
-          class="p-4 bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
-          <h3 class="font-outfit font-black text-sm uppercase tracking-wide flex items-center gap-2"><i
-              data-lucide="table-2" class="w-4 h-4 text-brand-blue"></i> Listado MM-111 Base</h3>
-          <div class="flex gap-2">
-            <button id="btnMM111CSV" class="btn-secondary py-1.5 px-3 text-xs"><i data-lucide="file-spreadsheet"
-                class="w-3.5 h-3.5"></i> CSV</button>
-            <button id="btnMM111PDF" class="btn-secondary py-1.5 px-3 text-xs"><i data-lucide="file-text"
-                class="w-3.5 h-3.5"></i> PDF</button>
-          </div>
-        </div>
-
-        <div class="flex-1 bg-white dark:bg-[#0B1120] relative mm111-table-wrapper">
-          <!-- The absolute positioning keeps tabulator contained so flex-1 works correctly -->
-          <div id="mm111Grid" class="absolute inset-0 border-0"></div>
-        </div>
-
-        <!-- Leyenda Footer -->
-        <div
-          class="bg-slate-800 text-slate-300 p-3 border-t border-slate-700 flex flex-col md:flex-row items-center gap-4 text-[9px] font-bold font-outfit">
-          <span class="text-white uppercase tracking-widest bg-slate-700 px-3 py-1 rounded">Códigos de Razón:</span>
-          <div class="flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-2">
-            <span><b class="text-[#FBBF24]">01.</b> DEMOLIDA</span>
-            <span><b class="text-[#FBBF24]">02.</b> CONSOLIDADA</span>
-            <span><b class="text-[#FBBF24]">03.</b> MAL LISTADA</span>
-            <span><b class="text-[#FBBF24]">04.</b> FUERA DE ÁREA</span>
-            <span><b class="text-[#FBBF24]">05.</b> NEGOCIO PERM.</span>
-            <span><b class="text-[#FBBF24]">06.</b> INADECUADA</span>
-            <span><b class="text-[#FBBF24]">07.</b> NO EXISTE</span>
-            <span><b class="text-[#FBBF24]">08.</b> OTRA</span>
-            <span><b class="text-[#FBBF24]">09.</b> INGRESADA</span>
-          </div>
+        class="card-premium flex-1 flex flex-col p-0 overflow-hidden border-2 border-slate-200 dark:border-slate-700 mt-4 relative">
+        <div class="w-full flex-1 overflow-auto bg-white dark:bg-[#0B1120] custom-scrollbar pb-6">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead
+              class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 uppercase sticky top-0 z-20 font-bold border-b-2 border-slate-200 dark:border-slate-700">
+              <tr>
+                <th
+                  class="py-3 px-3 whitespace-nowrap text-center sticky left-0 z-30 bg-slate-100 dark:bg-slate-800 shadow-[inset_-1px_0_0_rgba(226,232,240,1)] dark:shadow-[inset_-1px_0_0_rgba(30,41,59,1)]">
+                  Línea</th>
+                <th class="py-3 px-3 whitespace-nowrap text-center">Serie</th>
+                <th class="py-3 px-3 whitespace-nowrap text-center">Manz.</th>
+                <th class="py-3 px-3 whitespace-nowrap text-center">Parc.</th>
+                <th class="py-3 px-3 whitespace-nowrap text-center">Edif.</th>
+                <th class="py-3 px-3 whitespace-nowrap text-center">Estruc.</th>
+                <th class="py-3 px-3">Uso U.I.</th>
+                <th class="py-3 px-3 whitespace-nowrap text-center">Lado Manz.</th>
+                <th class="py-3 px-3">Dirección (Sector/Calle/Av)</th>
+                <th class="py-3 px-3">Razón Inclusión</th>
+                <th class="py-3 px-3 whitespace-nowrap">Agente</th>
+              </tr>
+            </thead>
+            <tbody id="mm111HTMLGrid"
+              class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-800 dark:text-slate-200">
+              <tr>
+                <td colspan="11" class="text-center py-10 text-slate-400">Ingrese un Número de Control para visualizar
+                  las planillas.</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
+
+
 
     </div>
 
