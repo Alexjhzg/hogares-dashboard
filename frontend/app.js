@@ -11,6 +11,7 @@ let encMap = {};
 // cédula → metrics object
 let currentSort = 'encuestas';
 let currentPage = 1;
+window.quickFilterMode = 'all';
 
 // Tabulator state for detail explorer
 let detailTable;
@@ -143,6 +144,43 @@ async function init() {
         });
     }
 
+    // Quick Map Filters
+    ['All', 'Efectivas', 'NoRespuesta', 'Alertas'].forEach(suffix => {
+        const btn = $(`btnMapFilter${suffix}`);
+        if (btn) {
+            btn.addEventListener('click', () => {
+                window.setQuickFilter(suffix.toLowerCase() === 'all' ? 'all' : suffix.toLowerCase());
+            });
+        }
+    });
+
+    // Fullscreen Map Logic
+    if ($('btnExpandMap')) {
+        $('btnExpandMap').addEventListener('click', () => {
+            const wrapper = $('mapSectionWrapper');
+            const kpiGrid = $('mapKpiGrid');
+            const mapContainer = wrapper.querySelector('.xl\\:col-span-3');
+            const icon = $('btnExpandMap').querySelector('i');
+
+            const isExpanded = mapContainer.classList.contains('xl:col-span-4');
+
+            if (isExpanded) {
+                // Shrink
+                mapContainer.classList.replace('xl:col-span-4', 'xl:col-span-3');
+                kpiGrid.classList.remove('hidden');
+                if (icon) icon.setAttribute('data-lucide', 'maximize');
+            } else {
+                // Expand
+                mapContainer.classList.replace('xl:col-span-3', 'xl:col-span-4');
+                kpiGrid.classList.add('hidden');
+                if (icon) icon.setAttribute('data-lucide', 'minimize');
+            }
+
+            if (window.lucide) lucide.createIcons();
+            setTimeout(() => { if (map) map.invalidateSize(); }, 300);
+        });
+    }
+
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -221,14 +259,18 @@ function renderChartHorario() {
 
 function initMap() {
     if (map) return;
-    // Create base layers: OpenStreetMap (streets) and Esri World Imagery (satellite)
+    // Create base layers: OpenStreetMap (streets) and Google Satellite
     const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' });
-    const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri' });
+    const googleSat = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        attribution: '&copy; Google'
+    });
 
     map = L.map('mapView', { center: [10.4806, -66.8983], zoom: 12, layers: [osm] }); // CCS default
 
     // Layer control and scale
-    const baseLayers = { 'OpenStreetMap': osm, 'Satellite (Esri)': esriSat };
+    const baseLayers = { 'OpenStreetMap': osm, 'Google Satélite': googleSat };
     L.control.layers(baseLayers, null, { collapsed: false }).addTo(map);
     L.control.scale().addTo(map);
     markerCluster = L.markerClusterGroup({
@@ -245,8 +287,8 @@ function renderMap() {
 
     const points = filtered.filter(r => r._meta.lat && r._meta.lng);
 
-    // ─── Map KPI Updates ───
     const completedOnMap = points.filter(r => /totalment/i.test(r._meta.nota)).length;
+    const noRespuestaOnMap = points.filter(r => !/totalment/i.test(r._meta.nota)).length;
     const agentsOnMap = new Set(points.map(r => r._meta.cedula)).size;
     const flaggedDistance = points.filter(r => r._meta.flag_distance_gt_500).length;
     const munsOnMap = new Set(points.map(r => r._meta.mun).filter(m => m && m !== 'N/A'));
@@ -255,6 +297,7 @@ function renderMap() {
 
     if ($('mapKpiPoints')) $('mapKpiPoints').textContent = points.length;
     if ($('mapKpiComplete')) $('mapKpiComplete').textContent = completedOnMap;
+    if ($('mapKpiNoRespuesta')) $('mapKpiNoRespuesta').textContent = noRespuestaOnMap;
     if ($('mapKpiAgents')) $('mapKpiAgents').textContent = agentsOnMap;
     if ($('mapKpiFlagged')) $('mapKpiFlagged').textContent = flaggedDistance;
 
@@ -315,11 +358,22 @@ function renderMap() {
                     </div>
                     <div>
                         <div class="text-[8px] uppercase text-slate-500 font-bold">Distancia</div>
-                        <div class="text-[10px] font-bold" style="color:${isFlagged ? '#EF4444' : '#94a3b8'}">${distText}</div>
+                        <div class="text-[10px] font-bold" style="color:${isFlagged ? '#EF4444' : '#94a3b8'}">${distText} <span class="text-[8px] text-slate-500">(Apert->Ini)</span></div>
                     </div>
                     <div>
                         <div class="text-[8px] uppercase text-slate-500 font-bold">Uso</div>
                         <div class="text-[10px] font-bold text-white">${(m.uso || '—').replace(/_/g, ' ')}</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 border-t border-white/5 pt-3 mb-3">
+                    <div>
+                        <div class="text-[8px] uppercase text-slate-500 font-bold">Desplazamiento</div>
+                        <div class="text-[10px] font-bold" style="color:${m.dist_ini_fin !== null && m.dist_ini_fin > 50 ? '#F59E0B' : '#10B981'}">${m.dist_ini_fin !== null ? Math.round(m.dist_ini_fin) + ' m' : '—'} <span class="text-[8px] text-slate-500">(Ini->Fin)</span></div>
+                    </div>
+                    <div class="flex items-end justify-end">
+                        <button onclick="window.viewTraceByRecord('${r._uuid}')" class="px-3 py-1 bg-brand-blue/20 hover:bg-brand-blue/40 border border-brand-blue/30 text-brand-blue rounded-lg text-[9px] font-bold uppercase tracking-widest transition-colors flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Ver Relación de las Ubicaciones
+                        </button>
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-2 border-t border-white/5 pt-3">
@@ -376,23 +430,20 @@ function switchTab(tabId) {
     // Special handling for Map, Charts and Grid
     if (tabId === 'tab-mapa') {
         if (!map) initMap();
-        setTimeout(() => map.invalidateSize(), 150);
-        renderMap();
+        setTimeout(() => {
+            map.invalidateSize();
+            renderMap();
+            if (detailTable) {
+                detailTable.redraw(true);
+                if (window.lucide) lucide.createIcons();
+            }
+        }, 150);
     }
 
     if (tabId === 'tab-ranking') {
         if (rankingTabulator) {
             setTimeout(() => {
                 rankingTabulator.redraw(true);
-            }, 50);
-        }
-    }
-
-    if (tabId === 'tab-datos') {
-        if (detailTable) {
-            setTimeout(() => {
-                detailTable.redraw(true);
-                if (window.lucide) lucide.createIcons();
             }, 50);
         }
     }
@@ -558,18 +609,28 @@ function processData() {
             try { hora = new Date(start).getHours(); } catch (_) { }
         }
 
-        // GPS Coords
+        // GPS Coords (Priority: Final > Initial > System _geolocation)
         let lat = null, lng = null;
-        if (r['_geolocation'] && r['_geolocation'].length >= 2) {
+        const ptFin = parseGeoString(r['ubicacion_final/ubicacion_f'] || r['ubicacion_f']);
+        const ptIni = parseGeoString(r['group_sh53u78/ubicacion_i'] || r['ubicacion_i']);
+
+        if (ptFin && ptFin[0] && ptFin[1]) {
+            lat = ptFin[0];
+            lng = ptFin[1];
+        } else if (ptIni && ptIni[0] && ptIni[1]) {
+            lat = ptIni[0];
+            lng = ptIni[1];
+        } else if (r['_geolocation'] && r['_geolocation'].length >= 2) {
             lat = r['_geolocation'][0];
             lng = r['_geolocation'][1];
-        } else if (r['S1/ubicacion']) { // Algunos formularios usan este path
+        } else if (r['S1/ubicacion']) {
             const parts = r['S1/ubicacion'].split(' ');
             if (parts.length >= 2) { lat = parseFloat(parts[0]); lng = parseFloat(parts[1]); }
         }
 
         // Compute distance between start-geopoint and location if available
         let distance_m = null;
+        let dist_ini_fin = null;
         try {
             const sgeo = r['start-geopoint'] || r['start_geopoint'] || r['start-geopoint'];
             const egeo = r['group_sh53u78/ubicacion_i'] || r['end-geopoint'] || r['end_geopoint'];
@@ -578,7 +639,11 @@ function processData() {
             if (startPt && endPt) {
                 distance_m = haversineMeters(startPt[0], startPt[1], endPt[0], endPt[1]);
             }
-        } catch (e) { distance_m = null; }
+            // Add distance between ptIni and ptFin
+            if (ptIni && ptFin && ptIni[0] && ptIni[1] && ptFin[0] && ptFin[1]) {
+                dist_ini_fin = haversineMeters(ptIni[0], ptIni[1], ptFin[0], ptFin[1]);
+            }
+        } catch (e) { distance_m = null; dist_ini_fin = null; }
 
         // Flags: short duration and distance
         const flag_short_duration = (durMin !== null && durMin < 15);
@@ -588,14 +653,14 @@ function processData() {
             cedula, nombre, fecha, durMin, nota, condicion, mun, par, nodo, uso, semana,
             hogares: hogares.length, totalPers, totalProd, control, hora, lat, lng,
             situacion_vivienda, segmento, sector, manzana, parcela, edificacion, lado_manz,
-            n_linea, n_serie, direccion
+            n_linea, n_serie, direccion, dist_ini_fin, distance_m
         };
         // set a simple estado for legacy checks (used for marker color)
-        r._meta.estado = /totalment/i.test(nota) ? 'completada' : 'parcial';
+        r._meta.estado = /totalment/i.test(nota) ? 'completada' : 'no_respuesta';
         // attach flags and diagnostics
-        r._meta.distance_m = distance_m;
         r._meta.flag_distance_gt_500 = flag_distance_gt_500;
         r._meta.flag_short_duration = flag_short_duration;
+
 
         if (!encMap[cedula]) {
             encMap[cedula] = {
@@ -744,7 +809,13 @@ function applyFilters() {
         if (parroquia && m.par !== parroquia) return false;
         if (nodo && m.nodo !== nodo) return false;
         if (estado === 'completada' && !/totalment/i.test(m.nota)) return false;
-        if (estado === 'parcial' && /totalment/i.test(m.nota)) return false;
+        if (estado === 'no_respuesta' && /totalment/i.test(m.nota)) return false;
+
+        // Quick Map Filters (additive to other global filters)
+        if (window.quickFilterMode === 'efectivas' && !/totalment/i.test(m.nota)) return false;
+        if (window.quickFilterMode === 'no_respuesta' && /totalment/i.test(m.nota)) return false;
+        if (window.quickFilterMode === 'alertas' && !m.flag_distance_gt_500) return false;
+
         if (situacionVivienda && m.situacion_vivienda !== situacionVivienda) return false;
         if (condicion && m.condicion !== condicion) return false;
         if (uso && m.uso !== uso) return false;
@@ -1234,10 +1305,10 @@ function renderEncuestadorCards() {
 }
 
 // Tabulator-based detail explorer with advanced features
-function initGrid() {
+function initGrid(initialData = []) {
     if (detailTable) return;
     detailTable = new Tabulator('#detailGrid', {
-        data: [],
+        data: initialData,
         layout: 'fitColumns',
         height: '100%',
         pagination: true,
@@ -1254,11 +1325,11 @@ function initGrid() {
                 headerSort: false, resizable: false, responsive: 0
             },
             {
-                title: 'Identificación',
+                title: 'Identificación', frozen: true,
                 columns: [
-                    { title: 'Cédula', field: 'cedula', headerFilter: 'input', minWidth: 90, frozen: true, responsive: 0 },
-                    { title: 'Nombre', field: 'nombre', headerFilter: 'input', minWidth: 140, frozen: true, responsive: 0 },
-                    { title: 'Control', field: 'control', headerFilter: 'input', width: 90, responsive: 2 },
+                    { title: 'Cédula', field: 'cedula', headerFilter: 'input', minWidth: 90, responsive: 0 },
+                    { title: 'Nombre', field: 'nombre', headerFilter: 'input', minWidth: 140, responsive: 0 },
+                    { title: 'Control', field: 'control', headerFilter: 'input', width: 90, responsive: 0 },
                 ]
             },
             {
@@ -1280,7 +1351,7 @@ function initGrid() {
                         formatter: function (cell) {
                             const v = cell.getValue();
                             const color = v === 'completada' ? '#10B981' : '#F59E0B';
-                            const label = v === 'completada' ? 'EFECTIVA' : 'PARCIAL';
+                            const label = v === 'completada' ? 'EFECTIVA' : 'NO RESPUESTA';
                             return `<span style="color:${color};font-weight:700;font-size:10px;letter-spacing:0.02em">${label}</span>`;
                         }
                     },
@@ -1318,7 +1389,8 @@ function initGrid() {
                     return `
                         <div class="flex gap-2">
                             <button class="tab-action-btn btn-view" data-action="view">
-                                <i data-lucide="eye" style="width:12px;height:12px;pointer-events:none;"></i> VER
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <span>VER</span>
                             </button>
                         </div>
                     `;
@@ -1342,7 +1414,7 @@ function initGrid() {
         rowFormatter: function (row) {
             const data = row.getData();
             if (data.estado === 'completada') row.getElement().classList.add('row-complete');
-            else if (data.estado === 'parcial') row.getElement().classList.add('row-partial');
+            else if (data.estado === 'no_respuesta') row.getElement().classList.add('row-no-respuesta');
             if (data.flagDist || data.flagDur) row.getElement().classList.add('row-flagged');
         }
     });
@@ -1351,16 +1423,11 @@ function initGrid() {
         const rec = row.getData()._rec;
         if (rec) showDetailModal(rec);
     });
-
-    detailTable.on('tableBuilt', () => {
-        if (window.lucide) lucide.createIcons();
-    });
 }
 
 // Global helpers removed in favor of Tabulator cellClick events native delegation
 
 function updateGrid(data = filtered) {
-    if (!detailTable) initGrid();
     const rows = data.map(rec => {
         const m = rec._meta || {};
         return {
@@ -1386,7 +1453,18 @@ function updateGrid(data = filtered) {
             lng: rec.lng || m.lng || (rec._geolocation ? rec._geolocation[1] : null)
         };
     });
-    detailTable.setData(rows);
+
+    if (!detailTable) {
+        initGrid(rows);
+    } else {
+        // Use try-catch or state check to prevent crash if table is in weird state
+        try {
+            detailTable.setData(rows);
+        } catch (e) {
+            console.warn("Tabulator setData delayed:", e.message);
+            setTimeout(() => detailTable && detailTable.setData(rows), 100);
+        }
+    }
 }
 
 
@@ -1469,7 +1547,7 @@ function showDetailModal(rec) {
     const stFecha = fmt(extractNested('fecha') || extractNested('today/_submission_time'));
     const stEstado = rec._meta && rec._meta.estado === 'completada'
         ? '<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-brand-green/20 text-brand-green border border-brand-green/30">Completada (Efectiva)</span>'
-        : '<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-brand-orange/20 text-brand-orange border border-brand-orange/30">Parcial / Error</span>';
+        : '<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-brand-orange/20 text-brand-orange border border-brand-orange/30">No Respuesta / Error</span>';
     const stDur = fmt(extractNested('durMin') ? `${extractNested('durMin')} min` : null);
     const stControl = fmt(extractNested('control') || extractNested('group_sh53u78/control'));
 
@@ -1529,7 +1607,7 @@ function showDetailModal(rec) {
             <!-- Columna 1 -->
             <div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl p-5 border border-slate-200 dark:border-slate-700/50">
                 <h4 class="text-[10px] uppercase font-black text-brand-blue tracking-widest flex items-center gap-2 mb-4">
-                    <i data-lucide="map" class="w-3.5 h-3.5"></i> Contexto Geográfico
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.106 24c-1.618 0-3.14-.942-3.899-2.28L.486 4.96C-.65 2.924.3 1.05 1.5 1.01l21-.1c1.2-.04 2.15 1.834 1.013 3.87l-9.72 17.02c-.759 1.338-2.28 2.28-3.899 2.28z"/><circle cx="12" cy="12" r="3"/></svg> Contexto Geográfico
                 </h4>
                 <div class="space-y-3">
                     <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Estado / Entidad</div>${stEntidad}</div>
@@ -1545,7 +1623,7 @@ function showDetailModal(rec) {
             <!-- Columna 2 -->
             <div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl p-5 border border-slate-200 dark:border-slate-700/50 relative overflow-hidden">
                 <h4 class="text-[10px] uppercase font-black text-brand-purple tracking-widest flex items-center gap-2 mb-4 relative z-10">
-                    <i data-lucide="user-check" class="w-3.5 h-3.5"></i> Datos Operativos
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg> Datos Operativos
                 </h4>
                 <div class="space-y-3 relative z-10">
                     <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Agente de Campo</div>${stAgente}</div>
@@ -1562,7 +1640,7 @@ function showDetailModal(rec) {
             <!-- Columna 3 -->
             <div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl p-5 border border-slate-200 dark:border-slate-700/50">
                 <h4 class="text-[10px] uppercase font-black text-brand-emerald tracking-widest flex items-center gap-2 mb-4">
-                    <i data-lucide="home" class="w-3.5 h-3.5"></i> Resultados / Tipología
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Resultados / Tipología
                 </h4>
                 <div class="space-y-3">
                     <div class="grid grid-cols-2 gap-2 pb-2 border-b border-slate-200 dark:border-slate-700">
@@ -1585,7 +1663,7 @@ function showDetailModal(rec) {
             <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <h4 class="text-[10px] uppercase font-black text-brand-orange tracking-widest flex items-center gap-2 m-0">
-                        <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Verificación Geográfica Histórica
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Verificación Geográfica Histórica
                     </h4>
                     ${isFlagged ? `<span class="px-2 py-0.5 rounded text-[9px] uppercase font-bold tracking-widest bg-brand-red/20 text-brand-red border border-brand-red/30">Desviación Detectada</span>` : ''}
                 </div>
@@ -1615,18 +1693,18 @@ function showDetailModal(rec) {
                 <div id="detailMap" class="absolute inset-0 z-0 bg-slate-800"></div>
             </div>
             <div class="p-2 border-t border-slate-200 dark:border-slate-700 text-center text-[10px] text-slate-400 flex items-center justify-center gap-2">
-                <i data-lucide="info" class="w-3 h-3"></i> El círculo sombreado indica la zona válida de cobertura (radio de 500m). Haz clic en los pines para ver precisión y hora.
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-slate-500"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> El círculo sombreado indica la zona válida de cobertura (radio de 500m). Haz clic en los pines para ver precisión y hora.
             </div>
         </div>
         ` : `
         <div class="mt-6 p-6 border border-dashed border-slate-700 rounded-xl text-center text-slate-500">
-            <i data-lucide="map-pin-off" class="w-8 h-8 mx-auto mb-2 opacity-50"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-2 opacity-50"><path d="M12.75 18H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1.25"/><line x1="18" y1="14.75" x2="18" y2="21.25"/><line x1="14.75" y1="18" x2="21.25" y2="18"/><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
             <span class="text-xs uppercase tracking-widest font-bold block">No hay datos geográficos</span>
             <span class="text-[10px] block mt-1">Este registro no generó ni capturó coordenadas GPS con precisión adecuada.</span>
         </div>`}
     `;
 
-    const rawJson = `<details class="mt-6 text-sm text-slate-400 group"><summary class="cursor-pointer font-bold text-[10px] uppercase tracking-widest flex items-center gap-2"><i data-lucide="code" class="w-3 h-3 group-hover:text-brand-purple transition-colors"></i> Ver JSON crudo</summary><pre class="text-xs bg-slate-950/40 border border-slate-800 p-4 rounded-xl mt-3 overflow-x-auto text-slate-300 font-mono">${JSON.stringify(rec, null, 2)}</pre></details>`;
+    const rawJson = `<details class="mt-6 text-sm text-slate-400 group"><summary class="cursor-pointer font-bold text-[10px] uppercase tracking-widest flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:text-brand-purple transition-colors"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Ver JSON crudo</summary><pre class="text-xs bg-slate-950/40 border border-slate-800 p-4 rounded-xl mt-3 overflow-x-auto text-slate-300 font-mono">${JSON.stringify(rec, null, 2)}</pre></details>`;
 
     body.innerHTML = `${layout}${rawJson}`;
 
@@ -1644,8 +1722,10 @@ function showDetailModal(rec) {
 
             if (!detailMiniMapObj) {
                 detailMiniMapObj = L.map('detailMap', { zoomControl: false }).setView([displayLat, displayLng], 16);
-                const satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                    attribution: 'Tiles &copy; Esri', maxZoom: 19
+                const satLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+                    maxZoom: 20,
+                    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+                    attribution: '&copy; Google'
                 });
                 const osmLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
                     attribution: '&copy; OpenStreetMap', subdomains: 'abcd', maxZoom: 19
@@ -1654,7 +1734,7 @@ function showDetailModal(rec) {
                 satLayer.addTo(detailMiniMapObj);
 
                 L.control.layers({
-                    "Satélite Alto Detalle": satLayer,
+                    "Google Satélite": satLayer,
                     "Estándar CartoDark": osmLayer
                 }, null, { position: 'topright' }).addTo(detailMiniMapObj);
                 L.control.zoom({ position: 'bottomright' }).addTo(detailMiniMapObj);
@@ -1972,10 +2052,14 @@ function showLocationModal(rec) {
     if (!locMap) {
         // Create same base layers as main map for consistent view options
         const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' });
-        const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri' });
+        const googleSat = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            attribution: '&copy; Google'
+        });
 
         locMap = L.map('locMap', { center: [lat, lng], zoom: 16, layers: [osm] });
-        const baseLayersLoc = { 'OpenStreetMap': osm, 'Satellite (Esri)': esriSat };
+        const baseLayersLoc = { 'OpenStreetMap': osm, 'Google Satélite': googleSat };
         L.control.layers(baseLayersLoc, null, { collapsed: false }).addTo(locMap);
         L.control.scale().addTo(locMap);
     } else {
@@ -2029,3 +2113,58 @@ document.addEventListener('keydown', (e) => {
         if ($('locModal') && !$('locModal').classList.contains('hidden')) closeLocModal();
     }
 });
+
+// Global action to view a specific trace from the map popup
+window.viewTraceByRecord = function (uuid) {
+    if (!uuid) return;
+
+    // Find the record in the current filtered data
+    const record = filtered.find(r => r._uuid === uuid);
+    if (!record) {
+        console.warn('Record not found in current filtered data');
+        return;
+    }
+
+    // Switch to Cobertura y Datos tab so they can see the context if they close the modal
+    switchTab('tab-mapa');
+
+    // Apply agent filter for context
+    if (record._meta && record._meta.cedula && $('filterEncuestador')) {
+        $('filterEncuestador').value = record._meta.cedula;
+        applyFilters();
+    }
+
+    // Open detail modal with the specific record to show the trace
+    showDetailModal(record);
+};
+
+window.setQuickFilter = function (mode) {
+    window.quickFilterMode = mode;
+    console.log('Filtro rápido mapa:', mode);
+
+    const mapFilters = {
+        'all': 'btnMapFilterAll',
+        'efectivas': 'btnMapFilterEfectivas',
+        'no_respuesta': 'btnMapFilterNoRespuesta',
+        'alertas': 'btnMapFilterAlertas'
+    };
+
+    Object.entries(mapFilters).forEach(([m, id]) => {
+        const btn = $(id);
+        if (btn) {
+            if (m === mode) {
+                btn.classList.add('bg-brand-blue/5', 'border-brand-blue', 'ring-1', 'ring-brand-blue/20', 'shadow-md');
+                btn.classList.remove('border-slate-400', 'border-brand-green', 'border-brand-orange', 'border-brand-red');
+            } else {
+                btn.classList.remove('bg-brand-blue/5', 'border-brand-blue', 'ring-1', 'ring-brand-blue/20', 'shadow-md');
+                // restore original borders
+                if (m === 'all') btn.classList.add('border-slate-400');
+                if (m === 'efectivas') btn.classList.add('border-brand-green');
+                if (m === 'no_respuesta') btn.classList.add('border-brand-orange');
+                if (m === 'alertas') btn.classList.add('border-brand-red');
+            }
+        }
+    });
+
+    applyFilters();
+};

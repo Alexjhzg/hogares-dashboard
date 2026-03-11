@@ -279,7 +279,7 @@ canvas {
     border-left: 3px solid #10B981 !important;
 }
 
-.tabulator .tabulator-row.row-partial {
+.tabulator .tabulator-row.row-no-respuesta {
     border-left: 3px solid #F59E0B !important;
 }
 

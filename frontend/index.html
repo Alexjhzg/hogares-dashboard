@@ -248,10 +248,9 @@
       <button data-tab="tab-productividad" class="tab-btn"><i data-lucide="workflow" class="w-4 h-4"></i>
         Operativa</button>
       <button data-tab="tab-vivienda" class="tab-btn"><i data-lucide="home" class="w-4 h-4"></i> Demografía</button>
-      <button data-tab="tab-mapa" class="tab-btn"><i data-lucide="map" class="w-4 h-4"></i> Cobertura</button>
+      <button data-tab="tab-mapa" class="tab-btn"><i data-lucide="map" class="w-4 h-4"></i> Cobertura y Datos</button>
       <button data-tab="tab-ranking" class="tab-btn"><i data-lucide="bar-chart-2" class="w-4 h-4"></i>
         Desempeño</button>
-      <button data-tab="tab-datos" class="tab-btn"><i data-lucide="database" class="w-4 h-4"></i> DB Raw</button>
       <button data-tab="tab-mm111" class="tab-btn"><i data-lucide="clipboard-list" class="w-4 h-4"></i> MM-111</button>
     </nav>
 
@@ -441,88 +440,154 @@
     </div>
 
     <!-- MODULO: MAPA -->
-    <div id="tab-mapa" class="tab-content flex flex-col gap-4 hidden-tab h-[calc(100vh-200px)] animate-fade-in">
+    <div id="tab-mapa" class="tab-content flex flex-col gap-8 hidden-tab animate-fade-in">
 
-      <!-- Map Container with Legend -->
-      <div class="flex-1 relative glass-panel rounded-xl overflow-hidden">
-        <!-- Map title overlay -->
-        <div class="absolute top-4 sm:top-6 left-4 sm:left-6 z-[500] pointer-events-none">
-          <h3 class="font-outfit text-slate-400 text-xs sm:text-sm font-medium uppercase tracking-wider">Distribución de
-            clusters geográficos</h3>
-          <p class="text-[10px] sm:text-xs text-slate-500 mt-0.5">Visualización de encuestas en tiempo real</p>
-        </div>
-
-        <div id="mapView" class="absolute inset-0 z-0 bg-slate-100 dark:bg-[#0B1120]"></div>
-
-        <!-- Floating Legend -->
+      <div id="mapSectionWrapper"
+        class="grid grid-cols-1 xl:grid-cols-4 gap-6 h-[500px] sm:h-[600px] transition-all duration-500">
+        <!-- Map Container with Legend (Spans 3 columns) -->
         <div
-          class="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 z-[500] bg-white/90 dark:bg-[#0f172a]/90 backdrop-blur-md rounded-xl p-3 shadow-xl border border-slate-200 dark:border-white/10 text-[10px] font-inter">
-          <div class="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-widest mb-2">Leyenda
+          class="xl:col-span-3 relative glass-panel rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 shadow-inner">
+          <!-- Map title overlay -->
+          <div
+            class="absolute top-4 left-4 z-[500] flex justify-between items-start w-[calc(100%-2rem)] pointer-events-none">
+            <div>
+              <h3 class="font-outfit text-slate-400 text-xs font-bold uppercase tracking-widest">Vista de Cobertura</h3>
+              <p class="text-[10px] text-slate-500 mt-0.5">Distribución geográfica en tiempo real</p>
+            </div>
+            <button id="btnExpandMap"
+              class="pointer-events-auto p-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 rounded-lg text-white transition-all group"
+              title="Expandir Mapa">
+              <i data-lucide="maximize" class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
+            </button>
           </div>
-          <div class="flex flex-col gap-1.5">
-            <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-[#10B981] border border-slate-300 dark:border-white/20"></span>
-              <span class="text-slate-700 dark:text-slate-300">Efectiva (completada)</span>
+
+          <div id="mapView" class="absolute inset-0 z-0 bg-slate-100 dark:bg-[#0B1120]"></div>
+
+          <!-- Floating Legend -->
+          <div
+            class="absolute bottom-12 left-4 z-[500] bg-white/90 dark:bg-[#0f172a]/95 backdrop-blur-md rounded-xl p-3 shadow-xl border border-slate-200 dark:border-white/10 text-[10px] font-inter">
+            <div
+              class="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-widest mb-2 border-b border-slate-200 dark:border-slate-800 pb-1">
+              Leyenda</div>
+            <div class="flex flex-col gap-1.5">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-[#10B981] border border-white/20"></span>
+                <span class="text-slate-700 dark:text-slate-300">Efectiva</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-[#F59E0B] border border-white/20"></span>
+                <span class="text-slate-700 dark:text-slate-300">No Respuesta</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-[#EF4444] border border-white/20"></span>
+                <span class="text-slate-700 dark:text-slate-300">⚠ Distancia > 500m</span>
+              </div>
             </div>
-            <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-[#F59E0B] border border-slate-300 dark:border-white/20"></span>
-              <span class="text-slate-700 dark:text-slate-300">No respuesta / parcial</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="w-3 h-3 rounded-full bg-[#EF4444] border border-slate-300 dark:border-white/20"></span>
-              <span class="text-slate-700 dark:text-slate-300">Flag: distancia > 500m</span>
+          </div>
+
+          <!-- Floating coverage badge -->
+          <div id="mapCoverageBadge"
+            class="absolute top-4 left-1/2 -translate-x-1/2 z-[500] bg-brand-blue/90 backdrop-blur-md rounded-xl px-3 py-2 shadow-xl border border-white/20 text-[10px] font-inter hidden">
+            <div class="flex items-center gap-3">
+              <div class="flex flex-col items-center">
+                <span id="mapMunCount" class="text-white font-black text-xs leading-none">0</span>
+                <span class="text-[8px] text-white/70 uppercase font-black">Mun</span>
+              </div>
+              <div class="h-6 w-px bg-white/20"></div>
+              <div class="flex flex-col items-center">
+                <span id="mapParCount" class="text-white font-black text-xs leading-none">0</span>
+                <span class="text-[8px] text-white/70 uppercase font-black">Parr</span>
+              </div>
+              <div class="h-6 w-px bg-white/20"></div>
+              <div class="flex flex-col items-center">
+                <span id="mapNodoCount" class="text-white font-black text-xs leading-none">0</span>
+                <span class="text-[8px] text-white/70 uppercase font-black">Nodos</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Floating coverage badge -->
-        <div id="mapCoverageBadge"
-          class="absolute top-12 sm:top-16 left-3 sm:left-6 z-[500] bg-white/90 dark:bg-[#0f172a]/90 backdrop-blur-md rounded-xl px-3 py-2 shadow-xl border border-slate-200 dark:border-white/10 text-[10px] font-inter hidden">
-          <div class="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-widest mb-1">Cobertura
-          </div>
-          <div class="flex items-center gap-3">
-            <span class="text-slate-600 dark:text-slate-300"><strong id="mapMunCount"
-                class="text-slate-900 dark:text-white font-outfit">0</strong>
-              Mun.</span>
-            <span class="text-slate-300 dark:text-slate-600">|</span>
-            <span class="text-slate-600 dark:text-slate-300"><strong id="mapParCount"
-                class="text-slate-900 dark:text-white font-outfit">0</strong>
-              Parr.</span>
-            <span class="text-slate-300 dark:text-slate-600">|</span>
-            <span class="text-slate-600 dark:text-slate-300"><strong id="mapNodoCount"
-                class="text-slate-900 dark:text-white font-outfit">0</strong>
-              Nodos</span>
+        <!-- Cobertura Extended Metrics & Quick Filters (Spans 1 column) -->
+        <div id="mapKpiGrid" class="flex flex-col gap-3">
+          <div class="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-widest ml-1 mb-1">
+            Filtros Rápidos</div>
+
+          <button id="btnMapFilterAll"
+            class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 transition-all group active-filter">
+            <div class="flex items-center gap-2">
+              <i data-lucide="layers" class="w-3.5 h-3.5 text-slate-400"></i>
+              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Todos</span>
+            </div>
+            <span class="text-sm font-black font-outfit text-slate-800 dark:text-white" id="mapKpiPoints">0</span>
+          </button>
+
+          <button id="btnMapFilterEfectivas"
+            class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-green hover:bg-brand-green/5 transition-all group">
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle" class="w-3.5 h-3.5 text-brand-green"></i>
+              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Efectivas</span>
+            </div>
+            <span class="text-sm font-black font-outfit text-slate-800 dark:text-white" id="mapKpiComplete">0</span>
+          </button>
+
+          <button id="btnMapFilterNoRespuesta"
+            class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange hover:bg-brand-orange/5 transition-all group">
+            <div class="flex items-center gap-2">
+              <i data-lucide="help-circle" class="w-3.5 h-3.5 text-brand-orange"></i>
+              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">No Respuesta</span>
+            </div>
+            <span class="text-sm font-black font-outfit text-slate-800 dark:text-white" id="mapKpiNoRespuesta">0</span>
+          </button>
+
+          <button id="btnMapFilterAlertas"
+            class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-red hover:bg-brand-red/5 transition-all group">
+            <div class="flex items-center gap-2">
+              <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-brand-red"></i>
+              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Alertas</span>
+            </div>
+            <span class="text-sm font-black font-outfit text-brand-red" id="mapKpiFlagged">0</span>
+          </button>
+
+          <div class="mt-2 pt-2 border-t border-slate-200 dark:border-white/5">
+            <div
+              class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-purple opacity-80">
+              <div class="flex items-center gap-2">
+                <i data-lucide="users" class="w-3.5 h-3.5 text-brand-purple"></i>
+                <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Agentes</span>
+              </div>
+              <span class="text-sm font-black font-outfit text-slate-800 dark:text-white" id="mapKpiAgents">0</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Map KPI Stats (below map, Stitch style) -->
-      <section class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div class="glass-panel rounded-xl p-4">
-          <p class="text-xs text-slate-500 font-medium">Geolocalizados</p>
-          <div class="flex items-baseline gap-2 mt-1">
-            <h4 class="text-2xl font-bold font-outfit text-slate-800 dark:text-white" id="mapKpiPoints">0</h4>
+      <!-- Combined Data Engine Section (Stacked below) -->
+      <div class="card-premium flex flex-col overflow-hidden p-0 h-[500px] border border-slate-200 dark:border-white/5">
+        <div
+          class="p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50 dark:bg-slate-900/50">
+          <div class="flex items-center gap-3">
+            <div class="p-2 bg-brand-emerald/10 rounded-lg">
+              <i data-lucide="database" class="text-brand-emerald w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="font-bold font-outfit text-lg text-slate-800 dark:text-white">Motor de Datos Unificado</h3>
+              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Explorador de registros
+                tabulados</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <div class="relative w-full sm:w-64">
+              <i data-lucide="search"
+                class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500"></i>
+              <input type="text" id="searchEncuesta" placeholder="Búsqueda rápida..."
+                class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-800 dark:text-white outline-none focus:border-brand-emerald/50 focus:ring-1 transition-all" />
+            </div>
           </div>
         </div>
-        <div class="glass-panel rounded-xl p-4">
-          <p class="text-xs text-slate-500 font-medium">Efectivas en Mapa</p>
-          <div class="flex items-baseline gap-2 mt-1">
-            <h4 class="text-2xl font-bold font-outfit text-slate-800 dark:text-white" id="mapKpiComplete">0</h4>
-          </div>
+        <div class="flex-1 bg-white dark:bg-[#111827] relative">
+          <div id="detailGrid" class="absolute inset-0 border-0"></div>
         </div>
-        <div class="glass-panel rounded-xl p-4">
-          <p class="text-xs text-slate-500 font-medium">Agentes Activos</p>
-          <div class="flex items-baseline gap-2 mt-1">
-            <h4 class="text-2xl font-bold font-outfit text-slate-800 dark:text-white" id="mapKpiAgents">0</h4>
-          </div>
-        </div>
-        <div class="glass-panel rounded-xl p-4">
-          <p class="text-xs text-slate-500 font-medium">Flags Distancia</p>
-          <div class="flex items-baseline gap-2 mt-1">
-            <h4 class="text-2xl font-bold font-outfit text-slate-800 dark:text-white" id="mapKpiFlagged">0</h4>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
 
     <!-- MODULO: RENDIMIENTO -->
@@ -543,29 +608,7 @@
       <div id="cardsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4"></div>
     </div>
 
-    <!-- MODULO: DATOS RAW -->
-    <div id="tab-datos" class="tab-content flex flex-col gap-6 hidden-tab h-[calc(100vh-250px)]">
-      <div class="card-premium flex-1 flex flex-col overflow-hidden p-0">
-        <div
-          class="p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50 dark:bg-slate-900/50">
-          <h3 class="font-bold flex items-center gap-2 font-outfit text-lg text-slate-800 dark:text-white">
-            <i data-lucide="terminal" class="text-brand-emerald w-5 h-5"></i> Motor de Datos
-          </h3>
-          <div class="flex items-center gap-3 w-full sm:w-auto">
-            <div class="relative w-full max-w-sm">
-              <i data-lucide="search"
-                class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500"></i>
-              <input type="text" id="searchEncuesta" placeholder="Búsqueda global..."
-                class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-xs text-slate-800 dark:text-white outline-none focus:border-brand-emerald/50 focus:ring-1 transition-all" />
-            </div>
-          </div>
-        </div>
-        <div class="flex-1 bg-white dark:bg-[#0B1120] relative">
-          <!-- The absolute positioning keeps tabulator contained so flex-1 works correctly -->
-          <div id="detailGrid" class="absolute inset-0 border-0"></div>
-        </div>
-      </div>
-    </div>
+
 
     <!-- MODULO: MM-111 VERIFICACION FÍSICA -->
     <div id="tab-mm111" class="tab-content flex flex-col gap-6 hidden-tab h-[calc(100vh-180px)]">
@@ -926,7 +969,7 @@
     </div>
   </footer>
 
-  <script src="app.js?v=15"></script>
+  <script src="app.js?v=29"></script>
 </body>
 
 </html>
