@@ -113,7 +113,7 @@
   <script src="https://unpkg.com/tabulator-tables@6.3.1/dist/js/tabulator.min.js"></script>
 
   <!-- Custom Styles (Loaded after libraries to override them) -->
-  <link rel="stylesheet" href="tailwind-custom.css?v=4" />
+  <link rel="stylesheet" href="tailwind-custom.css?v=5" />
 </head>
 
 <body
@@ -889,23 +889,31 @@
     <div class="absolute inset-0 bg-[#0B1120]/80 backdrop-blur-md" onclick="closeDetailModal()" aria-hidden="true">
     </div>
     <div
-      class="bg-slate-900 border border-slate-700 p-0 rounded-2xl z-10 w-11/12 max-w-4xl text-slate-200 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col transform transition-all scale-95 opacity-0"
+      class="bg-slate-900 border border-slate-700 p-0 rounded-2xl z-10 w-11/12 max-w-7xl text-slate-200 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col transform transition-all scale-95 opacity-0"
       id="detailModalPane" role="dialog" aria-modal="true" aria-labelledby="detailModalTitle">
-      <div class="flex justify-between items-center p-6 border-b border-slate-800 bg-slate-800/20">
+      <div class="flex justify-between items-center p-6 border-b border-slate-800 bg-slate-800/50">
         <h3 id="detailModalTitle" class="font-outfit font-black text-xl text-white flex items-center gap-3">
-          <i data-lucide="file-json" class="text-brand-purple w-6 h-6"></i> Meta-Vectores
+          <i data-lucide="file-json" class="text-brand-purple w-6 h-6"></i> Ficha de Inspección
         </h3>
-        <button onclick="closeDetailModal()"
-          class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-white transition-colors border border-slate-700">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
+        <div class="flex items-center gap-2">
+          <button onclick="toggleDetailModalExpand()" id="detailModalExpand"
+            class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-white transition-colors border border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-purple"
+            title="Expandir/Contraer">
+            <i data-lucide="maximize" id="detailModalExpandIcon" class="w-4 h-4"></i>
+          </button>
+          <button onclick="closeDetailModal()" id="detailModalClose"
+            class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-white transition-colors border border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-purple">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
       </div>
-      <div id="detailModalBody" class="overflow-y-auto max-h-[70vh] p-6 text-sm font-inter space-y-4 custom-scrollbar"
+      <div id="detailModalBody" class="overflow-y-auto max-h-[75vh] p-6 text-sm font-inter custom-scrollbar"
         tabindex="0">
         <!-- Inject dynamic content here via JS -->
       </div>
     </div>
   </div>
+
 
   <!-- Footer -->
   <footer class="border-t border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0B1120] px-6 py-4 mt-auto">
@@ -918,7 +926,7 @@
     </div>
   </footer>
 
-  <script src="app.js?v=6"></script>
+  <script src="app.js?v=15"></script>
 </body>
 
 </html>

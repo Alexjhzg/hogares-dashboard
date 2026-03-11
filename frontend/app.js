@@ -1092,7 +1092,7 @@ function renderRankingTable() {
             layout: 'fitColumns',
             height: '420px',
             responsiveLayout: 'collapse',
-            placeholder: '<div style="padding:40px;text-align:center;color:#64748b;font-size:13px;font-family:Inter,sans-serif;">Sin datos de agentes</div>',
+            placeholder: '<div style="padding:40px;text-align:center;color:var(--text-muted);font-size:13px;font-family:Inter,sans-serif;">Sin datos de agentes</div>',
             initialSort: [{ column: 'score', dir: 'desc' }],
             columns: [
                 {
@@ -1107,7 +1107,7 @@ function renderRankingTable() {
                         if (v === 1) return '<span style="font-size:18px" title="1er lugar">🥇</span>';
                         if (v === 2) return '<span style="font-size:18px" title="2do lugar">🥈</span>';
                         if (v === 3) return '<span style="font-size:18px" title="3er lugar">🥉</span>';
-                        return `<span style="color:#64748b;font-weight:800;font-size:12px;font-family:'Outfit',sans-serif">${v}</span>`;
+                        return `<span style="color:var(--text-muted);font-weight:800;font-size:12px;font-family:'Outfit',sans-serif">${v}</span>`;
                     }
                 },
                 {
@@ -1115,8 +1115,8 @@ function renderRankingTable() {
                     formatter: function (cell) {
                         const d = cell.getData();
                         return `<div>
-                            <div style="font-weight:800;color:#f1f5f9;font-size:12px;line-height:1.3;font-family:Inter,sans-serif;">${d.nombre}</div>
-                            <div style="font-size:9px;color:#64748b;font-weight:600;letter-spacing:0.03em;font-family:Inter,sans-serif;">${d.cedula}</div>
+                            <div style="font-weight:800;color:var(--text-primary);font-size:12px;line-height:1.3;font-family:Inter,sans-serif;">${d.nombre}</div>
+                            <div style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:0.03em;font-family:Inter,sans-serif;">${d.cedula}</div>
                         </div>`;
                     }
                 },
@@ -1136,7 +1136,7 @@ function renderRankingTable() {
                         const bg = v >= 80 ? 'rgba(16,185,129,0.15)' : v >= 50 ? 'rgba(245,158,11,0.15)' : 'rgba(239,68,68,0.15)';
                         return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px">
                             <span style="font-weight:800;color:${color};font-size:12px;font-family:'Outfit',sans-serif">${v}%</span>
-                            <div style="width:100%;height:4px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden">
+                            <div style="width:100%;height:4px;background:var(--border-medium);border-radius:4px;overflow:hidden">
                                 <div style="width:${v}%;height:100%;background:${color};border-radius:4px;transition:width 0.6s ease"></div>
                             </div>
                         </div>`;
@@ -1147,7 +1147,7 @@ function renderRankingTable() {
                     sorter: 'number', responsive: 3,
                     formatter: function (cell) {
                         const v = cell.getValue();
-                        if (v === null) return '<span style="color:#475569">—</span>';
+                        if (v === null) return '<span style="color:var(--text-muted)">—</span>';
                         let color, icon;
                         if (v < 15) { color = '#EF4444'; icon = '⚡'; }
                         else if (v < 25) { color = '#F59E0B'; icon = '⏱'; }
@@ -1159,7 +1159,7 @@ function renderRankingTable() {
                     title: 'Pers.', field: 'personas', hozAlign: 'center', width: 65,
                     sorter: 'number', responsive: 4,
                     formatter: function (cell) {
-                        return `<span style="font-weight:600;color:#94a3b8">${cell.getValue()}</span>`;
+                        return `<span style="font-weight:600;color:var(--text-muted)">${cell.getValue()}</span>`;
                     }
                 },
                 {
@@ -1178,7 +1178,7 @@ function renderRankingTable() {
                         const bg = v >= 70 ? 'rgba(16,185,129,0.12)' : v >= 40 ? 'rgba(245,158,11,0.12)' : 'rgba(239,68,68,0.12)';
                         return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px">
                             <span style="font-weight:900;color:${color};font-size:14px;font-family:'Outfit',sans-serif">${v}</span>
-                            <div style="width:100%;height:5px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden">
+                            <div style="width:100%;height:5px;background:var(--border-medium);border-radius:4px;overflow:hidden">
                                 <div style="width:${v}%;height:100%;background:linear-gradient(90deg,${color},${color}aa);border-radius:4px;transition:width 0.6s ease"></div>
                             </div>
                         </div>`;
@@ -1246,7 +1246,7 @@ function initGrid() {
         movableColumns: true,
         responsiveLayout: 'collapse',
         clipboard: true, // Enable clipboard support
-        placeholder: '<div style="padding:40px;text-align:center;color:#64748b;font-size:14px;font-family:Inter,sans-serif;">Cargando base de datos...</div>',
+        placeholder: '<div style="padding:40px;text-align:center;color:var(--text-muted);font-size:14px;font-family:Inter,sans-serif;">Cargando base de datos...</div>',
         columnHeaderVertAlign: 'bottom',
         columns: [
             {
@@ -1299,7 +1299,7 @@ function initGrid() {
                             const v = cell.getValue();
                             if (v === null) return '—';
                             const isFlagged = cell.getData().flagDist;
-                            const color = isFlagged ? '#EF4444' : '#94a3b8';
+                            const color = isFlagged ? '#EF4444' : 'var(--text-muted)';
                             return `<span style="color:${color};font-weight:600">${v}m ${isFlagged ? '⚠' : ''}</span>`;
                         }
                     },
@@ -1317,15 +1317,25 @@ function initGrid() {
                 formatter: function (cell) {
                     return `
                         <div class="flex gap-2">
-                            <button class="tab-action-btn btn-view" onclick="event.stopPropagation(); window.showDetailById('${cell.getData().id}')">
-                                <i data-lucide="eye" style="width:12px;height:12px"></i> VER
+                            <button class="tab-action-btn btn-view" data-action="view">
+                                <i data-lucide="eye" style="width:12px;height:12px;pointer-events:none;"></i> VER
                             </button>
-                            ${cell.getData().lat ? `
-                            <button class="tab-action-btn btn-locate" onclick="event.stopPropagation(); window.showLocationById('${cell.getData().id}')">
-                                <i data-lucide="map-pin" style="width:12px;height:12px"></i>
-                            </button>` : ''}
                         </div>
                     `;
+                },
+                cellClick: function (e, cell) {
+                    e.stopPropagation();
+                    const btn = e.target.closest('button');
+                    if (!btn) return;
+
+                    const action = btn.dataset.action;
+                    const rec = cell.getData()._rec;
+
+                    if (!rec) return;
+
+                    if (action === 'view') {
+                        showDetailModal(rec);
+                    }
                 }
             }
         ],
@@ -1347,15 +1357,7 @@ function initGrid() {
     });
 }
 
-// Global helpers for inline buttons
-window.showDetailById = (id) => {
-    const rec = filtered.find(r => r._meta.control === id || r._uuid === id);
-    if (rec) showDetailModal(rec);
-};
-window.showLocationById = (id) => {
-    const rec = filtered.find(r => r._meta.control === id || r._uuid === id);
-    if (rec) showLocationModal(rec);
-};
+// Global helpers removed in favor of Tabulator cellClick events native delegation
 
 function updateGrid(data = filtered) {
     if (!detailTable) initGrid();
@@ -1380,8 +1382,8 @@ function updateGrid(data = filtered) {
             flagDur: m.flag_short_duration,
             hogares: m.hogares || 0,
             personas: m.totalPers || 0,
-            lat: m.lat,
-            lng: m.lng
+            lat: rec.lat || m.lat || (rec._geolocation ? rec._geolocation[0] : null),
+            lng: rec.lng || m.lng || (rec._geolocation ? rec._geolocation[1] : null)
         };
     });
     detailTable.setData(rows);
@@ -1425,77 +1427,367 @@ function renderChartUso() {
 }
 
 // Detail modal control
+// Detail modal control (Split-Card Design with Integrated Map)
+let detailMiniMapObj = null;
+
 function showDetailModal(rec) {
     const modal = $('detailModal');
     const body = $('detailModalBody');
     if (!modal || !body || !rec) return;
 
-    // Define preferred display order and mapping to original JSON keys where applicable
-    const fields = [
-        { label: 'Cédula Encuestador', meta: 'cedula', json: 'S0/cedula_encuestador' },
-        { label: 'Nombre Encuestador', meta: 'nombre', json: 'S0/s0_nombreapellido' },
-        { label: 'Fecha', meta: 'fecha', json: 'today/_submission_time' },
-        { label: 'Control', meta: 'control', json: 'group_sh53u78/control' },
-        { label: 'Municipio', meta: 'mun', json: 'S1/mun' },
-        { label: 'Parroquia', meta: 'par', json: 'S1/par' },
-        { label: 'Nodo', meta: 'nodo', json: 'S1/nodo' },
-        { label: 'Segmento', meta: 'segmento', json: 'S1/segmento / S1/group_segmeto_sector/segmento' },
-        { label: 'Sector', meta: 'sector', json: 'S1/sector / S1/group_segmeto_sector/sector' },
-        { label: 'Manzana', meta: 'manzana', json: 'S1/manzana' },
-        { label: 'Parcela', meta: 'parcela', json: 'S1/parcela' },
-        { label: 'Edificación', meta: 'edificacion', json: 'S1/Edificaci_n / S1/edificacion' },
-        { label: 'Uso Unidad', meta: 'uso', json: 'S1/Uso_de_la_Unidad_inmobiliaria' },
-        { label: 'Condición', meta: 'condicion', json: 'Condici_n_de_ocupaci_n/condicion_de_ocupacion' },
-        { label: 'Duración (min)', meta: 'durMin', json: 'start / end' },
-        { label: 'Distancia (m)', meta: 'distance_m', json: 'start-geopoint / group_sh53u78/ubicacion_i' },
-        { label: 'Hogares (declarados)', meta: 'hogares', json: 'datos_hogar/hogar' },
-        { label: 'Personas Totales', meta: 'totalPers', json: 'datos_hogar/hogar.integrantes_hogar' },
-        { label: 'Latitud', meta: 'lat', json: '_geolocation / S1/ubicacion' },
-        { label: 'Longitud', meta: 'lng', json: '_geolocation / S1/ubicacion' },
-        { label: 'Flags', meta: null, json: '' }
-    ];
-
-    const rows = fields.map(f => {
+    const extractNested = (path) => {
         let val = '';
-        if (f.meta && rec._meta && typeof rec._meta[f.meta] !== 'undefined' && rec._meta[f.meta] !== null) {
-            val = rec._meta[f.meta];
-        } else if (f.json) {
-            // try to extract value from raw JSON using the common key hints
-            const keys = String(f.json).split('/').map(s => s.trim());
-            for (const k of keys) {
-                if (!k) continue;
-                if (k.includes(' ')) continue; // skip complex hints
-                if (rec[k] !== undefined) { val = rec[k]; break; }
-            }
+        if (rec._meta && typeof rec._meta[path] !== 'undefined' && rec._meta[path] !== null) {
+            return rec._meta[path];
         }
-        // pretty format booleans and objects
-        let display = '';
-        if (val === null || typeof val === 'undefined' || val === '') display = '<span class="text-slate-500">(vacío)</span>';
-        else if (typeof val === 'object') display = `<pre class="text-sm bg-brand-950/20 p-2 rounded mt-1 overflow-x-auto">${JSON.stringify(val, null, 2)}</pre>`;
-        else display = `<div class="font-mono text-sm text-slate-200">${String(val)}</div>`;
+        if (rec[path] !== undefined && rec[path] !== null) { return rec[path]; }
+        const keys = String(path).split('/').map(s => s.trim());
+        for (const k of keys) {
+            if (!k || k.includes(' ')) continue;
+            if (rec[k] !== undefined && rec[k] !== null) { return rec[k]; }
+        }
+        return null;
+    };
 
-        const jsonNote = f.json ? `<div class="text-[10px] text-slate-500 mt-1">${f.json}</div>` : '';
+    const fmt = (val) => {
+        if (val === null || val === undefined || val === '') return '<span class="text-slate-500 font-medium italic">(No Registrado)</span>';
+        if (typeof val === 'object') return `<pre class="text-[10px] bg-slate-950/20 p-2 rounded overflow-x-auto">${JSON.stringify(val, null, 2)}</pre>`;
+        return `<span class="font-outfit font-bold text-slate-800 dark:text-slate-200 text-sm">${String(val)}</span>`;
+    };
 
-        return `<div class="mb-3">
-            <div class="text-xs text-slate-400 font-bold">${f.label}</div>
-            ${display}
-            ${jsonNote}
-        </div>`;
-    }).join('');
+    // Column 1: Contexto Geográfico
+    const stEntidad = fmt(extractNested('mun') || extractNested('S1/ent'));
+    const stMpio = fmt(extractNested('mun'));
+    const stParr = fmt(extractNested('par'));
+    const stSegm = fmt(extractNested('segmento') || extractNested('S1/segmento') || extractNested('S1/group_segmeto_sector/segmento'));
+    const stSect = fmt(extractNested('sector') || extractNested('S1/sector') || extractNested('S1/group_segmeto_sector/sector'));
+    const stNodo = fmt(extractNested('nodo'));
 
-    // Add a compact raw JSON dump at the end for debugging/tracing
-    const rawJson = `<details class="mt-4 text-sm text-slate-400"><summary class="cursor-pointer font-bold">Mostrar JSON bruto</summary><pre class="text-xs bg-brand-950/20 p-3 rounded mt-2 overflow-x-auto">${JSON.stringify(rec, null, 2)}</pre></details>`;
+    // Column 2: Datos Operativos
+    const stAgente = fmt(extractNested('nombre') || extractNested('S0/s0_nombreapellido'));
+    const stCedula = fmt(extractNested('cedula') || extractNested('S0/cedula_encuestador'));
+    const stFecha = fmt(extractNested('fecha') || extractNested('today/_submission_time'));
+    const stEstado = rec._meta && rec._meta.estado === 'completada'
+        ? '<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-brand-green/20 text-brand-green border border-brand-green/30">Completada (Efectiva)</span>'
+        : '<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-brand-orange/20 text-brand-orange border border-brand-orange/30">Parcial / Error</span>';
+    const stDur = fmt(extractNested('durMin') ? `${extractNested('durMin')} min` : null);
+    const stControl = fmt(extractNested('control') || extractNested('group_sh53u78/control'));
 
-    body.innerHTML = `<div class="space-y-2">${rows}${rawJson}</div>`;
+    // Column 3: Resultados
+    const stHogares = fmt(extractNested('hogares') || extractNested('datos_hogar/hogar_count') || extractNested('lista_hogar_count'));
+    const stPers = fmt(extractNested('totalPers') || extractNested('datos_hogar/hogar.integrantes_hogar'));
+    const stUso = fmt(extractNested('uso') || extractNested('S1/Uso_de_la_Unidad_inmobiliaria'));
+    const stCond = fmt(extractNested('condicion') || extractNested('Condici_n_de_ocupaci_n/condicion_de_ocupacion'));
+    const rawDist = extractNested('distance_m');
+    const isFlagged = rec._meta && rec._meta.flag_distance_gt_500;
+    const stDist = rawDist !== null ? `<span class="font-outfit font-black ${isFlagged ? 'text-brand-red' : 'text-brand-emerald'}">${Math.round(rawDist)} m</span>`
+        : '<span class="text-slate-500 font-medium italic">N/A</span>';
 
-    // Accessibility: save last focused element and focus modal
+    // Parse coordinates and advanced geo metrics for Map
+    const parseGeo = (geoStr) => {
+        if (!geoStr || typeof geoStr !== 'string') return null;
+        const parts = geoStr.trim().split(' ');
+        if (parts.length >= 2) {
+            return {
+                lat: parseFloat(parts[0]),
+                lng: parseFloat(parts[1]),
+                alt: parts.length >= 3 ? parseFloat(parts[2]) : null,
+                acc: parts.length >= 4 ? parseFloat(parts[3]) : null
+            };
+        }
+        return null;
+    };
+
+    // Haversine trace calculation
+    const calcDistance = (pt1, pt2) => {
+        if (!pt1 || !pt2) return null;
+        const R = 6371e3;
+        const toRad = p => p * Math.PI / 180;
+        const dLat = toRad(pt2.lat - pt1.lat);
+        const dLng = toRad(pt2.lng - pt1.lng);
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRad(pt1.lat)) * Math.cos(toRad(pt2.lat)) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    };
+
+    const ptStart = parseGeo(rec['start-geopoint']);
+    const ptIni = parseGeo(rec['group_sh53u78/ubicacion_i'] || rec['ubicacion_i']);
+    const ptFin = parseGeo(rec['ubicacion_final/ubicacion_f'] || rec['ubicacion_f']);
+
+    const m = rec._meta || {};
+    let rawLat = rec.lat || m.lat || (rec._geolocation ? rec._geolocation[0] : null);
+    let rawLng = rec.lng || m.lng || (rec._geolocation ? rec._geolocation[1] : null);
+    const ptMain = (rawLat && rawLng) ? { lat: parseFloat(rawLat), lng: parseFloat(rawLng) } : null;
+
+    const walkedDistance = ptIni && ptFin ? calcDistance(ptIni, ptFin) : null;
+    const hasMapData = ptStart || ptIni || ptFin || ptMain;
+
+    const layout = `
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <!-- Columna 1 -->
+            <div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl p-5 border border-slate-200 dark:border-slate-700/50">
+                <h4 class="text-[10px] uppercase font-black text-brand-blue tracking-widest flex items-center gap-2 mb-4">
+                    <i data-lucide="map" class="w-3.5 h-3.5"></i> Contexto Geográfico
+                </h4>
+                <div class="space-y-3">
+                    <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Estado / Entidad</div>${stEntidad}</div>
+                    <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Municipio</div>${stMpio}</div>
+                    <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Parroquia</div>${stParr}</div>
+                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+                        <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Segmento</div>${stSegm}</div>
+                        <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Sector</div>${stSect}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna 2 -->
+            <div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl p-5 border border-slate-200 dark:border-slate-700/50 relative overflow-hidden">
+                <h4 class="text-[10px] uppercase font-black text-brand-purple tracking-widest flex items-center gap-2 mb-4 relative z-10">
+                    <i data-lucide="user-check" class="w-3.5 h-3.5"></i> Datos Operativos
+                </h4>
+                <div class="space-y-3 relative z-10">
+                    <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Agente de Campo</div>${stAgente}</div>
+                    <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Documento ID</div>${stCedula}</div>
+                    <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Fecha y Hora de Carga</div>${stFecha}</div>
+                    <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Estatus del Registro</div>${stEstado}</div>
+                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+                        <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Duración Real</div>${stDur}</div>
+                        <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Control Nro.</div>${stControl}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna 3 -->
+            <div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl p-5 border border-slate-200 dark:border-slate-700/50">
+                <h4 class="text-[10px] uppercase font-black text-brand-emerald tracking-widest flex items-center gap-2 mb-4">
+                    <i data-lucide="home" class="w-3.5 h-3.5"></i> Resultados / Tipología
+                </h4>
+                <div class="space-y-3">
+                    <div class="grid grid-cols-2 gap-2 pb-2 border-b border-slate-200 dark:border-slate-700">
+                        <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Nro. Hogares</div>${stHogares}</div>
+                        <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Nro. Personas</div>${stPers}</div>
+                    </div>
+                    <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Condición de Ocupación</div>${stCond}</div>
+                    <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Uso Estructural</div>${stUso}</div>
+                    <div class="pt-2 border-t border-slate-200 dark:border-slate-700">
+                        <div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Distancia calc. al segmento</div>
+                        ${stDist}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Integrated Map Section -->
+        ${hasMapData ? `
+        <div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700/50 overflow-hidden mt-6">
+            <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <h4 class="text-[10px] uppercase font-black text-brand-orange tracking-widest flex items-center gap-2 m-0">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Verificación Geográfica Histórica
+                    </h4>
+                    ${isFlagged ? `<span class="px-2 py-0.5 rounded text-[9px] uppercase font-bold tracking-widest bg-brand-red/20 text-brand-red border border-brand-red/30">Desviación Detectada</span>` : ''}
+                </div>
+                <div class="flex items-center gap-4 text-[9px] uppercase font-bold text-slate-500">
+                    <div class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-[#3B82F6]"></div> Apertura</div>
+                    <div class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-[#10B981]"></div> P. Inicial</div>
+                    <div class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-[#F59E0B]"></div> P. Final</div>
+                </div>
+            </div>
+            <div class="h-64 md:h-96 w-full relative">
+                <!-- Floating HUD Box -->
+                <div class="absolute top-4 left-4 z-[400] bg-slate-900/80 backdrop-blur-md rounded-xl p-3 border border-slate-700/50 shadow-xl w-48 pointer-events-none">
+                    <h5 class="text-[9px] uppercase font-black text-slate-400 tracking-widest mb-2 border-b border-slate-700 pb-1">Métricas de Rastreo</h5>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[10px] text-slate-500 font-bold">Resumen Segm:</span>
+                        <span class="text-[10px] font-mono font-bold ${isFlagged ? 'text-brand-red' : 'text-brand-emerald'}">${rawDist !== null ? Math.round(rawDist) + 'm' : 'N/A'}</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-[10px] text-slate-500 font-bold">Ruta Calculada:</span>
+                        <span class="text-[10px] font-mono text-brand-orange font-bold">${walkedDistance !== null ? Math.round(walkedDistance) + 'm' : 'N/A'}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] text-slate-500 font-bold">Tiempo Base:</span>
+                        <span class="text-[10px] font-mono text-brand-blue font-bold">${extractNested('durMin') ? extractNested('durMin') + ' min' : 'N/A'}</span>
+                    </div>
+                </div>
+                <div id="detailMap" class="absolute inset-0 z-0 bg-slate-800"></div>
+            </div>
+            <div class="p-2 border-t border-slate-200 dark:border-slate-700 text-center text-[10px] text-slate-400 flex items-center justify-center gap-2">
+                <i data-lucide="info" class="w-3 h-3"></i> El círculo sombreado indica la zona válida de cobertura (radio de 500m). Haz clic en los pines para ver precisión y hora.
+            </div>
+        </div>
+        ` : `
+        <div class="mt-6 p-6 border border-dashed border-slate-700 rounded-xl text-center text-slate-500">
+            <i data-lucide="map-pin-off" class="w-8 h-8 mx-auto mb-2 opacity-50"></i>
+            <span class="text-xs uppercase tracking-widest font-bold block">No hay datos geográficos</span>
+            <span class="text-[10px] block mt-1">Este registro no generó ni capturó coordenadas GPS con precisión adecuada.</span>
+        </div>`}
+    `;
+
+    const rawJson = `<details class="mt-6 text-sm text-slate-400 group"><summary class="cursor-pointer font-bold text-[10px] uppercase tracking-widest flex items-center gap-2"><i data-lucide="code" class="w-3 h-3 group-hover:text-brand-purple transition-colors"></i> Ver JSON crudo</summary><pre class="text-xs bg-slate-950/40 border border-slate-800 p-4 rounded-xl mt-3 overflow-x-auto text-slate-300 font-mono">${JSON.stringify(rec, null, 2)}</pre></details>`;
+
+    body.innerHTML = `${layout}${rawJson}`;
+
+    if (window.lucide) lucide.createIcons({ root: body });
+
     _lastFocused = document.activeElement;
     modal.classList.remove('hidden');
-    const closeBtn = document.getElementById('detailModalClose');
-    if (closeBtn) closeBtn.focus();
+    setTimeout(() => { modal.querySelector('#detailModalPane').classList.remove('scale-95', 'opacity-0'); }, 10);
+
+    // Inject Leaflet map if data exists
+    if (hasMapData) {
+        setTimeout(() => {
+            const displayLat = ptMain ? ptMain.lat : (ptIni ? ptIni.lat : (ptStart ? ptStart.lat : ptFin.lat));
+            const displayLng = ptMain ? ptMain.lng : (ptIni ? ptIni.lng : (ptStart ? ptStart.lng : ptFin.lng));
+
+            if (!detailMiniMapObj) {
+                detailMiniMapObj = L.map('detailMap', { zoomControl: false }).setView([displayLat, displayLng], 16);
+                const satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'Tiles &copy; Esri', maxZoom: 19
+                });
+                const osmLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; OpenStreetMap', subdomains: 'abcd', maxZoom: 19
+                });
+
+                satLayer.addTo(detailMiniMapObj);
+
+                L.control.layers({
+                    "Satélite Alto Detalle": satLayer,
+                    "Estándar CartoDark": osmLayer
+                }, null, { position: 'topright' }).addTo(detailMiniMapObj);
+                L.control.zoom({ position: 'bottomright' }).addTo(detailMiniMapObj);
+            } else {
+                detailMiniMapObj.setView([displayLat, displayLng], 16);
+                detailMiniMapObj.eachLayer(layer => {
+                    if (layer instanceof L.Marker || layer instanceof L.Circle || layer instanceof L.Polyline) {
+                        detailMiniMapObj.removeLayer(layer);
+                    }
+                });
+            }
+
+            const validPoints = [];
+            const pathCoords = [];
+
+            const extractTimeStr = (type) => {
+                if (type === 'start') return rec.start ? new Date(rec.start).toLocaleTimeString() : 'N/A';
+                if (type === 'end') return rec.end ? new Date(rec.end).toLocaleTimeString() : 'N/A';
+                return 'Desconocido';
+            };
+
+            const createCustomMarker = (pt, color, title, type) => {
+                if (!pt) return;
+                const markerIcon = L.divIcon({
+                    className: 'custom-minimap-marker',
+                    html: `<div style="background-color: ${color}; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 10px ${color};"></div>`,
+                    iconSize: [14, 14],
+                    iconAnchor: [7, 7]
+                });
+
+                const accText = pt.acc ? `<span class="text-brand-emerald">± ${pt.acc}m</span>` : '<span class="text-slate-500">N/A</span>';
+                const altText = pt.alt ? `${pt.alt}m s.n.m.` : 'N/A';
+                const timeText = extractTimeStr(type);
+
+                const popupHtml = `
+                    <div class="font-inter p-1 w-52">
+                        <div class="font-outfit font-black text-xs uppercase tracking-widest border-b border-slate-200 pb-1 mb-2" style="color: ${color}">${title}</div>
+                        <div class="flex justify-between items-center text-[10px] mb-1"><span class="font-bold text-slate-500">Coordenada:</span><span class="font-mono text-slate-700">${pt.lat.toFixed(5)}, ${pt.lng.toFixed(5)}</span></div>
+                        <div class="flex justify-between items-center text-[10px] mb-1"><span class="font-bold text-slate-500">Precisión GPS:</span><span class="font-mono font-bold">${accText}</span></div>
+                        <div class="flex justify-between items-center text-[10px] mb-1"><span class="font-bold text-slate-500">Altitud Nivel Mar:</span><span class="font-mono text-slate-700">${altText}</span></div>
+                        <div class="flex justify-between items-center text-[10px] border-t border-slate-100 pt-1 mt-1"><span class="font-bold text-slate-500">Hora de Captura:</span><span class="font-mono text-brand-purple font-bold">${timeText}</span></div>
+                    </div>
+                `;
+
+                L.marker([pt.lat, pt.lng], { icon: markerIcon }).addTo(detailMiniMapObj).bindPopup(popupHtml, { className: 'custom-popup-enrich' });
+                validPoints.push([pt.lat, pt.lng]);
+                pathCoords.push([pt.lat, pt.lng]);
+            };
+
+            if (ptStart) createCustomMarker(ptStart, '#3B82F6', 'Apertura de la Encuesta', 'start');
+            if (ptIni) createCustomMarker(ptIni, '#10B981', 'Confirmación Inicial', 'start');
+            if (ptFin) createCustomMarker(ptFin, '#F59E0B', 'Cierre de Encuesta', 'end');
+
+            if (!ptStart && !ptIni && !ptFin && ptMain) {
+                createCustomMarker(ptMain, isFlagged ? '#EF4444' : '#10B981', 'Ubicación Registrada', 'end');
+            }
+
+            if (pathCoords.length > 1) {
+                L.polyline(pathCoords, { color: '#94a3b8', dashArray: '4, 4', weight: 2, opacity: 0.6 }).addTo(detailMiniMapObj);
+            }
+
+            const targetCirclePt = ptIni || ptMain;
+            if (targetCirclePt) {
+                L.circle([targetCirclePt.lat, targetCirclePt.lng], {
+                    radius: 500,
+                    color: isFlagged ? '#EF4444' : '#10B981',
+                    fillColor: isFlagged ? '#EF4444' : '#10B981',
+                    fillOpacity: 0.05,
+                    weight: 1,
+                    dashArray: '4, 4'
+                }).addTo(detailMiniMapObj);
+            }
+
+            if (validPoints.length > 0) {
+                const bounds = L.latLngBounds(validPoints);
+                if (validPoints.length === 1 && !isFlagged) {
+                    detailMiniMapObj.setView(validPoints[0], 16);
+                } else {
+                    detailMiniMapObj.fitBounds(bounds, { padding: [40, 40], maxZoom: 18 });
+                }
+            }
+
+            detailMiniMapObj.invalidateSize();
+        }, 300);
+    }
 }
 
-function closeDetailModal() { const m = $('detailModal'); if (m) { m.classList.add('hidden'); if (_lastFocused && typeof _lastFocused.focus === 'function') { try { _lastFocused.focus(); } catch (e) { } } } }
+function closeDetailModal() {
+    const m = $('detailModal');
+    if (m) {
+        m.querySelector('#detailModalPane').classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            m.classList.add('hidden');
+            // reset expand if it was expanded
+            const pane = document.getElementById('detailModalPane');
+            const icon = document.getElementById('detailModalExpandIcon');
+            if (pane && pane.classList.contains('max-w-none')) {
+                pane.classList.remove('w-full', 'max-w-none', 'h-full', 'rounded-none');
+                pane.classList.add('max-w-7xl', 'w-11/12', 'rounded-2xl', 'p-0');
+                if (icon) icon.setAttribute('data-lucide', 'maximize');
+            }
+
+            if (detailMiniMapObj) {
+                detailMiniMapObj.remove();
+                detailMiniMapObj = null;
+            }
+            if (_lastFocused && typeof _lastFocused.focus === 'function') { try { _lastFocused.focus(); } catch (e) { } }
+        }, 300);
+    }
+}
+
+// Global hook for the HTML expand button in Detail Modal
+window.toggleDetailModalExpand = function () {
+    const pane = document.getElementById('detailModalPane');
+    const icon = document.getElementById('detailModalExpandIcon');
+    if (!pane || !icon) return;
+
+    if (pane.classList.contains('max-w-7xl')) {
+        // Expand
+        pane.classList.remove('max-w-7xl', 'w-11/12', 'rounded-2xl', 'p-0');
+        pane.classList.add('w-full', 'max-w-none', 'h-full', 'rounded-none');
+        icon.setAttribute('data-lucide', 'minimize');
+    } else {
+        // Shrink
+        pane.classList.remove('w-full', 'max-w-none', 'h-full', 'rounded-none');
+        pane.classList.add('max-w-7xl', 'w-11/12', 'rounded-2xl', 'p-0');
+        icon.setAttribute('data-lucide', 'maximize');
+    }
+
+    if (window.lucide) window.lucide.createIcons();
+    // Re-adjust map bounds properly when resizing
+    if (detailMiniMapObj) setTimeout(() => detailMiniMapObj.invalidateSize(), 350);
+};
 
 // ─── MODULE: MM-111 ──────────────────────────────
 function renderMM111() {
