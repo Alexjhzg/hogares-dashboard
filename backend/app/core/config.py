@@ -1,20 +1,23 @@
 import os
-from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import List
+from dotenv import load_dotenv
 
-class Settings(BaseSettings):
-    KOBO_API_TOKEN: str = ""
-    KOBO_BASE_URL: str = ""
-    ALLOWED_ORIGINS: str = "http://localhost:8000,http://127.0.0.1:8000"
+load_dotenv()
+
+class Settings:
+    PROJECT_NAME: str = "KoboToolbox API Proxy"
+    
+    KOBO_API_TOKEN: str = os.getenv("KOBO_API_TOKEN", "")
+    KOBO_BASE_URL: str = os.getenv("KOBO_BASE_URL", "").rstrip("/")
+    
+    # CORS
+    raw_origins: str = os.getenv("ALLOWED_ORIGINS", "http://localhost:8000,http://127.0.0.1:8000")
     
     @property
-    def origins_list(self) -> List[str]:
-        return [o.strip() for o in self.ALLOWED_ORIGINS.split(",") if o.strip()]
-
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        extra="ignore"
-    )
+    def ALLOWED_ORIGINS(self) -> list[str]:
+        return [o.strip() for o in self.raw_origins.split(",") if o.strip()]
+    
+    @property
+    def AUTH_HEADERS(self) -> dict:
+        return {"Authorization": f"Token {self.KOBO_API_TOKEN}"}
 
 settings = Settings()

@@ -1,3 +1,4 @@
 #!/bin/bash
 cd /home/seem/Documentos/_proyectos/api-kobo-encuesta-ampliada
-./.venv/bin/python3 backend/main.py
+export PYTHONPATH=$PYTHONPATH:$(pwd)/backend
+./.venv/bin/python3 -m app.main

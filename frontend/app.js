@@ -93,6 +93,7 @@ function updateChartsTheme(isDark) {
 async function init() {
     console.log('app.js: Iniciando init()...');
     $('btnReset').addEventListener('click', resetFilters);
+    if ($('btnResetOffcanvas')) $('btnResetOffcanvas').addEventListener('click', resetFilters);
     $('btnRefresh').addEventListener('click', () => loadData($('assetSelect').value));
     $('searchEncuesta').addEventListener('input', () => applyFilters());
     $('assetSelect').addEventListener('change', (e) => loadData(e.target.value));
@@ -1727,15 +1728,15 @@ function showDetailModal(rec) {
                     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
                     attribution: '&copy; Google'
                 });
-                const osmLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                    attribution: '&copy; OpenStreetMap', subdomains: 'abcd', maxZoom: 19
+                const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors'
                 });
 
                 satLayer.addTo(detailMiniMapObj);
 
                 L.control.layers({
                     "Google Satélite": satLayer,
-                    "Estándar CartoDark": osmLayer
+                    "OpenStreetMap": osmLayer
                 }, null, { position: 'topright' }).addTo(detailMiniMapObj);
                 L.control.zoom({ position: 'bottomright' }).addTo(detailMiniMapObj);
             } else {

@@ -113,7 +113,7 @@
   <script src="https://unpkg.com/tabulator-tables@6.3.1/dist/js/tabulator.min.js"></script>
 
   <!-- Custom Styles (Loaded after libraries to override them) -->
-  <link rel="stylesheet" href="tailwind-custom.css?v=5" />
+  <link rel="stylesheet" href="tailwind-custom.css?v=6" />
 </head>
 
 <body
@@ -226,10 +226,9 @@
           class="hidden md:flex flex-wrap items-center gap-2 max-w-xs overflow-hidden h-[36px] empty:hidden justify-end">
         </div>
 
-        <button id="btnReset"
-          class="p-2.5 bg-slate-100 dark:bg-slate-800/40 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white border border-slate-200 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-500 rounded-xl text-sm font-medium transition-all group"
-          title="Limpiar filtros" aria-label="Limpiar">
+        <button id="btnReset" class="btn-secondary py-2.5 px-4 group" title="Limpiar filtros" aria-label="Limpiar">
           <i data-lucide="rotate-ccw" class="w-4 h-4 group-hover:-rotate-180 transition-transform duration-500"></i>
+          <span class="hidden sm:inline">Limpiar</span>
         </button>
 
         <button id="btnOpenFilters" class="btn-primary relative">
@@ -444,8 +443,7 @@
 
       <div id="mapSectionWrapper"
         class="grid grid-cols-1 xl:grid-cols-4 gap-6 h-[500px] sm:h-[600px] transition-all duration-500">
-        <!-- Map Container with Legend (Spans 3 columns) -->
-        <div
+        <div id="mapDisplayContainer"
           class="xl:col-span-3 relative glass-panel rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 shadow-inner">
           <!-- Map title overlay -->
           <div
@@ -454,10 +452,24 @@
               <h3 class="font-outfit text-slate-400 text-xs font-bold uppercase tracking-widest">Vista de Cobertura</h3>
               <p class="text-[10px] text-slate-500 mt-0.5">Distribución geográfica en tiempo real</p>
             </div>
-            <button id="btnExpandMap"
-              class="pointer-events-auto p-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 rounded-lg text-white transition-all group"
-              title="Expandir Mapa">
-              <i data-lucide="maximize" class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
+          </div>
+
+          <!-- Map Expansion Control Group (Bottom Right) -->
+          <div class="absolute bottom-6 right-6 z-[1001] pointer-events-auto flex items-center bg-slate-900/80 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden shadow-2xl transition-all hover:border-white/20">
+            <button id="btnMapStateNormal"
+              class="p-2.5 hover:bg-white/10 text-white transition-all border-r border-white/10 group active:scale-95" 
+              title="Vista Estándar">
+              <i data-lucide="layout-dashboard" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
+            </button>
+            <button id="btnMapStateExpanded" 
+              class="p-2.5 hover:bg-white/10 text-white transition-all border-r border-white/10 group active:scale-95" 
+              title="Expandir Layout">
+              <i data-lucide="maximize" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
+            </button>
+            <button id="btnMapStateFull" 
+              class="p-2.5 hover:bg-white/10 text-white transition-all group active:scale-95" 
+              title="Pantalla Completa">
+              <i data-lucide="expand" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
             </button>
           </div>
 
@@ -545,7 +557,7 @@
               <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-brand-red"></i>
               <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Alertas</span>
             </div>
-            <span class="text-sm font-black font-outfit text-brand-red" id="mapKpiFlagged">0</span>
+            <span class="text-sm font-black font-outfit text-brand-red" id="mapKpiAlertas">0</span>
           </button>
 
           <div class="mt-2 pt-2 border-t border-slate-200 dark:border-white/5">
@@ -920,8 +932,11 @@
     </div>
 
     <div
-      class="p-6 bg-white dark:bg-[#0f172a] border-t border-slate-100 dark:border-slate-800/80 z-10 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_-10px_20px_rgba(0,0,0,0.2)]">
-      <button id="btnApplyFilters" class="btn-primary w-full py-3.5 text-sm uppercase tracking-widest font-bold">
+      class="p-6 bg-white dark:bg-[#0f172a] border-t border-slate-100 dark:border-slate-800/80 z-10 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_-10px_20px_rgba(0,0,0,0.2)] flex gap-3">
+      <button id="btnResetOffcanvas" class="btn-secondary flex-1 py-3.5 text-sm uppercase tracking-widest font-bold">
+        <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Limpiar
+      </button>
+      <button id="btnApplyFilters" class="btn-primary flex-[2] py-3.5 text-sm uppercase tracking-widest font-bold">
         <i data-lucide="check" class="w-4 h-4"></i> Aplicar Parámetros
       </button>
     </div>
@@ -969,7 +984,7 @@
     </div>
   </footer>
 
-  <script src="app.js?v=29"></script>
+  <script type="module" src="js/main.js?v=18"></script>
 </body>
 
 </html>
