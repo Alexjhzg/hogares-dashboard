@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ESCA V3 — Analytics Dashboard</title>
+  <title>cccc V3 — Analytics Dashboard</title>
 
   <!-- Google Fonts: Outfit (Headings/KPIs) & Inter (Data/Body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -94,8 +94,26 @@
         @apply bg-brand-blue/20 text-brand-blue border-brand-blue/30
                font-semibold;
       }
+      /* ─── Sorting Buttons ─── */
+      .sort-btn {
+        @apply text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors;
+      }
+      .sort-btn.active {
+        @apply bg-white dark:bg-white/10 text-brand-orange shadow-sm dark:shadow-none font-black;
+      }
       /* ─── Utility ─── */
       .hidden-tab { display: none !important; }
+    }
+  </style>
+  <style>
+    #filterINE.active {
+      background-color: #3B82F6 !important;
+      color: white !important;
+      border-color: #3B82F6 !important;
+    }
+
+    #filterINE.active i {
+      color: white !important;
     }
   </style>
 
@@ -129,7 +147,7 @@
         <i data-lucide="activity" class="w-6 h-6"></i>
       </div>
       <div>
-        <h1 class="text-lg font-outfit font-black tracking-tight text-white flex items-center gap-2">
+        <h1 class="text-lg font-outfit font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
           ESCA V3 <span
             class="bg-brand-blue/20 text-brand-blue text-[10px] px-2 py-0.5 rounded-md uppercase tracking-widest font-bold">Analytics</span>
         </h1>
@@ -201,7 +219,7 @@
               class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 pointer-events-none"></i>
             <select id="filterEncuestador"
               class="w-full bg-white dark:bg-[#0B1120]/80 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:border-brand-blue/50 focus:ring-1 outline-none transition-all appearance-none cursor-pointer">
-              <option value="">Todos los agentes</option>
+              <option value="">Todos los encuestadores</option>
             </select>
           </div>
         </div>
@@ -225,6 +243,12 @@
         <div id="activeFiltersContainer"
           class="hidden md:flex flex-wrap items-center gap-2 max-w-xs overflow-hidden h-[36px] empty:hidden justify-end">
         </div>
+
+        <button id="filterINE"
+          class="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl text-slate-500 hover:text-brand-blue hover:border-brand-blue/50 transition-all font-inter text-xs font-bold whitespace-nowrap group">
+          <i data-lucide="verified" class="w-4 h-4 group-[.active]:text-white"></i>
+          <span>Solo INE</span>
+        </button>
 
         <button id="btnReset" class="btn-secondary py-2.5 px-4 group" title="Limpiar filtros" aria-label="Limpiar">
           <i data-lucide="rotate-ccw" class="w-4 h-4 group-hover:-rotate-180 transition-transform duration-500"></i>
@@ -253,11 +277,17 @@
       <button data-tab="tab-mm111" class="tab-btn"><i data-lucide="clipboard-list" class="w-4 h-4"></i> MM-111</button>
     </nav>
 
+    <!-- Alert Banner for Library Load Errors (Brave/Blocked Scripts) -->
+    <div id="libCheckWarn" class="hidden mx-6 mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-3 animate-pulse">
+      <i data-lucide="alert-triangle" class="text-red-500 w-5 h-5 flex-shrink-0"></i>
+      <p class="text-sm text-red-500 font-bold">Error: Algunas librerías externas (Tabulator/Chart) no pudieron cargarse. Desactiva Brave Shields o revisa tu conexión.</p>
+    </div>
+
     <!-- MODULO: RESUMEN -->
     <div id="tab-resumen" class="tab-content flex flex-col gap-6 animate-fade-in">
       <div class="flex justify-between items-end px-2">
         <div>
-          <h2 class="text-2xl font-black font-outfit text-white">Vista Global</h2>
+          <h2 class="text-2xl font-black font-outfit text-slate-800 dark:text-white">Vista Global</h2>
           <p class="text-sm text-slate-500 font-inter">Métricas principales del proyecto operando en tiempo real.</p>
         </div>
         <div id="currentDateDisplay"
@@ -337,7 +367,7 @@
     <div id="tab-productividad" class="tab-content flex flex-col gap-8 hidden-tab">
       <div class="flex justify-between items-end px-2">
         <div>
-          <h2 class="text-2xl font-black font-outfit text-white">Centro de Operaciones</h2>
+          <h2 class="text-2xl font-black font-outfit text-slate-900 dark:text-white">Centro de Operaciones</h2>
           <p class="text-sm text-slate-500">Métricas analíticas de la eficiencia del campo.</p>
         </div>
       </div>
@@ -346,18 +376,18 @@
       <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="card-premium border-l-2 border-l-brand-blue">
           <div class="kpi-label !mt-0 mb-2">Velocidad (Enc/Hr)</div>
-          <div class="kpi-value-text text-white" id="kpiEncPerHour">0.0</div>
+          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiEncPerHour">0.0</div>
           <div class="text-[10px] text-brand-blue font-medium mt-1">Velocidad media teórica</div>
         </div>
         <div class="card-premium border-l-2 border-l-brand-purple relative overflow-hidden">
           <div class="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-brand-purple/10 to-transparent"></div>
           <div class="kpi-label !mt-0 mb-2">Top Performer</div>
-          <div class="text-xl font-bold font-outfit text-white truncate w-full pr-4" id="kpiTopProducer">--</div>
+          <div class="text-xl font-bold font-outfit text-slate-900 dark:text-white truncate w-full pr-4" id="kpiTopProducer">--</div>
           <div class="text-[10px] text-brand-purple font-black mt-1 uppercase" id="kpiTopProducerVal">0 vol.</div>
         </div>
         <div class="card-premium border-l-2 border-l-brand-emerald">
           <div class="kpi-label !mt-0 mb-2">Hot Zone (Horaria)</div>
-          <div class="kpi-value-text text-white" id="kpiPeakHour">--</div>
+          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiPeakHour">--</div>
           <div class="text-[10px] text-brand-emerald font-medium mt-1">Pico máx. de registros</div>
         </div>
         <div class="card-premium bg-slate-100/80 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700">
@@ -455,19 +485,19 @@
           </div>
 
           <!-- Map Expansion Control Group (Bottom Right) -->
-          <div class="absolute bottom-6 right-6 z-[1001] pointer-events-auto flex items-center bg-slate-900/80 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden shadow-2xl transition-all hover:border-white/20">
+          <div
+            class="absolute bottom-6 right-6 z-[1001] pointer-events-auto flex items-center bg-slate-900/80 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden shadow-2xl transition-all hover:border-white/20">
             <button id="btnMapStateNormal"
-              class="p-2.5 hover:bg-white/10 text-white transition-all border-r border-white/10 group active:scale-95" 
+              class="p-2.5 hover:bg-white/10 text-white transition-all border-r border-white/10 group active:scale-95"
               title="Vista Estándar">
               <i data-lucide="layout-dashboard" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
             </button>
-            <button id="btnMapStateExpanded" 
-              class="p-2.5 hover:bg-white/10 text-white transition-all border-r border-white/10 group active:scale-95" 
+            <button id="btnMapStateExpanded"
+              class="p-2.5 hover:bg-white/10 text-white transition-all border-r border-white/10 group active:scale-95"
               title="Expandir Layout">
               <i data-lucide="maximize" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
             </button>
-            <button id="btnMapStateFull" 
-              class="p-2.5 hover:bg-white/10 text-white transition-all group active:scale-95" 
+            <button id="btnMapStateFull" class="p-2.5 hover:bg-white/10 text-white transition-all group active:scale-95"
               title="Pantalla Completa">
               <i data-lucide="expand" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
             </button>
@@ -565,7 +595,7 @@
               class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-purple opacity-80">
               <div class="flex items-center gap-2">
                 <i data-lucide="users" class="w-3.5 h-3.5 text-brand-purple"></i>
-                <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Agentes</span>
+                <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Encuestadores</span>
               </div>
               <span class="text-sm font-black font-outfit text-slate-800 dark:text-white" id="mapKpiAgents">0</span>
             </div>
@@ -604,16 +634,72 @@
 
     <!-- MODULO: RENDIMIENTO -->
     <div id="tab-ranking" class="tab-content flex flex-col gap-8 hidden-tab">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <div class="card-premium lg:col-span-6 flex flex-col">
-          <h3 class="font-bold mb-6 flex items-center gap-2 font-outfit text-lg"><i data-lucide="award"
-              class="text-brand-orange"></i> Leaderboard de Agentes</h3>
-          <div id="rankingTable" class="flex-1 border-0"></div>
+      <!-- Resumen de Desempeño Global -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- KPI: Total Efectivas -->
+        <div class="glass-panel rounded-2xl p-4 border-l-4 border-brand-emerald">
+          <div class="flex items-center gap-3">
+            <div class="p-2 bg-brand-emerald/10 rounded-lg">
+              <i data-lucide="check-circle" class="text-brand-emerald w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Efectivas</p>
+              <h3 class="font-black font-outfit text-2xl text-slate-800 dark:text-white" id="rankKpiEfectivas">0</h3>
+            </div>
+          </div>
         </div>
-        <div class="card-premium lg:col-span-6 flex flex-col">
-          <h3 class="font-bold mb-6 flex items-center gap-2 font-outfit text-lg"><i data-lucide="waves"
-              class="text-brand-purple"></i> Frecuencia Temporal</h3>
-          <div class="flex-1 min-h-[300px] w-full relative"><canvas id="chartHistograma"></canvas></div>
+        <!-- KPI: Total No Respuesta -->
+        <div class="glass-panel rounded-2xl p-4 border-l-4 border-brand-orange">
+          <div class="flex items-center gap-3">
+            <div class="p-2 bg-brand-orange/10 rounded-lg">
+              <i data-lucide="help-circle" class="text-brand-orange w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">No Respuesta</p>
+              <h3 class="font-black font-outfit text-2xl text-slate-800 dark:text-white" id="rankKpiNoRespuesta">0</h3>
+            </div>
+          </div>
+        </div>
+        <!-- KPI: Total Alertas -->
+        <div class="glass-panel rounded-2xl p-4 border-l-4 border-brand-red">
+          <div class="flex items-center gap-3">
+            <div class="p-2 bg-brand-red/10 rounded-lg">
+              <i data-lucide="alert-triangle" class="text-brand-red w-5 h-5"></i>
+            </div>
+            <div>
+              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Alertas Totales</p>
+              <h3 class="font-black font-outfit text-2xl text-brand-red" id="rankKpiAlerts">0</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Ránking de Encuestadores -->
+        <div class="lg:col-span-12 glass-panel rounded-2xl p-6 flex flex-col">
+          <header
+            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-slate-200/50 dark:border-white/5">
+            <div class="flex items-center gap-3">
+              <div class="p-2.5 bg-brand-orange/10 rounded-xl">
+                <i data-lucide="award" class="text-brand-orange w-6 h-6"></i>
+              </div>
+              <div>
+                <h3 class="font-bold font-outfit text-xl text-slate-800 dark:text-white">Leaderboard de Encuestadores
+                </h3>
+                <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest mt-0.5">Porcentaje de
+                  efectividad (Efectivo vs No Respuesta)</p>
+              </div>
+            </div>
+            <div
+              class="flex items-center gap-1 p-1 bg-slate-100 dark:bg-white/5 rounded-lg border border-slate-200/50 dark:border-white/10">
+              <button class="sort-btn px-2.5 py-1.5 text-[9px] font-black uppercase rounded-md active"
+                data-sort="eficiencia">Efectividad</button>
+              <button class="sort-btn px-2.5 py-1.5 text-[9px] font-black uppercase rounded-md"
+                data-sort="encuestas">Volumen</button>
+            </div>
+          </header>
+
+          <div id="rankingTable" class="flex-1 border-0 custom-scrollbar"></div>
         </div>
       </div>
       <!-- Agent Score Cards -->
@@ -773,7 +859,7 @@
                 <th class="py-3 px-3 whitespace-nowrap text-center">Lado Manz.</th>
                 <th class="py-3 px-3">Dirección (Sector/Calle/Av)</th>
                 <th class="py-3 px-3">Razón Inclusión</th>
-                <th class="py-3 px-3 whitespace-nowrap">Agente</th>
+                <th class="py-3 px-3 whitespace-nowrap">Encuestador</th>
               </tr>
             </thead>
             <tbody id="mm111HTMLGrid"
@@ -984,7 +1070,7 @@
     </div>
   </footer>
 
-  <script type="module" src="js/main.js?v=18"></script>
+  <script type="module" src="js/main.js?v=34"></script>
 </body>
 
 </html>

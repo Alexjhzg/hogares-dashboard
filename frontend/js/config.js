@@ -62,3 +62,15 @@ hayan completado sin realizar las preguntas completas.`,
 /** Quick lookup map: code → rule object */
 export const ALERT_MAP = Object.fromEntries(ALERT_RULES.map(r => [r.code, r]));
 
+/** List of specialized INE encuestadores */
+export const ENCUESTADORES_INE = [
+    '12151751',
+    '13293815',
+    '13476080',
+    '17695927',
+    '22719373',
+    '29879307',
+    '28474258',
+].map(c => c.trim());
+export const IS_INE = new Set(ENCUESTADORES_INE);
+

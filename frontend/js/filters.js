@@ -4,8 +4,10 @@
 //
 // renderAll is injected via setRenderAll() to avoid circular imports.
 
-import { state } from './state.js';
-import { $ } from './helpers.js';
+import { state } from './state.js?v=34';
+import { $ } from './helpers.js?v=34';
+
+import { IS_INE } from './config.js?v=34';
 
 let _renderAll = () => {};
 /** Inject the renderAll callback from main.js */
@@ -54,9 +56,11 @@ export function populateFilters() {
     Object.values(state.encMap)
         .sort((a, b) => a.nombre.localeCompare(b.nombre))
         .forEach(m => {
+            const isIne = IS_INE.has(m.cedula);
             const opt = document.createElement('option');
             opt.value = m.cedula;
-            opt.textContent = `${m.nombre} (${m.cedula})`;
+            opt.textContent = `${m.nombre} (${m.cedula})${isIne ? ' [INE]' : ''}`;
+            if (isIne) opt.classList.add('font-bold', 'text-brand-blue');
             selEnc.appendChild(opt);
         });
 
@@ -112,6 +116,10 @@ export function applyFilters() {
         const m = r._meta;
         if (query    && !(m.nombre.toLowerCase().includes(query) || m.cedula.includes(query) || m.control.includes(query))) return false;
         if (enc      && m.cedula !== enc)        return false;
+        if (state.filterINE) {
+            const cleanCed = String(m.cedula).trim();
+            if (!IS_INE.has(cleanCed)) return false;
+        }
         if (fi       && m.fecha < fi)            return false;
         if (ff       && m.fecha > ff)            return false;
         if (semana   && m.semana !== semana)     return false;

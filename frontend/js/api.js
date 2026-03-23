@@ -2,9 +2,9 @@
 // Handles all fetch calls to the backend. Calls renderAll via callback to
 // avoid circular imports.
 
-import { BACKEND_URL } from './config.js';
-import { state } from './state.js';
-import { $ } from './helpers.js';
+import { BACKEND_URL } from './config.js?v=34';
+import { state } from './state.js?v=34';
+import { $ } from './helpers.js?v=34';
 
 export function showLoading(msg) {
     const overlay = $('loadingOverlay');
@@ -91,7 +91,8 @@ export async function loadData(uid, onProcessData) {
         if (!response.ok) throw new Error('Error al descargar los datos');
 
         const json = await response.json();
-        state.rawData = json.results || [];
+        state.rawData = json.results || (Array.isArray(json) ? json : []);
+        console.log(`api.js: Descargados ${state.rawData.length} registros`);
 
         if (onProcessData) onProcessData();
 

@@ -2,9 +2,9 @@
 // Transforms raw Kobo records into the enriched _meta objects used by all
 // rendering modules. Also builds the encMap aggregate.
 
-import { state } from './state.js';
-import { avg, parseGeoString, haversineMeters, isPointInPolygon } from './helpers.js';
-import { DUR_MIN_OK, DUR_MAX_OK, DIST_APERT_MAX } from './config.js';
+import { state } from './state.js?v=34';
+import { avg, parseGeoString, haversineMeters, isPointInPolygon, matchSegmentCodes } from './helpers.js?v=34';
+import { DUR_MIN_OK, DUR_MAX_OK, DIST_APERT_MAX } from './config.js?v=34';
 
 /**
  * Process state.rawData in-place, enriching each record with a _meta object
@@ -14,8 +14,8 @@ export function processData() {
     state.encMap = {};
 
     state.rawData.forEach(r => {
-        const cedula  = (r['S0/cedula_encuestador'] || 'N/A').trim();
-        const nombre  = (r['S0/s0_nombreapellido'] || 'Desconocido').trim();
+        const cedula  = String(r['S0/cedula_encuestador'] || 'N/A').trim();
+        const nombre  = String(r['S0/s0_nombreapellido'] || 'Desconocido').trim();
         const start   = r['start'] || '';
         const end     = r['end'] || '';
         const fecha   = (r['today'] || r['_submission_time'] || '').slice(0, 10);
@@ -129,11 +129,25 @@ export function processData() {
                     // 2. Precise search (PIP)
                     const feature = state.geoJSONData.features.find(f => f.properties.cod_seg === item.props.cod_seg && f.properties.cod_munici === item.props.cod_munici);
                     if (feature) {
-                        const coords = feature.geometry.type === 'Polygon' 
-                            ? feature.geometry.coordinates 
-                            : feature.geometry.coordinates[0]; 
+                        const geom = feature.geometry;
+                        let found = false;
                         
-                        if (isPointInPolygon([lat, lng], coords[0])) {
+                        if (geom.type === 'Polygon') {
+                            // Revisar anillo exterior
+                            if (isPointInPolygon([lat, lng], geom.coordinates[0])) {
+                                found = true;
+                            }
+                        } else if (geom.type === 'MultiPolygon') {
+                            // Revisar cada polígono individualmente
+                            for (const poly of geom.coordinates) {
+                                if (isPointInPolygon([lat, lng], poly[0])) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        if (found) {
                             actualSeg = item.props.cod_seg;
                             break;
                         }
@@ -142,13 +156,29 @@ export function processData() {
             }
 
             if (actualSeg) {
-                const declared = String(segmento).trim().padStart(3, '0');
-                const real = String(actualSeg).trim().padStart(3, '0');
-                if (declared !== real) {
+                if (!matchSegmentCodes(segmento, actualSeg)) {
                     alertas.push('SEGMENTO_INCORRECTO');
                 }
             } else {
-                alertas.push('SEGMENTO_INCORRECTO');
+                // Si no caemos en ningún polígono, revisamos si estamos "muy cerca" 
+                // del segmento declarado (tolerancia de ~150m para datum shift)
+                let foundNear = false;
+                const EPS = 0.0015; // ~165 metros de tolerancia
+                
+                for (const item of state.segmentBBoxes) {
+                    if (matchSegmentCodes(segmento, item.props.cod_seg)) {
+                        const b = item.bbox;
+                        if (lat >= b.minLat - EPS && lat <= b.maxLat + EPS &&
+                            lng >= b.minLng - EPS && lng <= b.maxLng + EPS) {
+                            foundNear = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (!foundNear) {
+                    alertas.push('SEGMENTO_INCORRECTO');
+                }
             }
         }
 
@@ -183,15 +213,16 @@ export function processData() {
     });
 
     Object.values(state.encMap).forEach(m => {
-        m.avgDur      = m.duraciones.length ? avg(m.duraciones) : null;
-        m.pctCompleta = m.encuestas ? Math.round(m.completadas / m.encuestas * 100) : 0;
-        m.score       = calcScore(m);
+        m.encuestas    = Number(m.encuestas) || 0;
+        m.completadas  = Number(m.completadas) || 0;
+        m.personas     = Number(m.personas) || 0;
+        m.avgDur      = m.duraciones.length ? avg(m.duraciones) : 0;
+        m.pctCompleta = m.encuestas > 0 ? Math.round(m.completadas / m.encuestas * 100) : 0;
+        m.score       = calcScore(m) || 0;
     });
 }
 
 export function calcScore(m) {
-    const maxEnc   = Math.max(...Object.values(state.encMap).map(x => x.encuestas), 1);
-    const volScore = m.encuestas / maxEnc * 100;
-    const effScore = m.avgDur != null ? Math.max(0, 100 - Math.abs(m.avgDur - 40) * 2) : 50;
-    return Math.round(m.pctCompleta * 0.4 + volScore * 0.3 + effScore * 0.3);
+    // Solo tomamos en cuenta la efectividad (completadas vs total)
+    return m.pctCompleta;
 }

@@ -1,8 +1,8 @@
 // ─── MM-111 Module ───────────────────────────────────────────────────────────
 // Renders the Marco Maestro de Muestreo verification panel.
 
-import { state } from './state.js';
-import { $ } from './helpers.js';
+import { state } from './state.js?v=34';
+import { $ } from './helpers.js?v=34';
 
 export function renderMM111() {
     const searchBtn   = $('btnLoadMM111');

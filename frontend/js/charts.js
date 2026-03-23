@@ -1,9 +1,9 @@
 // ─── Charts ──────────────────────────────────────────────────────────────────
 // All Chart.js rendering. Depends on the global `Chart` from CDN.
 
-import { state } from './state.js';
-import { COLORS } from './config.js';
-import { avg, $ } from './helpers.js';
+import { state } from './state.js?v=34';
+import { COLORS } from './config.js?v=34';
+import { avg, $ } from './helpers.js?v=34';
 
 // ── Theme ─────────────────────────────────────────────────────────────────────
 
@@ -53,7 +53,10 @@ export function renderChartPorDia() {
     const counts = {};
     state.filtered.forEach(r => { if (r._meta.fecha) counts[r._meta.fecha] = (counts[r._meta.fecha] || 0) + 1; });
     const sorted = Object.entries(counts).sort();
-    state.charts.dia = new Chart($('chartPorDia'), {
+    const canvas = $('chartPorDia');
+    if (!canvas) return;
+    
+    state.charts.dia = new Chart(canvas, {
         type: 'line',
         data: {
             labels: sorted.map(e => e[0]),
@@ -68,7 +71,10 @@ export function renderChartEncuestador() {
     const counts = {};
     state.filtered.forEach(r => { const n = r._meta.nombre.split(' ')[0]; counts[n] = (counts[n] || 0) + 1; });
     const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 15);
-    state.charts.enc = new Chart($('chartEncuestador'), {
+    const canvas = $('chartEncuestador');
+    if (!canvas) return;
+
+    state.charts.enc = new Chart(canvas, {
         type: 'bar',
         data: {
             labels: sorted.map(e => e[0]),
@@ -86,7 +92,10 @@ export function renderChartDuracion() {
         if (r._meta.durMin !== null) { if (!durPerEnc[n]) durPerEnc[n] = []; durPerEnc[n].push(r._meta.durMin); }
     });
     const sorted = Object.entries(durPerEnc).map(([k, v]) => [k, avg(v)]).sort((a, b) => b[1] - a[1]).slice(0, 15);
-    state.charts.dur = new Chart($('chartDuracion'), {
+    const canvas = $('chartDuracion');
+    if (!canvas) return;
+
+    state.charts.dur = new Chart(canvas, {
         type: 'bar',
         data: {
             labels: sorted.map(e => e[0]),
@@ -100,7 +109,10 @@ export function renderChartHorario() {
     destroyChart('hor');
     const hoursCount = new Array(24).fill(0);
     state.filtered.forEach(r => { if (r._meta.hora !== null) hoursCount[r._meta.hora]++; });
-    state.charts.hor = new Chart($('chartHorario'), {
+    const canvas = $('chartHorario');
+    if (!canvas) return;
+
+    state.charts.hor = new Chart(canvas, {
         type: 'bar',
         data: {
             labels: Array.from({ length: 24 }, (_, i) => `${i}:00`),
@@ -120,7 +132,10 @@ export function renderChartHistograma() {
         if (d === null) return;
         for (let i = 0; i < bins.length - 1; i++) { if (d < bins[i + 1]) { counts[i]++; break; } }
     });
-    state.charts.histo = new Chart($('chartHistograma'), {
+    const canvas = $('chartHistograma');
+    if (!canvas) return;
+
+    state.charts.histo = new Chart(canvas, {
         type: 'bar',
         data: { labels, datasets: [{ data: counts, backgroundColor: '#F59E0B66', borderColor: '#F59E0B', borderWidth: 1 }] },
         options: baseChartOpts(),
@@ -132,7 +147,10 @@ export function renderChartCondicion() {
     const counts = {};
     state.filtered.forEach(r => { const c = r._meta.condicion.replace(/_/g, ' '); counts[c] = (counts[c] || 0) + 1; });
     const entries = Object.entries(counts);
-    state.charts.cond = new Chart($('chartCondicion'), {
+    const canvas = $('chartCondicion');
+    if (!canvas) return;
+
+    state.charts.cond = new Chart(canvas, {
         type: 'doughnut',
         data: {
             labels: entries.map(e => e[0]),
@@ -148,7 +166,10 @@ export function renderChartUso() {
     const counts = {};
     state.filtered.forEach(r => { const u = (r._meta.uso || 'N/A').replace(/_/g, ' ').toUpperCase(); counts[u] = (counts[u] || 0) + 1; });
     const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-    state.charts.uso = new Chart($('chartUso'), {
+    const canvas = $('chartUso');
+    if (!canvas) return;
+
+    state.charts.uso = new Chart(canvas, {
         type: 'doughnut',
         data: {
             labels: entries.map(e => e[0]),

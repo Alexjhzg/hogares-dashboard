@@ -1,9 +1,9 @@
 // ─── Modals ──────────────────────────────────────────────────────────────────
 // Detail modal (with integrated mini Leaflet map) and location modal.
 
-import { state } from './state.js';
-import { $ } from './helpers.js';
-import { ALERT_MAP } from './config.js';
+import { state } from './state.js?v=34';
+import { $ } from './helpers.js?v=34';
+import { ALERT_MAP } from './config.js?v=34';
 
 // ── Detail Modal ──────────────────────────────────────────────────────────────
 

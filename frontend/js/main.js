@@ -2,19 +2,19 @@
 // Orchestrates all modules. This is the only file loaded by index.html.
 // All dependencies are loaded via ES module imports.
 
-import { state }            from './state.js';
-import { $, avg }           from './helpers.js';
-import { loadAssets, loadData } from './api.js';
-import { processData }      from './dataProcessor.js';
+import { state }            from './state.js?v=34';
+import { $, avg }           from './helpers.js?v=34';
+import { loadAssets, loadData } from './api.js?v=34';
+import { processData }      from './dataProcessor.js?v=34';
 import { populateFilters, applyFilters, resetFilters, setRenderAll,
-         openFiltersPanel, closeFiltersPanel }    from './filters.js';
-import { renderRankingTable, renderEncuestadorCards, updateGrid } from './table.js';
-import { initMap, renderMap }                     from './map.js';
-import { showDetailModal, closeDetailModal, closeLocModal } from './modal.js';
-import { renderMM111 }      from './mm111.js';
+         openFiltersPanel, closeFiltersPanel }    from './filters.js?v=34';
+import { renderRankingTable, renderEncuestadorCards, updateGrid } from './table.js?v=34';
+import { initMap, renderMap, loadGeoJSONData }    from './map.js?v=34';
+import { showDetailModal, closeDetailModal, closeLocModal } from './modal.js?v=34';
+import { renderMM111 }      from './mm111.js?v=34';
 import { updateChartsTheme, renderChartEncuestador, renderChartDuracion,
          renderChartHorario, renderChartHistograma, renderChartCondicion,
-         renderChartUso, renderChartPorDia }       from './charts.js';
+         renderChartUso, renderChartPorDia }       from './charts.js?v=34';
 
 console.log('main.js: ES modules loaded ✓');
 
@@ -24,23 +24,33 @@ console.log('main.js: ES modules loaded ✓');
 const _tabRendered = {};
 
 function renderAll() {
-    updateKPIs();
-    renderChartEncuestador();
-    renderChartDuracion();
-    renderChartHorario();
-    renderChartHistograma();
-    renderChartCondicion();
-    renderChartUso();
-    renderChartPorDia();
-    renderRankingTable();
-    renderEncuestadorCards();
-    // Grid and map are rendered lazily when their tab is first activated
-    // If their tab is currently visible, re-render them too
-    if (_tabRendered['tab-mapa']) {
-        updateGrid();
-        renderMap();
+    console.log('main.js: renderAll() starting');
+    try { updateKPIs(); } catch (e) { console.error('KPI Update Error:', e); }
+    
+    // Charts: Each wrapped to prevent cascading failure
+    const chartFn = [
+        renderChartEncuestador, renderChartDuracion, renderChartHorario,
+        renderChartHistograma, renderChartCondicion, renderChartUso, renderChartPorDia
+    ];
+    
+    chartFn.forEach(fn => {
+        try { fn(); } catch (e) { console.warn(`Chart Renderer Error (${fn.name}):`, e); }
+    });
+
+    // Defer ranking table rendering until the tab is visible
+    if (_tabRendered['tab-ranking']) {
+        try { renderRankingTable(); } catch (e) { console.error('Ranking Table Error:', e); }
     }
-    renderMM111();
+    
+    try { renderEncuestadorCards(); } catch (e) { console.error('Cards Renderer Error:', e); }
+    
+    // Grid and map are rendered lazily when their tab is first activated
+    if (_tabRendered['tab-mapa']) {
+        try { updateGrid(); renderMap(); } catch (e) { console.error('Map/Grid Error:', e); }
+    }
+    
+    try { renderMM111(); } catch (e) { console.error('MM111 Error:', e); }
+    
     if (window.lucide) lucide.createIcons();
 }
 
@@ -86,6 +96,14 @@ function updateKPIs() {
     const progreso   = Math.min(100, (state.filtered.length / (metaGlobal || 1)) * 100);
     if ($('kpiMetaProgreso')) $('kpiMetaProgreso').textContent = `${Math.round(progreso)}%`;
     if ($('kpiMetaBar'))      $('kpiMetaBar').style.width      = `${progreso}%`;
+
+    // ─── Ranking Tab KPIs ───────────────────
+    const noRespuesta = state.filtered.length - completadas;
+    const totalAlerts = state.filtered.filter(r => r._meta.hasAlerts).length;
+
+    if ($('rankKpiEfectivas'))   $('rankKpiEfectivas').textContent    = completadas;
+    if ($('rankKpiNoRespuesta')) $('rankKpiNoRespuesta').textContent  = noRespuesta;
+    if ($('rankKpiAlerts'))      $('rankKpiAlerts').textContent       = totalAlerts;
 }
 
 // ── Theme ─────────────────────────────────────────────────────────────────────
@@ -131,18 +149,27 @@ function switchTab(tabId) {
         setTimeout(() => {
             state.map.invalidateSize();
             setTimeout(() => {
+                let isFirstLoad = false;
                 if (!_tabRendered['tab-mapa']) {
                     // First time: full init
                     _tabRendered['tab-mapa'] = true;
                     updateGrid();
+                    isFirstLoad = true;
                 }
                 renderMap();
-                if (state.detailTable) { state.detailTable.redraw(true); if (window.lucide) lucide.createIcons(); }
+                if (state.detailTable && !isFirstLoad) { state.detailTable.redraw(true); }
+                if (window.lucide) lucide.createIcons();
             }, 200);
         }, 50);
     }
-    if (tabId === 'tab-ranking' && state.rankingTabulator) {
-        setTimeout(() => state.rankingTabulator.redraw(true), 50);
+    if (tabId === 'tab-ranking') {
+        if (!_tabRendered['tab-ranking']) {
+            _tabRendered['tab-ranking'] = true;
+            // First time showing this tab: initialize the table securely
+            setTimeout(() => renderRankingTable(), 100);
+        } else if (state.rankingTabulator) {
+            setTimeout(() => state.rankingTabulator.redraw(true), 50);
+        }
     }
     if (tabId === 'tab-mm111') {
         if (state.mm111Table) state.mm111Table.redraw();
@@ -180,17 +207,39 @@ async function init() {
 
 async function doInit() {
     // Wire up primary controls
-    if ($('btnReset'))     $('btnReset').addEventListener('click', resetFilters);
-    if ($('btnResetOffcanvas')) $('btnResetOffcanvas').addEventListener('click', resetFilters);
+    if ($('btnReset')) $('btnReset').onclick = () => {
+        resetFilters();
+        if ($('filterINE')) {
+            $('filterINE').classList.remove('active', 'bg-brand-blue', 'text-white', 'border-brand-blue');
+            state.filterINE = false;
+        }
+    };
+    if ($('btnResetOffcanvas')) $('btnResetOffcanvas').onclick = () => {
+        resetFilters();
+        if ($('filterINE')) {
+            $('filterINE').classList.remove('active', 'bg-brand-blue', 'text-white', 'border-brand-blue');
+            state.filterINE = false;
+        }
+    };
     if ($('btnRefresh'))   $('btnRefresh').addEventListener('click', () => loadData($('assetSelect').value, onProcessData));
     if ($('searchEncuesta')) $('searchEncuesta').addEventListener('input', () => applyFilters());
     if ($('assetSelect'))  $('assetSelect').addEventListener('change', e => loadData(e.target.value, onProcessData));
 
     // Off-canvas filters
-    if ($('btnOpenFilters'))  $('btnOpenFilters').addEventListener('click', openFiltersPanel);
+    if ($('btnOpenFilters'))  $('btnOpenFilters').onclick = openFiltersPanel;
     if ($('btnCloseFilters')) $('btnCloseFilters').addEventListener('click', closeFiltersPanel);
     if ($('filtersOverlay'))  $('filtersOverlay').addEventListener('click', closeFiltersPanel);
     if ($('btnApplyFilters')) $('btnApplyFilters').addEventListener('click', () => { closeFiltersPanel(); applyFilters(); });
+
+    if ($('filterINE')) $('filterINE').onclick = () => {
+        state.filterINE = !state.filterINE;
+        const btn = $('filterINE');
+        btn.classList.toggle('active', state.filterINE);
+        btn.classList.toggle('bg-brand-blue', state.filterINE);
+        btn.classList.toggle('text-white', state.filterINE);
+        btn.classList.toggle('border-brand-blue', state.filterINE);
+        applyFilters();
+    };
 
     // Primary filters
     ['filterEncuestador','filterFechaInicio','filterFechaFin'].forEach(id => {
@@ -323,6 +372,7 @@ async function doInit() {
         }
     });
 
+    await loadGeoJSONData();
     await loadAssets(uid => loadData(uid, onProcessData));
     if (window.lucide) lucide.createIcons();
 }
@@ -334,9 +384,27 @@ function onProcessData() {
     renderAll();
 }
 
+/**
+ * Checks if critical external libraries are loaded. 
+ * Shows a warning banner if Tabulator or Chart.js are missing (common in Brave/AdBlockers).
+ */
+function checkLibraryHealth() {
+    const missing = [];
+    if (typeof Tabulator === 'undefined') missing.push('Tabulator');
+    if (typeof Chart === 'undefined') missing.push('Chart.js');
+    if (typeof L === 'undefined') missing.push('Leaflet');
+    
+    if (missing.length > 0) {
+        console.error('CRITICAL: Missing libraries:', missing.join(', '));
+        const warn = $('libCheckWarn');
+        if (warn) warn.classList.remove('hidden');
+    }
+}
+
 // ── DOMContentLoaded ──────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     updateModuleInfo();
+    checkLibraryHealth();
     init();
 });

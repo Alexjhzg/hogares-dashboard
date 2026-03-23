@@ -2,11 +2,11 @@
 // Handles the main coverage map and quick-filter buttons.
 // Depends on globals: L (Leaflet), lucide.
 
-import { state } from './state.js';
-import { $ } from './helpers.js';
-import { applyFilters } from './filters.js';
-import { showDetailModal } from './modal.js';
-import { COLORS, ALERT_MAP } from './config.js';
+import { state } from './state.js?v=34';
+import { $ } from './helpers.js?v=34';
+import { applyFilters } from './filters.js?v=34';
+import { showDetailModal } from './modal.js?v=34';
+import { COLORS, ALERT_MAP } from './config.js?v=34';
 
 export function initMap() {
     if (state.map) return;
@@ -28,14 +28,15 @@ export function initMap() {
     state.markerCluster = L.markerClusterGroup({ showCoverageOnHover: false, zoomToBoundsOnClick: true, spiderfyOnMaxZoom: true });
     state.map.addLayer(state.markerCluster);
 
-    // Load segments
-    loadGeoJSONSegments();
+    // Draw segments layer
+    drawGeoJSONLayer();
 }
 
 /**
- * Loads and renders the segment polygons from the GeoJSON file.
+ * Loads the segment polygons from the GeoJSON file into state.
  */
-export async function loadGeoJSONSegments() {
+export async function loadGeoJSONData() {
+    if (state.geoJSONData) return;
     try {
         const response = await fetch('data/segmentos_monagas.geojson');
         if (!response.ok) throw new Error('Error loading GeoJSON');
@@ -43,24 +44,34 @@ export async function loadGeoJSONSegments() {
         state.geoJSONData = data;
 
         // Pre-calculate BBOXes for efficient lookup
-        const { getPolygonBBox } = await import('./helpers.js');
-        state.segmentBBoxes = data.features.map(f => {
+        const { getPolygonBBox } = await import('./helpers.js?v=34');
+        // Pre-calcular BBoxes para búsqueda rápida
+        state.segmentBBoxes = state.geoJSONData.features.map(f => {
+            if (!f.geometry) return null;
+            let allPoints = [];
+            
             if (f.geometry.type === 'Polygon') {
-                return { bbox: getPolygonBBox(f.geometry.coordinates[0]), props: f.properties };
+                allPoints = f.geometry.coordinates[0]; // Primer anillo (exterior)
             } else if (f.geometry.type === 'MultiPolygon') {
-                // Simplified: use BBOX of the first polygon in the multi-polygon
-                return { bbox: getPolygonBBox(f.geometry.coordinates[0][0]), props: f.properties };
+                // Aplanamos los primeros anillos de todos los polígonos
+                allPoints = f.geometry.coordinates.flatMap(poly => poly[0]);
+            }
+            
+            if (allPoints.length > 0) {
+                return { bbox: getPolygonBBox(allPoints), props: f.properties };
             }
             return null;
-        }).filter(x => x);
+        }).filter(b => b !== null);
 
-        // Notify processor that spatial data is ready
-        const { processData } = await import('./dataProcessor.js');
-        const { applyFilters } = await import('./filters.js');
-        processData();
-        applyFilters();
+    } catch (e) {
+        console.error('FAILED TO LOAD GEOJSON:', e);
+    }
+}
 
-        state.geoJSONLayer = L.geoJSON(data, {
+export function drawGeoJSONLayer() {
+    if (!state.geoJSONData || !state.map || state.geoJSONLayer) return;
+    try {
+        state.geoJSONLayer = L.geoJSON(state.geoJSONData, {
             style: (feature) => {
                 const idStr = String(feature.properties.cod_seg || '0');
                 const hash  = idStr.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
@@ -113,7 +124,7 @@ export async function loadGeoJSONSegments() {
         }
 
     } catch (e) {
-        console.error('FAILED TO LOAD GEOJSON:', e);
+        console.error('FAILED TO DRAW GEOJSON LAYER:', e);
     }
 }
 

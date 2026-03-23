@@ -27,9 +27,10 @@ export const state = {
     mm111Table: null,
 
     // UI state
-    currentSort: 'encuestas',
+    currentSort: 'eficiencia',
     currentPage: 1,
     quickFilterMode: 'all',
+    filterINE: false,
 
     // Accessibility: last focused element before opening a modal
     lastFocused: null,

@@ -2,11 +2,11 @@
 // Manages the DB Raw Explorer Tabulator grid, the ranking leaderboard table,
 // and the agent score cards.
 
-import { state } from './state.js';
-import { ROWS_PER_PAGE, ALERT_MAP } from './config.js';
-import { $ } from './helpers.js';
-import { applyFilters } from './filters.js';
-import { showDetailModal } from './modal.js';
+import { state } from './state.js?v=34';
+import { ROWS_PER_PAGE, ALERT_MAP, IS_INE } from './config.js?v=34';
+import { $ } from './helpers.js?v=34';
+import { applyFilters } from './filters.js?v=34';
+import { showDetailModal } from './modal.js?v=34';
 
 // ── DB Raw Explorer ───────────────────────────────────────────────────────────
 
@@ -164,96 +164,113 @@ export function updateGrid(data = state.filtered) {
 
 // ── Ranking Leaderboard ───────────────────────────────────────────────────────
 
-export function renderRankingTable() {
-    const encsInFiltered = new Set(state.filtered.map(r => r._meta.cedula));
-    let rows = Object.values(state.encMap).filter(m => encsInFiltered.has(m.cedula));
+/**
+ * Renders the Agent Ranking table using Tabulator.
+ * @param {Array} [rows] - Optional processed agent metrics. If missing, calculates from state.filtered.
+ */
+export function renderRankingTable(rows) {
+    console.log('table.js: renderRankingTable() called at', new Date().toLocaleTimeString());
 
-    const sortFns = {
-        encuestas:  (a, b) => b.encuestas - a.encuestas,
-        completadas:(a, b) => b.completadas - a.completadas,
-        duracion:   (a, b) => (a.avgDur || 999) - (b.avgDur || 999),
-        personas:   (a, b) => b.personas - a.personas,
-        eficiencia: (a, b) => b.score - a.score,
-    };
-    rows.sort(sortFns[state.currentSort] || sortFns.encuestas);
+    // 1. Dependency & DOM Checks
+    if (typeof Tabulator === 'undefined') {
+        console.error('table.js: CRITICAL - Tabulator library is NOT loaded (global Tabulator is undefined).');
+        return;
+    }
+    const container = document.querySelector('#rankingTable');
+    if (!container) {
+        console.warn('table.js: Container #rankingTable not found in DOM yet.');
+        return;
+    }
+
+    // 2. Data Preparation
+    if (!rows) {
+        if (!state.filtered || !state.encMap) {
+            console.warn('table.js: State not ready for ranking calculation.');
+            return;
+        }
+        
+        const validRecords = state.filtered.filter(r => r && r._meta);
+        const encsInFiltered = new Set(validRecords.map(r => r._meta.cedula));
+        rows = Object.values(state.encMap).filter(m => encsInFiltered.has(m.cedula));
+        
+        const sortFns = {
+            encuestas:  (a, b) => (b.encuestas || 0) - (a.encuestas || 0),
+            completadas:(a, b) => (b.completadas || 0) - (a.completadas || 0),
+            eficiencia: (a, b) => (b.pctCompleta || 0) - (a.pctCompleta || 0),
+            personas:   (a, b) => (b.personas || 0) - (a.personas || 0),
+        };
+        rows.sort(sortFns[state.currentSort] || sortFns.eficiencia);
+    }
 
     const tableData = rows.map((m, i) => ({
-        pos: i + 1, nombre: m.nombre, cedula: m.cedula,
-        encuestas: m.encuestas, completadas: m.completadas, pctCompleta: m.pctCompleta,
-        avgDur: m.avgDur != null ? Math.round(m.avgDur) : null,
-        personas: m.personas, municipios: m.municipios.size, score: m.score,
+        pos: i + 1,
+        nombre: m.nombre || 'Sin Nombre',
+        cedula: m.cedula || 'N/A',
+        encuestas: m.encuestas || 0,
+        completadas: m.completadas || 0,
+        pctCompleta: m.pctCompleta || 0,
+        personas: m.personas || 0,
     }));
 
+    console.log(`table.js: Ready to render ${tableData.length} records in leaderboard.`);
+    if (tableData.length > 0) console.table(tableData.slice(0, 3));
+
+    // 3. (Re)Initialization or Update
     if (!state.rankingTabulator) {
+        console.log('table.js: Creating NEW Tabulator instance for #rankingTable');
         state.rankingTabulator = new Tabulator('#rankingTable', {
-            data: tableData, layout: 'fitColumns', height: '420px',
+            data: tableData,
+            layout: 'fitColumns',
+            height: '420px',
             responsiveLayout: 'collapse',
-            placeholder: '<div style="padding:40px;text-align:center;color:var(--text-muted);font-size:13px;font-family:Inter,sans-serif;">Sin datos de agentes</div>',
-            initialSort: [{ column: 'score', dir: 'desc' }],
+            persistence: false,
+            placeholder: '<div style="padding:40px;text-align:center;color:#64748b;font-size:13px;font-family:Inter,sans-serif;">Sin datos disponibles</div>',
+            initialSort: [{ column: 'pctCompleta', dir: 'desc' }],
             columns: [
                 { formatter: 'responsiveCollapse', width: 30, minWidth: 30, hozAlign: 'center', headerSort: false, resizable: false, responsive: 0 },
                 {
                     title: '#', field: 'pos', width: 55, hozAlign: 'center', headerSort: false, frozen: true, responsive: 0,
                     formatter: cell => {
                         const v = cell.getValue();
-                        if (v === 1) return '<span style="font-size:18px" title="1er lugar">🥇</span>';
-                        if (v === 2) return '<span style="font-size:18px" title="2do lugar">🥈</span>';
-                        if (v === 3) return '<span style="font-size:18px" title="3er lugar">🥉</span>';
-                        return `<span style="color:var(--text-muted);font-weight:800;font-size:12px;font-family:'Outfit',sans-serif">${v}</span>`;
+                        return `<span style="color:#64748b;font-weight:800;font-size:12px;">${v}</span>`;
                     }
                 },
                 {
-                    title: 'Agente', field: 'nombre', minWidth: 140, frozen: true, responsive: 0,
+                    title: 'Encuestador', field: 'nombre', minWidth: 140, frozen: true, responsive: 0,
                     formatter: cell => {
                         const d = cell.getData();
-                        return `<div><div style="font-weight:800;color:var(--text-primary);font-size:12px;line-height:1.3;font-family:Inter,sans-serif;">${d.nombre}</div><div style="font-size:9px;color:var(--text-muted);font-weight:600;letter-spacing:0.03em;font-family:Inter,sans-serif;">${d.cedula}</div></div>`;
+                        const isIne = IS_INE.has(d.cedula);
+                        const badge = isIne ? '<span style="background:#3B82F6;color:white;font-size:8px;font-weight:900;padding:1px 4px;border-radius:4px;margin-left:6px;vertical-align:middle;">INE</span>' : '';
+                        return `<div><div style="font-weight:800;color:currentColor;font-size:12px;line-height:1.3;">${d.nombre}${badge}</div><div style="font-size:9px;color:#94a3b8;font-weight:600;">${d.cedula}</div></div>`;
                     }
                 },
-                { title: 'Vol.', field: 'encuestas', hozAlign: 'center', width: 65, sorter: 'number', responsive: 0,
-                    formatter: cell => `<span style="font-weight:800;color:#3B82F6;font-family:'Outfit',sans-serif;font-size:14px">${cell.getValue()}</span>` },
+                { title: 'Volumen', field: 'encuestas', hozAlign: 'center', width: 90, sorter: 'number', responsive: 0,
+                    formatter: cell => `<span style="font-weight:800;color:#3B82F6;font-size:14px">${cell.getValue()}</span>` },
                 {
-                    title: '% Efect.', field: 'pctCompleta', hozAlign: 'center', width: 90, sorter: 'number', responsive: 2,
+                    title: '% Efectividad', field: 'pctCompleta', hozAlign: 'center', minWidth: 120, sorter: 'number', responsive: 0,
                     formatter: cell => {
                         const v = cell.getValue();
                         const color = v >= 80 ? '#10B981' : v >= 50 ? '#F59E0B' : '#EF4444';
-                        return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px"><span style="font-weight:800;color:${color};font-size:12px;font-family:'Outfit',sans-serif">${v}%</span><div style="width:100%;height:4px;background:var(--border-medium);border-radius:4px;overflow:hidden"><div style="width:${v}%;height:100%;background:${color};border-radius:4px;transition:width 0.6s ease"></div></div></div>`;
+                        return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0"><span style="font-weight:900;color:${color};font-size:15px;">${v}%</span><div style="width:100%;max-width:80px;height:6px;background:rgba(0,0,0,0.05);border-radius:10px;overflow:hidden"><div style="width:${v}%;height:100%;background:${color};border-radius:10px;"></div></div></div>`;
                     }
                 },
-                {
-                    title: 'Dur.', field: 'avgDur', hozAlign: 'center', width: 80, sorter: 'number', responsive: 3,
-                    formatter: cell => {
-                        const v = cell.getValue();
-                        if (v === null) return '<span style="color:var(--text-muted)">—</span>';
-                        let color, icon;
-                        if (v < 15)       { color = '#EF4444'; icon = '⚡'; }
-                        else if (v < 25)  { color = '#F59E0B'; icon = '⏱'; }
-                        else              { color = '#10B981'; icon = '✓'; }
-                        return `<span style="color:${color};font-weight:700;font-size:11px" title="${v} min promedio">${icon} ${v}m</span>`;
-                    }
-                },
-                { title: 'Pers.', field: 'personas',   hozAlign: 'center', width: 65, sorter: 'number', responsive: 4,
-                    formatter: cell => `<span style="font-weight:600;color:var(--text-muted)">${cell.getValue()}</span>` },
-                { title: 'Mun.',  field: 'municipios', hozAlign: 'center', width: 60, sorter: 'number', responsive: 4,
-                    formatter: cell => `<span style="font-weight:600;color:#8B5CF6">${cell.getValue()}</span>` },
-                {
-                    title: 'Score', field: 'score', hozAlign: 'center', width: 90, sorter: 'number', responsive: 0,
-                    formatter: cell => {
-                        const v = cell.getValue();
-                        const color = v >= 70 ? '#10B981' : v >= 40 ? '#F59E0B' : '#EF4444';
-                        return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px"><span style="font-weight:900;color:${color};font-size:14px;font-family:'Outfit',sans-serif">${v}</span><div style="width:100%;height:5px;background:var(--border-medium);border-radius:4px;overflow:hidden"><div style="width:${v}%;height:100%;background:linear-gradient(90deg,${color},${color}aa);border-radius:4px;transition:width 0.6s ease"></div></div></div>`;
-                    }
-                },
+                { title: 'Pers.', field: 'personas', hozAlign: 'center', width: 70, sorter: 'number', responsive: 2,
+                    formatter: cell => `<span style="font-weight:600;color:#64748b">${cell.getValue()}</span>` },
             ],
         });
         state.rankingTabulator.on('rowClick', (e, row) => {
             const cedula = row.getData().cedula;
-            if (cedula && $('filterEncuestador')) {
-                $('filterEncuestador').value = cedula;
-                applyFilters();
+            const filterEl = document.getElementById('filterEncuestador');
+            if (cedula && filterEl) {
+                filterEl.value = cedula;
+                window.applyFilters && window.applyFilters();
             }
         });
     } else {
-        state.rankingTabulator.setData(tableData);
+        console.log('table.js: Updating data in EXISTING Tabulator instance.');
+        state.rankingTabulator.setData(tableData).then(() => {
+            state.rankingTabulator.redraw(true);
+        });
     }
 }
 
@@ -277,12 +294,12 @@ export function renderEncuestadorCards() {
             <div class="text-[8px] uppercase text-slate-600 font-bold">Enc.</div>
         </div>
         <div class="p-2 bg-brand-950/50 rounded-lg text-center">
-            <div class="text-xs font-black text-brand-green">${m.pctCompleta}%</div>
+            <div class="text-xs font-black text-brand-green">${m.completadas}</div>
             <div class="text-[8px] uppercase text-slate-600 font-bold">Cmpl.</div>
         </div>
         <div class="p-2 bg-brand-950/50 rounded-lg text-center">
-            <div class="text-xs font-black text-brand-orange">${m.score}</div>
-            <div class="text-[8px] uppercase text-slate-600 font-bold">Pts.</div>
+            <div class="text-xs font-black text-brand-orange">${m.pctCompleta}%</div>
+            <div class="text-[8px] uppercase text-slate-600 font-bold">Efect.</div>
         </div>
       </div>
       <div class="mt-4 pt-4 border-t border-white/5 flex justify-between items-center">
