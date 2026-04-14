@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   ESCA V3 — Tailwind Custom Overrides
+   DashboardSociales — Tailwind Custom Overrides
    Premium Dark Analytics Dashboard
    Based on Stitch Design Reference (Mar 2026)
    ═══════════════════════════════════════════════════════ */
@@ -49,6 +49,7 @@ html {
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
     transition: background-color 0.3s ease, color 0.3s ease;
+    scrollbar-gutter: stable; /* Keeps layout from jumping when scrollbar appears */
 }
 
 body {
@@ -56,6 +57,12 @@ body {
     color: var(--text-secondary);
     font-family: 'Inter', system-ui, sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ─── Tabs Content Stability ────────────────────────── */
+.tab-content {
+    min-height: 90vh;
+    width: 100%;
 }
 
 ::selection {

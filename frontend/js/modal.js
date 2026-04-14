@@ -1,9 +1,9 @@
 // ─── Modals ──────────────────────────────────────────────────────────────────
 // Detail modal (with integrated mini Leaflet map) and location modal.
 
-import { state } from './state.js?v=34';
-import { $ } from './helpers.js?v=34';
-import { ALERT_MAP } from './config.js?v=34';
+import { state } from './state.js?v=39';
+import { $, matchSegmentCodes } from './helpers.js?v=39';
+import { ALERT_MAP, COLORS } from './config.js?v=39';
 
 // ── Detail Modal ──────────────────────────────────────────────────────────────
 
@@ -26,12 +26,19 @@ export function showDetailModal(rec) {
         return `<span class="font-outfit font-bold text-slate-800 dark:text-slate-200 text-sm">${String(val)}</span>`;
     };
 
-    const stEntidad = fmt(extractNested('mun') || extractNested('S1/ent'));
+    const stEntidad = fmt(extractNested('S1/ent') || extractNested('ent'));
     const stMpio    = fmt(extractNested('mun'));
     const stParr    = fmt(extractNested('par'));
-    const stSegm    = fmt(extractNested('segmento') || extractNested('S1/segmento') || extractNested('S1/group_segmeto_sector/segmento'));
+    const declaredSeg = extractNested('segmento') || extractNested('S1/segmento') || extractNested('S1/group_segmeto_sector/segmento');
+    const actualSeg = extractNested('actual_seg');
     const stSect    = fmt(extractNested('sector')   || extractNested('S1/sector')   || extractNested('S1/group_segmeto_sector/sector'));
     const stNodo    = fmt(extractNested('nodo'));
+
+    // Rural detection for dynamic labeling
+    const isRural      = declaredSeg === '000' || declaredSeg === '0';
+    const valHeader    = isRural ? 'Validación de Sector' : 'Validación de Segmento';
+    const valLeftLabel = isRural ? 'Sector Declarado' : 'Declarado';
+    const valLeftVal   = isRural ? (extractNested('sector') || extractNested('S1/sector') || '000') : (declaredSeg || 'N/A');
 
     const stAgente  = fmt(extractNested('nombre')  || extractNested('S0/s0_nombreapellido'));
     const stCedula  = fmt(extractNested('cedula')  || extractNested('S0/cedula_encuestador'));
@@ -40,7 +47,35 @@ export function showDetailModal(rec) {
         ? '<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-brand-green/20 text-brand-green border border-brand-green/30">Completada (Efectiva)</span>'
         : '<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-brand-orange/20 text-brand-orange border border-brand-orange/30">No Respuesta / Error</span>';
     const stDur     = fmt(extractNested('durMin') ? `${extractNested('durMin')} min` : null);
-    const stControl = fmt(extractNested('control') || extractNested('group_sh53u78/control'));
+    const rawControl = String(extractNested('control') || extractNested('group_sh53u78/control') || '');
+    const rawSerie   = String(extractNested('n_serie') || '');
+    const rawLinea   = String(extractNested('n_linea') || '');
+    const stControl = fmt(rawControl || null);
+    const stLinea   = fmt(rawLinea   || null);
+    const stSerie   = fmt(rawSerie   || null);
+
+    // ── Lookup en catálogo de controles ─────────────────────────────────────
+    // La clave usa: últimos 4 dígitos del control (GeoJSON CONTROL=4 dig, encuesta=8 dig)
+    // + SERIE y LINEA normalizados a int-string (sin ceros), igual que en map.js
+    const _padM = (v, l) => String(parseInt(v, 10) || 0).padStart(l, '0');  // solo para display
+    const _ctrlKey = (ctrl, serie, linea) => {
+        const c = String(ctrl  || '').trim().slice(-4);
+        const s = String(parseInt(serie, 10) || 0);
+        const l = String(parseInt(linea, 10) || 0);
+        return `${c}-${s}-${l}`;
+    };
+    const ctrlKey    = _ctrlKey(rawControl, rawSerie, rawLinea);
+    const ctrlEntry  = (state.controlsIndex instanceof Map) ? state.controlsIndex.get(ctrlKey) : null;
+    const ctrlCodSeg  = ctrlEntry ? ctrlEntry.COD_SEG  : null;
+    const ctrlCodManz = ctrlEntry ? ctrlEntry.COD_MANZA : null;
+    const hasCtrlIndex = state.controlsIndex instanceof Map && state.controlsIndex.size > 0;
+
+    const _c = rawControl ? rawControl.trim().slice(-4) : '';
+    const ctrlDetails = state.controlDetails ? state.controlDetails.get(_c) : null;
+    const catSeriesStr = ctrlDetails ? Array.from(ctrlDetails.series).sort((a,b)=>a-b).join(', ') : 'Ninguna';
+    const catLineasStr = ctrlDetails ? Array.from(ctrlDetails.lineas).sort((a,b)=>a-b).join(', ') : 'Ninguna';
+    const hasSerieInCat = ctrlDetails && rawSerie ? ctrlDetails.series.has(String(parseInt(rawSerie, 10))) : false;
+    const hasLineaInCat = ctrlDetails && rawLinea ? ctrlDetails.lineas.has(String(parseInt(rawLinea, 10))) : false;
 
     const stHogares = fmt(extractNested('hogares') || extractNested('datos_hogar/hogar_count') || extractNested('lista_hogar_count'));
     const stPers    = fmt(extractNested('totalPers') || extractNested('datos_hogar/hogar.integrantes_hogar'));
@@ -79,17 +114,51 @@ export function showDetailModal(rec) {
     const walkedDistance = ptIni && ptFin ? calcDistance(ptIni, ptFin) : null;
     const hasMapData = ptStart || ptIni || ptFin || ptMain;
 
+    const isMatch = matchSegmentCodes(valLeftVal, actualSeg);
+
+    const segmentMatchStatus = (!valLeftVal || !actualSeg) 
+        ? '<i data-lucide="minus" class="text-slate-400 w-4 h-4"></i>' 
+        : (isMatch 
+            ? '<i data-lucide="check" class="text-brand-emerald w-5 h-5"></i>' 
+            : '<i data-lucide="x" class="text-brand-red w-5 h-5"></i>');
+    
+    const actualSegClasses = actualSeg && !isMatch 
+        ? 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800/30' 
+        : 'bg-slate-100 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700';
+    
+    const actualSegText = actualSeg && !isMatch 
+        ? 'text-brand-red' 
+        : 'text-slate-800 dark:text-slate-200';
+
     const layout = `
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
             <div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl p-5 border border-slate-200 dark:border-slate-700/50">
                 <h4 class="text-[10px] uppercase font-black text-brand-blue tracking-widest flex items-center gap-2 mb-4">Contexto Geográfico</h4>
                 <div class="space-y-3">
                     <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Estado / Entidad</div>${stEntidad}</div>
                     <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Municipio</div>${stMpio}</div>
                     <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Parroquia</div>${stParr}</div>
+                    
+                    <div class="pt-3 border-t border-slate-200 dark:border-slate-700">
+                        <div class="text-[10px] text-slate-500 font-bold uppercase mb-2">${valHeader}</div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <div class="flex-1 bg-white dark:bg-slate-900/50 p-2 rounded-lg border border-slate-200 dark:border-slate-700 text-center shadow-sm">
+                                <div class="text-[9px] text-slate-500 uppercase font-black mb-1">${valLeftLabel}</div>
+                                <div class="font-outfit font-bold text-slate-800 dark:text-slate-200 text-sm">#${valLeftVal}</div>
+                            </div>
+                            <div class="flex items-center justify-center min-w-[24px]">
+                                ${segmentMatchStatus}
+                            </div>
+                            <div class="flex-1 ${actualSegClasses} p-2 rounded-lg border text-center">
+                                <div class="font-outfit font-bold text-slate-500 uppercase font-black mb-1">En GeoJSON</div>
+                                <div class="font-outfit font-bold ${actualSegText} text-sm">${actualSeg ? '#' + actualSeg : '(Nulo)'}</div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200 dark:border-slate-700">
-                        <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Segmento</div>${stSegm}</div>
                         <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Sector</div>${stSect}</div>
+                        <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Nodo</div>${stNodo}</div>
                     </div>
                 </div>
             </div>
@@ -104,8 +173,97 @@ export function showDetailModal(rec) {
                         <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Duración Real</div>${stDur}</div>
                         <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Control Nro.</div>${stControl}</div>
                     </div>
+                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+                        <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Nro. Línea</div>${stLinea}</div>
+                        <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Nro. Serie</div>${stSerie}</div>
+                    </div>
                 </div>
             </div>
+
+            <!-- ─── PANEL: Validación Control ↔ Segmento ─── -->
+            ${(() => {
+                const ctrlMatch_decl   = ctrlCodSeg && valLeftVal ? matchSegmentCodes(ctrlCodSeg, valLeftVal) : null;
+                const ctrlMatch_actual = ctrlCodSeg && actualSeg  ? matchSegmentCodes(ctrlCodSeg, actualSeg)  : null;
+
+                const iconOk   = '<svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+                const iconFail = '<svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+                const iconUnk  = '<svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>';
+                const matchIcon = (val) => val === null ? iconUnk : (val ? iconOk : iconFail);
+                const matchBg   = (val) => val === null ? '' : (val ? 'bg-emerald-50 dark:bg-emerald-900/10' : 'bg-red-50 dark:bg-red-900/10');
+
+                const ctrlBadge  = rawControl ? `<span class="font-mono font-black text-sm text-slate-800 dark:text-slate-100">${_padM(rawControl,4)}</span>` : '<span class="text-slate-400 italic text-xs">—</span>';
+                const serieBadge = rawSerie   ? `<span class="font-mono font-black text-sm text-slate-800 dark:text-slate-100">${_padM(rawSerie,2)}</span>`   : '<span class="text-slate-400 italic text-xs">—</span>';
+                const lineaBadge = rawLinea   ? `<span class="font-mono font-black text-sm text-slate-800 dark:text-slate-100">${_padM(rawLinea,3)}</span>`   : '<span class="text-slate-400 italic text-xs">—</span>';
+
+                const noIndexMsg = !hasCtrlIndex
+                    ? `<div class="mt-2 text-[9px] text-slate-400 bg-slate-100 dark:bg-slate-800 rounded px-2 py-1.5 text-center">⚠ Índice de controles no cargado aún</div>`
+                    : '';
+                const notFoundMsg = hasCtrlIndex && !ctrlEntry
+                    ? `<div class="mt-2 px-2 py-1.5 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700/30 rounded text-[9px] text-red-700 dark:text-red-300 text-center">Clave <b class="font-mono">${ctrlKey}</b><br>no existe en CONTROLES.geojson</div>`
+                    : '';
+
+                return `<div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl p-5 border border-slate-200 dark:border-slate-700/50">
+                    <h4 class="text-[10px] uppercase font-black text-[#EA580C] tracking-widest flex items-center gap-2 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h.5"/><path d="M13 20h3a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-.5"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="m8 13 2.165 2.165a1 1 0 0 0 1.521-.126L15 9"/></svg>
+                        Control, Serie y Línea
+                    </h4>
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-3 gap-1.5">
+                            <div class="text-center p-2 rounded-lg border ${m._ls_ctrl_ok ? 'bg-indigo-50/50 dark:bg-indigo-900/10 border-indigo-200 dark:border-indigo-800' : 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-900/50'}">
+                                <div class="text-[8px] uppercase ${m._ls_ctrl_ok ? 'text-indigo-400' : 'text-red-400'} font-black mb-1">Control</div>
+                                <div class="flex items-center justify-center gap-1">
+                                    <span class="font-mono font-black text-xs ${m._ls_ctrl_ok ? 'text-slate-700 dark:text-slate-200' : 'text-red-700 dark:text-red-300'}">${_padM(rawControl,4)}</span>
+                                    ${m._ls_ctrl_ok ? '<svg class="text-emerald-500" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : '<svg class="text-red-500" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'}
+                                </div>
+                            </div>
+                            <div class="text-center p-2 rounded-lg border ${m._ls_serie_ok ? 'bg-indigo-50/50 dark:bg-indigo-900/10 border-indigo-200 dark:border-indigo-800' : 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-900/50'}">
+                                <div class="text-[8px] uppercase ${m._ls_serie_ok ? 'text-indigo-400' : 'text-red-400'} font-black mb-1">Serie</div>
+                                <div class="flex items-center justify-center gap-1">
+                                    <span class="font-mono font-black text-xs ${m._ls_serie_ok ? 'text-slate-700 dark:text-slate-200' : 'text-red-700 dark:text-red-300'}">${_padM(rawSerie,2)}</span>
+                                    ${m._ls_serie_ok ? '<svg class="text-emerald-500" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : '<svg class="text-red-500" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'}
+                                </div>
+                            </div>
+                            <div class="text-center p-2 rounded-lg border ${m._ls_linea_ok ? 'bg-indigo-50/50 dark:bg-indigo-900/10 border-indigo-200 dark:border-indigo-800' : 'bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-900/50'}">
+                                <div class="text-[8px] uppercase ${m._ls_linea_ok ? 'text-indigo-400' : 'text-red-400'} font-black mb-1">Línea</div>
+                                <div class="flex items-center justify-center gap-1">
+                                    <span class="font-mono font-black text-xs ${m._ls_linea_ok ? 'text-slate-700 dark:text-slate-200' : 'text-red-700 dark:text-red-300'}">${_padM(rawLinea,3)}</span>
+                                    ${m._ls_linea_ok ? '<svg class="text-emerald-500" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : '<svg class="text-red-500" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'}
+                                </div>
+                            </div>
+                        </div>
+
+                        ${noIndexMsg}
+
+                        ${hasCtrlIndex ? `
+                        <div class="pt-2 border-t border-slate-200 dark:border-slate-700">
+                            <div class="text-[8px] uppercase text-slate-400 font-black mb-2">Datos en catálogo (GeoJSON)</div>
+                            
+                            <div class="space-y-1.5">
+                                <div class="flex items-center justify-between px-2.5 py-2 rounded-lg border ${hasSerieInCat ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-900/10 dark:border-emerald-800/50' : 'bg-red-50 border-red-200 dark:bg-red-900/10 dark:border-red-900/50'}">
+                                    <span class="text-[9px] ${hasSerieInCat ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'} font-bold uppercase">Serie</span>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-mono text-[11px] font-black ${hasSerieInCat ? 'text-emerald-700 dark:text-emerald-300' : 'text-red-700 dark:text-red-300'}">
+                                            Enc: ${parseInt(rawSerie, 10) || '—'} ${hasSerieInCat ? '=' : '≠'} GeoJSON: ${hasSerieInCat ? parseInt(rawSerie, 10) : 'No existe'}
+                                        </span>
+                                        ${hasSerieInCat ? '<svg class="text-emerald-500" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : '<svg class="text-red-500" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'}
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between px-2.5 py-2 rounded-lg border ${hasLineaInCat ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-900/10 dark:border-emerald-800/50' : 'bg-red-50 border-red-200 dark:bg-red-900/10 dark:border-red-900/50'}">
+                                    <span class="text-[9px] ${hasLineaInCat ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'} font-bold uppercase">Línea</span>
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-mono text-[11px] font-black ${hasLineaInCat ? 'text-emerald-700 dark:text-emerald-300' : 'text-red-700 dark:text-red-300'}">
+                                            Enc: ${parseInt(rawLinea, 10) || '—'} ${hasLineaInCat ? '=' : '≠'} GeoJSON: ${hasLineaInCat ? parseInt(rawLinea, 10) : 'No existe'}
+                                        </span>
+                                        ${hasLineaInCat ? '<svg class="text-emerald-500" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>' : '<svg class="text-red-500" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>`;
+            })()}
+
             <div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl p-5 border border-slate-200 dark:border-slate-700/50">
                 <h4 class="text-[10px] uppercase font-black text-brand-emerald tracking-widest flex items-center gap-2 mb-4">Resultados / Tipología</h4>
                 <div class="space-y-3">
@@ -128,9 +286,19 @@ export function showDetailModal(rec) {
                             ? alertas.map(code => {
                                 const rule = ALERT_MAP[code];
                                 if (!rule) return '';
+
+                                // Detalle adicional para Línea/Serie
+                                let extraDetail = '';
+                                if (code === 'LINEA_SERIE_INVALIDA') {
+                                    extraDetail = `<div class="mt-1 px-2 py-1 bg-red-100 dark:bg-red-900/30 rounded text-[9px] font-mono text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800/50">
+                                        <b>Error de Datos:</b> ${m._ls_key_reported || '—'}
+                                    </div>`;
+                                }
+
                                 return `<div class="mb-2 p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-500/30 rounded-lg">
                                     <div class="text-[10px] font-black text-brand-red mb-0.5">⚠ ${rule.label}</div>
                                     <div class="text-[9px] text-slate-500 dark:text-slate-400 leading-tight">${rule.detail.replace(/\n/g,' ').trim()}</div>
+                                    ${extraDetail}
                                 </div>`;
                               }).join('')
                             : `<span class="text-[10px] font-bold text-brand-emerald">✔ Encuesta dentro de parámetros normales</span>`
@@ -140,7 +308,7 @@ export function showDetailModal(rec) {
             </div>
         </div>
         ${hasMapData ? `
-        <div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700/50 overflow-hidden mt-6">
+        <div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700/50 overflow-hidden mt-4">
             <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <h4 class="text-[10px] uppercase font-black text-brand-orange tracking-widest flex items-center gap-2 m-0">Verificación Geográfica Histórica</h4>
@@ -152,24 +320,26 @@ export function showDetailModal(rec) {
                     <div class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-[#F59E0B]"></div> P. Final</div>
                 </div>
             </div>
-            <div class="h-64 md:h-96 w-full relative">
-                <div class="absolute top-4 left-4 z-[400] bg-slate-900/80 backdrop-blur-md rounded-xl p-3 border border-slate-700/50 shadow-xl w-48 pointer-events-none">
-                    <h5 class="text-[9px] uppercase font-black text-slate-400 tracking-widest mb-2 border-b border-slate-700 pb-1">Métricas de Rastreo</h5>
-                    <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-slate-500 font-bold">Resumen Segm:</span><span class="text-[10px] font-mono font-bold ${isFlagged ? 'text-brand-red' : 'text-brand-emerald'}">${rawDist !== null ? Math.round(rawDist)+'m' : 'N/A'}</span></div>
-                    <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-slate-500 font-bold">Ruta Calculada:</span><span class="text-[10px] font-mono text-brand-orange font-bold">${walkedDistance !== null ? Math.round(walkedDistance)+'m' : 'N/A'}</span></div>
+            <div id="detailMapWrapper" class="h-64 md:h-96 w-full relative transition-[height] duration-300">
+                <div class="absolute top-4 left-4 z-[400] bg-white/90 dark:bg-slate-900/80 backdrop-blur-md rounded-xl p-3 border border-slate-200 dark:border-slate-700/50 shadow-xl w-48 pointer-events-none">
+                    <h5 class="text-[9px] uppercase font-black text-brand-blue dark:text-slate-400 tracking-widest mb-2 border-b border-slate-100 dark:border-slate-700 pb-1">Métricas de Rastreo</h5>
+                    <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-slate-500 font-bold">Seg. Declarado:</span><span class="text-[10px] font-mono font-bold text-slate-700 dark:text-slate-300">#${extractNested('segmento') || 'N/A'}</span></div>
+                    <div class="flex justify-between items-center mb-2 border-b border-slate-100 dark:border-slate-700/50 pb-2"><span class="text-[10px] text-slate-500 font-bold">Seg. en Mapa:</span><span class="text-[10px] font-mono font-bold ${alertas.includes('SEGMENTO_INCORRECTO') || alertas.includes('FUERA_SEGMENTO') ? 'text-brand-red' : 'text-brand-emerald'}">${extractNested('actual_seg') ? '#' + extractNested('actual_seg') : '(Nulo)'}</span></div>
+                    <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-slate-500 font-bold">Desplazamiento:</span><span class="text-[10px] font-mono font-bold ${alertas.includes('DESPLAZAMIENTO_ANOMALO') ? 'text-brand-orange' : 'text-slate-700 dark:text-slate-300'}">${walkedDistance !== null ? Math.round(walkedDistance)+'m' : 'N/A'}</span></div>
+                    <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-slate-500 font-bold">Dist. Centro:</span><span class="text-[10px] font-mono font-bold ${isFlagged ? 'text-brand-red' : 'text-brand-emerald'}">${rawDist !== null ? Math.round(rawDist)+'m' : 'N/A'}</span></div>
                     <div class="flex justify-between items-center"><span class="text-[10px] text-slate-500 font-bold">Tiempo Base:</span><span class="text-[10px] font-mono text-brand-blue font-bold">${extractNested('durMin') ? extractNested('durMin')+' min' : 'N/A'}</span></div>
                 </div>
                 <div id="detailMap" class="absolute inset-0 z-0 bg-slate-800"></div>
             </div>
-            <div class="p-2 border-t border-slate-200 dark:border-slate-700 text-center text-[10px] text-slate-400">El círculo sombreado indica la zona válida de cobertura (radio de 500m).</div>
+            <div class="p-1 border-t border-slate-200 dark:border-slate-700 text-center text-[10px] text-slate-400 leading-tight">El círculo sombreado indica la zona válida de cobertura (radio de 500m).</div>
         </div>` : `
-        <div class="mt-6 p-6 border border-dashed border-slate-700 rounded-xl text-center text-slate-500">
+        <div class="mt-4 p-4 border border-dashed border-slate-700 rounded-xl text-center text-slate-500">
             <span class="text-xs uppercase tracking-widest font-bold block">No hay datos geográficos</span>
             <span class="text-[10px] block mt-1">Este registro no generó ni capturó coordenadas GPS con precisión adecuada.</span>
         </div>`}
     `;
 
-    const rawJson = `<details class="mt-6 text-sm text-slate-400 group"><summary class="cursor-pointer font-bold text-[10px] uppercase tracking-widest flex items-center gap-2">Ver JSON crudo</summary><pre class="text-xs bg-slate-950/40 border border-slate-800 p-4 rounded-xl mt-3 overflow-x-auto text-slate-300 font-mono">${JSON.stringify(rec, null, 2)}</pre></details>`;
+    const rawJson = `<details class="mt-3 text-sm text-slate-400 group"><summary class="cursor-pointer font-bold text-[10px] uppercase tracking-widest flex items-center gap-2">Ver JSON crudo</summary><pre class="text-[10px] bg-slate-100 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 p-2 rounded-lg mt-2 overflow-x-auto text-slate-700 dark:text-slate-300 font-mono">${JSON.stringify(rec, null, 2)}</pre></details>`;
 
     body.innerHTML = `${layout}${rawJson}`;
     if (window.lucide) lucide.createIcons({ root: body });
@@ -192,9 +362,68 @@ export function showDetailModal(rec) {
                 L.control.zoom({ position: 'bottomright' }).addTo(state.detailMiniMapObj);
             } else {
                 state.detailMiniMapObj.setView([displayLat, displayLng], 16);
+                // Limpiar todas las capas excepto los tiles base
                 state.detailMiniMapObj.eachLayer(layer => {
-                    if (layer instanceof L.Marker || layer instanceof L.Circle || layer instanceof L.Polyline) state.detailMiniMapObj.removeLayer(layer);
+                    if (!(layer instanceof L.TileLayer)) {
+                        state.detailMiniMapObj.removeLayer(layer);
+                    }
                 });
+            }
+
+            // Agregar GeoJSON siempre (nuevo o tras limpieza) para que los popups
+            // capturen los valores de declaredSeg/actualSeg del registro actual.
+            if (state.geoJSONData) {
+                L.geoJSON(state.geoJSONData, {
+                    style: (feature) => {
+                        const idStr = String(feature.properties.cod_seg || '0');
+                        const isCurrent = String(feature.properties.cod_seg) === String(declaredSeg);
+                        const hash  = idStr.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
+                        const color = COLORS[hash % COLORS.length];
+                        return {
+                            color: isCurrent ? '#FBBF24' : color,
+                            weight: isCurrent ? 2.5 : 1.5,
+                            opacity: 0.9,
+                            fillColor: isCurrent ? '#FBBF24' : color,
+                            fillOpacity: isCurrent ? 0.35 : 0.15
+                        };
+                    },
+                    onEachFeature: (feature, layer) => {
+                        const p = feature.properties || {};
+                        // Usar los nombres de propiedad reales del GeoJSON de segmentos
+                        const cod  = p.cod_seg   || p.id   || 'N/A';
+                        const mun  = p.cod_munici || p.mun  || 'N/A';
+                        const par  = p.cod_parroq || p.par  || 'N/A';
+                        const isCurrent = String(cod) === String(declaredSeg);
+                        const isActual  = String(cod) === String(actualSeg);
+                        const badgeHtml = [
+                            isCurrent ? '<span style="background:#FBBF2433;color:#FBBF24;border:1px solid #FBBF2466;padding:1px 6px;border-radius:4px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.05em">Declarado</span>' : '',
+                            isActual && !isCurrent ? '<span style="background:#10B98133;color:#10B981;border:1px solid #10B98166;padding:1px 6px;border-radius:4px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.05em">Calculado GPS</span>' : '',
+                            isActual && isCurrent  ? '<span style="background:#10B98133;color:#10B981;border:1px solid #10B98166;padding:1px 6px;border-radius:4px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.05em">✔ Coincide</span>' : ''
+                        ].filter(Boolean).join(' ');
+                        const isRuralFeature = String(cod) === '000' || String(cod) === '0';
+                        const featureLabel = isRuralFeature ? 'Sector' : 'Segmento';
+                        const displayId = isRuralFeature ? (p.cod_sc || '000') : cod;
+
+                        const popup = `
+                            <div class="dark:text-slate-200" style="font-family:'Inter',sans-serif;min-width:180px;max-width:240px;padding:2px">
+                                <div class="dark:border-slate-700" style="font-family:'Outfit',sans-serif;font-weight:900;font-size:12px;color:#6366f1;border-bottom:1px solid #e2e8f0;padding-bottom:6px;margin-bottom:8px">
+                                    ${featureLabel} <span class="text-slate-800 dark:text-white" style="font-size:15px;">#${displayId}</span>
+                                </div>
+                                ${badgeHtml ? `<div style="margin-bottom:8px;display:flex;gap:4px;flex-wrap:wrap">${badgeHtml}</div>` : ''}
+                                <div style="font-size:10px;margin-bottom:3px" class="text-slate-500 dark:text-slate-400"><b>Municipio:</b> ${mun}</div>
+                                <div style="font-size:10px;" class="text-slate-500 dark:text-slate-400"><b>Parroquia:</b> ${par}</div>
+                            </div>`;
+                        layer.bindPopup(popup, { className: 'custom-popup', maxWidth: 260 });
+                        layer.on('mouseover', function() { this.setStyle({ fillOpacity: 0.45, weight: 2.5 }); });
+                        layer.on('mouseout',  function() {
+                            const c = String(this.feature.properties.cod_seg);
+                            this.setStyle({
+                                fillOpacity: c === String(declaredSeg) ? 0.35 : 0.15,
+                                weight:      c === String(declaredSeg) ? 2.5  : 1.5
+                            });
+                        });
+                    }
+                }).addTo(state.detailMiniMapObj);
             }
 
             const validPoints = [], pathCoords = [];
@@ -223,7 +452,18 @@ export function showDetailModal(rec) {
             if (pathCoords.length > 1) L.polyline(pathCoords, { color: '#94a3b8', dashArray: '4, 4', weight: 2, opacity: 0.6 }).addTo(state.detailMiniMapObj);
 
             const targetCircle = ptIni || ptMain;
-            if (targetCircle) L.circle([targetCircle.lat, targetCircle.lng], { radius: 500, color: isFlagged ? '#EF4444' : '#10B981', fillColor: isFlagged ? '#EF4444' : '#10B981', fillOpacity: 0.05, weight: 1, dashArray: '4,4' }).addTo(state.detailMiniMapObj);
+            if (targetCircle) {
+                const circleColor = isFlagged ? '#EF4444' : '#10B981';
+                L.circle([targetCircle.lat, targetCircle.lng], {
+                    radius: 500,
+                    color: circleColor,
+                    fillColor: circleColor,
+                    fillOpacity: 0.05,
+                    weight: 1.5,
+                    dashArray: '6,5',
+                    interactive: false   // ← los clics pasan a los segmentos GeoJSON debajo
+                }).addTo(state.detailMiniMapObj);
+            }
 
             if (validPoints.length > 0) {
                 const bounds = L.latLngBounds(validPoints);
@@ -242,10 +482,15 @@ export function closeDetailModal() {
         m.classList.add('hidden');
         const pane = $('detailModalPane');
         const icon = $('detailModalExpandIcon');
+        const body = $('detailModalBody');
         if (pane?.classList.contains('max-w-none')) {
             pane.classList.remove('w-full','max-w-none','h-full','rounded-none');
             pane.classList.add('max-w-7xl','w-11/12','rounded-2xl','p-0');
             if (icon) icon.setAttribute('data-lucide', 'maximize');
+            if (body) {
+                body.classList.remove('flex-1', 'max-h-none');
+                body.classList.add('max-h-[75vh]');
+            }
         }
         if (state.detailMiniMapObj) { state.detailMiniMapObj.remove(); state.detailMiniMapObj = null; }
         if (state.lastFocused?.focus) { try { state.lastFocused.focus(); } catch (_) {} }
@@ -255,15 +500,33 @@ export function closeDetailModal() {
 window.toggleDetailModalExpand = function () {
     const pane = $('detailModalPane');
     const icon = $('detailModalExpandIcon');
+    const mapWrapper = $('detailMapWrapper');
+    const body = $('detailModalBody');
     if (!pane || !icon) return;
     if (pane.classList.contains('max-w-7xl')) {
         pane.classList.remove('max-w-7xl','w-11/12','rounded-2xl','p-0');
         pane.classList.add('w-full','max-w-none','h-full','rounded-none');
         icon.setAttribute('data-lucide', 'minimize');
+        if (mapWrapper) {
+            mapWrapper.classList.remove('h-64', 'md:h-96');
+            mapWrapper.classList.add('h-[60vh]', 'md:h-[75vh]');
+        }
+        if (body) {
+            body.classList.remove('max-h-[75vh]');
+            body.classList.add('flex-1', 'max-h-none');
+        }
     } else {
         pane.classList.remove('w-full','max-w-none','h-full','rounded-none');
         pane.classList.add('max-w-7xl','w-11/12','rounded-2xl','p-0');
         icon.setAttribute('data-lucide', 'maximize');
+        if (mapWrapper) {
+            mapWrapper.classList.remove('h-[60vh]', 'md:h-[75vh]');
+            mapWrapper.classList.add('h-64', 'md:h-96');
+        }
+        if (body) {
+            body.classList.remove('flex-1', 'max-h-none');
+            body.classList.add('max-h-[75vh]');
+        }
     }
     if (window.lucide) window.lucide.createIcons();
     if (state.detailMiniMapObj) setTimeout(() => state.detailMiniMapObj.invalidateSize(), 350);
@@ -271,41 +534,3 @@ window.toggleDetailModalExpand = function () {
 
 window.closeDetailModal = closeDetailModal;
 
-// ── Location Modal ────────────────────────────────────────────────────────────
-
-export function showLocationModal(rec) {
-    const modal  = $('locModal');
-    const mapDiv = $('locMap');
-    if (!modal || !mapDiv) return;
-    const lat = Number(rec._meta.lat);
-    const lng = Number(rec._meta.lng);
-    if (Number.isNaN(lat) || Number.isNaN(lng)) { alert('Coordenadas inválidas'); return; }
-
-    modal.classList.remove('hidden');
-    if (!state.locMap) {
-        const osm       = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' });
-        const googleSat = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', { maxZoom: 20, subdomains: ['mt0','mt1','mt2','mt3'], attribution: '&copy; Google' });
-        state.locMap = L.map('locMap', { center: [lat, lng], zoom: 16, layers: [osm] });
-        L.control.layers({ 'OpenStreetMap': osm, 'Google Satélite': googleSat }, null, { collapsed: false }).addTo(state.locMap);
-        L.control.scale().addTo(state.locMap);
-    } else {
-        state.locMap.setView([lat, lng], 16);
-    }
-    if (state.locMarker) { try { state.locMap.removeLayer(state.locMarker); } catch (_) {} state.locMarker = null; }
-    state.locMarker = L.marker([lat, lng]).addTo(state.locMap).bindPopup(`<b>${rec._meta.nombre}</b><br>${rec._meta.fecha}`).openPopup();
-    setTimeout(() => { try { state.locMap.invalidateSize(); } catch (_) {} }, 120);
-
-    state.lastFocused = document.activeElement;
-    const closeBtn = $('locModalClose');
-    if (closeBtn) closeBtn.focus();
-}
-
-export function closeLocModal() {
-    const m = $('locModal');
-    if (!m) return;
-    m.classList.add('hidden');
-    if (state.locMarker) { try { state.locMap.removeLayer(state.locMarker); } catch (_) {} state.locMarker = null; }
-    if (state.lastFocused?.focus) { try { state.lastFocused.focus(); } catch (_) {} }
-}
-
-window.closeLocModal = closeLocModal;

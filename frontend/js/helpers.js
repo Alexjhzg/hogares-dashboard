@@ -4,6 +4,9 @@
 /** Shorthand getElementById */
 export const $ = id => document.getElementById(id);
 
+/** Shorthand querySelectorAll — returns a NodeList */
+export const $$ = sel => document.querySelectorAll(sel);
+
 /** Arithmetic mean of an array of numbers */
 export function avg(arr) {
     return arr.reduce((a, b) => a + b, 0) / arr.length;

@@ -2,9 +2,9 @@
 // Handles all fetch calls to the backend. Calls renderAll via callback to
 // avoid circular imports.
 
-import { BACKEND_URL } from './config.js?v=34';
-import { state } from './state.js?v=34';
-import { $ } from './helpers.js?v=34';
+import { BACKEND_URL } from './config.js?v=39';
+import { state } from './state.js?v=39';
+import { $ } from './helpers.js?v=39';
 
 export function showLoading(msg) {
     const overlay = $('loadingOverlay');
@@ -60,8 +60,14 @@ export async function loadAssets(onDataLoaded) {
         );
         if (escaV3) {
             sel.value = escaV3.uid;
+            state.assetName = escaV3.name;
             if (onDataLoaded) onDataLoaded(escaV3.uid);
         }
+        // Track asset name on manual selection changes
+        sel.addEventListener('change', () => {
+            const opt = sel.options[sel.selectedIndex];
+            state.assetName = opt ? opt.textContent.trim() : '';
+        });
     } catch (err) {
         console.error(err);
         hideLoading();

@@ -2,11 +2,21 @@
 // Handles the main coverage map and quick-filter buttons.
 // Depends on globals: L (Leaflet), lucide.
 
-import { state } from './state.js?v=34';
-import { $ } from './helpers.js?v=34';
-import { applyFilters } from './filters.js?v=34';
-import { showDetailModal } from './modal.js?v=34';
-import { COLORS, ALERT_MAP } from './config.js?v=34';
+import { state } from './state.js?v=39';
+import { $ } from './helpers.js?v=39';
+import { applyFilters } from './filters.js?v=39';
+import { showDetailModal } from './modal.js?v=39';
+import { COLORS, ALERT_MAP } from './config.js?v=39';
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+/**
+ * Pad a string or number with leading zeros to the desired length.
+ * padCtrl('4', 4) → '0004', padCtrl('15', 3) → '015'
+ */
+export function padCtrl(val, len) {
+    return String(parseInt(val, 10) || 0).padStart(len, '0');
+}
 
 export function initMap() {
     if (state.map) return;
@@ -44,7 +54,7 @@ export async function loadGeoJSONData() {
         state.geoJSONData = data;
 
         // Pre-calculate BBOXes for efficient lookup
-        const { getPolygonBBox } = await import('./helpers.js?v=34');
+        const { getPolygonBBox } = await import('./helpers.js?v=39');
         // Pre-calcular BBoxes para búsqueda rápida
         state.segmentBBoxes = state.geoJSONData.features.map(f => {
             if (!f.geometry) return null;
@@ -58,10 +68,13 @@ export async function loadGeoJSONData() {
             }
             
             if (allPoints.length > 0) {
-                return { bbox: getPolygonBBox(allPoints), props: f.properties };
+                return { bbox: getPolygonBBox(allPoints), props: f.properties, feature: f };
             }
             return null;
         }).filter(b => b !== null);
+
+        // Si el mapa ya está listo, dibujamos la capa inmediatamente
+        drawGeoJSONLayer();
 
     } catch (e) {
         console.error('FAILED TO LOAD GEOJSON:', e);
@@ -73,9 +86,16 @@ export function drawGeoJSONLayer() {
     try {
         state.geoJSONLayer = L.geoJSON(state.geoJSONData, {
             style: (feature) => {
-                const idStr = String(feature.properties.cod_seg || '0');
-                const hash  = idStr.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
-                const color = COLORS[hash % COLORS.length];
+                const props   = feature.properties;
+                const isRural = props.cod_seg === '000' || props.cod_seg === '0';
+                const idVal   = isRural ? (props.cod_sc || '0') : (props.cod_seg || '0');
+                
+                // Clave compuesta para evitar que el mismo ID en distintos municipios tenga el mismo color
+                const compositeKey = `${props.cod_munici || '0'}-${props.cod_parroq || '0'}-${idVal}`;
+                const hash  = compositeKey.split('').reduce((a, b) => (a * 31) + b.charCodeAt(0), 0) >>> 0;
+                
+                // Usamos un multiplicador primo para "saltar" en la paleta y aumentar contraste entre vecinos
+                const color = COLORS[(hash * 13) % COLORS.length];
                 
                 return {
                     color: color,
@@ -86,16 +106,22 @@ export function drawGeoJSONLayer() {
                 };
             },
             onEachFeature: (feature, layer) => {
-                const props = feature.properties;
-                const idStr = String(props.cod_seg || '0');
-                const hash  = idStr.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
-                const color = COLORS[hash % COLORS.length];
+                const props   = feature.properties;
+                const isRural = props.cod_seg === '000' || props.cod_seg === '0';
+                const idVal   = isRural ? (props.cod_sc || '0') : (props.cod_seg || '0');
+                
+                const compositeKey = `${props.cod_munici || '0'}-${props.cod_parroq || '0'}-${idVal}`;
+                const hash  = compositeKey.split('').reduce((a, b) => (a * 31) + b.charCodeAt(0), 0) >>> 0;
+                const color = COLORS[(hash * 13) % COLORS.length];
+
+                const typeLabel = isRural ? 'Sector' : 'Segmento';
+                const displayId = isRural ? (props.cod_sc || 'N/A') : (props.cod_seg || 'N/A');
 
                 let popupContent = `<div class="p-2 font-sans">
-                    <div class="text-[10px] uppercase font-bold text-slate-500 mb-1">Segmento</div>
+                    <div class="text-[10px] uppercase font-bold text-slate-500 mb-1">${typeLabel}</div>
                     <div class="text-sm font-bold flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full" style="background:${color}"></span>
-                        <span class="text-slate-800 dark:text-white">${props.cod_seg || 'N/A'}</span>
+                        <span class="text-slate-800 dark:text-white">${displayId}</span>
                     </div>
                     <div class="space-y-2 mt-3 pt-2 border-t border-slate-100 dark:border-white/5">
                         <div class="flex justify-between items-center">
@@ -128,14 +154,110 @@ export function drawGeoJSONLayer() {
     }
 }
 
+/**
+ * Loads CONTROLES.geojson, builds the controlsIndex lookup Set,
+ * and adds an optional Leaflet overlay layer.
+ */
+export async function loadControlsData() {
+    if (state.controlsIndex) return; // Already loaded
+    try {
+        const response = await fetch('data/CONTROLES.geojson');
+        if (!response.ok) throw new Error(`Error loading CONTROLES.geojson: ${response.status}`);
+        state.controlsData = await response.json();
+
+        // Build O(1) index: key = 'CTRL4-SERIE_int-LINEA_int'
+        state.controlsIndex = new Map();
+        state.validControls = new Set();
+        state.validSeries   = new Set();
+        state.validLineas   = new Set();
+        state.controlDetails = new Map(); // Para modal: Mapea { control -> { series: Set, lineas: Set } }
+
+        const _toInt = v => { if (v == null) return null; const n = parseInt(String(v).trim(), 10); return isNaN(n) ? null : n; };
+        state.controlsData.features.forEach(f => {
+            const p     = f.properties;
+            const lInt  = _toInt(p.LINEA);
+            const sInt  = _toInt(p.SERIE);
+            if (lInt === null || sInt === null) return;
+            
+            const ctrl  = String(p.CONTROL || '').trim();
+            const serie = String(sInt);
+            const linea = String(lInt);
+            
+            // Add to sets for independent validation
+            state.validControls.add(ctrl);
+            state.validSeries.add(serie);
+            state.validLineas.add(linea);
+
+            if (!state.controlDetails.has(ctrl)) {
+                state.controlDetails.set(ctrl, { series: new Set(), lineas: new Set() });
+            }
+            state.controlDetails.get(ctrl).series.add(serie);
+            state.controlDetails.get(ctrl).lineas.add(linea);
+
+            state.controlsIndex.set(`${ctrl}-${serie}-${linea}`, {
+                COD_SEG:   String(p.COD_SEG   ?? '').trim(),
+                COD_MANZA: String(p.COD_MANZA ?? '').trim(),
+            });
+        });
+
+        console.log(`map.js: CONTROLES index built — ${state.controlsIndex.size} entries`);
+
+        // Draw the layer if map is ready (activated by user via layer control)
+        if (state.map) _drawControlsLayer();
+
+    } catch (e) {
+        console.error('FAILED TO LOAD CONTROLES.geojson:', e);
+    }
+}
+
+/**
+ * Renders point markers for each control entry as an overlay layer.
+ * Added to the Leaflet layer control but hidden by default.
+ * @private
+ */
+function _drawControlsLayer() {
+    if (!state.controlsData || !state.map || state.controlsLayer) return;
+    try {
+        state.controlsLayer = L.geoJSON(state.controlsData, {
+            pointToLayer: (feature, latlng) => {
+                return L.circleMarker(latlng, {
+                    radius: 4,
+                    fillColor: '#FACC15',
+                    color: '#92400E',
+                    weight: 1,
+                    opacity: 0.9,
+                    fillOpacity: 0.7,
+                });
+            },
+            onEachFeature: (feature, layer) => {
+                const p = feature.properties;
+                layer.bindTooltip(
+                    `<div style="font-family:Inter,sans-serif;font-size:11px;line-height:1.5">
+                        <b>Control ${p.CONTROL}</b> · Serie ${p.SERIE}<br>
+                        Línea ${p.LINEA} · Seg ${p.COD_SEG} · Manz ${p.COD_MANZA}
+                     </div>`,
+                    { sticky: true, opacity: 0.95 }
+                );
+            }
+        });
+
+        if (state.layerControl) {
+            state.layerControl.addOverlay(state.controlsLayer, '📍 Puntos de Control');
+        }
+
+    } catch (e) {
+        console.error('FAILED TO DRAW CONTROLS LAYER:', e);
+    }
+}
+
 export function renderMap() {
     if (!state.map || !state.markerCluster) return;
     state.markerCluster.clearLayers();
 
     const points = state.filtered.filter(r => r._meta.lat && r._meta.lng);
 
-    const completedOnMap  = points.filter(r => /totalment/i.test(r._meta.nota)).length;
-    const noRespOnMap     = points.filter(r => !/totalment/i.test(r._meta.nota)).length;
+    const completedOnMap  = points.filter(r => r._meta && r._meta.estado === 'completada').length;
+    const noRespOnMap     = points.length - completedOnMap;
     const agentsOnMap     = new Set(points.map(r => r._meta.cedula)).size;
     const alertasOnMap    = points.filter(r => r._meta.hasAlerts).length;
     const munsOnMap  = new Set(points.map(r => r._meta.mun).filter(m => m && m !== 'N/A'));
@@ -158,7 +280,7 @@ export function renderMap() {
 
     const markers = points.map(r => {
         const m = r._meta;
-        const isComplete  = /totalment/i.test(m.nota);
+        const isComplete  = m.estado === 'completada';
         const hasAlerts   = m.hasAlerts;
         const alertas     = m.alertas || [];
 
@@ -252,7 +374,7 @@ export function renderMap() {
                 ${segSection}
                 <div class="grid grid-cols-2 gap-2 border-t border-white/5 pt-3 mb-3">
                     <div><div class="text-[8px] uppercase text-slate-500 font-bold">Desplazamiento</div>
-                        <div class="text-[10px] font-bold" style="color:${m.dist_ini_fin !== null && m.dist_ini_fin > 50 ? '#F59E0B' : '#10B981'}">${m.dist_ini_fin !== null ? Math.round(m.dist_ini_fin) + ' m' : '—'} <span class="text-[8px] text-slate-500">(Ini->Fin)</span></div></div>
+                        <div class="text-[10px] font-bold" style="color:${m.dist_ini_fin !== null && m.dist_ini_fin > 30 ? '#F59E0B' : '#10B981'}">${m.dist_ini_fin !== null ? Math.round(m.dist_ini_fin) + ' m' : '—'} <span class="text-[8px] text-slate-500">(Ini->Fin)</span></div></div>
                     <div class="flex items-end justify-end">
                         <button onclick="window.viewTraceByRecord('${r._uuid}')" class="px-3 py-1 bg-brand-blue/20 hover:bg-brand-blue/40 border border-brand-blue/30 text-brand-blue rounded-lg text-[9px] font-bold uppercase tracking-widest transition-colors flex items-center gap-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Ver Ubicaciones
@@ -273,9 +395,24 @@ export function renderMap() {
     });
 
     state.markerCluster.addLayers(markers);
-    if (markers.length > 0) {
-        const bounds = state.markerCluster.getBounds();
-        if (bounds.isValid()) state.map.fitBounds(bounds, { padding: [50, 50] });
+
+    // Si la ruta está activa, mantener los clusters ocultos y refrescar ruta
+    const routeBtn = document.getElementById('btnVerRutaAgente');
+    const routeActive = routeBtn?.dataset?.routeActive === '1';
+
+    if (routeActive) {
+        if (state.map.hasLayer(state.markerCluster)) state.map.removeLayer(state.markerCluster);
+
+        // Refrescar la ruta con los nuevos datos filtrados (ej. por Control)
+        const selEnc = document.getElementById('filterEncuestador');
+        if (selEnc && selEnc.value) {
+            drawAgentRoute(selEnc.value);
+        }
+    } else {
+        if (markers.length > 0) {
+            const bounds = state.markerCluster.getBounds();
+            if (bounds.isValid()) state.map.fitBounds(bounds, { padding: [50, 50] });
+        }
     }
     if (window.lucide) lucide.createIcons();
 }
@@ -320,3 +457,202 @@ window.viewTraceByRecord = function (uuid) {
     }
     showDetailModal(record);
 };
+
+// ── Agent Route Tracer ────────────────────────────────────────────────────────
+
+/**
+ * Limpia la capa de ruta actual del mapa si existe.
+ */
+function clearAgentRoute() {
+    if (state.agentRouteLayer) {
+        state.map.removeLayer(state.agentRouteLayer);
+        state.agentRouteLayer = null;
+    }
+}
+
+/**
+ * Dibuja la ruta cronológica de un encuestador identificado por su cédula.
+ * Ordena sus encuestas por hora de inicio, traza una polilínea y agrega
+ * marcadores circulares numerados (1, 2, 3…) en cada punto.
+ * @param {string} cedula - Cédula del encuestador a trazar.
+ */
+function drawAgentRoute(cedula) {
+    clearAgentRoute();
+    if (!cedula || !state.map) return;
+
+    // Obtener puntos del agente con coordenadas válidas, ordenados cronológicamente
+    const agentPoints = state.filtered
+        .filter(r => r._meta?.cedula === cedula && r._meta.lat && r._meta.lng)
+        .sort((a, b) => {
+            const ta = new Date(a['start'] || 0).getTime();
+            const tb = new Date(b['start'] || 0).getTime();
+            return ta - tb;
+        });
+
+    if (agentPoints.length === 0) return;
+
+    // Mostrar contador de puntos
+    const countEl = $('mapRouteAgentCount');
+    if (countEl) countEl.textContent = `${agentPoints.length} ptos`;
+
+    const latlngs = agentPoints.map(r => [r._meta.lat, r._meta.lng]);
+
+    // Crear LayerGroup que contendrá la línea + los marcadores numerados
+    const layers = [];
+
+    // Línea de recorrido naranja
+    layers.push(L.polyline(latlngs, {
+        color: '#F97316',
+        weight: 2.5,
+        opacity: 0.85,
+        dashArray: '6 4',
+    }));
+
+    // Marcadores numerados
+    agentPoints.forEach((r, idx) => {
+        const m = r._meta;
+        const num = idx + 1;
+        const hora    = (r['start'] || '').slice(11, 16) || '—';
+        const durText = m.durMin !== null ? `${Math.round(m.durMin)} min` : '—';
+
+        const icon = L.divIcon({
+            className: '',
+            html: `<div style="
+                width:22px;height:22px;border-radius:50%;
+                background:#F97316;border:2px solid white;
+                display:flex;align-items:center;justify-content:center;
+                font-family:Inter,sans-serif;font-size:9px;font-weight:900;
+                color:white;box-shadow:0 2px 6px rgba(0,0,0,0.4);
+                cursor:pointer;
+            ">${num}</div>`,
+            iconSize: [22, 22],
+            iconAnchor: [11, 11],
+        });
+
+        const marker = L.marker([m.lat, m.lng], { icon });
+        marker.bindTooltip(`
+            <div style="font-family:Inter,sans-serif;font-size:11px;line-height:1.6;padding:2px 4px">
+                <b>#${num} · ${hora}</b><br>
+                ${m.nombre || '—'}<br>
+                Ctrl: ${m.control ? m.control.slice(-4) : '—'} · L${m.n_linea || '—'}<br>
+                Duración: ${durText}
+            </div>
+        `, { sticky: true, opacity: 0.97 });
+
+        marker.on('click', () => showDetailModal(r));
+        layers.push(marker);
+    });
+
+    state.agentRouteLayer = L.layerGroup(layers).addTo(state.map);
+
+    // Ajustar vista al recorrido completo
+    const bounds = L.latLngBounds(latlngs);
+    if (bounds.isValid()) state.map.fitBounds(bounds, { padding: [60, 60] });
+}
+
+/**
+ * Inicializa el botón "Ver Ruta" junto al filtro de encuestador.
+ * - Muestra/oculta el botón según si hay encuestador seleccionado.
+ * - Al hacer clic: navega a la pestaña Mapa y dibuja la ruta.
+ * - Al limpiar el select (Todos): limpia la ruta automáticamente.
+ */
+export function initVerRutaButton() {
+    const selEnc     = document.getElementById('filterEncuestador');
+    const btn        = document.getElementById('btnVerRutaAgente');
+    const countLabel = document.getElementById('mapRouteAgentCount');
+
+    if (!selEnc) { console.warn('initVerRutaButton: #filterEncuestador no encontrado'); return; }
+    if (!btn)    { console.warn('initVerRutaButton: #btnVerRutaAgente no encontrado'); return; }
+    if (btn._verRutaAttached) return;
+    btn._verRutaAttached = true;
+
+    console.log('initVerRutaButton: OK ✓');
+
+    // Sincroniza el estado del botón con el filtro de encuestador
+    const syncBtn = () => {
+        const hasAgent = !!selEnc.value;
+        const pts = hasAgent ? state.filtered.filter(r =>
+            r._meta?.cedula === selEnc.value && r._meta.lat && r._meta.lng
+        ).length : 0;
+
+        btn.disabled = !hasAgent;
+
+        if (countLabel) {
+            countLabel.textContent = (hasAgent && pts) ? `${pts} pts` : '—';
+        }
+
+        if (!hasAgent) {
+            // Si ya no hay agente, forzar limpieza de ruta y restauración de clusters
+            clearAgentRoute();
+            btn.dataset.routeActive = '0';
+            btn.classList.remove('bg-brand-orange/20', 'border-brand-orange');
+            const labelEl = btn.querySelector('.route-label');
+            if (labelEl) labelEl.textContent = 'Ver Ruta';
+
+            if (state.map && state.markerCluster && !state.map.hasLayer(state.markerCluster)) {
+                state.map.addLayer(state.markerCluster);
+            }
+        }
+    };
+
+    // Estado inicial
+    syncBtn();
+
+    // Reaccionar al cambio del filtro de encuestador
+    selEnc.addEventListener('change', syncBtn);
+
+    // También re-sincronizar cuando se apliquen filtros globales (por si cambian los puntos)
+    document.addEventListener('filtersApplied', syncBtn);
+
+    // Acción principal: toggle de ruta (activa ↔ oculta)
+    btn.addEventListener('click', () => {
+        const cedula = selEnc.value;
+        if (!cedula) return;
+
+        const isActive = btn.dataset.routeActive === '1';
+
+        if (isActive) {
+            // Desactivar ruta y restaurar clusters
+            clearAgentRoute();
+            btn.dataset.routeActive = '0';
+
+            // Restaurar marcadores de encuestas
+            if (state.map && state.markerCluster && !state.map.hasLayer(state.markerCluster)) {
+                state.map.addLayer(state.markerCluster);
+            }
+
+            // Restaurar estilo normal del botón
+            btn.classList.remove('bg-brand-orange/20', 'border-brand-orange');
+            if (countLabel) countLabel.textContent = `${state.filtered.filter(r =>
+                r._meta?.cedula === cedula && r._meta.lat && r._meta.lng).length} pts`;
+            const labelEl = btn.querySelector('.route-label');
+            if (labelEl) labelEl.textContent = 'Ver Ruta';
+        } else {
+            // Activar ruta: navegar al mapa y trazar
+            const tabBtn = document.querySelector('[data-tab="tab-mapa"]');
+            if (tabBtn) tabBtn.click();
+
+            setTimeout(() => {
+                drawAgentRoute(cedula);
+                btn.dataset.routeActive = '1';
+
+                // Ocultar clusters para ver la ruta limpia
+                if (state.map && state.markerCluster && state.map.hasLayer(state.markerCluster)) {
+                    state.map.removeLayer(state.markerCluster);
+                }
+
+                // Estilo activo del botón
+                btn.classList.add('bg-brand-orange/20', 'border-brand-orange');
+
+                const pts = state.filtered.filter(r =>
+                    r._meta?.cedula === cedula && r._meta.lat && r._meta.lng
+                ).length;
+                if (countLabel) countLabel.textContent = `${pts} pts`;
+                const labelEl = btn.querySelector('.route-label');
+                if (labelEl) labelEl.textContent = 'Ocultar Ruta';
+            }, 200);
+        }
+
+    });
+}
+

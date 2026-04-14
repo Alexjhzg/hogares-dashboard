@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>cccc V3 — Analytics Dashboard</title>
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+  <title>DashboardSociales — Analytics Dashboard</title>
 
   <!-- Google Fonts: Outfit (Headings/KPIs) & Inter (Data/Body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -103,22 +105,56 @@
       }
       /* ─── Utility ─── */
       .hidden-tab { display: none !important; }
+
+      /* ─── Compact Map Filters (Floating Overlay) ─── */
+      .map-kpi-compact {
+        @apply absolute top-4 right-20 z-[500] 
+               !flex-row !gap-2 p-1.5 
+               bg-white/40 dark:bg-slate-900/40 backdrop-blur-2xl 
+               border border-white/20 rounded-2xl shadow-2xl
+               animate-in fade-in slide-in-from-right-4 duration-500;
+        width: auto !important;
+      }
+      .map-kpi-compact .header-label, 
+      .map-kpi-compact .divider { display: none !important; }
+      
+      .map-kpi-compact .glass-panel,
+      .map-kpi-compact button {
+        @apply !p-2 !gap-2 !flex-row !border-l-0 !border-b-2 
+               !rounded-xl min-w-[70px] h-9 items-center justify-center;
+      }
+      .map-kpi-compact button span.uppercase,
+      .map-kpi-compact .glass-panel span.uppercase { @apply text-[8px] leading-tight; }
+      .map-kpi-compact button .text-sm,
+      .map-kpi-compact .glass-panel .text-sm { @apply text-xs font-black h-fit; }
+      .map-kpi-compact i { @apply w-3.5 h-3.5; }
+      
+      /* Fullscreen adjustment */
+      .map-fullscreen .map-kpi-compact {
+        @apply top-6 right-6 scale-110 origin-top-right;
+      }
     }
   </style>
   <style>
     #filterINE.active {
-      background-color: #3B82F6 !important;
+      background-color: #10B981 !important;
       color: white !important;
-      border-color: #3B82F6 !important;
+      border-color: #10B981 !important;
+    }
+    #filterSEGEN.active {
+      background-color: #8B5CF6 !important;
+      color: white !important;
+      border-color: #8B5CF6 !important;
     }
 
-    #filterINE.active i {
+    #filterINE.active i, #filterSEGEN.active i {
       color: white !important;
     }
   </style>
 
   <!-- Scripts & External CSS (Chart.js, Lucide, Leaflet, Tabulator) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -147,11 +183,12 @@
         <i data-lucide="activity" class="w-6 h-6"></i>
       </div>
       <div>
-        <h1 class="text-lg font-outfit font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
-          ESCA V3 <span
-            class="bg-brand-blue/20 text-brand-blue text-[10px] px-2 py-0.5 rounded-md uppercase tracking-widest font-bold">Analytics</span>
+        <h1
+          class="text-lg font-outfit font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-2">
+          DashboardSociales <span
+            class="bg-brand-blue/20 text-brand-blue text-[10px] px-2 py-0.5 rounded-md uppercase tracking-widest font-bold">SEEM</span>
         </h1>
-        <p class="text-[10px] text-slate-400 font-medium uppercase tracking-widest font-inter">Intelligence Engine</p>
+        <p class="text-[10px] text-slate-400 font-medium uppercase tracking-widest font-inter">ESCA/EHM</p>
       </div>
     </div>
 
@@ -174,8 +211,8 @@
       <button id="btnThemeToggle"
         class="p-2.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl text-slate-500 hover:text-brand-blue dark:text-slate-400 dark:hover:text-white dark:hover:border-slate-600 transition-all"
         aria-label="Alternar tema">
-        <i data-lucide="moon" class="w-4 h-4 hidden dark:block" id="iconMoon"></i>
-        <i data-lucide="sun" class="w-4 h-4 block dark:hidden" id="iconSun"></i>
+        <i data-lucide="moon" class="w-4 h-4 block dark:hidden" id="iconMoon"></i>
+        <i data-lucide="sun" class="w-4 h-4 hidden dark:block" id="iconSun"></i>
       </button>
 
       <button id="btnRefresh" disabled
@@ -205,7 +242,7 @@
 
   <!-- ======= MAIN CONTENT ======= -->
   <main id="mainContent"
-    class="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8 hidden max-w-[1600px] mx-auto w-full">
+    class="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8 hidden max-w-[1800px] mx-auto w-full">
 
     <!-- Secondary Filters (Header Extension via Hero-Centric layout) -->
     <section
@@ -246,8 +283,14 @@
 
         <button id="filterINE"
           class="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl text-slate-500 hover:text-brand-blue hover:border-brand-blue/50 transition-all font-inter text-xs font-bold whitespace-nowrap group">
-          <i data-lucide="verified" class="w-4 h-4 group-[.active]:text-white"></i>
+          <i data-lucide="chart-column-increasing" class="w-4 h-4 group-[.active]:text-white"></i>
           <span>Solo INE</span>
+        </button>
+
+        <button id="filterSEGEN"
+          class="flex items-center gap-2 px-4 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl text-slate-500 hover:text-brand-purple hover:border-brand-purple/50 transition-all font-inter text-xs font-bold whitespace-nowrap group">
+          <i data-lucide="map-pinned" class="w-4 h-4 group-[.active]:text-white"></i>
+          <span>Solo SEGEN</span>
         </button>
 
         <button id="btnReset" class="btn-secondary py-2.5 px-4 group" title="Limpiar filtros" aria-label="Limpiar">
@@ -265,223 +308,243 @@
     </section>
 
     <!-- Contextual Segmented Navigation -->
-    <nav id="mainTabs" class="flex items-center gap-2 overflow-x-auto py-3 px-1 w-fit mx-auto lg:mx-0 relative z-10">
-      <button data-tab="tab-resumen" class="tab-btn active"><i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-        Resumen</button>
-      <button data-tab="tab-productividad" class="tab-btn"><i data-lucide="workflow" class="w-4 h-4"></i>
-        Operativa</button>
-      <button data-tab="tab-vivienda" class="tab-btn"><i data-lucide="home" class="w-4 h-4"></i> Demografía</button>
-      <button data-tab="tab-mapa" class="tab-btn"><i data-lucide="map" class="w-4 h-4"></i> Cobertura y Datos</button>
-      <button data-tab="tab-ranking" class="tab-btn"><i data-lucide="bar-chart-2" class="w-4 h-4"></i>
-        Desempeño</button>
-      <button data-tab="tab-mm111" class="tab-btn"><i data-lucide="clipboard-list" class="w-4 h-4"></i> MM-111</button>
-    </nav>
-
-    <!-- Alert Banner for Library Load Errors (Brave/Blocked Scripts) -->
-    <div id="libCheckWarn" class="hidden mx-6 mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-3 animate-pulse">
-      <i data-lucide="alert-triangle" class="text-red-500 w-5 h-5 flex-shrink-0"></i>
-      <p class="text-sm text-red-500 font-bold">Error: Algunas librerías externas (Tabulator/Chart) no pudieron cargarse. Desactiva Brave Shields o revisa tu conexión.</p>
+    <div class="flex items-center justify-center lg:justify-start">
+      <nav id="mainTabs"
+        class="flex items-center gap-1 p-1.5 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 rounded-[22px] backdrop-blur-md shadow-sm relative z-10 w-fit">
+        <button data-tab="tab-resumen" class="tab-btn active"><i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+          Vista General</button>
+        <button data-tab="tab-mapa" class="tab-btn"><i data-lucide="map" class="w-4 h-4"></i> Cobertura y Datos</button>
+        <button data-tab="tab-ranking" class="tab-btn"><i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+          Desempeño</button>
+        <button data-tab="tab-mm111" class="tab-btn"><i data-lucide="clipboard-list" class="w-4 h-4"></i> MM-111</button>
+        <button data-tab="tab-inconsistencias" class="tab-btn"><i data-lucide="shield-alert" class="w-4 h-4"></i>
+          Inconsistencias</button>
+      </nav>
     </div>
 
-    <!-- MODULO: RESUMEN -->
+    <!-- Alert Banner for Library Load Errors (Brave/Blocked Scripts) -->
+    <div id="libCheckWarn"
+      class="hidden mx-6 mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-3 animate-pulse">
+      <i data-lucide="alert-triangle" class="text-red-500 w-5 h-5 flex-shrink-0"></i>
+      <p class="text-sm text-red-500 font-bold">Error: Algunas librerías externas (Tabulator/Chart) no pudieron
+        cargarse. Desactiva Brave Shields o revisa tu conexión.</p>
+    </div>
+
+    <!-- MODULO: VISTA GENERAL (Unifica Resumen + Operativa + Vivienda) -->
     <div id="tab-resumen" class="tab-content flex flex-col gap-6 animate-fade-in">
+
+      <!-- Encabezado del módulo -->
       <div class="flex justify-between items-end px-2">
         <div>
-          <h2 class="text-2xl font-black font-outfit text-slate-800 dark:text-white">Vista Global</h2>
-          <p class="text-sm text-slate-500 font-inter">Métricas principales del proyecto operando en tiempo real.</p>
+          <h2 class="text-2xl font-black font-outfit text-slate-800 dark:text-white">Vista General</h2>
+          <p class="text-sm text-slate-500 font-inter">Métricas clave de producción, calidad y caracterización del
+            campo.</p>
         </div>
         <div id="currentDateDisplay"
           class="bg-brand-blue/10 border border-brand-blue/20 text-brand-blue px-4 py-1.5 rounded-full text-xs font-bold tracking-wide">
           --</div>
       </div>
 
-      <section class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
-        <div class="card-premium group relative animate-slide-up">
+      <!-- ====================================================== -->
+      <!-- TIER 1: Indicadores Críticos de Producción (5 tarjetas) -->
+      <!-- ====================================================== -->
+      <section class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
+
+        <div class="card-premium group relative animate-slide-up"
+          title="Suma total de formularios enviados al servidor, incluyendo efectivos y no respuestas.">
           <div class="card-glow bg-blue-500/10 group-hover:bg-blue-500/20"></div>
           <div class="h-10 w-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center mb-4">
             <i data-lucide="files" class="w-5 h-5"></i>
           </div>
-          <div class="kpi-value-text text-3xl font-black font-outfit tracking-tighter" id="kpiTotal">0</div>
-          <div class="text-[10px] font-bold text-blue-400 tracking-wider uppercase mt-1">Volumen Total</div>
+          <div class="kpi-value-text" id="kpiTotal">0</div>
+          <div class="text-[10px] font-bold text-blue-400 tracking-wider uppercase mt-1">Total Encuestas Recibidas</div>
         </div>
 
-        <div class="card-premium group relative animate-slide-up">
+        <div class="card-premium group relative animate-slide-up"
+          title="Entrevistas completadas exitosamente según el protocolo de levantamiento.">
           <div class="card-glow bg-emerald-500/10 group-hover:bg-emerald-500/20"></div>
           <div class="h-10 w-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">
             <i data-lucide="check-circle" class="w-5 h-5"></i>
           </div>
-          <div class="kpi-value-text text-3xl font-black font-outfit tracking-tighter" id="kpiCompletadas">0</div>
-          <div class="text-[10px] font-bold text-emerald-400 tracking-wider uppercase mt-1">Efectivas</div>
+          <div class="kpi-value-text" id="kpiCompletadas">0</div>
+          <div class="text-[10px] font-bold text-emerald-400 tracking-wider uppercase mt-1">Encuestas Efectivas</div>
         </div>
 
-        <div class="card-premium group relative animate-slide-up">
+        <div class="card-premium group relative animate-slide-up"
+          title="Registros donde no se pudo completar la entrevista (rechazo, ausencia, vivienda desocupada, etc).">
+          <div class="card-glow bg-orange-500/10 group-hover:bg-orange-500/20"></div>
+          <div class="h-10 w-10 rounded-lg bg-orange-500/20 text-orange-400 flex items-center justify-center mb-4">
+            <i data-lucide="help-circle" class="w-5 h-5"></i>
+          </div>
+          <div class="kpi-value-text" id="kpiNoRespuesta">0</div>
+          <div class="text-[10px] font-bold text-orange-400 tracking-wider uppercase mt-1">No Respuestas</div>
+        </div>
+
+        <div class="card-premium group relative animate-slide-up"
+          title="Relación porcentual entre encuestas completadas exitosamente y el total de intentos realizados.">
+          <div class="card-glow bg-sky-500/10 group-hover:bg-sky-500/20"></div>
+          <div class="h-10 w-10 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center mb-4">
+            <i data-lucide="percent" class="w-5 h-5"></i>
+          </div>
+          <div class="kpi-value-text" id="kpiTasaEfectividad">0%</div>
+          <div class="text-[10px] font-bold text-sky-400 tracking-wider uppercase mt-1">Tasa de Efectividad</div>
+        </div>
+
+        <div class="card-premium group relative animate-slide-up"
+          title="Personal operativo único que ha transmitido al menos un registro en el periodo seleccionado.">
           <div class="card-glow bg-purple-500/10 group-hover:bg-purple-500/20"></div>
           <div class="h-10 w-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center mb-4">
             <i data-lucide="users" class="w-5 h-5"></i>
           </div>
-          <div class="kpi-value-text text-3xl font-black font-outfit tracking-tighter" id="kpiEncuestadores">0</div>
-          <div class="text-[10px] font-bold text-purple-400 tracking-wider uppercase mt-1">Fuerza Laboral</div>
+          <div class="kpi-value-text" id="kpiEncuestadores">0</div>
+          <div class="text-[10px] font-bold text-purple-400 tracking-wider uppercase mt-1">Encuestadores Activos</div>
         </div>
 
-        <div class="card-premium group relative animate-slide-up">
-          <div class="card-glow bg-amber-500/10 group-hover:bg-amber-500/20"></div>
-          <div class="h-10 w-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center mb-4">
-            <i data-lucide="clock" class="w-5 h-5"></i>
-          </div>
-          <div class="kpi-value-text text-3xl font-black font-outfit tracking-tighter" id="kpiDuracion">0m</div>
-          <div class="text-[10px] font-bold text-amber-400 tracking-wider uppercase mt-1">Tiempos Prom.</div>
-        </div>
-
-        <div class="card-premium group relative animate-slide-up">
-          <div class="card-glow bg-teal-500/10 group-hover:bg-teal-500/20"></div>
-          <div class="h-10 w-10 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center mb-4">
-            <i data-lucide="users-2" class="w-5 h-5"></i>
-          </div>
-          <div class="kpi-value-text text-3xl font-black font-outfit tracking-tighter" id="kpiPersonas">0</div>
-          <div class="text-[10px] font-bold text-teal-400 tracking-wider uppercase mt-1">Población M.</div>
-        </div>
-
-        <div class="card-premium group relative animate-slide-up">
+        <div class="card-premium group relative animate-slide-up"
+          title="Número de encuestas que dispararon al menos una regla de validación o inconsistencia técnica.">
           <div class="card-glow bg-red-500/10 group-hover:bg-red-500/20"></div>
           <div class="h-10 w-10 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center mb-4">
-            <i data-lucide="map-pin" class="w-5 h-5"></i>
+            <i data-lucide="shield-alert" class="w-5 h-5"></i>
           </div>
-          <div class="kpi-value-text text-3xl font-black font-outfit tracking-tighter" id="kpiMunicipios">0</div>
-          <div class="text-[10px] font-bold text-red-400 tracking-wider uppercase mt-1">Nodos Locales</div>
+          <div class="kpi-value-text" id="kpiTotalAlertas">0</div>
+          <div class="text-[10px] font-bold text-red-400 tracking-wider uppercase mt-1">Registros con Alertas</div>
         </div>
+
       </section>
 
-      <div class="card-premium h-[450px] flex flex-col">
-        <div class="flex justify-between items-center mb-6">
-          <h3 class="font-bold flex items-center gap-2 font-outfit text-lg"><i data-lucide="activity"
-              class="text-brand-blue"></i>
-            Flujo de Actividad Temporal</h3>
-        </div>
-        <div class="flex-1 w-full min-h-0 relative">
-          <canvas id="chartPorDia"></canvas>
-        </div>
-      </div>
-    </div>
+      <!-- =========================================================== -->
+      <!-- TIER 2: Indicadores de Calidad y Tiempo (4 tarjetas)         -->
+      <!-- =========================================================== -->
+      <section class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-4">
 
-    <!-- MODULO: PRODUCTIVIDAD -->
-    <div id="tab-productividad" class="tab-content flex flex-col gap-8 hidden-tab">
-      <div class="flex justify-between items-end px-2">
-        <div>
-          <h2 class="text-2xl font-black font-outfit text-slate-900 dark:text-white">Centro de Operaciones</h2>
-          <p class="text-sm text-slate-500">Métricas analíticas de la eficiencia del campo.</p>
+        <div class="card-premium border-l-2 border-l-brand-orange"
+          title="Tiempo promedio de entrevista calculado únicamente sobre las encuestas marcadas como 'completadas'.">
+          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-brand-orange/80"></i> Duración Media (Efectivas)</div>
+          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiDuracion">0m</div>
+          <div class="text-[10px] text-brand-orange font-medium mt-1">Solo encuestas completadas</div>
         </div>
-      </div>
 
-      <!-- KPIs de Productividad -->
-      <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div class="card-premium border-l-2 border-l-brand-blue">
-          <div class="kpi-label !mt-0 mb-2">Velocidad (Enc/Hr)</div>
-          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiEncPerHour">0.0</div>
-          <div class="text-[10px] text-brand-blue font-medium mt-1">Velocidad media teórica</div>
+        <div class="card-premium border-l-2 border-l-teal-500"
+          title="Suma total de personas registradas en los hogares que completaron la encuesta exitosamente.">
+          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="users" class="w-4 h-4 text-teal-500/80"></i> Integrantes Relevados</div>
+          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiPersonas">0</div>
+          <div class="text-[10px] text-teal-400 font-medium mt-1">Total personas en hogares</div>
         </div>
-        <div class="card-premium border-l-2 border-l-brand-purple relative overflow-hidden">
-          <div class="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-brand-purple/10 to-transparent"></div>
-          <div class="kpi-label !mt-0 mb-2">Top Performer</div>
-          <div class="text-xl font-bold font-outfit text-slate-900 dark:text-white truncate w-full pr-4" id="kpiTopProducer">--</div>
-          <div class="text-[10px] text-brand-purple font-black mt-1 uppercase" id="kpiTopProducerVal">0 vol.</div>
+
+        <div class="card-premium border-l-2 border-l-blue-500"
+          title="Suma total de hombres registrados en los hogares que completaron la encuesta exitosamente.">
+          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="mars" class="w-4 h-4 text-blue-500/80"></i> Hombres Encuestados</div>
+          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiHombres">0</div>
+          <div class="text-[10px] text-blue-500 font-medium mt-1">Total hombres</div>
         </div>
-        <div class="card-premium border-l-2 border-l-brand-emerald">
-          <div class="kpi-label !mt-0 mb-2">Hot Zone (Horaria)</div>
-          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiPeakHour">--</div>
-          <div class="text-[10px] text-brand-emerald font-medium mt-1">Pico máx. de registros</div>
+
+        <div class="card-premium border-l-2 border-l-pink-500"
+          title="Suma total de mujeres registradas en los hogares que completaron la encuesta exitosamente.">
+          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="venus" class="w-4 h-4 text-pink-500/80"></i> Mujeres Encuestadas</div>
+          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiMujeres">0</div>
+          <div class="text-[10px] text-pink-500 font-medium mt-1">Total mujeres</div>
         </div>
-        <div class="card-premium bg-slate-100/80 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700">
-          <div class="flex justify-between items-baseline mb-2">
-            <div class="kpi-label !mt-0">Progreso de Meta</div>
-            <div class="text-sm font-black text-brand-orange font-outfit" id="kpiMetaProgreso">0%</div>
-          </div>
-          <div class="h-2 bg-slate-200 dark:bg-slate-900 rounded-full overflow-hidden mb-3">
-            <div id="kpiMetaBar"
-              class="h-full bg-gradient-to-r from-brand-orange to-[#FBBF24] transition-all duration-1000 ease-out"
-              style="width: 0%"></div>
-          </div>
-          <div
-            class="flex justify-between items-center bg-white dark:bg-[#0B1120] rounded-lg p-1.5 border border-slate-200 dark:border-slate-800">
-            <label for="inputMetaDiaria" class="text-[10px] text-slate-400 font-medium pl-1 hidden sm:block">Obj.
-              Diario: </label>
-            <div class="flex items-center gap-1 mx-auto sm:mx-0">
-              <input type="number" id="inputMetaDiaria" min="1" max="500" value="20"
-                class="w-14 bg-transparent text-brand-orange font-bold font-outfit outline-none text-right pr-1"
-                aria-label="Meta diaria" />
-              <span class="text-[10px] text-slate-500 pr-2">U/d</span>
-            </div>
-          </div>
-        </div>
+
+
       </section>
 
+      <!-- =========================================================== -->
+      <!-- SECCIÓN C — ROW 1: Flujo Temporal + Mapa Caliente Horario  -->
+      <!-- =========================================================== -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="card-premium h-[400px] flex flex-col">
+
+        <div class="card-premium h-[380px] flex flex-col">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-lg"><i data-lucide="bar-chart-3"
-                class="text-brand-blue"></i>
-              Composición de Volumen</h3>
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-base">
+              <i data-lucide="activity" class="text-brand-blue w-4 h-4"></i>
+              Tendencia de Levantamiento Diario
+            </h3>
+          </div>
+          <div class="flex-1 w-full min-h-0 relative"><canvas id="chartPorDia"></canvas></div>
+        </div>
+
+        <div class="card-premium h-[380px] flex flex-col">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-base">
+              <i data-lucide="clock" class="text-brand-emerald w-4 h-4"></i>
+              Distribución de Encuestas por Hora
+            </h3>
+          </div>
+          <div class="flex-1 w-full min-h-0 relative"><canvas id="chartHorario"></canvas></div>
+        </div>
+
+      </div>
+
+      <!-- =========================================================== -->
+      <!-- SECCIÓN C — ROW 2: Vol./Enc. | Tipología | Uso            -->
+      <!-- =========================================================== -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="card-premium h-[380px] flex flex-col">
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h3 class="font-bold flex items-center gap-2 font-outfit text-base">
+                <i data-lucide="bar-chart-3" class="text-brand-blue w-4 h-4"></i>
+                Composición de Volumen
+              </h3>
+              <p class="text-[10px] text-slate-500 mt-0.5">Encuestas por encuestador (top 10)</p>
+            </div>
           </div>
           <div class="flex-1 w-full min-h-0 relative"><canvas id="chartEncuestador"></canvas></div>
         </div>
-        <div class="card-premium h-[400px] flex flex-col">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-lg"><i data-lucide="timer"
-                class="text-brand-purple"></i>
-              Desviación de Tiempos</h3>
+
+        <div class="card-premium h-[380px] flex flex-col items-center">
+          <div class="w-full mb-4">
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-base">
+              <i data-lucide="home" class="text-brand-purple w-4 h-4"></i>
+              Tipología de Vivienda
+            </h3>
+            <p class="text-[10px] text-slate-500 mt-0.5">Clasificación estructural relevada</p>
           </div>
-          <div class="flex-1 w-full min-h-0 relative"><canvas id="chartDuracion"></canvas></div>
-        </div>
-      </div>
-
-      <div class="card-premium h-[450px] flex flex-col">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="font-bold flex items-center gap-2 font-outfit text-lg"><i data-lucide="clock"
-              class="text-brand-emerald"></i>
-            Mapa Caliente Operativo</h3>
-        </div>
-        <div class="flex-1 w-full min-h-0 relative"><canvas id="chartHorario"></canvas></div>
-      </div>
-    </div>
-
-    <!-- MODULO: VIVIENDA -->
-    <div id="tab-vivienda" class="tab-content flex flex-col gap-6 hidden-tab">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="card-premium text-center flex flex-col items-center">
-          <h3 class="font-outfit font-bold text-lg mb-2 pt-2">Tipología de Vivienda</h3>
-          <p class="text-xs text-slate-500 mb-6 border-b border-slate-800 pb-4 w-full">Clasificación estructural
-            relevada</p>
-          <div class="h-80 w-full relative"><canvas id="chartCondicion"></canvas></div>
+          <div class="flex-1 w-full min-h-0 relative"><canvas id="chartCondicion"></canvas></div>
           <div id="condicionTotal"
-            class="mt-4 px-4 py-1.5 bg-slate-800/50 rounded-lg text-xs text-slate-300 font-bold border border-slate-700/50">
+            class="mt-3 px-3 py-1 bg-slate-100 dark:bg-slate-800/50 rounded-lg text-[10px] text-slate-500 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700/50">
             Total: 0 unidades</div>
         </div>
 
-        <div class="card-premium text-center flex flex-col items-center">
-          <h3 class="font-outfit font-bold text-lg mb-2 pt-2">Destino de la Estructura</h3>
-          <p class="text-xs text-slate-500 mb-6 border-b border-slate-800 pb-4 w-full">Uso funcional primario detectado
-          </p>
-          <div class="h-80 w-full relative"><canvas id="chartUso"></canvas></div>
+        <div class="card-premium h-[380px] flex flex-col items-center">
+          <div class="w-full mb-4">
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-base">
+              <i data-lucide="building-2" class="text-brand-emerald w-4 h-4"></i>
+              Destino de la Estructura
+            </h3>
+            <p class="text-[10px] text-slate-500 mt-0.5">Uso funcional primario detectado</p>
+          </div>
+          <div class="flex-1 w-full min-h-0 relative"><canvas id="chartUso"></canvas></div>
           <div id="usoTotal"
-            class="mt-4 px-4 py-1.5 bg-slate-800/50 rounded-lg text-xs text-slate-300 font-bold border border-slate-700/50">
+            class="mt-3 px-3 py-1 bg-slate-100 dark:bg-slate-800/50 rounded-lg text-[10px] text-slate-500 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700/50">
             Total: 0 unidades</div>
         </div>
+
       </div>
+
     </div>
+
+    <!-- [DEPRECATED v36] — Contenido migrado a #tab-resumen (Vista General). Eliminar tras validar v36. -->
+    <!--
+    <div id="tab-productividad" class="tab-content flex flex-col gap-8 hidden-tab">
+      ... (contenido original omitido)
+    </div>
+    -->
+
 
     <!-- MODULO: MAPA -->
-    <div id="tab-mapa" class="tab-content flex flex-col gap-8 hidden-tab animate-fade-in">
+    <div id="tab-mapa" class="tab-content flex flex-col gap-4 hidden-tab animate-fade-in">
 
       <div id="mapSectionWrapper"
-        class="grid grid-cols-1 xl:grid-cols-4 gap-6 h-[500px] sm:h-[600px] transition-all duration-500">
+        class="grid grid-cols-1 xl:grid-cols-12 gap-6 h-[80vh] min-h-[700px] transition-all duration-500">
         <div id="mapDisplayContainer"
-          class="xl:col-span-3 relative glass-panel rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 shadow-inner">
+          class="xl:col-span-10 relative glass-panel rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 shadow-inner">
           <!-- Map title overlay -->
           <div
-            class="absolute top-4 left-4 z-[500] flex justify-between items-start w-[calc(100%-2rem)] pointer-events-none">
-            <div>
-              <h3 class="font-outfit text-slate-400 text-xs font-bold uppercase tracking-widest">Vista de Cobertura</h3>
-              <p class="text-[10px] text-slate-500 mt-0.5">Distribución geográfica en tiempo real</p>
-            </div>
+            class="absolute top-4 left-4 z-[500] pointer-events-none">
+            <h3 class="font-outfit text-slate-400 text-xs font-bold uppercase tracking-widest">Vista de Cobertura</h3>
+            <p class="text-[10px] text-slate-500 mt-0.5">Distribución geográfica en tiempo real</p>
           </div>
 
           <!-- Map Expansion Control Group (Bottom Right) -->
@@ -549,9 +612,10 @@
           </div>
         </div>
 
-        <!-- Cobertura Extended Metrics & Quick Filters (Spans 1 column) -->
-        <div id="mapKpiGrid" class="flex flex-col gap-3">
-          <div class="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-widest ml-1 mb-1">
+        <!-- Cobertura Extended Metrics & Quick Filters -->
+        <div id="mapKpiGrid" class="xl:col-span-2 flex flex-col gap-3 transition-all duration-500 overflow-visible">
+          <div
+            class="header-label text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-widest ml-1 mb-1">
             Filtros Rápidos</div>
 
           <button id="btnMapFilterAll"
@@ -567,7 +631,8 @@
             class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-green hover:bg-brand-green/5 transition-all group">
             <div class="flex items-center gap-2">
               <i data-lucide="check-circle" class="w-3.5 h-3.5 text-brand-green"></i>
-              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Efectivas</span>
+              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Encuestas
+                efectivas</span>
             </div>
             <span class="text-sm font-black font-outfit text-slate-800 dark:text-white" id="mapKpiComplete">0</span>
           </button>
@@ -590,7 +655,19 @@
             <span class="text-sm font-black font-outfit text-brand-red" id="mapKpiAlertas">0</span>
           </button>
 
-          <div class="mt-2 pt-2 border-t border-slate-200 dark:border-white/5">
+          <div class="divider mt-2 pt-2 border-t border-slate-200 dark:border-white/5 flex flex-col gap-2">
+            <!-- Boton Ver Ruta de encuestador -->
+            <button id="btnVerRutaAgente"
+              data-route-active="0"
+              class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange hover:bg-brand-orange/5 transition-all group active:scale-[.98] disabled:opacity-40 disabled:cursor-not-allowed"
+              title="Selecciona un encuestador en el filtro superior para trazar su ruta" disabled>
+              <div class="flex items-center gap-2">
+                <i data-lucide="route" class="w-3.5 h-3.5 text-brand-orange"></i>
+                <span class="route-label text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Ver Ruta</span>
+              </div>
+              <span id="mapRouteAgentCount" class="text-[10px] font-black font-outfit text-brand-orange">—</span>
+            </button>
+
             <div
               class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-purple opacity-80">
               <div class="flex items-center gap-2">
@@ -604,7 +681,7 @@
       </div>
 
       <!-- Combined Data Engine Section (Stacked below) -->
-      <div class="card-premium flex flex-col overflow-hidden p-0 h-[500px] border border-slate-200 dark:border-white/5">
+      <div class="card-premium flex flex-col overflow-hidden p-0 h-[85vh] min-h-[750px] border border-slate-200 dark:border-white/5">
         <div
           class="p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50 dark:bg-slate-900/50">
           <div class="flex items-center gap-3">
@@ -643,7 +720,7 @@
               <i data-lucide="check-circle" class="text-brand-emerald w-5 h-5"></i>
             </div>
             <div>
-              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Efectivas</p>
+              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Encuestas efectivas</p>
               <h3 class="font-black font-outfit text-2xl text-slate-800 dark:text-white" id="rankKpiEfectivas">0</h3>
             </div>
           </div>
@@ -707,6 +784,63 @@
     </div>
 
 
+
+    <!-- MODULO: INCONSISTENCIAS -->
+    <div id="tab-inconsistencias" class="tab-content flex flex-col gap-6 hidden-tab">
+      <div class="flex justify-between items-end px-2">
+        <div>
+          <h2 class="text-2xl font-black font-outfit text-slate-900 dark:text-white">Motor de Inconsistencias</h2>
+          <p class="text-sm text-slate-500">Alertas de calidad de datos detectadas automáticamente por el sistema de
+            validación.</p>
+        </div>
+      </div>
+
+      <!-- Cards resumen por tipo de alerta -->
+      <div id="inconsistenciasCards" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+        <!-- Rendered by inconsistencias.js -->
+      </div>
+
+      <!-- Tabla de detalle de registros con alertas -->
+      <div id="inconsistenciasContainer" class="card-premium flex flex-col overflow-hidden p-0">
+        <div
+          class="p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-50 dark:bg-slate-900/50">
+          <div class="flex items-center gap-3">
+            <div class="p-2 bg-brand-red/10 rounded-lg">
+              <i data-lucide="shield-alert" class="text-brand-red w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="font-bold font-outfit text-lg text-slate-800 dark:text-white">Registros con Alertas Activas
+              </h3>
+              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Detalle de todas las
+                inconsistencias por registro</p>
+            </div>
+          </div>
+          <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+            <div class="relative w-full sm:w-48">
+              <i data-lucide="filter" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+              <select id="incFilterAlerta"
+                class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-800 dark:text-white outline-none focus:border-brand-red/50 focus:ring-1 transition-all appearance-none cursor-pointer">
+                <option value="">Todas las alertas</option>
+                <!-- Rendered by inconsistencias.js -->
+              </select>
+            </div>
+            <div class="relative w-full sm:w-64">
+              <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+              <input type="text" id="incSearchInput" placeholder="Buscar cédula, control, etc..."
+                class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-xl pl-10 pr-8 py-2 text-xs text-slate-800 dark:text-white outline-none focus:border-brand-red/50 focus:ring-1 transition-all" />
+              <button id="incClearSearch"
+                class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-brand-red hidden transition-colors"
+                title="Limpiar búsqueda">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="inconsistenciasTable" class="w-full" style="height: 500px;">
+          <!-- Tabulator will be initialized here -->
+        </div>
+      </div>
+    </div>
 
     <!-- MODULO: MM-111 VERIFICACION FÍSICA -->
     <div id="tab-mm111" class="tab-content flex flex-col gap-6 hidden-tab h-[calc(100vh-180px)]">
@@ -945,7 +1079,7 @@
             </select>
           </div>
           <div class="group">
-            <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Nodo / Sector</label>
+            <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Nodo / Zona</label>
             <select id="filterNodo"
               class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-blue transition-colors">
               <option value="">Todos los nodos</option>
@@ -1013,6 +1147,13 @@
               <option value="">Todos</option>
             </select>
           </div>
+          <div class="group">
+            <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Alertas Detectadas</label>
+            <select id="filterAlerta"
+              class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-orange transition-colors">
+              <option value="">Todas las alertas</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
@@ -1033,20 +1174,20 @@
     <div class="absolute inset-0 bg-[#0B1120]/80 backdrop-blur-md" onclick="closeDetailModal()" aria-hidden="true">
     </div>
     <div
-      class="bg-slate-900 border border-slate-700 p-0 rounded-2xl z-10 w-11/12 max-w-7xl text-slate-200 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col transform transition-all scale-95 opacity-0"
+      class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-0 rounded-2xl z-10 w-11/12 max-w-7xl text-slate-800 dark:text-slate-200 shadow-[0_20px_60px_rgba(0,0,0,0.15)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col transform transition-all scale-95 opacity-0"
       id="detailModalPane" role="dialog" aria-modal="true" aria-labelledby="detailModalTitle">
-      <div class="flex justify-between items-center p-6 border-b border-slate-800 bg-slate-800/50">
-        <h3 id="detailModalTitle" class="font-outfit font-black text-xl text-white flex items-center gap-3">
+      <div class="flex justify-between items-center p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50">
+        <h3 id="detailModalTitle" class="font-outfit font-black text-xl text-slate-900 dark:text-white flex items-center gap-3">
           <i data-lucide="file-json" class="text-brand-purple w-6 h-6"></i> Ficha de Inspección
         </h3>
         <div class="flex items-center gap-2">
           <button onclick="toggleDetailModalExpand()" id="detailModalExpand"
-            class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-white transition-colors border border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-purple"
+            class="p-2 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-purple"
             title="Expandir/Contraer">
             <i data-lucide="maximize" id="detailModalExpandIcon" class="w-4 h-4"></i>
           </button>
           <button onclick="closeDetailModal()" id="detailModalClose"
-            class="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-white transition-colors border border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-purple">
+            class="p-2 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-purple">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
@@ -1063,14 +1204,14 @@
   <footer class="border-t border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0B1120] px-6 py-4 mt-auto">
     <div
       class="max-w-[1600px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] text-slate-500 font-inter">
-      <span>ESCA V3 Analytics — Intelligence Engine &copy; 2026</span>
+      <span>DashboardSociales — ESCA/EHM &copy; 2026</span>
       <div class="flex items-center gap-4">
         <span class="text-slate-600">Powered by KoboToolbox + FastAPI</span>
       </div>
     </div>
   </footer>
 
-  <script type="module" src="js/main.js?v=34"></script>
+  <script type="module" src="js/main.js?v=39"></script>
 </body>
 
 </html>

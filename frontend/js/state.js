@@ -7,6 +7,7 @@ export const state = {
     rawData: [],
     filtered: [],
     encMap: {},           // cedula → metrics object
+    assetName: '',        // Name of the currently loaded KoboToolbox form
 
     // Charts — keys match destroyChart() ids 
     charts: {},
@@ -18,8 +19,11 @@ export const state = {
     geoJSONData: null,     // Raw GeoJSON object
     segmentBBoxes: [],    // Pre-calculated BBOXES [{bbox: {}, code: ''}]
     detailMiniMapObj: null,
-    locMap: null,
-    locMarker: null,
+
+    // Control Points (CONTROLES.geojson)
+    controlsData: null,   // Raw GeoJSON for control points
+    controlsIndex: null,  // Map<'CONTROL-SERIE-LINEA', {COD_SEG, COD_MANZA}> for O(1) lookup
+    controlsLayer: null,  // Leaflet layer for control points overlay
 
     // Tables (Tabulator)
     detailTable: null,
@@ -31,6 +35,7 @@ export const state = {
     currentPage: 1,
     quickFilterMode: 'all',
     filterINE: false,
+    filterSEGEN: false,
 
     // Accessibility: last focused element before opening a modal
     lastFocused: null,

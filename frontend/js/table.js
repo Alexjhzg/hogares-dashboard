@@ -2,11 +2,11 @@
 // Manages the DB Raw Explorer Tabulator grid, the ranking leaderboard table,
 // and the agent score cards.
 
-import { state } from './state.js?v=34';
-import { ROWS_PER_PAGE, ALERT_MAP, IS_INE } from './config.js?v=34';
-import { $ } from './helpers.js?v=34';
-import { applyFilters } from './filters.js?v=34';
-import { showDetailModal } from './modal.js?v=34';
+import { state } from './state.js?v=39';
+import { ROWS_PER_PAGE, ALERT_MAP, IS_INE } from './config.js?v=39';
+import { $ } from './helpers.js?v=39';
+import { applyFilters } from './filters.js?v=39';
+import { showDetailModal } from './modal.js?v=39';
 
 // ── DB Raw Explorer ───────────────────────────────────────────────────────────
 

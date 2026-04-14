@@ -4,10 +4,10 @@
 //
 // renderAll is injected via setRenderAll() to avoid circular imports.
 
-import { state } from './state.js?v=34';
-import { $ } from './helpers.js?v=34';
+import { state } from './state.js?v=39';
+import { $ } from './helpers.js?v=39';
 
-import { IS_INE } from './config.js?v=34';
+import { IS_INE, ALERT_RULES } from './config.js?v=39';
 
 let _renderAll = () => {};
 /** Inject the renderAll callback from main.js */
@@ -39,6 +39,7 @@ export function populateFilters() {
     const selControl = $('filterControl');
     const selPar     = $('filterParroquia');
     const selNodo    = $('filterNodo');
+    const selAlerta  = $('filterAlerta');
 
     selEnc.innerHTML     = '<option value="">Todos</option>';
     selMun.innerHTML     = '<option value="">Todos</option>';
@@ -48,6 +49,15 @@ export function populateFilters() {
     if (selControl) selControl.innerHTML = '<option value="">Todos</option>';
     if (selPar)     selPar.innerHTML     = '<option value="">Todas</option>';
     if (selNodo)    selNodo.innerHTML    = '<option value="">Todos</option>';
+    if (selAlerta) {
+        selAlerta.innerHTML = '<option value="">Todas las alertas</option>';
+        ALERT_RULES.forEach(r => {
+            const o = document.createElement('option');
+            o.value = r.code;
+            o.textContent = r.label;
+            selAlerta.appendChild(o);
+        });
+    }
 
     const muns = new Set(), sitVs = new Set(), cons = new Set(),
           usos = new Set(), semanas = new Set(), controles = new Set(),
@@ -59,8 +69,14 @@ export function populateFilters() {
             const isIne = IS_INE.has(m.cedula);
             const opt = document.createElement('option');
             opt.value = m.cedula;
-            opt.textContent = `${m.nombre} (${m.cedula})${isIne ? ' [INE]' : ''}`;
-            if (isIne) opt.classList.add('font-bold', 'text-brand-blue');
+            opt.textContent = `${m.nombre} (${m.cedula})${isIne ? ' [INE]' : ' [SEGEN]'}`;
+            if (isIne) {
+                opt.classList.add('font-bold', 'text-brand-emerald');
+                opt.style.color = '#10B981'; // Emerald/Green
+            } else {
+                opt.classList.add('font-bold', 'text-brand-purple');
+                opt.style.color = '#8B5CF6'; // Purple
+            }
             selEnc.appendChild(opt);
         });
 
@@ -111,6 +127,7 @@ export function applyFilters() {
     const sitViv   = $('filterSituacionVivienda')?.value ?? '';
     const condicion = $('filterCondicion')?.value ?? '';
     const uso      = $('filterUso')?.value ?? '';
+    const alerta   = $('filterAlerta')?.value ?? '';
 
     state.filtered = state.rawData.filter(r => {
         const m = r._meta;
@@ -120,6 +137,10 @@ export function applyFilters() {
             const cleanCed = String(m.cedula).trim();
             if (!IS_INE.has(cleanCed)) return false;
         }
+        if (state.filterSEGEN) {
+            const cleanCed = String(m.cedula).trim();
+            if (IS_INE.has(cleanCed)) return false;
+        }
         if (fi       && m.fecha < fi)            return false;
         if (ff       && m.fecha > ff)            return false;
         if (semana   && m.semana !== semana)     return false;
@@ -127,19 +148,21 @@ export function applyFilters() {
         if (mun      && m.mun !== mun)           return false;
         if (parroquia && m.par !== parroquia)    return false;
         if (nodo     && m.nodo !== nodo)         return false;
-        if (estado === 'completada'   && !/totalment/i.test(m.nota)) return false;
-        if (estado === 'no_respuesta' && /totalment/i.test(m.nota))  return false;
-        if (state.quickFilterMode === 'efectivas'    && !/totalment/i.test(m.nota)) return false;
-        if (state.quickFilterMode === 'no_respuesta' && /totalment/i.test(m.nota))  return false;
+        if (estado === 'completada'   && m.estado !== 'completada') return false;
+        if ((estado === 'no_respuesta' || estado === 'parcial') && m.estado === 'completada')  return false;
+        if (state.quickFilterMode === 'efectivas'    && m.estado !== 'completada') return false;
+        if (state.quickFilterMode === 'no_respuesta' && m.estado === 'completada')  return false;
         if (state.quickFilterMode === 'alertas'      && !m.hasAlerts)            return false;
         if (sitViv   && m.situacion_vivienda !== sitViv) return false;
         if (condicion && m.condicion !== condicion)      return false;
         if (uso      && m.uso !== uso)                   return false;
+        if (alerta   && !m.alertas.includes(alerta))     return false;
         return true;
     });
 
     renderActiveFilterTags();
     _renderAll();
+    document.dispatchEvent(new CustomEvent('filtersApplied'));
 }
 
 // ── Reset ─────────────────────────────────────────────────────────────────────
@@ -147,7 +170,7 @@ export function applyFilters() {
 export function resetFilters() {
     ['filterEncuestador','filterFechaInicio','filterFechaFin','filterSemana',
      'filterControl','filterMunicipio','filterParroquia','filterNodo',
-     'filterEstado','filterCondicion','filterSituacionVivienda','filterUso','searchEncuesta']
+     'filterEstado','filterCondicion','filterSituacionVivienda','filterUso','filterAlerta','searchEncuesta']
         .forEach(id => { if ($(id)) $(id).value = ''; });
 
     if ($('filterMunicipio')) $('filterMunicipio').dispatchEvent(new Event('change'));
@@ -173,6 +196,7 @@ export function renderActiveFilterTags() {
         { id: 'filterUso',              label: 'Uso' },
         { id: 'filterSemana',           label: 'Sem' },
         { id: 'filterControl',          label: 'Control' },
+        { id: 'filterAlerta',           label: 'Alerta' },
     ];
 
     let activeCount = 0;

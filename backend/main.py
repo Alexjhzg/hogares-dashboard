@@ -140,7 +140,17 @@ def normalize_record(rec: dict) -> dict:
 
     # Metadatos y geolocalización
     mapped["start"] = rec.get("start")
-    mapped["end"] = rec.get("end")
+    
+    end_form = rec.get("ubicacion_final/hora_fin") or rec.get("ubicacion_final/hora_f") or rec.get("hora_f")
+    start_str = mapped.get("start") or ""
+    
+    if end_form:
+        if "T" not in end_form and "T" in start_str:
+            mapped["end"] = start_str.split("T")[0] + "T" + end_form
+        else:
+            mapped["end"] = end_form
+    else:
+        mapped["end"] = rec.get("end")
     start_geo = rec.get("start-geopoint") or rec.get("start_geopoint")
     end_geo = (
         rec.get("group_sh53u78/ubicacion_i")
