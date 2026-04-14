@@ -16,7 +16,7 @@ async def get_assets():
         )
     except Exception as e:
         # Captura cualquier error de conexión, SSL, timeout, etc.
-        raise HTTPException(status_code=502, detail=f"Fallo de conexión con Kobo: {str(e)}")
+        raise HTTPException(status_code=502, detail=f"Fallo de conexión con Kobo: {repr(e)}")
 
 @router.get("/data/{asset_uid}")
 async def get_asset_data(asset_uid: str):
@@ -31,4 +31,4 @@ async def get_asset_data(asset_uid: str):
             detail=f"Kobo respondió con error {e.response.status_code}: {e.response.text}"
         )
     except Exception as e:
-        raise HTTPException(status_code=502, detail=f"Fallo de conexión con Kobo: {str(e)}")
+        raise HTTPException(status_code=502, detail=f"Fallo de conexión con Kobo: {repr(e)}")

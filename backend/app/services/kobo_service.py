@@ -15,6 +15,7 @@ class KoboService:
                 response.raise_for_status()
                 return response.json().get("results", [])
             except Exception as e:
+                print(f"DEBUG: Error en get_assets de Kobo: {repr(e)}")
                 # Re-lanzar con información para el endpoint
                 raise e
 
