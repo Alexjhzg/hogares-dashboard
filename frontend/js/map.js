@@ -90,8 +90,8 @@ export function drawGeoJSONLayer() {
                 const isRural = props.cod_seg === '000' || props.cod_seg === '0';
                 const idVal   = isRural ? (props.cod_sc || '0') : (props.cod_seg || '0');
                 
-                // Clave compuesta para evitar que el mismo ID en distintos municipios tenga el mismo color
-                const compositeKey = `${props.cod_munici || '0'}-${props.cod_parroq || '0'}-${idVal}`;
+                // Clave basada únicamente en el identificador del segmento o sector
+                const compositeKey = `${idVal}`;
                 const hash  = compositeKey.split('').reduce((a, b) => (a * 31) + b.charCodeAt(0), 0) >>> 0;
                 
                 // Usamos un multiplicador primo para "saltar" en la paleta y aumentar contraste entre vecinos
@@ -110,7 +110,7 @@ export function drawGeoJSONLayer() {
                 const isRural = props.cod_seg === '000' || props.cod_seg === '0';
                 const idVal   = isRural ? (props.cod_sc || '0') : (props.cod_seg || '0');
                 
-                const compositeKey = `${props.cod_munici || '0'}-${props.cod_parroq || '0'}-${idVal}`;
+                const compositeKey = `${idVal}`;
                 const hash  = compositeKey.split('').reduce((a, b) => (a * 31) + b.charCodeAt(0), 0) >>> 0;
                 const color = COLORS[(hash * 13) % COLORS.length];
 
@@ -422,23 +422,45 @@ export function renderMap() {
 window.setQuickFilter = function (mode) {
     state.quickFilterMode = mode;
     const mapFilters = {
-        'all':          'btnMapFilterAll',
-        'efectivas':    'btnMapFilterEfectivas',
-        'no_respuesta': 'btnMapFilterNoRespuesta',
-        'alertas':      'btnMapFilterAlertas',
+        'all': { 
+            id: 'btnMapFilterAll', 
+            active: ['bg-brand-blue/10', 'dark:bg-brand-blue/20', 'border-brand-blue', 'ring-brand-blue/30'],
+            inactive: 'border-brand-blue' 
+        },
+        'efectivas': { 
+            id: 'btnMapFilterEfectivas', 
+            active: ['bg-brand-emerald/10', 'dark:bg-brand-emerald/20', 'border-brand-emerald', 'ring-brand-emerald/30'],
+            inactive: 'border-brand-emerald' 
+        },
+        'no_respuesta': { 
+            id: 'btnMapFilterNoRespuesta', 
+            active: ['bg-brand-orange/10', 'dark:bg-brand-orange/20', 'border-brand-orange', 'ring-brand-orange/30'],
+            inactive: 'border-brand-orange' 
+        },
+        'alertas': { 
+            id: 'btnMapFilterAlertas', 
+            active: ['bg-brand-red/10', 'dark:bg-brand-red/20', 'border-brand-red', 'ring-brand-red/30'],
+            inactive: 'border-brand-red' 
+        },
     };
-    Object.entries(mapFilters).forEach(([m, id]) => {
-        const btn = $(id);
+
+    Object.entries(mapFilters).forEach(([m, cfg]) => {
+        const btn = $(cfg.id);
         if (!btn) return;
+
+        // Limpiar estados previos (incluyendo las nuevas variantes dark)
+        btn.classList.remove(
+            'bg-brand-blue/10', 'dark:bg-brand-blue/20', 'border-brand-blue', 'ring-brand-blue/30',
+            'bg-brand-emerald/10', 'dark:bg-brand-emerald/20', 'border-brand-emerald', 'ring-brand-emerald/30',
+            'bg-brand-orange/10', 'dark:bg-brand-orange/20', 'border-brand-orange', 'ring-brand-orange/30',
+            'bg-brand-red/10', 'dark:bg-brand-red/20', 'border-brand-red', 'ring-brand-red/30',
+            'ring-1', 'shadow-md', 'border-slate-400'
+        );
+
         if (m === mode) {
-            btn.classList.add('bg-brand-blue/5', 'border-brand-blue', 'ring-1', 'ring-brand-blue/20', 'shadow-md');
-            btn.classList.remove('border-slate-400', 'border-brand-green', 'border-brand-orange', 'border-brand-red');
+            btn.classList.add(...cfg.active, 'ring-1', 'shadow-md');
         } else {
-            btn.classList.remove('bg-brand-blue/5', 'border-brand-blue', 'ring-1', 'ring-brand-blue/20', 'shadow-md');
-            if (m === 'all')          btn.classList.add('border-slate-400');
-            if (m === 'efectivas')    btn.classList.add('border-brand-green');
-            if (m === 'no_respuesta') btn.classList.add('border-brand-orange');
-            if (m === 'alertas')      btn.classList.add('border-brand-red');
+            btn.classList.add(cfg.inactive);
         }
     });
     applyFilters();

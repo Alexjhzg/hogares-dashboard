@@ -320,7 +320,7 @@ export function showDetailModal(rec) {
                     <div class="flex items-center gap-1.5"><div class="w-2 h-2 rounded-full bg-[#F59E0B]"></div> P. Final</div>
                 </div>
             </div>
-            <div id="detailMapWrapper" class="h-64 md:h-96 w-full relative transition-[height] duration-300">
+            <div id="detailMapWrapper" class="h-48 sm:h-64 md:h-96 w-full relative transition-[height] duration-300">
                 <div class="absolute top-4 left-4 z-[400] bg-white/90 dark:bg-slate-900/80 backdrop-blur-md rounded-xl p-3 border border-slate-200 dark:border-slate-700/50 shadow-xl w-48 pointer-events-none">
                     <h5 class="text-[9px] uppercase font-black text-brand-blue dark:text-slate-400 tracking-widest mb-2 border-b border-slate-100 dark:border-slate-700 pb-1">Métricas de Rastreo</h5>
                     <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-slate-500 font-bold">Seg. Declarado:</span><span class="text-[10px] font-mono font-bold text-slate-700 dark:text-slate-300">#${extractNested('segmento') || 'N/A'}</span></div>
@@ -508,7 +508,7 @@ window.toggleDetailModalExpand = function () {
         pane.classList.add('w-full','max-w-none','h-full','rounded-none');
         icon.setAttribute('data-lucide', 'minimize');
         if (mapWrapper) {
-            mapWrapper.classList.remove('h-64', 'md:h-96');
+            mapWrapper.classList.remove('h-48', 'sm:h-64', 'md:h-96');
             mapWrapper.classList.add('h-[60vh]', 'md:h-[75vh]');
         }
         if (body) {
@@ -521,7 +521,7 @@ window.toggleDetailModalExpand = function () {
         icon.setAttribute('data-lucide', 'maximize');
         if (mapWrapper) {
             mapWrapper.classList.remove('h-[60vh]', 'md:h-[75vh]');
-            mapWrapper.classList.add('h-64', 'md:h-96');
+            mapWrapper.classList.add('h-48', 'sm:h-64', 'md:h-96');
         }
         if (body) {
             body.classList.remove('flex-1', 'max-h-none');

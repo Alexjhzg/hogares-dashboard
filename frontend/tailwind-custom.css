@@ -92,6 +92,10 @@ body {
 /* ─── KPI Value Text ───────────── */
 .kpi-value-text {
     color: var(--text-primary);
+    font-size: clamp(1.25rem, 5vw, 1.75rem); /* text-xl a text-3xl dependiendo del viewport */
+    font-weight: 900;
+    font-family: 'Outfit', sans-serif;
+    line-height: 1;
 }
 
 /* ─── Text Gradient Utility (Stitch) ─────────────────── */
@@ -227,8 +231,14 @@ canvas {
 
 .tabulator .tabulator-row .tabulator-cell {
     border-right: 1px solid var(--border-light) !important;
-    padding: 10px 12px !important;
+    padding: 14px 12px !important; /* Más espaciado vertical para interfaz táctil */
     color: var(--text-primary) !important;
+}
+
+@media (min-width: 640px) {
+    .tabulator .tabulator-row .tabulator-cell {
+        padding: 10px 12px !important; /* Espaciado normal en desktop */
+    }
 }
 
 .tabulator .tabulator-footer {

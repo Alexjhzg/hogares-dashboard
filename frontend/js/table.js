@@ -274,37 +274,4 @@ export function renderRankingTable(rows) {
     }
 }
 
-// ── Agent Score Cards ─────────────────────────────────────────────────────────
 
-export function renderEncuestadorCards() {
-    const encsInFiltered = new Set(state.filtered.map(r => r._meta.cedula));
-    const rows = Object.values(state.encMap)
-        .filter(m => encsInFiltered.has(m.cedula))
-        .sort((a, b) => b.score - a.score);
-
-    $('cardsGrid').innerHTML = rows.slice(0, 12).map((m, idx) => `
-    <div class="card-premium flex flex-col gap-4">
-      <div class="flex justify-between items-start">
-        <div class="font-black text-white leading-tight truncate w-full" title="${m.nombre}">${m.nombre}</div>
-      </div>
-      <div class="text-[10px] text-slate-500 font-bold tracking-wider uppercase">ID: ${m.cedula}</div>
-      <div class="grid grid-cols-3 gap-2 mt-2">
-        <div class="p-2 bg-brand-950/50 rounded-lg text-center">
-            <div class="text-xs font-black text-brand-blue">${m.encuestas}</div>
-            <div class="text-[8px] uppercase text-slate-600 font-bold">Enc.</div>
-        </div>
-        <div class="p-2 bg-brand-950/50 rounded-lg text-center">
-            <div class="text-xs font-black text-brand-green">${m.completadas}</div>
-            <div class="text-[8px] uppercase text-slate-600 font-bold">Cmpl.</div>
-        </div>
-        <div class="p-2 bg-brand-950/50 rounded-lg text-center">
-            <div class="text-xs font-black text-brand-orange">${m.pctCompleta}%</div>
-            <div class="text-[8px] uppercase text-slate-600 font-bold">Efect.</div>
-        </div>
-      </div>
-      <div class="mt-4 pt-4 border-t border-white/5 flex justify-between items-center">
-        <span class="text-[10px] text-slate-500 font-medium">Municipios: ${m.municipios.size}</span>
-        <div class="w-8 h-8 rounded-full border border-brand-blue/30 flex items-center justify-center text-[10px] font-black text-brand-blue">#${idx + 1}</div>
-      </div>
-    </div>`).join('');
-}

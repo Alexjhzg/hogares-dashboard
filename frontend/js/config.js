@@ -72,13 +72,13 @@ hayan completado sin realizar las preguntas completas.`,
     // ── Nuevas alertas (requerimientos 2026-03) ────────────────────────────────
     {
         code: 'TIEMPO_CORTO_EHM',
-        label: 'Vel. Sospechosa EHM',
+        label: 'Rapidez Inusual (EHM)',
         detail: `EHM efectiva con una sola persona completada en menos de ${DUR_MIN_EHM} minutos.
 El mínimo razonable para EHM con un solo miembro del hogar es ${DUR_MIN_EHM} minutos.`,
     },
     {
         code: 'TIEMPO_CORTO_ESCA',
-        label: 'Vel. Sospechosa ESCA',
+        label: 'Rapidez Inusual (ESCA)',
         detail: `ESCA efectiva completada en menos de ${DUR_MIN_ESCA} minutos.
 El mínimo razonable para ESCA es ${DUR_MIN_ESCA} minutos.`,
     },

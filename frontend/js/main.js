@@ -8,7 +8,7 @@ import { loadAssets, loadData } from './api.js?v=39';
 import { processData }      from './dataProcessor.js?v=39';
 import { populateFilters, applyFilters, resetFilters, setRenderAll,
          openFiltersPanel, closeFiltersPanel }    from './filters.js?v=39';
-import { renderRankingTable, renderEncuestadorCards, updateGrid } from './table.js?v=39';
+import { renderRankingTable, updateGrid } from './table.js?v=39';
 import { initMap, renderMap, loadGeoJSONData, loadControlsData, initVerRutaButton } from './map.js?v=39';
 import { showDetailModal, closeDetailModal } from './modal.js?v=39';
 import { renderMM111 }      from './mm111.js?v=39';
@@ -45,7 +45,7 @@ function renderAll() {
         try { renderRankingTable(); } catch (e) { console.error('Ranking Table Error:', e); }
     }
     
-    try { renderEncuestadorCards(); } catch (e) { console.error('Cards Renderer Error:', e); }
+
     
     // Grid and map are rendered lazily when their tab is first activated
     if (_tabRendered['tab-mapa']) {
@@ -341,59 +341,108 @@ async function doInit() {
 
     // Map Expansion Controls (3-button group)
     const setMapState = (mode) => {
-        console.group('DashboardSociales Map Transition: ' + mode);
         const wrapper = $('mapSectionWrapper');
         const kpiGrid = $('mapKpiGrid');
         const mapContainer = $('mapDisplayContainer');
+        const kpiExtra = $('mapKpiExtra');
+        const headerLabel = kpiGrid ? kpiGrid.querySelector('.header-label') : null;
         
-        if (!wrapper || !kpiGrid || !mapContainer) {
-             console.error('DashboardSociales: Map elements missing!', { wrapper:!!wrapper, kpiGrid:!!kpiGrid, mapContainer:!!mapContainer });
-             console.groupEnd();
-             return;
-        }
+        if (!wrapper || !kpiGrid || !mapContainer) return;
 
-        // Clean up states
+        // 1. ABSOLUTE RESET: Limpieza total de clases conflictivas
         document.body.classList.remove('has-map-fullscreen');
-        wrapper.classList.remove('map-fullscreen'); 
-        mapContainer.classList.remove('xl:col-span-3', 'xl:col-span-4', 'xl:col-span-9', 'xl:col-span-12', 'map-fullscreen');
-        kpiGrid.classList.remove('hidden', 'xl:col-span-3', 'map-kpi-compact');
+        
+        // Reset Wrapper
+        wrapper.className = "grid grid-cols-1 lg:grid-cols-12 gap-8 transition-all duration-500 overflow-visible items-stretch";
+        
+        // Reset Map Container
+        mapContainer.className = "lg:col-span-10 relative transition-all duration-500 rounded-2xl overflow-hidden shadow-xl border border-slate-200 dark:border-white/5 bg-slate-100 dark:bg-slate-900";
+        
+        // Reset KPI Grid
+        kpiGrid.className = "lg:col-span-2 transition-all duration-500 overflow-visible flex flex-col gap-3";
+        
+        // Reset KPI Extra
+        if (kpiExtra) kpiExtra.className = "divider mt-2 pt-2 border-t border-slate-200 dark:border-white/5 flex flex-col gap-2";
+        
+        // Reset Header Label
+        if (headerLabel) headerLabel.className = "header-label text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-widest ml-1 mb-1";
 
-        console.log('Transitioning to:', mode);
+        // Reset all buttons and glass panels
+        kpiGrid.querySelectorAll('button, div.glass-panel').forEach(el => {
+            el.className = el.id === 'btnVerRutaAgente' ? 
+                "glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange hover:bg-brand-orange/5 transition-all group active:scale-[.98] disabled:opacity-40 disabled:cursor-not-allowed" :
+                el.classList.contains('active-filter') || el.id === 'btnMapFilterAll' ? // Preservar estado de filtro activo si es necesario o resetear
+                "glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 hover:bg-slate-50 dark:hover:bg-white/5 transition-all group" :
+                "glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 hover:bg-slate-50 dark:hover:bg-white/5 transition-all group";
+            
+            // Re-aplicar clases de borde específicas por ID
+            if (el.id === 'btnMapFilterAll') el.classList.add('border-brand-blue');
+            if (el.id === 'btnMapFilterEfectivas') el.classList.add('border-brand-emerald');
+            if (el.id === 'btnMapFilterNoRespuesta') el.classList.add('border-brand-orange');
+            if (el.id === 'btnMapFilterAlertas') el.classList.add('border-brand-red');
+            if (el.classList.contains('opacity-80')) el.classList.add('border-brand-purple'); // Encuestadores div
 
-        // Apply state
+            const label = el.querySelector('span.uppercase');
+            if (label) label.classList.remove('hidden');
+        });
+
+        // 2. APPLY MODE SPECIFIC PROFILES
         if (mode === 'normal') {
-            mapContainer.classList.add('xl:col-span-9');
-            kpiGrid.classList.add('xl:col-span-3');
-        } else if (mode === 'expanded') {
-            mapContainer.classList.add('xl:col-span-12');
-            kpiGrid.classList.add('hidden');
-        } else if (mode === 'full') {
-            mapContainer.classList.add('xl:col-span-12', 'map-fullscreen');
+            wrapper.classList.add('h-[88vh]', 'min-h-[600px]', 'sm:min-h-[700px]');
+            mapContainer.classList.add('h-[500px]', 'sm:h-auto');
+            // Mobile Specific override for normal mode
+            kpiGrid.classList.add('grid', 'grid-cols-2', 'sm:flex', 'sm:flex-col', 'gap-2');
+            if (kpiExtra) kpiExtra.classList.add('col-span-2', 'sm:col-span-1', 'flex-col', 'sm:flex-col', 'gap-2');
+            if (headerLabel) headerLabel.classList.add('hidden', 'sm:block');
+            
+            kpiGrid.querySelectorAll('button, div.glass-panel').forEach(el => {
+                el.classList.add('flex-row', 'items-center', 'justify-between');
+            });
+        } 
+        else if (mode === 'expanded') {
+            wrapper.className = "flex flex-col items-center gap-6 transition-all duration-500 w-full mb-8";
+            mapContainer.className = "w-full h-[75vh] relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-white/10";
+            
+            kpiGrid.className = "flex flex-wrap sm:flex-nowrap grid grid-cols-2 sm:flex flex-row gap-2 sm:gap-8 mt-4 sm:mt-6 mx-auto max-w-[95%] sm:max-w-fit bg-slate-900/40 dark:bg-slate-900/60 backdrop-blur-xl rounded-2xl border border-white/10 px-4 sm:px-10 py-1.5 sm:py-2 shadow-2xl";
+            
+            if (kpiExtra) {
+                kpiExtra.className = "col-span-2 sm:col-span-1 flex flex-row gap-2 sm:gap-6 mt-0 sm:border-l border-white/10 sm:pl-8 sm:ml-4 w-full sm:w-auto items-center";
+            }
+            if (headerLabel) headerLabel.classList.add('hidden');
+
+            kpiGrid.querySelectorAll(':scope > button, :scope > div.glass-panel, #mapKpiExtra > button, #mapKpiExtra > div').forEach(el => {
+                el.classList.add('flex-col', 'items-center', 'justify-center', 'min-w-0', 'sm:min-w-[130px]', 'flex-1', 'border-l-0', 'border-b-2', 'sm:border-b-4', 'gap-0.5', 'py-1', 'sm:py-1.5', 'px-2');
+            });
+        } 
+        else if (mode === 'full') {
+            mapContainer.className = "map-fullscreen fixed inset-0 z-[100000] bg-slate-900";
             document.body.classList.add('has-map-fullscreen');
-            kpiGrid.classList.add('hidden');
+            
+            kpiGrid.className = "flex flex-row fixed bottom-6 left-1/2 -translate-x-1/2 z-[100001] gap-2 mx-auto max-w-fit bg-slate-950/70 backdrop-blur-2xl rounded-full border border-white/10 px-4 py-1.5 shadow-[0_0_40px_rgba(0,0,0,0.7)]";
+            
+            if (kpiExtra) {
+                kpiExtra.className = "flex flex-row gap-2 mt-0 border-l border-white/10 pl-4 ml-1 items-center";
+            }
+            if (headerLabel) headerLabel.classList.add('hidden');
+
+            kpiGrid.querySelectorAll(':scope > button, :scope > div.glass-panel, #mapKpiExtra > button, #mapKpiExtra > div').forEach(el => {
+                el.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'min-w-[65px]', 'border-l-0', 'border-b-2', 'gap-0', 'p-1.5', 'rounded-lg');
+                const label = el.querySelector('span.uppercase');
+                if (label) label.classList.add('hidden');
+            });
         }
 
-        // Active state feedback
+        // Active state feedback for buttons
         ['Normal', 'Expanded', 'Full'].forEach(m => {
             const btn = $(`btnMapState${m}`);
             if (btn) {
                 const isActive = mode === m.toLowerCase();
                 btn.classList.toggle('bg-white/30', isActive);
-                btn.classList.toggle('ring-1', isActive);
-                btn.classList.toggle('ring-white/30', isActive);
             }
         });
 
         if (window.lucide) lucide.createIcons();
-        console.groupEnd();
-
-        // Allow CSS layout transition (500ms in tailwind)
-        setTimeout(() => { 
-            if (state.map) {
-                console.log('DashboardSociales: invalidating map size');
-                state.map.invalidateSize();
-            }
-        }, 600);
+        setTimeout(() => { if (state.map) state.map.invalidateSize(); }, 600);
     };
 
     window.setMapState = setMapState; // Expose for debugging
