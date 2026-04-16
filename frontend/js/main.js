@@ -401,7 +401,7 @@ async function doInit() {
             wrapper.className = "flex flex-col items-center gap-6 transition-all duration-500 w-full mb-8";
             mapContainer.className = "w-full h-[75vh] relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-white/10";
             
-            kpiGrid.className = "flex flex-wrap sm:flex-nowrap grid grid-cols-2 sm:flex flex-row gap-2 sm:gap-8 mt-4 sm:mt-6 mx-auto max-w-[95%] sm:max-w-fit bg-slate-900/40 dark:bg-slate-900/60 backdrop-blur-xl rounded-2xl border border-white/10 px-4 sm:px-10 py-1.5 sm:py-2 shadow-2xl";
+            kpiGrid.className = "flex flex-wrap sm:flex-nowrap grid grid-cols-2 sm:flex flex-row gap-2 sm:gap-8 mt-4 sm:mt-6 mx-auto max-w-[95%] sm:max-w-fit bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl rounded-2xl border border-slate-200 dark:border-white/10 px-4 sm:px-10 py-1.5 sm:py-2 shadow-2xl";
             
             if (headerLabel) headerLabel.classList.add('hidden');
 

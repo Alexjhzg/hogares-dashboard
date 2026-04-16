@@ -178,7 +178,7 @@
 </head>
 
 <body
-  class="bg-slate-50 text-slate-800 dark:bg-[#0B1120] dark:text-slate-300 font-sans h-full flex flex-col transition-colors duration-300"
+  class="bg-slate-50 text-slate-800 dark:bg-[#0B1120] dark:text-slate-300 font-sans min-h-screen flex flex-col transition-colors duration-300"
   style="font-family:'Inter',sans-serif;">
 
 
@@ -537,12 +537,6 @@
 
     </div>
 
-    <!-- [DEPRECATED v36] — Contenido migrado a #tab-resumen (Vista General). Eliminar tras validar v36. -->
-    <!--
-    <div id="tab-productividad" class="tab-content flex flex-col gap-8 hidden-tab">
-      ... (contenido original omitido)
-    </div>
-    -->
 
 
     <!-- MODULO: MAPA -->
@@ -553,14 +547,10 @@
         <div id="mapDisplayContainer"
           class="lg:col-span-10 relative glass-panel rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 shadow-inner">
           <!-- Map title overlay -->
-          <div
-            class="absolute top-4 left-4 z-[var(--z-map-overlay)] pointer-events-none">
-            <h3 class="font-outfit text-slate-400 text-xs font-bold uppercase tracking-widest">Vista de Cobertura</h3>
-            <p class="text-[10px] text-slate-500 mt-0.5">Distribución geográfica en tiempo real</p>
-          </div>
+          <!-- Map title overlay removed -->
 
           <!-- Map Expansion Control Group (Bottom Right) -->
-          <div
+          <div id="mapControlGroup"
             class="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-[var(--z-map-control)] pointer-events-auto flex items-center bg-slate-900/80 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden shadow-2xl transition-all hover:border-white/20">
             <button id="btnMapStateNormal"
               class="p-3 sm:p-2.5 hover:bg-white/10 text-white transition-all border-r border-white/10 group active:scale-95"
@@ -604,21 +594,21 @@
 
           <!-- Floating coverage badge -->
           <div id="mapCoverageBadge"
-            class="absolute top-14 sm:top-4 left-1/2 -translate-x-1/2 z-[var(--z-map-overlay)] bg-brand-blue/90 backdrop-blur-md rounded-xl px-3 py-2 shadow-xl border border-white/20 text-[10px] font-inter hidden">
-            <div class="flex items-center gap-3">
+            class="absolute top-2.5 left-2.5 z-[var(--z-map-overlay)] bg-brand-blue/90 backdrop-blur-md rounded-xl px-2.5 py-2 shadow-xl border border-white/20 text-[10px] font-inter hidden transition-all duration-300">
+            <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
               <div class="flex flex-col items-center">
                 <span id="mapMunCount" class="text-white font-black text-xs leading-none">0</span>
-                <span class="text-[8px] text-white/70 uppercase font-black">Mun</span>
+                <span class="text-[7px] sm:text-[8px] text-white/70 uppercase font-bold">Mun</span>
               </div>
-              <div class="h-6 w-px bg-white/20"></div>
+              <div class="h-px w-6 sm:h-6 sm:w-px bg-white/20 sm:block"></div>
               <div class="flex flex-col items-center">
                 <span id="mapParCount" class="text-white font-black text-xs leading-none">0</span>
-                <span class="text-[8px] text-white/70 uppercase font-black">Parr</span>
+                <span class="text-[7px] sm:text-[8px] text-white/70 uppercase font-bold">Parr</span>
               </div>
-              <div class="h-6 w-px bg-white/20"></div>
+              <div class="h-px w-6 sm:h-6 sm:w-px bg-white/20 sm:block"></div>
               <div class="flex flex-col items-center">
                 <span id="mapNodoCount" class="text-white font-black text-xs leading-none">0</span>
-                <span class="text-[8px] text-white/70 uppercase font-black">Nodos</span>
+                <span class="text-[7px] sm:text-[8px] text-white/70 uppercase font-bold">Nodos</span>
               </div>
             </div>
           </div>
@@ -1211,7 +1201,7 @@
 
 
   <!-- Footer -->
-  <footer class="border-t border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0B1120] px-6 py-4 mt-auto">
+  <footer class="border-t border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0B1120] px-6 py-4 sm:mt-auto mt-10">
     <div
       class="max-w-[1600px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] text-slate-500 font-inter">
       <span>DashboardSociales — ESCA/EHM &copy; 2026</span>

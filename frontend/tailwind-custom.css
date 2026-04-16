@@ -851,4 +851,8 @@ body.has-map-fullscreen #mapKpiGrid .glass-panel {
     body.has-map-fullscreen #mapKpiGrid {
         bottom: 160px !important; /* Subido de 110px a 160px para despejar la leyenda */
     }
+    
+    body.has-map-fullscreen #mapControlGroup {
+        bottom: 80px !important; /* Elevado para evitar solapamiento con controles del sistema/teléfono */
+    }
 }

@@ -26,7 +26,7 @@ export function initMap() {
         maxZoom: 20, subdomains: ['mt0', 'mt1', 'mt2', 'mt3'], attribution: '&copy; Google'
     });
 
-    state.map = L.map('mapView', { center: [10.4806, -66.8983], zoom: 12, layers: [osm] });
+    state.map = L.map('mapView', { center: [10.4806, -66.8983], zoom: 12, layers: [osm], zoomControl: false });
     
     // Layer mapping for control
     const baseLayers = { 'OpenStreetMap': osm, 'Google Satélite': googleSat };
@@ -321,69 +321,86 @@ export function renderMap() {
                 </div>` : '';
 
         const html = `
-            <div class="p-4 min-w-[280px] bg-[#0f172a] text-slate-200 rounded-xl" style="font-family:'Inter',sans-serif">
+            <div class="p-4 min-w-[280px] bg-white dark:bg-[#0f172a] text-slate-600 dark:text-slate-200 rounded-xl shadow-2xl border border-slate-100 dark:border-white/5" style="font-family:'Inter',sans-serif">
                 <div class="flex justify-between items-center mb-3">
-                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Encuestador</span>
-                    <span class="px-2 py-0.5 rounded-md text-[9px] font-bold text-white" style="background:${color}">${alertBadge}</span>
+                    <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Encuestador</span>
+                    <span class="px-2 py-0.5 rounded-md text-[9px] font-bold text-white shadow-sm" style="background:${color}">${alertBadge}</span>
                 </div>
-                <div class="font-bold text-sm text-white mb-0.5">${m.nombre}</div>
-                <div class="text-[10px] text-slate-400 mb-3">${m.fecha} · ${m.cedula}</div>
-                <div class="border-t border-white/5 pt-3 mb-3">
+                <div class="font-bold text-sm text-slate-900 dark:text-white mb-0.5">${m.nombre}</div>
+                <div class="text-[10px] text-slate-500 dark:text-slate-400 mb-3">${m.fecha} · ${m.cedula}</div>
+                
+                <div class="border-t border-slate-100 dark:border-white/5 pt-3 mb-3">
                     <div class="flex justify-between gap-4 mb-2">
                         <div class="flex-1">
-                            <div class="text-[8px] uppercase text-slate-500 font-bold">Municipio</div>
-                            <div class="text-[10px] font-bold text-white">${m.mun}</div>
+                            <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Municipio</div>
+                            <div class="text-[10px] font-bold text-slate-800 dark:text-white">${m.mun}</div>
                         </div>
                         <div class="flex-1 text-right">
-                            <div class="text-[8px] uppercase text-slate-500 font-bold">Parroquia</div>
-                            <div class="text-[10px] font-bold text-white">${m.par || '—'}</div>
+                            <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Parroquia</div>
+                            <div class="text-[10px] font-bold text-slate-800 dark:text-white">${m.par || '—'}</div>
                         </div>
                     </div>
                     <div class="flex justify-between items-center">
                         <div>
-                            <div class="text-[8px] uppercase text-slate-500 font-bold">Nodo</div>
-                            <div class="text-[10px] font-bold text-white">${m.nodo || '—'}</div>
+                            <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Nodo</div>
+                            <div class="text-[10px] font-bold text-slate-800 dark:text-white">${m.nodo || '—'}</div>
                         </div>
                         <div class="text-right">
-                            <div class="text-[8px] uppercase text-slate-500 font-bold">Uso</div>
-                            <div class="text-[10px] font-bold text-white">${(m.uso || '—').replace(/_/g, ' ')}</div>
+                            <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Uso</div>
+                            <div class="text-[10px] font-bold text-slate-800 dark:text-white">${(m.uso || '—').replace(/_/g, ' ')}</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 border-t border-white/5 pt-3 mb-3">
-                    <div><div class="text-[8px] uppercase text-slate-500 font-bold">Duración</div>
-                        <div class="text-[10px] font-bold" style="color:${m.durMin !== null && (m.durMin < 15 || m.durMin > 45) ? '#EF4444' : '#10B981'}">${durText}</div></div>
-                    <div class="text-right"><div class="text-[8px] uppercase text-slate-500 font-bold">Distancia (A->I)</div>
-                        <div class="text-[10px] font-bold" style="color:${hasAlerts ? '#EF4444' : '#94a3b8'}">${distText}</div></div>
+                <div class="grid grid-cols-2 gap-4 border-t border-slate-100 dark:border-white/5 pt-3 mb-3">
+                    <div>
+                        <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Duración</div>
+                        <div class="text-[10px] font-bold" style="color:${m.durMin !== null && (m.durMin < 15 || m.durMin > 45) ? '#EF4444' : '#10B981'}">${durText}</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Distancia (A->I)</div>
+                        <div class="text-[10px] font-bold" style="color:${hasAlerts ? '#EF4444' : '#64748b'}">${distText}</div>
+                    </div>
                 </div>
+
                 ${alertas.length > 0 ? `
-                <div class="border-t border-red-500/20 pt-3 mb-3">
+                <div class="border-t border-red-500/10 dark:border-red-500/20 pt-3 mb-3">
                     <div class="flex items-center gap-1.5 mb-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                        <span class="text-[8px] uppercase font-bold text-red-400 tracking-wider">Alertas Detectadas (${alertas.length})</span>
+                        <span class="text-[8px] uppercase font-bold text-red-500 dark:text-red-400 tracking-wider">Alertas Detectadas (${alertas.length})</span>
                     </div>
                     ${alertas.map(code => {
                         const rule = ALERT_MAP[code];
                         if (!rule) return '';
-                        return `<div class="mb-1 p-1 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center gap-2" title="${rule.detail.replace(/\n/g,'').trim()}">
-                            <div class="text-[9px] font-black text-red-400">⚠ ${rule.label}</div>
+                        return `<div class="mb-1 p-1 bg-red-500/5 dark:bg-red-500/10 border border-red-500/10 dark:border-red-500/20 rounded-lg flex items-center gap-2" title="${rule.detail.replace(/\n/g,'').trim()}">
+                            <div class="text-[9px] font-black text-red-500 dark:text-red-400">⚠ ${rule.label}</div>
                         </div>`;
                     }).join('')}
                 </div>` : ''}
+
                 ${segSection}
-                <div class="grid grid-cols-2 gap-2 border-t border-white/5 pt-3 mb-3">
-                    <div><div class="text-[8px] uppercase text-slate-500 font-bold">Desplazamiento</div>
-                        <div class="text-[10px] font-bold" style="color:${m.dist_ini_fin !== null && m.dist_ini_fin > 30 ? '#F59E0B' : '#10B981'}">${m.dist_ini_fin !== null ? Math.round(m.dist_ini_fin) + ' m' : '—'} <span class="text-[8px] text-slate-500">(Ini->Fin)</span></div></div>
+
+                <div class="grid grid-cols-2 gap-2 border-t border-slate-100 dark:border-white/5 pt-3 mb-3">
+                    <div>
+                        <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Desplazamiento</div>
+                        <div class="text-[10px] font-bold" style="color:${m.dist_ini_fin !== null && m.dist_ini_fin > 30 ? '#F59E0B' : '#10B981'}">${m.dist_ini_fin !== null ? Math.round(m.dist_ini_fin) + ' m' : '—'} <span class="text-[8px] text-slate-400 dark:text-slate-500">(Ini->Fin)</span></div>
+                    </div>
                     <div class="flex items-end justify-end">
-                        <button onclick="window.viewTraceByRecord('${r._uuid}')" class="px-3 py-1 bg-brand-blue/20 hover:bg-brand-blue/40 border border-brand-blue/30 text-brand-blue rounded-lg text-[9px] font-bold uppercase tracking-widest transition-colors flex items-center gap-1">
+                        <button onclick="window.viewTraceByRecord('${r._uuid}')" class="px-3 py-1 bg-brand-blue/10 dark:bg-brand-blue/20 hover:bg-brand-blue/20 dark:hover:bg-brand-blue/40 border border-brand-blue/20 dark:border-brand-blue/30 text-brand-blue rounded-lg text-[9px] font-bold uppercase tracking-widest transition-colors flex items-center gap-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Ver Ubicaciones
                         </button>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-2 border-t border-white/5 pt-3">
-                    <div><div class="text-[8px] uppercase text-slate-500 font-bold">Condición</div><div class="text-[10px] font-bold text-white">${(m.condicion || '—').replace(/_/g, ' ')}</div></div>
-                    <div><div class="text-[8px] uppercase text-slate-500 font-bold">Hogares / Pers.</div><div class="text-[10px] font-bold text-white">${m.hogares} / ${m.totalPers}</div></div>
+
+                <div class="grid grid-cols-2 gap-2 border-t border-slate-100 dark:border-white/5 pt-3">
+                    <div>
+                        <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Condición</div>
+                        <div class="text-[10px] font-bold text-slate-800 dark:text-white">${(m.condicion || '—').replace(/_/g, ' ')}</div>
+                    </div>
+                    <div>
+                        <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Hogares / Pers.</div>
+                        <div class="text-[10px] font-bold text-slate-800 dark:text-white">${m.hogares} / ${m.totalPers}</div>
+                    </div>
                 </div>
             </div>
         `;
