@@ -22,6 +22,17 @@
     --map-control-bg: rgba(255, 255, 255, 0.95);
     --map-control-border: rgba(0, 0, 0, 0.1);
     --map-shadow: rgba(0, 0, 0, 0.1);
+
+    /* Z-Index Scale */
+    --z-header: 50;
+    --z-map-base: 0;
+    --z-map-overlay: 500;
+    --z-map-control: 1001;
+    --z-map-full: 100000;
+    --z-map-full-controls: 100001;
+    --z-offcanvas: 190000;
+    --z-modal: 200000;
+    --z-loader: 200001;
 }
 
 .dark {
@@ -789,4 +800,55 @@ body.has-map-fullscreen .tab-content {
     mask: none !important;
     clip-path: none !important;
     overflow: visible !important; /* Critical for Brave/Chrome */
+}
+/* ─── Metrics Drawer (Full Map Mobile) ─── */
+.kpi-drawer-item {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* In collapsed state (inside #mapKpiGrid) */
+.kpi-drawer-collapsed {
+    gap: 0 !important; /* Elimina el espacio entre elementos invisibles */
+}
+
+.kpi-drawer-collapsed .kpi-drawer-item {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(5px) scale(0.98);
+    max-height: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden;
+    border: none !important;
+    visibility: hidden; /* Asegura que no se dibuje absolutamente nada */
+}
+
+#btnToggleMapKpis svg {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Rotate icon when expanded */
+.kpi-drawer-expanded #btnToggleMapKpis svg {
+    transform: rotate(180deg);
+}
+
+/* Hacer botones SÓLIDOS (no transparentes) en Pantalla Completa, pero sin contenedor compartido */
+body.has-map-fullscreen #mapKpiGrid .glass-panel {
+    background-color: white !important;
+    opacity: 1 !important;
+    border-color: rgba(0,0,0,0.1) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.dark body.has-map-fullscreen #mapKpiGrid .glass-panel {
+    background-color: #0f172a !important; /* bg-slate-900 */
+}
+
+/* Positioning fix for mobile legend vs drawer */
+@media (max-width: 640px) {
+    body.has-map-fullscreen #mapKpiGrid {
+        bottom: 160px !important; /* Subido de 110px a 160px para despejar la leyenda */
+    }
 }

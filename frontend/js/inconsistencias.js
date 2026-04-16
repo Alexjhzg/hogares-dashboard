@@ -177,15 +177,15 @@ export function renderInconsistencias() {
                 const styleRing = isActive ? `ring-color: ${c.border}; border-color: ${c.border};` : `border-color:${c.border}30;`;
                 
                 return `
-                <div class="alert-card flex items-center justify-between p-4 rounded-xl border cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-md ${ringClass}"
+                <div class="alert-card ${ringClass}"
                      data-code="${code}"
                      style="background:${c.bg}; ${styleRing};">
-                    <div>
-                        <div class="text-xs font-black uppercase tracking-widest mb-0.5"
-                             style="color:${c.text}">${rule.label}</div>
-                        <div class="text-[10px] text-slate-500 font-mono">${code}</div>
+                    <div class="min-w-0 pr-2">
+                        <div class="text-[10px] sm:text-xs font-black uppercase tracking-widest mb-0.5 truncate"
+                             style="color:${c.text}" title="${rule.label}">${rule.label}</div>
+                        <div class="text-[9px] text-slate-500 font-mono truncate opacity-60">${code}</div>
                     </div>
-                    <div class="text-2xl font-black font-outfit" style="color:${c.text}">${count}</div>
+                    <div class="text-xl sm:text-2xl font-black font-outfit shrink-0 ml-auto" style="color:${c.text}">${count}</div>
                 </div>`;
             }).join('');
         }

@@ -32,7 +32,7 @@ export function initMap() {
     const baseLayers = { 'OpenStreetMap': osm, 'Google Satélite': googleSat };
     const overLayers = {};
     
-    state.layerControl = L.control.layers(baseLayers, overLayers, { collapsed: false }).addTo(state.map);
+    state.layerControl = L.control.layers(baseLayers, overLayers, { collapsed: window.innerWidth < 768 }).addTo(state.map);
     L.control.scale().addTo(state.map);
 
     state.markerCluster = L.markerClusterGroup({ showCoverageOnHover: false, zoomToBoundsOnClick: true, spiderfyOnMaxZoom: true });

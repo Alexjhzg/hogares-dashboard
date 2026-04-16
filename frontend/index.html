@@ -60,6 +60,11 @@
                hover:border-slate-300 dark:hover:border-white/[0.18] 
                hover:shadow-[0_8px_30px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)];
       }
+      .alert-card {
+        @apply flex items-center justify-between p-4 rounded-xl border border-transparent
+               cursor-pointer transition-all duration-200 
+               hover:scale-[1.02] hover:shadow-md;
+      }
       /* ─── Typography ─── */
       .kpi-value-text {
         @apply text-3xl font-black font-outfit tracking-tighter;
@@ -179,7 +184,7 @@
 
   <!-- ======= HEADER ======= -->
   <!-- ======= HEADER ======= -->
-  <header class="sticky top-0 z-50 glass-panel border-b-0 px-3 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between shadow-md transition-all duration-300">
+  <header class="sticky top-0 z-[var(--z-header)] glass-panel border-b-0 px-3 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between shadow-md transition-all duration-300">
     <div class="flex items-center gap-2 sm:gap-4 overflow-hidden">
       <div
         class="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-brand-blue/20 text-brand-blue flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.3)] shrink-0">
@@ -231,7 +236,7 @@
 
   <!-- ======= LOADING ======= -->
   <div id="loadingOverlay"
-    class="fixed inset-0 z-[100] bg-[#0B1120]/90 backdrop-blur-xl flex flex-col items-center justify-center gap-6 pointer-events-none opacity-0 transition-opacity duration-500">
+    class="fixed inset-0 z-[var(--z-loader)] bg-[#0B1120]/90 backdrop-blur-xl flex flex-col items-center justify-center gap-6 pointer-events-none opacity-0 transition-opacity duration-500">
     <div class="relative w-16 h-16">
       <div class="absolute inset-0 rounded-full border-t-2 border-brand-blue animate-spin"></div>
       <div class="absolute inset-2 rounded-full border-r-2 border-brand-purple animate-spin"
@@ -287,7 +292,7 @@
         </div>
 
         <button id="filterINE"
-          class="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl text-slate-500 hover:text-brand-blue hover:border-brand-blue/50 transition-all font-inter text-xs font-bold whitespace-nowrap group w-full lg:w-auto">
+          class="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl text-slate-500 hover:text-brand-emerald hover:border-brand-emerald/50 transition-all font-inter text-xs font-bold whitespace-nowrap group w-full lg:w-auto">
           <i data-lucide="chart-column-increasing" class="w-4 h-4 group-[.active]:text-white"></i>
           <span>Solo INE</span>
         </button>
@@ -317,7 +322,7 @@
       <nav id="mainTabs"
         class="flex items-center gap-1 p-1.5 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 rounded-[22px] backdrop-blur-md shadow-sm relative z-10 w-full lg:w-fit overflow-x-auto no-scrollbar justify-start sm:justify-center lg:justify-start">
         <button data-tab="tab-resumen" class="tab-btn active"><i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-          <span class="inline sm:inline">Vista General</span></button>
+          <span class="hidden sm:inline group-[.active]:inline">Vista General</span></button>
         <button data-tab="tab-mapa" class="tab-btn"><i data-lucide="map" class="w-4 h-4"></i>
           <span class="hidden sm:inline group-[.active]:inline">Cobertura y Datos</span></button>
         <button data-tab="tab-ranking" class="tab-btn"><i data-lucide="bar-chart-2" class="w-4 h-4"></i>
@@ -544,19 +549,19 @@
     <div id="tab-mapa" class="tab-content flex flex-col gap-4 hidden-tab animate-fade-in">
 
       <div id="mapSectionWrapper"
-        class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[80vh] min-h-[700px] transition-all duration-500">
+        class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:h-[80vh] lg:min-h-[700px] transition-all duration-500">
         <div id="mapDisplayContainer"
           class="lg:col-span-10 relative glass-panel rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 shadow-inner">
           <!-- Map title overlay -->
           <div
-            class="absolute top-4 left-4 z-[500] pointer-events-none">
+            class="absolute top-4 left-4 z-[var(--z-map-overlay)] pointer-events-none">
             <h3 class="font-outfit text-slate-400 text-xs font-bold uppercase tracking-widest">Vista de Cobertura</h3>
             <p class="text-[10px] text-slate-500 mt-0.5">Distribución geográfica en tiempo real</p>
           </div>
 
           <!-- Map Expansion Control Group (Bottom Right) -->
           <div
-            class="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-[1001] pointer-events-auto flex items-center bg-slate-900/80 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden shadow-2xl transition-all hover:border-white/20">
+            class="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-[var(--z-map-control)] pointer-events-auto flex items-center bg-slate-900/80 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden shadow-2xl transition-all hover:border-white/20">
             <button id="btnMapStateNormal"
               class="p-3 sm:p-2.5 hover:bg-white/10 text-white transition-all border-r border-white/10 group active:scale-95"
               title="Vista Estándar">
@@ -573,11 +578,11 @@
             </button>
           </div>
 
-          <div id="mapView" class="absolute inset-0 z-0 bg-slate-100 dark:bg-[#0B1120]"></div>
+          <div id="mapView" class="absolute inset-0 z-[var(--z-map-base)] bg-slate-100 dark:bg-[#0B1120]"></div>
 
           <!-- Floating Legend -->
           <div
-            class="absolute bottom-12 left-4 z-[500] bg-white/90 dark:bg-[#0f172a]/95 backdrop-blur-md rounded-xl p-3 shadow-xl border border-slate-200 dark:border-white/10 text-[10px] font-inter">
+            class="absolute bottom-12 left-4 z-[var(--z-map-overlay)] bg-white/90 dark:bg-[#0f172a]/95 backdrop-blur-md rounded-xl p-3 shadow-xl border border-slate-200 dark:border-white/10 text-[10px] font-inter">
             <div
               class="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-widest mb-2 border-b border-slate-200 dark:border-slate-800 pb-1">
               Leyenda</div>
@@ -599,7 +604,7 @@
 
           <!-- Floating coverage badge -->
           <div id="mapCoverageBadge"
-            class="absolute top-4 left-1/2 -translate-x-1/2 z-[500] bg-brand-blue/90 backdrop-blur-md rounded-xl px-3 py-2 shadow-xl border border-white/20 text-[10px] font-inter hidden">
+            class="absolute top-14 sm:top-4 left-1/2 -translate-x-1/2 z-[var(--z-map-overlay)] bg-brand-blue/90 backdrop-blur-md rounded-xl px-3 py-2 shadow-xl border border-white/20 text-[10px] font-inter hidden">
             <div class="flex items-center gap-3">
               <div class="flex flex-col items-center">
                 <span id="mapMunCount" class="text-white font-black text-xs leading-none">0</span>
@@ -621,6 +626,14 @@
 
         <!-- Cobertura Extended Metrics & Quick Filters -->
         <div id="mapKpiGrid" class="lg:col-span-2 grid grid-cols-2 sm:flex sm:flex-col gap-2 transition-all duration-500 overflow-visible">
+          <!-- Toggle button for full-screen mobile drawer -->
+          <button id="btnToggleMapKpis"
+            class="hidden glass-panel rounded-xl p-3 items-center justify-center border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 shadow-lg active:scale-95 transition-all">
+            <div class="flex items-center gap-2">
+              <i data-lucide="bar-chart-3" class="w-4 h-4 text-brand-blue"></i>
+              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Métricas</span>
+            </div>
+          </button>
           <div
             class="header-label col-span-2 sm:col-span-1 text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-widest ml-1 mb-1 hidden sm:block">
             Filtros Rápidos</div>
@@ -662,33 +675,32 @@
             <span class="text-sm font-black font-outfit text-brand-red" id="mapKpiAlertas">0</span>
           </button>
 
-          <div id="mapKpiExtra" class="divider col-span-2 sm:col-span-1 mt-2 sm:pt-2 border-t border-slate-200 dark:border-white/5 flex flex-col sm:flex-col gap-2">
-            <!-- Boton Ver Ruta de encuestador -->
-            <button id="btnVerRutaAgente"
-              data-route-active="0"
-              class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange hover:bg-brand-orange/5 transition-all group active:scale-[.98] disabled:opacity-40 disabled:cursor-not-allowed"
-              title="Selecciona un encuestador en el filtro superior para trazar su ruta" disabled>
-              <div class="flex items-center gap-2">
-                <i data-lucide="route" class="w-3.5 h-3.5 text-brand-orange"></i>
-                <span class="route-label text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Ver Ruta</span>
-              </div>
-              <span id="mapRouteAgentCount" class="text-[10px] font-black font-outfit text-brand-orange">—</span>
-            </button>
-
-            <div
-              class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-purple opacity-80">
-              <div class="flex items-center gap-2">
-                <i data-lucide="users" class="w-3.5 h-3.5 text-brand-purple"></i>
-                <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Encuestadores</span>
-              </div>
-              <span class="text-sm font-black font-outfit text-slate-800 dark:text-white" id="mapKpiAgents">0</span>
+          <!-- Boton Ver Ruta de encuestador (Unificado) -->
+          <button id="btnVerRutaAgente"
+            data-route-active="0"
+            class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange hover:bg-brand-orange/5 transition-all group active:scale-[.98] disabled:opacity-40 disabled:cursor-not-allowed"
+            title="Selecciona un encuestador en el filtro superior para trazar su ruta" disabled>
+            <div class="flex items-center gap-2">
+              <i data-lucide="route" class="w-3.5 h-3.5 text-brand-orange"></i>
+              <span class="route-label text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Ver Ruta</span>
             </div>
+            <span id="mapRouteAgentCount" class="text-[10px] font-black font-outfit text-brand-orange">—</span>
+          </button>
+
+          <!-- Indicador Encuestadores (Unificado) -->
+          <div
+            class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-purple opacity-80">
+            <div class="flex items-center gap-2">
+              <i data-lucide="users" class="w-3.5 h-3.5 text-brand-purple"></i>
+              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Encuestadores</span>
+            </div>
+            <span class="text-sm font-black font-outfit text-slate-800 dark:text-white" id="mapKpiAgents">0</span>
           </div>
         </div>
       </div>
 
       <!-- Combined Data Engine Section (Stacked below) -->
-      <div class="card-premium flex flex-col overflow-hidden p-0 h-[85vh] min-h-[750px] border border-slate-200 dark:border-white/5">
+      <div class="card-premium flex flex-col overflow-hidden p-0 lg:h-[85vh] lg:min-h-[750px] min-h-[600px] border border-slate-200 dark:border-white/5">
         <div
           class="p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50 dark:bg-slate-900/50">
           <div class="flex items-center gap-3">
@@ -791,7 +803,7 @@
 
 
     <!-- MODULO: INCONSISTENCIAS -->
-    <div id="tab-inconsistencias" class="tab-content flex flex-col gap-6 hidden-tab">
+    <div id="tab-inconsistencias" class="tab-content flex flex-col gap-4 sm:gap-6 hidden-tab lg:h-[calc(100vh-180px)] h-auto overflow-y-auto lg:overflow-visible">
       <div class="flex justify-between items-end px-2">
         <div>
           <h2 class="text-2xl font-black font-outfit text-slate-900 dark:text-white">Motor de Inconsistencias</h2>
@@ -806,7 +818,7 @@
       </div>
 
       <!-- Tabla de detalle de registros con alertas -->
-      <div id="inconsistenciasContainer" class="card-premium flex flex-col overflow-hidden p-0">
+      <div id="inconsistenciasContainer" class="card-premium flex flex-col overflow-hidden p-0 min-h-[500px] lg:min-h-0">
         <div
           class="p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-50 dark:bg-slate-900/50">
           <div class="flex items-center gap-3">
@@ -848,16 +860,15 @@
     </div>
 
     <!-- MODULO: MM-111 VERIFICACION FÍSICA -->
-    <div id="tab-mm111" class="tab-content flex flex-col gap-6 hidden-tab h-[calc(100vh-180px)]">
-
+    <div id="tab-mm111" class="tab-content flex flex-col gap-4 sm:gap-6 hidden-tab lg:h-[calc(100vh-180px)] h-auto overflow-y-auto lg:overflow-visible">
       <!-- Cabecera Institucional y Geográfica -->
-      <div class="glass-panel rounded-2xl p-6 border-t-4 border-t-brand-blue flex flex-col gap-6 shadow-sm">
+      <div class="glass-panel rounded-2xl p-4 sm:p-6 border-t-4 border-t-brand-blue flex flex-col gap-4 sm:gap-6 shadow-sm">
         <div
-          class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-200 dark:border-slate-800 pb-4">
-          <div class="flex items-center gap-4">
+          class="flex flex-col lg:flex-row justify-between items-start lg:items-center border-b border-slate-200 dark:border-slate-800 pb-4 gap-4">
+          <div class="flex items-center gap-3 sm:gap-4 shrink-0">
             <div
-              class="h-12 w-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-700">
-              <svg class="w-8 h-8 text-slate-800 dark:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              class="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-700 shrink-0">
+              <svg class="w-6 h-6 sm:w-8 sm:h-8 text-slate-800 dark:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="2">
                 <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4" />
                 <path d="M14 2v6h6" />
@@ -865,28 +876,28 @@
               </svg>
             </div>
             <div>
-              <h1 class="text-xl md:text-2xl font-black font-outfit tracking-tight text-slate-800 dark:text-white">Marco
+              <h1 class="text-lg sm:text-2xl font-black font-outfit tracking-tight text-slate-800 dark:text-white leading-tight">Marco
                 Maestro de Muestreo (VIV MM-111)</h1>
-              <p class="text-xs text-slate-500 font-bold uppercase tracking-widest">(CRTE) - INSTITUTO NACIONAL DE
+              <p class="text-[10px] sm:text-xs text-slate-500 font-bold uppercase tracking-widest mt-0.5">(CRTE) - INSTITUTO NACIONAL DE
                 ESTADÍSTICA</p>
             </div>
           </div>
 
-          <div class="mt-4 md:mt-0 flex flex-col items-end">
-            <label class="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1">Seleccionar Planilla
+          <div class="lg:mt-0 flex flex-col items-stretch lg:items-end w-full lg:w-auto">
+            <label class="text-[9px] sm:text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1.5 ml-1 lg:text-right">Seleccionar Planilla
               Física (Control Nro.)</label>
             <div class="flex items-center gap-2">
-              <div class="relative w-64">
+              <div class="relative flex-1 lg:w-64">
                 <i data-lucide="list-filter"
                   class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
                 <select id="mm111SearchControl"
-                  class="w-full bg-slate-50 dark:bg-[#0B1120] border-2 border-brand-blue/30 rounded-xl pl-10 pr-8 py-2 text-sm text-slate-800 dark:text-white font-bold outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 transition-all font-outfit appearance-none cursor-pointer">
+                  class="w-full bg-slate-50 dark:bg-[#0B1120] border-2 border-brand-blue/30 rounded-xl pl-10 pr-8 py-2.5 text-sm text-slate-800 dark:text-white font-bold outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 transition-all font-outfit appearance-none cursor-pointer">
                   <option value="">Seleccionar Control...</option>
                 </select>
                 <i data-lucide="chevron-down"
                   class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
               </div>
-              <button id="btnLoadMM111" class="btn-primary py-2.5 px-6">Localizar</button>
+              <button id="btnLoadMM111" class="btn-primary py-2.5 px-4 sm:px-6 shadow-lg shadow-brand-blue/20">Localizar</button>
             </div>
           </div>
         </div>
@@ -940,7 +951,7 @@
         </div>
 
         <!-- Barra de Controles Operativos -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-px bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden">
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-[1px] bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
           <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
             <span class="text-[9px] uppercase font-bold text-slate-500">Segmento</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Segmento">-</div>
@@ -953,11 +964,11 @@
             <span class="text-[9px] uppercase font-bold text-slate-500">Nodo</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Nodo">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-50 dark:bg-brand-950/20">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
             <span class="text-[9px] uppercase font-bold text-slate-500">Semana</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Semana">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-50 dark:bg-brand-950/20 col-span-2 sm:col-span-4 lg:col-span-1">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120] col-span-2 sm:col-span-4 lg:col-span-1">
             <span class="text-[9px] uppercase font-bold text-slate-500">Control Maestro</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300 truncate w-full" id="mm111ControlMaestro">-</div>
           </div>
@@ -974,7 +985,7 @@
 
       <!-- Tabla de Listado de Viviendas -->
       <div
-        class="card-premium flex-1 flex flex-col p-0 overflow-hidden border-2 border-slate-200 dark:border-slate-700 mt-4 relative">
+        class="card-premium flex-1 flex flex-col p-0 overflow-hidden border-2 border-slate-200 dark:border-slate-700 mt-4 relative min-h-[500px] lg:min-h-0">
         <div class="w-full flex-1 overflow-x-auto overflow-y-auto bg-white dark:bg-[#0B1120] custom-scrollbar pb-6 relative outline-none" tabindex="0">
           <table class="w-full text-left border-collapse text-xs">
             <thead
@@ -1031,11 +1042,11 @@
 
   <!-- Off-Canvas Modal para Filtros Globales Avanzados -->
   <div id="filtersOverlay"
-    class="fixed inset-0 z-[80] bg-slate-900/20 dark:bg-[#0B1120]/40 hidden backdrop-blur-sm transition-opacity opacity-0"
+    class="fixed inset-0 z-[var(--z-offcanvas)] bg-slate-900/20 dark:bg-[#0B1120]/40 hidden backdrop-blur-sm transition-opacity opacity-0"
     aria-hidden="true"></div>
 
   <div id="offCanvasFilters"
-    class="fixed inset-y-0 right-0 z-[90] w-full sm:w-[400px] border-l border-slate-200 dark:border-white/10 transform translate-x-full transition-transform duration-300 ease-out flex flex-col shadow-[-10px_0_40px_rgba(0,0,0,0.1)] dark:shadow-[-10px_0_40px_rgba(0,0,0,0.5)] bg-white dark:bg-[#0f172a]"
+    class="fixed inset-y-0 right-0 z-[var(--z-offcanvas)] w-full sm:w-[400px] border-l border-slate-200 dark:border-white/10 transform translate-x-full transition-transform duration-300 ease-out flex flex-col shadow-[-10px_0_40px_rgba(0,0,0,0.1)] dark:shadow-[-10px_0_40px_rgba(0,0,0,0.5)] bg-white dark:bg-[#0f172a]"
     role="dialog" aria-modal="true" aria-labelledby="filtersTitle">
 
     <!-- Background glow elements -->
@@ -1169,7 +1180,7 @@
   </div>
 
   <!-- Detail Dialog Modal -->
-  <div id="detailModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center">
+  <div id="detailModal" class="hidden fixed inset-0 z-[var(--z-modal)] flex items-center justify-center">
     <div class="absolute inset-0 bg-[#0B1120]/80 backdrop-blur-md" onclick="closeDetailModal()" aria-hidden="true">
     </div>
     <div

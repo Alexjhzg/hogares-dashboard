@@ -76,6 +76,10 @@ export function loadMM111ControlData(controlNro) {
     $('mm111Semana').textContent    = fmtSuffix(first._meta.semana, 2);
     $('mm111ControlNro').textContent = fmtSuffix(first._meta.control, 4);
 
+    // Lote (group_sh53u78/lote)
+    const lote = first['group_sh53u78/lote'] || first['lote'] || '-';
+    if ($('mm111Lote')) $('mm111Lote').textContent = lote;
+
     updateMM111Grid(records);
 }
 
