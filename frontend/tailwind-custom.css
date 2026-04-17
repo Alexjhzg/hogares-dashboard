@@ -23,16 +23,16 @@
     --map-control-border: rgba(0, 0, 0, 0.1);
     --map-shadow: rgba(0, 0, 0, 0.1);
 
-    /* Z-Index Scale */
-    --z-header: 50;
-    --z-map-base: 0;
-    --z-map-overlay: 500;
-    --z-map-control: 1001;
-    --z-map-full: 100000;
+    /* Z-Index Scale (Standardized Hierarchy) */
+    --z-map-base:          0;
+    --z-map-overlay:       40;         /* Internal map badges/legends */
+    --z-header:            100;        /* Main navigation header */
+    --z-map-control:       1001;       /* UI controls on map (Leaflet default is 1000) */
+    --z-map-full:          100000;
     --z-map-full-controls: 100001;
-    --z-offcanvas: 190000;
-    --z-modal: 200000;
-    --z-loader: 200001;
+    --z-offcanvas:         190000;
+    --z-modal:             200000;
+    --z-loader:            200001;
 
     /* ─── Brand Palette Tokens ─── */
     --color-brand-blue:        #3B82F6;

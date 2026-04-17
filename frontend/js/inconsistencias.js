@@ -2,10 +2,10 @@
 // Renderiza el panel resumen de alertas de calidad de datos.
 // Agrupa alertas por tipo usando ALERT_MAP para obtener labels legibles.
 
-import { state }     from './state.js?v=39';
-import { ALERT_MAP } from './config.js?v=39';
-import { $, $$  }    from './helpers.js?v=39';
-import { showDetailModal } from './modal.js?v=39';
+import { state }     from './state.js';
+import { ALERT_MAP } from './config.js';
+import { $, $$  }    from './helpers.js';
+import { showDetailModal } from './modal.js';
 
 let currentAlertFilter = '';
 let currentSearchQuery = '';

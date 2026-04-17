@@ -1,0 +1,70 @@
+import { state } from '../state.js';
+import { $, avg } from '../helpers.js';
+
+export function updateKPIs() {
+    const completadas = state.filtered.filter(r => r._meta && r._meta.estado === 'completada').length;
+    const noRespuesta = state.filtered.length - completadas;
+    const encs        = new Set(state.filtered.map(r => r._meta.cedula)).size;
+    const durs        = state.filtered
+        .filter(r => r._meta.estado === 'completada')
+        .map(r => r._meta.durMin)
+        .filter(d => d !== null);
+    
+    const avgDuracion = durs.length ? avg(durs) : 0;
+    const personas    = state.filtered.reduce((s, r) => s + (r._meta.totalPers || 0), 0);
+    const hombres     = state.filtered.reduce((s, r) => s + (r._meta.totalHombres || 0), 0);
+    const mujeres     = state.filtered.reduce((s, r) => s + (r._meta.totalMujeres || 0), 0);
+    const municipios  = new Set(state.filtered.map(r => r._meta.mun)).size;
+
+    // Header KPIs
+    if ($('kpiTotal'))          $('kpiTotal').textContent          = state.filtered.length;
+    if ($('kpiCompletadas'))    $('kpiCompletadas').textContent    = completadas;
+    if ($('kpiNoRespuesta'))    $('kpiNoRespuesta').textContent    = noRespuesta;
+    if ($('kpiEncuestadores'))  $('kpiEncuestadores').textContent  = encs;
+    if ($('kpiDuracion'))       $('kpiDuracion').textContent       = avgDuracion ? `${Math.round(avgDuracion)} min` : 'N/A';
+    if ($('kpiPersonas'))       $('kpiPersonas').textContent       = personas;
+    if ($('kpiHombres'))        $('kpiHombres').textContent        = hombres;
+    if ($('kpiMujeres'))        $('kpiMujeres').textContent        = mujeres;
+    if ($('kpiMunicipios'))     $('kpiMunicipios').textContent     = municipios;
+
+    // Productivity
+    const encPerHour = state.filtered.length / (encs * 8 || 1);
+    if ($('kpiEncPerHour')) $('kpiEncPerHour').textContent = encPerHour.toFixed(1);
+
+    const producers = {};
+    state.filtered.forEach(r => { 
+        const name = (r._meta && r._meta.nombre) || 'Desconocido';
+        producers[name] = (producers[name] || 0) + 1; 
+    });
+    const topProducer = Object.entries(producers).sort((a, b) => b[1] - a[1])[0] || ['--', 0];
+    if ($('kpiTopProducer'))    $('kpiTopProducer').textContent    = String(topProducer[0]).split(' ')[0];
+    if ($('kpiTopProducerVal')) $('kpiTopProducerVal').textContent = `${topProducer[1]} encuestas`;
+
+    // Quality Metrics
+    const totalConAlertas = state.filtered.filter(r => r._meta && r._meta.hasAlerts).length;
+    const tasaEfectividad = state.filtered.length > 0 ? Math.round((completadas / state.filtered.length) * 100) : 0;
+    const tasaAlerta      = state.filtered.length > 0 ? Math.round((totalConAlertas / state.filtered.length) * 100) : 0;
+
+    if ($('kpiTasaEfectividad')) $('kpiTasaEfectividad').textContent = `${tasaEfectividad}%`;
+    if ($('kpiTotalAlertas'))    $('kpiTotalAlertas').textContent    = totalConAlertas;
+    if ($('kpiTasaAlerta'))      $('kpiTasaAlerta').textContent      = `${tasaAlerta}%`;
+
+    // Peak Hour
+    const hours = {};
+    state.filtered.forEach(r => { if (r._meta && r._meta.hora !== null) hours[r._meta.hora] = (hours[r._meta.hora] || 0) + 1; });
+    const peakHour = Object.entries(hours).sort((a, b) => b[1] - a[1])[0] || [null, 0];
+    if ($('kpiPeakHour')) $('kpiPeakHour').textContent = peakHour[0] !== null ? `${peakHour[0]}:00` : '--';
+
+    // Daily Goal
+    const metaInput  = $('inputMetaDiaria');
+    const meta       = metaInput && !isNaN(Number(metaInput.value)) && Number(metaInput.value) > 0 ? Number(metaInput.value) : 20;
+    const metaGlobal = encs * meta;
+    const progreso   = Math.min(100, (state.filtered.length / (metaGlobal || 1)) * 100);
+    if ($('kpiMetaProgreso')) $('kpiMetaProgreso').textContent = `${Math.round(progreso)}%`;
+    if ($('kpiMetaBar'))      $('kpiMetaBar').style.width      = `${progreso}%`;
+
+    // Ranking Tab KPIs
+    if ($('rankKpiEfectivas'))   $('rankKpiEfectivas').textContent    = completadas;
+    if ($('rankKpiNoRespuesta')) $('rankKpiNoRespuesta').textContent  = noRespuesta;
+    if ($('rankKpiAlerts'))      $('rankKpiAlerts').textContent       = totalConAlertas;
+}

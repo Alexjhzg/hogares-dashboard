@@ -22,6 +22,7 @@ Thumbs.db
 .agent/
 .gemini/
 
-# ── Archivos temporales ──
+# ── Archivos temporales y respaldos ──
 *.log
 tmp/
+legacy/

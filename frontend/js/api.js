@@ -2,9 +2,9 @@
 // Handles all fetch calls to the backend. Calls renderAll via callback to
 // avoid circular imports.
 
-import { BACKEND_URL } from './config.js?v=39';
-import { state } from './state.js?v=39';
-import { $ } from './helpers.js?v=39';
+import { BACKEND_URL } from './config.js';
+import { state } from './state.js';
+import { $ } from './helpers.js';
 
 export function showLoading(msg) {
     const overlay = $('loadingOverlay');
