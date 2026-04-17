@@ -321,13 +321,22 @@ export function showDetailModal(rec) {
                 </div>
             </div>
             <div id="detailMapWrapper" class="h-48 sm:h-64 md:h-96 w-full relative transition-[height] duration-300">
-                <div class="absolute top-4 left-4 z-[400] bg-white/90 dark:bg-slate-900/80 backdrop-blur-md rounded-xl p-3 border border-slate-200 dark:border-slate-700/50 shadow-xl w-48 pointer-events-none">
-                    <h5 class="text-[9px] uppercase font-black text-brand-blue dark:text-slate-400 tracking-widest mb-2 border-b border-slate-100 dark:border-slate-700 pb-1">Métricas de Rastreo</h5>
-                    <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-slate-500 font-bold">Seg. Declarado:</span><span class="text-[10px] font-mono font-bold text-slate-700 dark:text-slate-300">#${extractNested('segmento') || 'N/A'}</span></div>
-                    <div class="flex justify-between items-center mb-2 border-b border-slate-100 dark:border-slate-700/50 pb-2"><span class="text-[10px] text-slate-500 font-bold">Seg. en Mapa:</span><span class="text-[10px] font-mono font-bold ${alertas.includes('SEGMENTO_INCORRECTO') || alertas.includes('FUERA_SEGMENTO') ? 'text-brand-red' : 'text-brand-emerald'}">${extractNested('actual_seg') ? '#' + extractNested('actual_seg') : '(Nulo)'}</span></div>
-                    <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-slate-500 font-bold">Desplazamiento:</span><span class="text-[10px] font-mono font-bold ${alertas.includes('DESPLAZAMIENTO_ANOMALO') ? 'text-brand-orange' : 'text-slate-700 dark:text-slate-300'}">${walkedDistance !== null ? Math.round(walkedDistance)+'m' : 'N/A'}</span></div>
-                    <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-slate-500 font-bold">Dist. Centro:</span><span class="text-[10px] font-mono font-bold ${isFlagged ? 'text-brand-red' : 'text-brand-emerald'}">${rawDist !== null ? Math.round(rawDist)+'m' : 'N/A'}</span></div>
-                    <div class="flex justify-between items-center"><span class="text-[10px] text-slate-500 font-bold">Tiempo Base:</span><span class="text-[10px] font-mono text-brand-blue font-bold">${extractNested('durMin') ? extractNested('durMin')+' min' : 'N/A'}</span></div>
+                <div class="metrics-panel-overlay absolute top-4 left-4 z-[400] bg-white/90 dark:bg-slate-900/80 backdrop-blur-md rounded-xl p-3 border border-slate-200 dark:border-slate-700/50 shadow-xl w-48 pointer-events-auto">
+                    <!-- Header with toggle for mobile -->
+                    <div class="flex justify-between items-center md:block cursor-pointer md:cursor-default" onclick="if(window.innerWidth < 768) this.closest('.metrics-panel-overlay').classList.toggle('is-expanded')">
+                        <h5 class="text-[9px] uppercase font-black text-brand-blue dark:text-slate-400 tracking-widest md:mb-2 md:border-b md:border-slate-100 md:dark:border-slate-700 md:pb-1 m-0">Métricas de Rastreo</h5>
+                        <div class="md:hidden text-brand-blue">
+                            <i data-lucide="chevron-up" class="w-4 h-4 transition-transform duration-300"></i>
+                        </div>
+                    </div>
+
+                    <div class="metrics-content-body transition-opacity duration-300">
+                        <div class="flex justify-between items-center mb-1 mt-2 md:mt-0"><span class="text-[10px] text-slate-500 font-bold">Seg. Declarado:</span><span class="text-[10px] font-mono font-bold text-slate-700 dark:text-slate-300">#${extractNested('segmento') || 'N/A'}</span></div>
+                        <div class="flex justify-between items-center mb-2 border-b border-slate-100 dark:border-slate-700/50 pb-2"><span class="text-[10px] text-slate-500 font-bold">Seg. en Mapa:</span><span class="text-[10px] font-mono font-bold ${alertas.includes('SEGMENTO_INCORRECTO') || alertas.includes('FUERA_SEGMENTO') ? 'text-brand-red' : 'text-brand-emerald'}">${extractNested('actual_seg') ? '#' + extractNested('actual_seg') : '(Nulo)'}</span></div>
+                        <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-slate-500 font-bold">Desplazamiento:</span><span class="text-[10px] font-mono font-bold ${alertas.includes('DESPLAZAMIENTO_ANOMALO') ? 'text-brand-orange' : 'text-slate-700 dark:text-slate-300'}">${walkedDistance !== null ? Math.round(walkedDistance)+'m' : 'N/A'}</span></div>
+                        <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-slate-500 font-bold">Dist. Centro:</span><span class="text-[10px] font-mono font-bold ${isFlagged ? 'text-brand-red' : 'text-brand-emerald'}">${rawDist !== null ? Math.round(rawDist)+'m' : 'N/A'}</span></div>
+                        <div class="flex justify-between items-center"><span class="text-[10px] text-slate-500 font-bold">Tiempo Base:</span><span class="text-[10px] font-mono text-brand-blue font-bold">${extractNested('durMin') ? extractNested('durMin')+' min' : 'N/A'}</span></div>
+                    </div>
                 </div>
                 <div id="detailMap" class="absolute inset-0 z-0 bg-slate-800"></div>
             </div>
@@ -346,6 +355,17 @@ export function showDetailModal(rec) {
 
     state.lastFocused = document.activeElement;
     modal.classList.remove('hidden');
+    
+    // Auto-fullscreen on mobile
+    if (window.innerWidth < 768) {
+        const pane = $('detailModalPane');
+        if (pane && pane.classList.contains('max-w-7xl')) {
+            if (typeof window.toggleDetailModalExpand === 'function') {
+                window.toggleDetailModalExpand();
+            }
+        }
+    }
+
     setTimeout(() => { modal.querySelector('#detailModalPane')?.classList.remove('scale-95', 'opacity-0'); }, 10);
 
     if (hasMapData) {
@@ -359,7 +379,6 @@ export function showDetailModal(rec) {
                 const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' });
                 satLayer.addTo(state.detailMiniMapObj);
                 L.control.layers({ 'Google Satélite': satLayer, 'OpenStreetMap': osmLayer }, null, { position: 'topright' }).addTo(state.detailMiniMapObj);
-                L.control.zoom({ position: 'bottomright' }).addTo(state.detailMiniMapObj);
             } else {
                 state.detailMiniMapObj.setView([displayLat, displayLng], 16);
                 // Limpiar todas las capas excepto los tiles base

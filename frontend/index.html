@@ -40,125 +40,6 @@
     }
   </script>
 
-
-
-  <!-- CDN-compatible Tailwind component definitions -->
-  <style type="text/tailwindcss">
-    @layer base {
-      html { -webkit-font-smoothing: antialiased; }
-    }
-    @layer components {
-      /* ─── Core Layout: Stitch Glass Foundation ─── */
-      .glass-panel {
-        @apply bg-white/60 dark:bg-slate-900/40 backdrop-blur-xl border border-slate-200/50 dark:border-white/10;
-      }
-      .card-premium {
-        @apply bg-white/60 dark:bg-slate-900/40 backdrop-blur-xl
-               border border-slate-200/50 dark:border-white/10 rounded-2xl p-6
-               transition-all duration-300 relative overflow-hidden
-               shadow-sm dark:shadow-none
-               hover:border-slate-300 dark:hover:border-white/[0.18] 
-               hover:shadow-[0_8px_30px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)];
-      }
-      .alert-card {
-        @apply flex items-center justify-between p-4 rounded-xl border border-transparent
-               cursor-pointer transition-all duration-200 
-               hover:scale-[1.02] hover:shadow-md;
-      }
-      /* ─── Typography ─── */
-      .kpi-value-text {
-        @apply text-3xl font-black font-outfit tracking-tighter;
-      }
-      .kpi-label {
-        @apply text-[10px] uppercase font-semibold text-slate-500 tracking-widest mt-1;
-      }
-      /* ─── Buttons ─── */
-      .btn-primary {
-        @apply inline-flex items-center justify-center gap-2 px-5 py-2.5
-               bg-brand-blue hover:bg-blue-500 active:scale-[0.98]
-               text-white text-sm font-semibold rounded-xl
-               transition-all duration-200
-               shadow-[0_0_18px_rgba(59,130,246,0.35)] cursor-pointer;
-      }
-      .btn-secondary {
-        @apply inline-flex items-center justify-center gap-2 px-4 py-2
-               bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 
-               dark:bg-slate-800/60 dark:hover:bg-slate-800 dark:text-slate-300 dark:hover:text-white 
-               text-sm font-medium
-               border border-slate-200 hover:border-slate-300 
-               dark:border-slate-700/50 dark:hover:border-slate-600 
-               rounded-xl transition-all cursor-pointer;
-      }
-      /* ─── Navigation Tabs ─── */
-      .tab-btn {
-        @apply inline-flex items-center justify-center gap-2
-               px-5 py-2.5 rounded-full text-sm font-medium whitespace-nowrap
-               text-slate-500 hover:text-slate-800 hover:bg-slate-200/50
-               dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-white/5
-               border border-transparent transition-all duration-200 cursor-pointer;
-      }
-      .tab-btn.active, .tab-btn-active {
-        @apply bg-brand-blue/20 text-brand-blue border-brand-blue/30
-               font-semibold;
-      }
-      /* ─── Sorting Buttons ─── */
-      .sort-btn {
-        @apply text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors;
-      }
-      .sort-btn.active {
-        @apply bg-white dark:bg-white/10 text-brand-orange shadow-sm dark:shadow-none font-black;
-      }
-      /* ─── Utility ─── */
-      .hidden-tab { display: none !important; }
-      .no-scrollbar::-webkit-scrollbar { display: none; }
-      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-      /* ─── Compact Map Filters (Floating Overlay) ─── */
-      .map-kpi-compact {
-        @apply absolute top-4 right-20 z-[500] 
-               !flex-row !gap-2 p-1.5 
-               bg-white/40 dark:bg-slate-900/40 backdrop-blur-2xl 
-               border border-white/20 rounded-2xl shadow-2xl
-               animate-in fade-in slide-in-from-right-4 duration-500;
-        width: auto !important;
-      }
-      .map-kpi-compact .header-label, 
-      .map-kpi-compact .divider { display: none !important; }
-      
-      .map-kpi-compact .glass-panel,
-      .map-kpi-compact button {
-        @apply !p-2 !gap-2 !flex-row !border-l-0 !border-b-2 
-               !rounded-xl min-w-[70px] h-9 items-center justify-center;
-      }
-      .map-kpi-compact button span.uppercase,
-      .map-kpi-compact .glass-panel span.uppercase { @apply text-[8px] leading-tight; }
-      .map-kpi-compact button .text-sm,
-      .map-kpi-compact .glass-panel .text-sm { @apply text-xs font-black h-fit; }
-      .map-kpi-compact i { @apply w-3.5 h-3.5; }
-      
-      /* Fullscreen adjustment */
-      .map-fullscreen .map-kpi-compact {
-        @apply top-6 right-6 scale-110 origin-top-right;
-      }
-    }
-  </style>
-  <style>
-    #filterINE.active {
-      background-color: #10B981 !important;
-      color: white !important;
-      border-color: #10B981 !important;
-    }
-    #filterSEGEN.active {
-      background-color: #8B5CF6 !important;
-      color: white !important;
-      border-color: #8B5CF6 !important;
-    }
-
-    #filterINE.active i, #filterSEGEN.active i {
-      color: white !important;
-    }
-  </style>
-
   <!-- Scripts & External CSS (Chart.js, Lucide, Leaflet, Tabulator) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
@@ -174,7 +55,8 @@
   <script src="https://unpkg.com/tabulator-tables@6.3.1/dist/js/tabulator.min.js"></script>
 
   <!-- Custom Styles (Loaded after libraries to override them) -->
-  <link rel="stylesheet" href="tailwind-custom.css?v=6" />
+  <link rel="stylesheet" href="tailwind-custom.css?v=7" />
+
 </head>
 
 <body
@@ -183,8 +65,8 @@
 
 
   <!-- ======= HEADER ======= -->
-  <!-- ======= HEADER ======= -->
-  <header class="sticky top-0 z-[var(--z-header)] glass-panel border-b-0 px-3 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between shadow-md transition-all duration-300">
+  <header
+    class="sticky top-0 z-[var(--z-header)] glass-panel border-b-0 px-3 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between shadow-md transition-all duration-300">
     <div class="flex items-center gap-2 sm:gap-4 overflow-hidden">
       <div
         class="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-brand-blue/20 text-brand-blue flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.3)] shrink-0">
@@ -193,20 +75,26 @@
       <div class="min-w-0">
         <h1
           class="text-sm sm:text-lg font-outfit font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-1.5">
-          <span class="truncate">DashboardSociales</span> 
-          <span class="hidden sm:inline-block bg-brand-blue/20 text-brand-blue text-[9px] px-1.5 py-0.5 rounded-md uppercase tracking-widest font-bold shrink-0">SEEM</span>
+          <span class="truncate">DashboardSociales</span>
+          <span
+            class="hidden sm:inline-block bg-brand-blue/20 text-brand-blue text-[9px] px-1.5 py-0.5 rounded-md uppercase tracking-widest font-bold shrink-0">SEEM</span>
         </h1>
-        <p class="text-[9px] sm:text-[10px] text-slate-400 font-medium uppercase tracking-widest font-inter hidden sm:block">ESCA/EHM</p>
+        <p
+          class="text-[9px] sm:text-[10px] text-slate-400 font-medium uppercase tracking-widest font-inter hidden sm:block">
+          ESCA/EHM</p>
       </div>
     </div>
 
     <div class="flex items-center gap-1.5 sm:gap-3">
       <div id="statusIndicator" class="hidden lg:flex items-center gap-2 mr-1">
         <span class="relative flex h-2 w-2" id="connectionPingContainer">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-emerald opacity-75" id="connectionPing"></span>
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-emerald opacity-75"
+            id="connectionPing"></span>
           <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-emerald" id="connectionDot"></span>
         </span>
-        <span id="connectionStatus" class="transition-colors text-[10px] text-brand-emerald font-bold font-inter uppercase tracking-tighter">Live Connection</span>
+        <span id="connectionStatus"
+          class="transition-colors text-[10px] text-brand-emerald font-bold font-inter uppercase tracking-tighter">Live
+          Connection</span>
       </div>
 
       <select id="assetSelect"
@@ -303,12 +191,15 @@
           <span>Solo SEGEN</span>
         </button>
 
-        <button id="btnReset" class="flex items-center justify-center gap-2 btn-secondary py-2.5 px-3 group w-full lg:w-auto" title="Limpiar filtros" aria-label="Limpiar">
+        <button id="btnReset"
+          class="flex items-center justify-center gap-2 btn-secondary py-2.5 px-3 group w-full lg:w-auto"
+          title="Limpiar filtros" aria-label="Limpiar">
           <i data-lucide="rotate-ccw" class="w-4 h-4 group-hover:-rotate-180 transition-transform duration-500"></i>
           <span class="inline sm:inline">Limpiar</span>
         </button>
 
-        <button id="btnOpenFilters" class="flex items-center justify-center gap-2 btn-primary relative w-full lg:w-auto">
+        <button id="btnOpenFilters"
+          class="flex items-center justify-center gap-2 btn-primary relative w-full lg:w-auto">
           <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
           <span>Filtros</span>
           <span id="activeFiltersBadge"
@@ -431,28 +322,32 @@
 
         <div class="card-premium border-l-2 border-l-brand-orange"
           title="Tiempo promedio de entrevista calculado únicamente sobre las encuestas marcadas como 'completadas'.">
-          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-brand-orange/80"></i> Duración Media (Efectivas)</div>
+          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="clock"
+              class="w-4 h-4 text-brand-orange/80"></i> Duración Media (Efectivas)</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiDuracion">0m</div>
           <div class="text-[10px] text-brand-orange font-medium mt-1">Solo encuestas completadas</div>
         </div>
 
         <div class="card-premium border-l-2 border-l-teal-500"
           title="Suma total de personas registradas en los hogares que completaron la encuesta exitosamente.">
-          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="users" class="w-4 h-4 text-teal-500/80"></i> Integrantes Relevados</div>
+          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="users"
+              class="w-4 h-4 text-teal-500/80"></i> Integrantes Relevados</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiPersonas">0</div>
           <div class="text-[10px] text-teal-400 font-medium mt-1">Total personas en hogares</div>
         </div>
 
         <div class="card-premium border-l-2 border-l-blue-500"
           title="Suma total de hombres registrados en los hogares que completaron la encuesta exitosamente.">
-          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="mars" class="w-4 h-4 text-blue-500/80"></i> Hombres Encuestados</div>
+          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="mars"
+              class="w-4 h-4 text-blue-500/80"></i> Hombres Encuestados</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiHombres">0</div>
           <div class="text-[10px] text-blue-500 font-medium mt-1">Total hombres</div>
         </div>
 
         <div class="card-premium border-l-2 border-l-pink-500"
           title="Suma total de mujeres registradas en los hogares que completaron la encuesta exitosamente.">
-          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="venus" class="w-4 h-4 text-pink-500/80"></i> Mujeres Encuestadas</div>
+          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="venus"
+              class="w-4 h-4 text-pink-500/80"></i> Mujeres Encuestadas</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiMujeres">0</div>
           <div class="text-[10px] text-pink-500 font-medium mt-1">Total mujeres</div>
         </div>
@@ -562,7 +457,8 @@
               title="Expandir Layout">
               <i data-lucide="maximize" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
             </button>
-            <button id="btnMapStateFull" class="p-3 sm:p-2.5 hover:bg-white/10 text-white transition-all group active:scale-95"
+            <button id="btnMapStateFull"
+              class="p-3 sm:p-2.5 hover:bg-white/10 text-white transition-all group active:scale-95"
               title="Pantalla Completa">
               <i data-lucide="expand" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
             </button>
@@ -615,7 +511,8 @@
         </div>
 
         <!-- Cobertura Extended Metrics & Quick Filters -->
-        <div id="mapKpiGrid" class="lg:col-span-2 grid grid-cols-2 sm:flex sm:flex-col gap-2 transition-all duration-500 overflow-visible">
+        <div id="mapKpiGrid"
+          class="lg:col-span-2 grid grid-cols-2 sm:flex sm:flex-col gap-2 transition-all duration-500 overflow-visible">
           <!-- Toggle button for full-screen mobile drawer -->
           <button id="btnToggleMapKpis"
             class="hidden glass-panel rounded-xl p-3 items-center justify-center border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 shadow-lg active:scale-95 transition-all">
@@ -666,13 +563,13 @@
           </button>
 
           <!-- Boton Ver Ruta de encuestador (Unificado) -->
-          <button id="btnVerRutaAgente"
-            data-route-active="0"
+          <button id="btnVerRutaAgente" data-route-active="0"
             class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange hover:bg-brand-orange/5 transition-all group active:scale-[.98] disabled:opacity-40 disabled:cursor-not-allowed"
             title="Selecciona un encuestador en el filtro superior para trazar su ruta" disabled>
             <div class="flex items-center gap-2">
               <i data-lucide="route" class="w-3.5 h-3.5 text-brand-orange"></i>
-              <span class="route-label text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Ver Ruta</span>
+              <span class="route-label text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Ver
+                Ruta</span>
             </div>
             <span id="mapRouteAgentCount" class="text-[10px] font-black font-outfit text-brand-orange">—</span>
           </button>
@@ -690,7 +587,8 @@
       </div>
 
       <!-- Combined Data Engine Section (Stacked below) -->
-      <div class="card-premium flex flex-col overflow-hidden p-0 lg:h-[85vh] lg:min-h-[750px] min-h-[600px] border border-slate-200 dark:border-white/5">
+      <div
+        class="card-premium flex flex-col overflow-hidden p-0 lg:h-[85vh] lg:min-h-[750px] min-h-[600px] border border-slate-200 dark:border-white/5">
         <div
           class="p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50 dark:bg-slate-900/50">
           <div class="flex items-center gap-3">
@@ -793,7 +691,8 @@
 
 
     <!-- MODULO: INCONSISTENCIAS -->
-    <div id="tab-inconsistencias" class="tab-content flex flex-col gap-4 sm:gap-6 hidden-tab lg:h-[calc(100vh-180px)] h-auto overflow-y-auto lg:overflow-visible">
+    <div id="tab-inconsistencias"
+      class="tab-content flex flex-col gap-4 sm:gap-6 hidden-tab lg:h-[calc(100vh-180px)] h-auto overflow-y-auto lg:overflow-visible">
       <div class="flex justify-between items-end px-2">
         <div>
           <h2 class="text-2xl font-black font-outfit text-slate-900 dark:text-white">Motor de Inconsistencias</h2>
@@ -808,7 +707,8 @@
       </div>
 
       <!-- Tabla de detalle de registros con alertas -->
-      <div id="inconsistenciasContainer" class="card-premium flex flex-col overflow-hidden p-0 min-h-[500px] lg:min-h-0">
+      <div id="inconsistenciasContainer"
+        class="card-premium flex flex-col overflow-hidden p-0 min-h-[500px] lg:min-h-0">
         <div
           class="p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-50 dark:bg-slate-900/50">
           <div class="flex items-center gap-3">
@@ -850,31 +750,38 @@
     </div>
 
     <!-- MODULO: MM-111 VERIFICACION FÍSICA -->
-    <div id="tab-mm111" class="tab-content flex flex-col gap-4 sm:gap-6 hidden-tab lg:h-[calc(100vh-180px)] h-auto overflow-y-auto lg:overflow-visible">
+    <div id="tab-mm111"
+      class="tab-content flex flex-col gap-4 sm:gap-6 hidden-tab lg:h-[calc(100vh-180px)] h-auto overflow-y-auto lg:overflow-visible">
       <!-- Cabecera Institucional y Geográfica -->
-      <div class="glass-panel rounded-2xl p-4 sm:p-6 border-t-4 border-t-brand-blue flex flex-col gap-4 sm:gap-6 shadow-sm">
+      <div
+        class="glass-panel rounded-2xl p-4 sm:p-6 border-t-4 border-t-brand-blue flex flex-col gap-4 sm:gap-6 shadow-sm">
         <div
           class="flex flex-col lg:flex-row justify-between items-start lg:items-center border-b border-slate-200 dark:border-slate-800 pb-4 gap-4">
           <div class="flex items-center gap-3 sm:gap-4 shrink-0">
             <div
               class="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-700 shrink-0">
-              <svg class="w-6 h-6 sm:w-8 sm:h-8 text-slate-800 dark:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
+              <svg class="w-6 h-6 sm:w-8 sm:h-8 text-slate-800 dark:text-white" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
                 <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4" />
                 <path d="M14 2v6h6" />
                 <path d="m3 12.5 5 5 9-9" />
               </svg>
             </div>
             <div>
-              <h1 class="text-lg sm:text-2xl font-black font-outfit tracking-tight text-slate-800 dark:text-white leading-tight">Marco
+              <h1
+                class="text-lg sm:text-2xl font-black font-outfit tracking-tight text-slate-800 dark:text-white leading-tight">
+                Marco
                 Maestro de Muestreo (VIV MM-111)</h1>
-              <p class="text-[10px] sm:text-xs text-slate-500 font-bold uppercase tracking-widest mt-0.5">(CRTE) - INSTITUTO NACIONAL DE
+              <p class="text-[10px] sm:text-xs text-slate-500 font-bold uppercase tracking-widest mt-0.5">(CRTE) -
+                INSTITUTO NACIONAL DE
                 ESTADÍSTICA</p>
             </div>
           </div>
 
           <div class="lg:mt-0 flex flex-col items-stretch lg:items-end w-full lg:w-auto">
-            <label class="text-[9px] sm:text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1.5 ml-1 lg:text-right">Seleccionar Planilla
+            <label
+              class="text-[9px] sm:text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1.5 ml-1 lg:text-right">Seleccionar
+              Planilla
               Física (Control Nro.)</label>
             <div class="flex items-center gap-2">
               <div class="relative flex-1 lg:w-64">
@@ -887,7 +794,8 @@
                 <i data-lucide="chevron-down"
                   class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
               </div>
-              <button id="btnLoadMM111" class="btn-primary py-2.5 px-4 sm:px-6 shadow-lg shadow-brand-blue/20">Localizar</button>
+              <button id="btnLoadMM111"
+                class="btn-primary py-2.5 px-4 sm:px-6 shadow-lg shadow-brand-blue/20">Localizar</button>
             </div>
           </div>
         </div>
@@ -941,10 +849,12 @@
         </div>
 
         <!-- Barra de Controles Operativos -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-[1px] bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
+        <div
+          class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-[1px] bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
           <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
             <span class="text-[9px] uppercase font-bold text-slate-500">Segmento</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Segmento">-</div>
+            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Segmento">-
+            </div>
           </div>
           <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
             <span class="text-[9px] uppercase font-bold text-slate-500">Sector</span>
@@ -958,9 +868,11 @@
             <span class="text-[9px] uppercase font-bold text-slate-500">Semana</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Semana">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120] col-span-2 sm:col-span-4 lg:col-span-1">
+          <div
+            class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120] col-span-2 sm:col-span-4 lg:col-span-1">
             <span class="text-[9px] uppercase font-bold text-slate-500">Control Maestro</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300 truncate w-full" id="mm111ControlMaestro">-</div>
+            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300 truncate w-full"
+              id="mm111ControlMaestro">-</div>
           </div>
           <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-[#FDE68A] dark:bg-[#FBBF24]">
             <span class="text-[10px] uppercase font-black text-[#92400E]">Control Nro.</span>
@@ -976,7 +888,9 @@
       <!-- Tabla de Listado de Viviendas -->
       <div
         class="card-premium flex-1 flex flex-col p-0 overflow-hidden border-2 border-slate-200 dark:border-slate-700 mt-4 relative min-h-[500px] lg:min-h-0">
-        <div class="w-full flex-1 overflow-x-auto overflow-y-auto bg-white dark:bg-[#0B1120] custom-scrollbar pb-6 relative outline-none" tabindex="0">
+        <div
+          class="w-full flex-1 overflow-x-auto overflow-y-auto bg-white dark:bg-[#0B1120] custom-scrollbar pb-6 relative outline-none"
+          tabindex="0">
           <table class="w-full text-left border-collapse text-xs">
             <thead
               class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 uppercase sticky top-0 z-20 font-bold border-b-2 border-slate-200 dark:border-slate-700">
@@ -1176,8 +1090,10 @@
     <div
       class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-0 rounded-xl sm:rounded-2xl z-10 w-[95%] sm:w-11/12 max-w-7xl text-slate-800 dark:text-slate-200 shadow-[0_20px_60px_rgba(0,0,0,0.15)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col transform transition-all scale-95 opacity-0"
       id="detailModalPane" role="dialog" aria-modal="true" aria-labelledby="detailModalTitle">
-      <div class="flex justify-between items-center p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50">
-        <h3 id="detailModalTitle" class="font-outfit font-black text-xl text-slate-900 dark:text-white flex items-center gap-3">
+      <div
+        class="flex justify-between items-center p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50">
+        <h3 id="detailModalTitle"
+          class="font-outfit font-black text-xl text-slate-900 dark:text-white flex items-center gap-3">
           <i data-lucide="file-json" class="text-brand-purple w-6 h-6"></i> Ficha de Inspección
         </h3>
         <div class="flex items-center gap-2">
@@ -1201,7 +1117,8 @@
 
 
   <!-- Footer -->
-  <footer class="border-t border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0B1120] px-6 py-4 sm:mt-auto mt-10">
+  <footer
+    class="border-t border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0B1120] px-6 py-4 sm:mt-auto mt-10">
     <div
       class="max-w-[1600px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] text-slate-500 font-inter">
       <span>DashboardSociales — ESCA/EHM &copy; 2026</span>
