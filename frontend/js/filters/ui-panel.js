@@ -36,12 +36,21 @@ export function populateFilters() {
         ctrl: $('filterControl'),
         par: $('filterParroquia'),
         nodo: $('filterNodo'),
-        alerta: $('filterAlerta')
+        alerta: $('filterAlerta'),
+        htrans: $('filterHoraTransmision'),
+        hinicio: $('filterHoraInicio')
     };
 
     // Reset all
     Object.values(selects).forEach(s => {
-        if (s) s.innerHTML = '<option value="">' + (s.id === 'filterAlerta' ? 'Todas las alertas' : (s.id.includes('Condicion') || s.id.includes('Semana') || s.id.includes('Parroquia') ? 'Todas' : 'Todos')) + '</option>';
+        if (s) {
+            let defaultLabel = 'Todos';
+            if (s.id === 'filterAlerta') defaultLabel = 'Todas las alertas';
+            else if (s.id === 'filterHoraTransmision' || s.id === 'filterHoraInicio') defaultLabel = 'Cualquier hora';
+            else if (s.id.includes('Condicion') || s.id.includes('Semana') || s.id.includes('Parroquia')) defaultLabel = 'Todas';
+            
+            s.innerHTML = `<option value="">${defaultLabel}</option>`;
+        }
     });
 
     if (selects.alerta) {
@@ -56,7 +65,7 @@ export function populateFilters() {
     const sets = {
         muns: new Set(), sitVs: new Set(), cons: new Set(),
         usos: new Set(), semanas: new Set(), controles: new Set(),
-        pars: new Set(), nodos: new Set()
+        pars: new Set(), nodos: new Set(), hTrans: new Set(), hInicio: new Set()
     };
 
     // 1. Populate Encuestadores from encMap (pre-aggregated)
@@ -86,6 +95,8 @@ export function populateFilters() {
         if (m.control)                               sets.controles.add(m.control);
         if (m.par && m.par !== 'N/A')                sets.pars.add(m.par);
         if (m.nodo && m.nodo !== 'N/A')              sets.nodos.add(m.nodo);
+        if (m.hora_trans !== undefined && m.hora_trans !== null) sets.hTrans.add(m.hora_trans);
+        if (m.hora !== undefined && m.hora !== null)             sets.hInicio.add(m.hora);
     });
 
     const append = (sel, vals, transform) => {
@@ -106,6 +117,8 @@ export function populateFilters() {
     append(selects.sit,  sets.sitVs, v => v.replace(/_/g, ' ').toUpperCase());
     append(selects.con,  sets.cons,  v => v.replace(/_/g, ' ').toUpperCase());
     append(selects.uso,  sets.usos,  v => v.replace(/_/g, ' ').toUpperCase());
+    append(selects.htrans, sets.hTrans, v => `${v}:00`);
+    append(selects.hinicio, sets.hInicio, v => `${v}:00`);
 
     // Trigger change on municipio to refresh sub-filters if needed
     if (selects.mun) selects.mun.dispatchEvent(new Event('change'));

@@ -17,10 +17,13 @@ import {
     updateChartsTheme, 
     renderChartEncuestador, renderChartDuracion, renderChartHorario, 
     renderChartHistograma, renderChartCondicion, renderChartUso, 
-    renderChartPorDia, renderChartResumenSemanal 
+    renderChartPorDia, renderChartResumenSemanal, renderChartHoraTransmision
 } from './charts.js';
 
 // Sub-modules
+// UI Layout Components
+import { injectLayout } from './ui/layout.js';
+
 import { initTheme } from './main/theme.js';
 import { updateKPIs } from './main/kpis.js';
 import { switchTab } from './main/navigation.js';
@@ -37,7 +40,7 @@ function renderAll() {
     
     // Charts: Each wrapped to prevent cascading failure
     const chartFn = [
-        renderChartEncuestador, renderChartDuracion, renderChartHorario,
+        renderChartEncuestador, renderChartDuracion, renderChartHorario, renderChartHoraTransmision,
         renderChartHistograma, renderChartCondicion, renderChartUso, 
         renderChartPorDia, renderChartResumenSemanal,
     ];
@@ -66,9 +69,15 @@ const onProcessData = () => {
     renderAll();
 };
 
-// ── Bootstrap ─────────────────────────────────────────────────────────────────
+// ── Init Dashboard ───────────────────────────────────────────────────────────
 
 async function init() {
+    // 1. Inject modular HTML fragments before initializing modules
+    injectLayout();
+
+    // 2. Init Core UI
+    initTheme();
+
     console.log('main.js: init() start');
     
     updateCurrentDate();
@@ -132,7 +141,6 @@ function checkLibraryHealth() {
 
 // ── DOMContentLoaded ──────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-    initTheme();
     init();
     initVerRutaButton();
 });

@@ -63,7 +63,7 @@ export function renderMap() {
 
     state.markerCluster.addLayers(markers);
 
-    const routeBtn = document.getElementById('btnVerRutaAgente');
+    const routeBtn = document.getElementById('btnVerRutaEncuestador');
     const routeActive = routeBtn?.dataset?.routeActive === '1';
 
     if (routeActive) {

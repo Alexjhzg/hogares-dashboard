@@ -4,7 +4,7 @@ export function getModalLayout(data) {
     const { 
         stEntidad, stMpio, stParr, valHeader, valLeftLabel, valLeftVal, 
         segmentMatchStatus, actualSegClasses, actualSegText, actualSeg, 
-        stSect, stNodo, stAgente, stCedula, stFecha, stEstado, stDur, 
+        stSect, stNodo, stEncuestador, stCedula, stFecha, stEstado, stDur, 
         stControl, stLinea, stSerie, ctrlPanelHtml, stHogares, stPers, 
         stCond, stUso, stDist, hasAlerts, alertsHtml, hasMapData, 
         isFlagged, walkedDistance, rawDist, durMin, declaredSeg, alertas 
@@ -83,7 +83,7 @@ export function getModalLayout(data) {
             <div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl p-5 border border-slate-200 dark:border-slate-700/50">
                 <h4 class="text-[10px] uppercase font-black text-brand-purple tracking-widest flex items-center gap-2 mb-4">Datos Operativos</h4>
                 <div class="space-y-3">
-                    <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Agente de Campo</div>${stAgente}</div>
+                    <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Encuestador de Campo</div>${stEncuestador}</div>
                     <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Documento ID</div>${stCedula}</div>
                     <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Fecha y Hora de Carga</div>${stFecha}</div>
                     <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Estatus del Registro</div>${stEstado}</div>

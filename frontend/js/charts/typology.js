@@ -16,6 +16,7 @@ export function renderChartCondicion() {
     if (!canvas) return;
 
     const total = entries.reduce((s, e) => s + e[1], 0);
+    if ($('condicionTotal')) $('condicionTotal').textContent = `Total: ${total}`;
 
     state.charts.cond = new Chart(canvas, {
         type: 'doughnut',
@@ -33,10 +34,10 @@ export function renderChartCondicion() {
             plugins: {
                 legend: {
                     position: 'bottom',
-                    labels: { color: '#8b949e', boxWidth: 10, font: { size: 10, weight: 'bold' } }
+                    labels: { color: document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000', boxWidth: 10, font: { size: 10, weight: 'bold' } }
                 },
                 datalabels: {
-                    color: document.documentElement.classList.contains('dark') ? '#e2e8f0' : '#1e293b',
+                    color: document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000',
                     font: { weight: 'bold', size: 11 },
                     formatter: (value) => value > 0 ? value : '',
                 },
@@ -59,6 +60,7 @@ export function renderChartUso() {
     if (!canvas) return;
 
     const total = entries.reduce((s, e) => s + e[1], 0);
+    if ($('usoTotal')) $('usoTotal').textContent = `Total: ${total}`;
 
     state.charts.uso = new Chart(canvas, {
         type: 'doughnut',
@@ -76,10 +78,10 @@ export function renderChartUso() {
             plugins: {
                 legend: {
                     position: 'bottom',
-                    labels: { color: '#8b949e', boxWidth: 10, font: { size: 10, weight: 'bold' } }
+                    labels: { color: document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000', boxWidth: 10, font: { size: 10, weight: 'bold' } }
                 },
                 datalabels: {
-                    color: document.documentElement.classList.contains('dark') ? '#e2e8f0' : '#1e293b',
+                    color: document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000',
                     font: { weight: 'bold', size: 10 },
                     formatter: (value) => value > 0 ? value : '',
                 },

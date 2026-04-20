@@ -1,6 +1,6 @@
 import { state } from '../state.js';
 import { $ } from '../helpers.js';
-import { loadData } from '../api.js';
+import { loadAssets, loadData } from '../api.js';
 import { resetFilters, applyFilters, openFiltersPanel, closeFiltersPanel } from '../filters.js';
 import { setMapState } from './map-layout.js';
 import { switchTab } from './navigation.js';
@@ -24,6 +24,7 @@ export function bindEvents(callbacks) {
 
     // Data source & Refresh
     if ($('btnRefresh')) $('btnRefresh').addEventListener('click', () => loadData($('assetSelect').value, onProcessData));
+    if ($('btnRetryConnection')) $('btnRetryConnection').addEventListener('click', () => loadAssets(onProcessData));
     if ($('assetSelect')) $('assetSelect').addEventListener('change', e => loadData(e.target.value, onProcessData));
     if ($('searchEncuesta')) $('searchEncuesta').addEventListener('input', () => applyFilters());
 
@@ -62,7 +63,7 @@ export function bindEvents(callbacks) {
     setupToggleFilter('filterSEGEN', 'filterSEGEN', 'bg-brand-purple', 'filterINE', 'filterINE');
 
     // Primary filters change
-    ['filterEncuestador', 'filterFechaInicio', 'filterFechaFin'].forEach(id => {
+    ['filterEncuestador', 'filterFechaInicio', 'filterFechaFin', 'filterHoraTransmision', 'filterHoraInicio'].forEach(id => {
         if ($(id)) $(id).addEventListener('change', applyFilters);
     });
 
@@ -154,6 +155,19 @@ export function bindEvents(callbacks) {
             const { renderRankingTable } = callbacks;
             if (renderRankingTable) renderRankingTable();
         });
+    });
+
+    // Detail Modal Actions
+    if ($('btnDetailExpand')) $('btnDetailExpand').addEventListener('click', () => {
+        if (typeof window.toggleDetailModalExpand === 'function') window.toggleDetailModalExpand();
+    });
+    if ($('btnDetailClose')) $('btnDetailClose').addEventListener('click', () => {
+        const { closeDetailModal } = callbacks;
+        if (closeDetailModal) closeDetailModal();
+    });
+    if ($('detailModalBackdrop')) $('detailModalBackdrop').addEventListener('click', () => {
+        const { closeDetailModal } = callbacks;
+        if (closeDetailModal) closeDetailModal();
     });
 
     // Keyboard Shortcuts

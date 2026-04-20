@@ -24,9 +24,15 @@ export function normalizeRecord(r) {
         return 'ESCA';
     })();
 
-    // Hour for productivity chart
+    // Hour for productivity chart (Start time)
     let hora = null;
     if (start) { try { hora = new Date(start).getHours(); } catch (_) { } }
+
+    // Hour of transmission (Submission to server)
+    let hora_trans = null;
+    if (r['_submission_time']) { 
+        try { hora_trans = new Date(r['_submission_time']).getHours(); } catch (_) { } 
+    }
 
     // Basic mapping
     return {
@@ -36,6 +42,7 @@ export function normalizeRecord(r) {
         end,
         fecha,
         hora,
+        hora_trans,
         formType,
         mun:    r['S1/mun'] || 'N/A',
         par:    r['S1/par'] || 'N/A',

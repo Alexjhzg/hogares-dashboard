@@ -27,6 +27,8 @@ export function applyFilters() {
     const condicion = $('filterCondicion')?.value ?? '';
     const uso      = $('filterUso')?.value ?? '';
     const alerta   = $('filterAlerta')?.value ?? '';
+    const hTrans   = $('filterHoraTransmision')?.value ?? '';
+    const hInicio   = $('filterHoraInicio')?.value ?? '';
 
     state.filtered = state.rawData.filter(r => {
         const m = r._meta;
@@ -68,6 +70,8 @@ export function applyFilters() {
         if (condicion && m.condicion !== condicion) return false;
         if (uso && m.uso !== uso) return false;
         if (alerta && !m.alertas.includes(alerta)) return false;
+        if (hTrans !== '' && String(m.hora_trans) !== hTrans) return false;
+        if (hInicio !== '' && String(m.hora) !== hInicio) return false;
 
         return true;
     });
@@ -85,7 +89,7 @@ export function resetFilters() {
         'filterEncuestador', 'filterFechaInicio', 'filterFechaFin', 'filterSemana',
         'filterControl', 'filterMunicipio', 'filterParroquia', 'filterNodo',
         'filterEstado', 'filterCondicion', 'filterSituacionVivienda', 'filterUso', 
-        'filterAlerta', 'searchEncuesta'
+        'filterAlerta', 'filterHoraTransmision', 'filterHoraInicio', 'searchEncuesta'
     ];
     
     ids.forEach(id => {

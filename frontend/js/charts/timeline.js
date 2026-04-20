@@ -35,7 +35,7 @@ export function renderChartPorDia() {
                     anchor: 'end',
                     offset: 2,
                     font: { weight: 'bold', size: 10 },
-                    color: document.documentElement.classList.contains('dark') ? '#94a3b8' : '#475569',
+                    color: document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000',
                     formatter: (v) => v > 0 ? v : ''
                 }
             }

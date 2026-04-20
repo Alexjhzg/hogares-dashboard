@@ -10,7 +10,8 @@ export { updateChartsTheme, destroyChart, baseChartOpts } from './charts/theme.j
 export { 
     renderChartEncuestador, 
     renderChartDuracion, 
-    renderChartHorario 
+    renderChartHorario,
+    renderChartHoraTransmision
 } from './charts/operational.js';
 
 // 3. Typology and Structural Distribution (Doughnuts)

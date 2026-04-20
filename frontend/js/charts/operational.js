@@ -35,7 +35,7 @@ export function renderChartEncuestador() {
                     align: 'top',
                     anchor: 'end',
                     font: { weight: 'bold', size: 10 },
-                    color: document.documentElement.classList.contains('dark') ? '#f1f5f9' : '#1e293b',
+                    color: document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000',
                     formatter: (v) => v > 0 ? v : ''
                 }
             }
@@ -79,7 +79,7 @@ export function renderChartDuracion() {
                     align: 'top',
                     anchor: 'end',
                     font: { weight: 'bold', size: 10 },
-                    color: document.documentElement.classList.contains('dark') ? '#f1f5f9' : '#1e293b',
+                    color: document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000',
                     formatter: (v) => v > 0 ? v : ''
                 }
             }
@@ -125,8 +125,54 @@ export function renderChartHorario() {
                     align: 'top',
                     anchor: 'end',
                     font: { weight: 'bold', size: 9 },
-                    color: document.documentElement.classList.contains('dark') ? '#94a3b8' : '#475569',
-                    formatter: (v) => v > 5 ? v : '' 
+                    color: document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000',
+                    formatter: (v) => v > 0 ? v : '' 
+                }
+            }
+        },
+    });
+}
+
+export function renderChartHoraTransmision() {
+    destroyChart('htrans');
+    const hoursCountMap = {};
+    state.filtered.forEach(r => { 
+        if (r._meta.hora_trans !== null && r._meta.hora_trans !== undefined) {
+            hoursCountMap[r._meta.hora_trans] = (hoursCountMap[r._meta.hora_trans] || 0) + 1;
+        }
+    });
+
+    const sortedHours = Object.keys(hoursCountMap).map(Number).sort((a, b) => a - b);
+    const labels = sortedHours.map(h => `${h}:00`);
+    const hoursCount = sortedHours.map(h => hoursCountMap[h]);
+
+    const canvas = $('chartHoraTransmision');
+    if (!canvas) return;
+
+    state.charts.htrans = new Chart(canvas, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{ 
+                label: 'Encuestas Transmitidas', 
+                data: hoursCount, 
+                backgroundColor: '#F9731644', 
+                borderColor: '#F97316', 
+                borderWidth: 1, 
+                borderRadius: 4 
+            }]
+        },
+        options: {
+            ...baseChartOpts(),
+            plugins: {
+                ...baseChartOpts().plugins,
+                legend: { display: false },
+                datalabels: {
+                    align: 'top',
+                    anchor: 'end',
+                    font: { weight: 'bold', size: 9 },
+                    color: document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000',
+                    formatter: (v) => v > 0 ? v : '' 
                 }
             }
         },

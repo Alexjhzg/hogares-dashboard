@@ -127,7 +127,7 @@ export function updateMM111Grid(records) {
             ladoManz:   rec['S1/lado_manz'] || '-',
             direccion:  dirFinal,
             razon:      rec['Condici_n_de_ocupaci_n/condicion_de_ocupacion'] || rec._meta.condicion || '-',
-            agente:     rec._meta.nombre ? rec._meta.nombre.split(' ')[0] : 'N/A',
+            encuestador: rec._meta.nombre ? rec._meta.nombre.split(' ')[0] : 'N/A',
         };
     });
 
@@ -145,7 +145,7 @@ export function updateMM111Grid(records) {
             <td class="py-3 px-3 align-top text-center">${r.ladoManz}</td>
             <td class="py-3 px-3 align-top whitespace-normal min-w-[200px] leading-snug">${r.direccion}</td>
             <td class="py-3 px-3 align-top whitespace-normal min-w-[150px] leading-snug text-slate-500 dark:text-slate-400">${r.razon}</td>
-            <td class="py-3 px-3 align-top font-bold text-[10px] text-slate-400 dark:text-slate-500 uppercase">${r.agente}</td>
+            <td class="py-3 px-3 align-top font-bold text-[10px] text-slate-400 dark:text-slate-500 uppercase">${r.encuestador}</td>
         </tr>
     `).join('');
 }

@@ -64,7 +64,7 @@ export function drawAgentRoute(cedula) {
 
 export function initVerRutaButton() {
     const selEnc = document.getElementById('filterEncuestador');
-    const btn = document.getElementById('btnVerRutaAgente');
+    const btn = document.getElementById('btnVerRutaEncuestador');
     const countLabel = document.getElementById('mapRouteAgentCount');
 
     if (!selEnc || !btn) return;

@@ -1,120 +1,74 @@
 <!DOCTYPE html>
 <html lang="es" class="h-full">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
   <title>DashboardSociales — Analytics Dashboard</title>
 
-  <!-- Google Fonts: Outfit (Headings/KPIs) & Inter (Data/Body) -->
+  <!-- Google Fonts: Outfit (Headings) & Inter (Data/Body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
+  <!-- Core Scripts & Config -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            inter: ['Inter', 'sans-serif'],
-            outfit: ['Outfit', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              blue: '#3B82F6',   /* Primary accent */
-              emerald: '#10B981', /* Success/Completion */
-              purple: '#8B5CF6',  /* Highlights/Secondary */
-              orange: '#F59E0B',  /* Warnings/Progress */
-              red: '#EF4444',     /* Errors/Alerts */
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <script type="module" src="js/ui/tailwind-config.js"></script>
 
-  <!-- Scripts & External CSS (Chart.js, Lucide, Leaflet, Tabulator) -->
+  <!-- Libraries (Chart.js, Lucide, Leaflet, Tabulator) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
   <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-
   <link href="https://unpkg.com/tabulator-tables@6.3.1/dist/css/tabulator.min.css" rel="stylesheet">
   <script src="https://unpkg.com/tabulator-tables@6.3.1/dist/js/tabulator.min.js"></script>
 
-  <!-- Custom Styles (Loaded after libraries to override them) -->
-  <link rel="stylesheet" href="tailwind-custom.css?v=7" />
-
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="tailwind-custom.css?v=8" />
 </head>
 
-<body
-  class="bg-slate-50 text-slate-800 dark:bg-[#0B1120] dark:text-slate-300 font-sans min-h-screen flex flex-col transition-colors duration-300"
-  style="font-family:'Inter',sans-serif;">
-
+<body class="bg-slate-50 text-slate-800 dark:bg-[#0B1120] dark:text-slate-300 font-sans min-h-screen flex flex-col transition-colors duration-300">
 
   <!-- ======= HEADER ======= -->
-  <header
-    class="sticky top-0 z-[var(--z-header)] glass-panel border-b-0 px-3 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between shadow-md transition-all duration-300">
+  <header class="sticky top-0 z-[var(--z-header)] glass-panel border-b-0 px-3 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between shadow-md transition-all">
     <div class="flex items-center gap-2 sm:gap-4 overflow-hidden">
-      <div
-        class="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-brand-blue/20 text-brand-blue flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.3)] shrink-0">
+      <div class="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-brand-blue/20 text-brand-blue flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.3)] shrink-0">
         <i data-lucide="activity" class="w-5 h-5 sm:w-6 h-6"></i>
       </div>
       <div class="min-w-0">
-        <h1
-          class="text-sm sm:text-lg font-outfit font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-1.5">
+        <h1 class="text-sm sm:text-lg font-outfit font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-1.5">
           <span class="truncate">DashboardSociales</span>
-          <span
-            class="hidden sm:inline-block bg-brand-blue/20 text-brand-blue text-[9px] px-1.5 py-0.5 rounded-md uppercase tracking-widest font-bold shrink-0">SEEM</span>
+          <span class="hidden sm:inline-block bg-brand-blue/20 text-brand-blue text-[9px] px-1.5 py-0.5 rounded-md uppercase tracking-widest font-bold">SEEM</span>
         </h1>
-        <p
-          class="text-[9px] sm:text-[10px] text-slate-400 font-medium uppercase tracking-widest font-inter hidden sm:block">
-          ESCA/EHM</p>
+        <p class="text-[9px] sm:text-[10px] text-slate-400 font-medium uppercase tracking-widest font-inter hidden sm:block">ESCA/EHM</p>
       </div>
     </div>
 
     <div class="flex items-center gap-1.5 sm:gap-3">
       <div id="statusIndicator" class="hidden lg:flex items-center gap-2 mr-1">
         <span class="relative flex h-2 w-2" id="connectionPingContainer">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-emerald opacity-75"
-            id="connectionPing"></span>
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-emerald opacity-75" id="connectionPing"></span>
           <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-emerald" id="connectionDot"></span>
         </span>
-        <span id="connectionStatus"
-          class="transition-colors text-[10px] text-brand-emerald font-bold font-inter uppercase tracking-tighter">Live
-          Connection</span>
+        <span id="connectionStatus" class="transition-colors text-[10px] text-brand-emerald font-bold font-inter uppercase tracking-tighter">Live Connection</span>
       </div>
 
-      <select id="assetSelect"
-        class="bg-white dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700/50 rounded-xl px-2 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:border-brand-blue/50 focus:ring-1 focus:ring-brand-blue/50 transition-all cursor-pointer font-inter appearance-none pr-7 sm:pr-10 relative max-w-[110px] sm:max-w-none">
+      <select id="assetSelect" class="bg-white dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-xl px-2 sm:px-4 py-1.5 text-[11px] sm:text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:border-brand-blue/50 transition-all cursor-pointer font-inter appearance-none pr-7 sm:pr-10 relative max-w-[110px] sm:max-w-none">
         <option value="">— Cargar Encuesta —</option>
       </select>
 
       <div class="h-5 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block mx-1"></div>
 
-      <div class="flex items-center gap-1 sm:gap-2">
-        <button id="btnThemeToggle"
-          class="p-2 sm:p-2.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl text-slate-500 hover:text-brand-blue dark:text-slate-400 dark:hover:text-white transition-all active:scale-95"
-          aria-label="Alternar tema">
+      <div class="flex items-center gap-1">
+        <button id="btnThemeToggle" class="p-2 sm:p-2.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-blue dark:hover:text-white transition-all active:scale-95">
           <i data-lucide="moon" class="w-4 h-4 block dark:hidden" id="iconMoon"></i>
           <i data-lucide="sun" class="w-4 h-4 hidden dark:block" id="iconSun"></i>
         </button>
-
-        <button id="btnRefresh" disabled
-          class="p-2 sm:p-2.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-all active:scale-95 disabled:opacity-20 disabled:cursor-not-allowed"
-          aria-label="Refrescar datos">
+        <button id="btnRefresh" disabled class="p-2 sm:p-2.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-slate-900 transition-all active:scale-95 disabled:opacity-20">
           <i data-lucide="refresh-cw" class="w-4 h-4"></i>
         </button>
       </div>
@@ -122,1013 +76,66 @@
     </div>
   </header>
 
-  <!-- ======= LOADING ======= -->
-  <div id="loadingOverlay"
-    class="fixed inset-0 z-[var(--z-loader)] bg-[#0B1120]/90 backdrop-blur-xl flex flex-col items-center justify-center gap-6 pointer-events-none opacity-0 transition-opacity duration-500">
-    <div class="relative w-16 h-16">
-      <div class="absolute inset-0 rounded-full border-t-2 border-brand-blue animate-spin"></div>
-      <div class="absolute inset-2 rounded-full border-r-2 border-brand-purple animate-spin"
-        style="animation-direction: reverse; animation-duration: 1.5s;"></div>
-      <i data-lucide="database-zap" class="absolute inset-0 m-auto text-slate-400 w-6 h-6 animate-pulse"></i>
-    </div>
-    <div class="text-center">
-      <h3 class="font-outfit font-bold text-lg text-white mb-1">Cargando Datasets</h3>
-      <p id="loadingMsg" class="text-xs font-medium text-slate-400 font-inter uppercase tracking-widest">Procesando
-        vectores...</p>
-    </div>
-  </div>
-
-  <!-- ======= MAIN CONTENT ======= -->
-  <main id="mainContent"
-    class="flex-1 overflow-y-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 flex flex-col gap-4 sm:gap-8 hidden max-w-[1800px] mx-auto w-full">
-
-    <!-- Secondary Filters (Header Extension via Hero-Centric layout) -->
-    <section
-      class="glass-panel rounded-xl p-3 md:p-4 flex flex-col lg:flex-row gap-4 items-stretch lg:items-end justify-between overflow-visible z-10">
+  <!-- ======= MAIN CONTENT (Shell) ======= -->
+  <main id="mainContent" class="flex-1 overflow-y-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 flex flex-col gap-4 hidden max-w-[1800px] mx-auto w-full">
+    
+    <!-- Permanent Navigation Shell -->
+    <section class="glass-panel rounded-xl p-3 md:p-4 flex flex-col lg:flex-row gap-4 items-stretch lg:items-end justify-between overflow-visible z-10">
       <div class="flex flex-col sm:flex-row gap-4 flex-1 flex-wrap">
         <div class="flex-1 min-w-[240px] lg:max-w-xs">
-          <label
-            class="block text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2 ml-1">Encuestador</label>
+          <label class="block text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2 ml-1">Encuestador</label>
           <div class="relative">
-            <i data-lucide="user"
-              class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 pointer-events-none"></i>
-            <select id="filterEncuestador"
-              class="w-full bg-white dark:bg-[#0B1120]/80 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:border-brand-blue/50 focus:ring-1 outline-none transition-all appearance-none cursor-pointer">
+            <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 pointer-events-none"></i>
+            <select id="filterEncuestador" class="w-full bg-white dark:bg-[#0B1120]/80 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:border-brand-blue/50 focus:ring-1 outline-none transition-all appearance-none cursor-pointer">
               <option value="">Todos los encuestadores</option>
             </select>
           </div>
         </div>
-
         <div class="flex-1 min-w-[280px] lg:max-w-sm">
-          <label class="block text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2 ml-1">Periodo
-            Analizado</label>
-          <div
-            class="flex items-center gap-2 bg-white dark:bg-[#0B1120]/80 border border-slate-300 dark:border-slate-700/80 rounded-xl p-1 focus-within:border-brand-blue/50 focus-within:ring-1 transition-all">
-            <input type="date" id="filterFechaInicio"
-              class="flex-1 min-w-0 bg-transparent text-slate-700 dark:text-slate-300 px-2 sm:px-3 py-1.5 text-xs sm:text-sm outline-none w-full" />
-            <span class="text-slate-400 dark:text-slate-600 font-black text-[10px] sm:text-xs px-1">→</span>
-            <input type="date" id="filterFechaFin"
-              class="flex-1 min-w-0 bg-transparent text-slate-700 dark:text-slate-300 px-2 sm:px-3 py-1.5 text-xs sm:text-sm outline-none w-full" />
+          <label class="block text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2 ml-1">Periodo</label>
+          <div class="flex items-center gap-2 bg-white dark:bg-[#0B1120]/80 border border-slate-300 dark:border-slate-700 rounded-xl p-1 focus-within:border-brand-blue/50 transition-all">
+            <input type="date" id="filterFechaInicio" class="flex-1 min-w-0 bg-transparent text-slate-700 dark:text-slate-300 px-2 py-1.5 text-xs sm:text-sm outline-none" />
+            <span class="text-slate-400 font-black text-[10px] px-1">→</span>
+            <input type="date" id="filterFechaFin" class="flex-1 min-w-0 bg-transparent text-slate-700 dark:text-slate-300 px-2 py-1.5 text-xs sm:text-sm outline-none" />
           </div>
         </div>
       </div>
 
       <div class="flex-none grid grid-cols-2 lg:flex lg:flex-row items-center gap-2 md:gap-3 w-full lg:w-auto">
-        <!-- Active Filters Tags Container -->
-        <div id="activeFiltersContainer"
-          class="hidden lg:flex flex-wrap items-center gap-2 max-w-xs overflow-hidden h-[36px] empty:hidden justify-end">
-        </div>
-
-        <button id="filterINE"
-          class="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl text-slate-500 hover:text-brand-emerald hover:border-brand-emerald/50 transition-all font-inter text-xs font-bold whitespace-nowrap group w-full lg:w-auto">
-          <i data-lucide="chart-column-increasing" class="w-4 h-4 group-[.active]:text-white"></i>
-          <span>Solo INE</span>
+        <div id="activeFiltersContainer" class="hidden lg:flex flex-wrap items-center gap-2 max-w-xs overflow-hidden h-[36px] justify-end"></div>
+        <button id="filterINE" class="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-emerald transition-all text-xs font-bold whitespace-nowrap group w-full lg:w-auto">
+          <i data-lucide="chart-column-increasing" class="w-4 h-4"></i><span>Solo INE</span>
         </button>
-
-        <button id="filterSEGEN"
-          class="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 rounded-xl text-slate-500 hover:text-brand-purple hover:border-brand-purple/50 transition-all font-inter text-xs font-bold whitespace-nowrap group w-full lg:w-auto">
-          <i data-lucide="map-pinned" class="w-4 h-4 group-[.active]:text-white"></i>
-          <span>Solo SEGEN</span>
+        <button id="filterSEGEN" class="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-purple transition-all text-xs font-bold whitespace-nowrap group w-full lg:w-auto">
+          <i data-lucide="map-pinned" class="w-4 h-4"></i><span>Solo SEGEN</span>
         </button>
-
-        <button id="btnReset"
-          class="flex items-center justify-center gap-2 btn-secondary py-2.5 px-3 group w-full lg:w-auto"
-          title="Limpiar filtros" aria-label="Limpiar">
-          <i data-lucide="rotate-ccw" class="w-4 h-4 group-hover:-rotate-180 transition-transform duration-500"></i>
-          <span class="inline sm:inline">Limpiar</span>
-        </button>
-
-        <button id="btnOpenFilters"
-          class="flex items-center justify-center gap-2 btn-primary relative w-full lg:w-auto">
-          <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
-          <span>Filtros</span>
-          <span id="activeFiltersBadge"
-            class="hidden absolute -top-2 -right-2 bg-brand-orange text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#0B1120] animate-pulse">0</span>
-        </button>
+        <button id="btnReset" class="flex items-center justify-center gap-2 btn-secondary py-2.5 px-3 group w-full lg:w-auto" title="Limpiar"><i data-lucide="rotate-ccw" class="w-4 h-4 group-hover:-rotate-180 transition-transform"></i><span>Limpiar</span></button>
+        <button id="btnOpenFilters" class="flex items-center justify-center gap-2 btn-primary relative w-full lg:w-auto"><i data-lucide="sliders-horizontal" class="w-4 h-4"></i><span>Filtros</span><span id="activeFiltersBadge" class="hidden absolute -top-2 -right-2 bg-brand-orange text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#0B1120] animate-pulse">0</span></button>
       </div>
     </section>
 
-    <!-- Contextual Segmented Navigation -->
+    <!-- Tabbed Navigation -->
     <div class="flex items-center justify-center lg:justify-start w-full">
-      <nav id="mainTabs"
-        class="flex items-center gap-1 p-1.5 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 rounded-[22px] backdrop-blur-md shadow-sm relative z-10 w-full lg:w-fit overflow-x-auto no-scrollbar justify-start sm:justify-center lg:justify-start">
-        <button data-tab="tab-resumen" class="tab-btn active"><i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-          <span class="hidden sm:inline group-[.active]:inline">Vista General</span></button>
-        <button data-tab="tab-mapa" class="tab-btn"><i data-lucide="map" class="w-4 h-4"></i>
-          <span class="hidden sm:inline group-[.active]:inline">Cobertura y Datos</span></button>
-        <button data-tab="tab-ranking" class="tab-btn"><i data-lucide="bar-chart-2" class="w-4 h-4"></i>
-          <span class="hidden sm:inline group-[.active]:inline">Desempeño</span></button>
-        <button data-tab="tab-mm111" class="tab-btn"><i data-lucide="clipboard-list" class="w-4 h-4"></i>
-          <span class="hidden sm:inline group-[.active]:inline">MM-111</span></button>
-        <button data-tab="tab-inconsistencias" class="tab-btn"><i data-lucide="shield-alert" class="w-4 h-4"></i>
-          <span class="hidden sm:inline group-[.active]:inline">Inconsistencias</span></button>
+      <nav id="mainTabs" class="flex items-center gap-1 p-1.5 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 rounded-[22px] backdrop-blur-md shadow-sm relative z-10 w-full lg:w-fit overflow-x-auto no-scrollbar">
+        <button data-tab="tab-resumen" class="tab-btn active"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span class="hidden sm:inline">Vista General</span></button>
+        <button data-tab="tab-mapa" class="tab-btn"><i data-lucide="map" class="w-4 h-4"></i><span class="hidden sm:inline">Cobertura y Datos</span></button>
+        <button data-tab="tab-ranking" class="tab-btn"><i data-lucide="bar-chart-2" class="w-4 h-4"></i><span class="hidden sm:inline">Desempeño</span></button>
+        <button data-tab="tab-mm111" class="tab-btn"><i data-lucide="clipboard-list" class="w-4 h-4"></i><span class="hidden sm:inline">MM-111</span></button>
+        <button data-tab="tab-inconsistencias" class="tab-btn"><i data-lucide="shield-alert" class="w-4 h-4"></i><span class="hidden sm:inline">Inconsistencias</span></button>
       </nav>
     </div>
 
-    <!-- Alert Banner for Library Load Errors (Brave/Blocked Scripts) -->
-    <div id="libCheckWarn"
-      class="hidden mx-6 mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl flex items-center gap-3 animate-pulse">
-      <i data-lucide="alert-triangle" class="text-red-500 w-5 h-5 flex-shrink-0"></i>
-      <p class="text-sm text-red-500 font-bold">Error: Algunas librerías externas (Tabulator/Chart) no pudieron
-        cargarse. Desactiva Brave Shields o revisa tu conexión.</p>
-    </div>
-
-    <!-- MODULO: VISTA GENERAL (Unifica Resumen + Operativa + Vivienda) -->
-    <div id="tab-resumen" class="tab-content flex flex-col gap-6 animate-fade-in">
-
-      <!-- Encabezado del módulo -->
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2 px-2">
-        <div>
-          <h2 class="text-xl sm:text-2xl font-black font-outfit text-slate-800 dark:text-white">Vista General</h2>
-          <p class="text-sm text-slate-500 font-inter">Métricas clave de producción, calidad y caracterización del
-            campo.</p>
-        </div>
-        <div id="currentDateDisplay"
-          class="bg-brand-blue/10 border border-brand-blue/20 text-brand-blue px-4 py-1.5 rounded-full text-xs font-bold tracking-wide">
-          --</div>
-      </div>
-
-      <!-- ====================================================== -->
-      <!-- TIER 1: Indicadores Críticos de Producción (5 tarjetas) -->
-      <!-- ====================================================== -->
-      <section class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
-
-        <div class="card-premium group relative animate-slide-up"
-          title="Suma total de formularios enviados al servidor, incluyendo efectivos y no respuestas.">
-          <div class="card-glow bg-blue-500/10 group-hover:bg-blue-500/20"></div>
-          <div class="h-10 w-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center mb-4">
-            <i data-lucide="files" class="w-5 h-5"></i>
-          </div>
-          <div class="kpi-value-text" id="kpiTotal">0</div>
-          <div class="text-[10px] font-bold text-blue-400 tracking-wider uppercase mt-1">Total Encuestas Recibidas</div>
-        </div>
-
-        <div class="card-premium group relative animate-slide-up"
-          title="Entrevistas completadas exitosamente según el protocolo de levantamiento.">
-          <div class="card-glow bg-emerald-500/10 group-hover:bg-emerald-500/20"></div>
-          <div class="h-10 w-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">
-            <i data-lucide="check-circle" class="w-5 h-5"></i>
-          </div>
-          <div class="kpi-value-text" id="kpiCompletadas">0</div>
-          <div class="text-[10px] font-bold text-emerald-400 tracking-wider uppercase mt-1">Encuestas Efectivas</div>
-        </div>
-
-        <div class="card-premium group relative animate-slide-up"
-          title="Registros donde no se pudo completar la entrevista (rechazo, ausencia, vivienda desocupada, etc).">
-          <div class="card-glow bg-orange-500/10 group-hover:bg-orange-500/20"></div>
-          <div class="h-10 w-10 rounded-lg bg-orange-500/20 text-orange-400 flex items-center justify-center mb-4">
-            <i data-lucide="help-circle" class="w-5 h-5"></i>
-          </div>
-          <div class="kpi-value-text" id="kpiNoRespuesta">0</div>
-          <div class="text-[10px] font-bold text-orange-400 tracking-wider uppercase mt-1">No Respuestas</div>
-        </div>
-
-        <div class="card-premium group relative animate-slide-up"
-          title="Relación porcentual entre encuestas completadas exitosamente y el total de intentos realizados.">
-          <div class="card-glow bg-sky-500/10 group-hover:bg-sky-500/20"></div>
-          <div class="h-10 w-10 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center mb-4">
-            <i data-lucide="percent" class="w-5 h-5"></i>
-          </div>
-          <div class="kpi-value-text" id="kpiTasaEfectividad">0%</div>
-          <div class="text-[10px] font-bold text-sky-400 tracking-wider uppercase mt-1">Tasa de Efectividad</div>
-        </div>
-
-        <div class="card-premium group relative animate-slide-up"
-          title="Personal operativo único que ha transmitido al menos un registro en el periodo seleccionado.">
-          <div class="card-glow bg-purple-500/10 group-hover:bg-purple-500/20"></div>
-          <div class="h-10 w-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center mb-4">
-            <i data-lucide="users" class="w-5 h-5"></i>
-          </div>
-          <div class="kpi-value-text" id="kpiEncuestadores">0</div>
-          <div class="text-[10px] font-bold text-purple-400 tracking-wider uppercase mt-1">Encuestadores Activos</div>
-        </div>
-
-        <div class="card-premium group relative animate-slide-up"
-          title="Número de encuestas que dispararon al menos una regla de validación o inconsistencia técnica.">
-          <div class="card-glow bg-red-500/10 group-hover:bg-red-500/20"></div>
-          <div class="h-10 w-10 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center mb-4">
-            <i data-lucide="shield-alert" class="w-5 h-5"></i>
-          </div>
-          <div class="kpi-value-text" id="kpiTotalAlertas">0</div>
-          <div class="text-[10px] font-bold text-red-400 tracking-wider uppercase mt-1">Registros con Alertas</div>
-        </div>
-
-      </section>
-
-      <!-- =========================================================== -->
-      <!-- TIER 2: Indicadores de Calidad y Tiempo (4 tarjetas)         -->
-      <!-- =========================================================== -->
-      <section class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-
-        <div class="card-premium border-l-2 border-l-brand-orange"
-          title="Tiempo promedio de entrevista calculado únicamente sobre las encuestas marcadas como 'completadas'.">
-          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="clock"
-              class="w-4 h-4 text-brand-orange/80"></i> Duración Media (Efectivas)</div>
-          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiDuracion">0m</div>
-          <div class="text-[10px] text-brand-orange font-medium mt-1">Solo encuestas completadas</div>
-        </div>
-
-        <div class="card-premium border-l-2 border-l-teal-500"
-          title="Suma total de personas registradas en los hogares que completaron la encuesta exitosamente.">
-          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="users"
-              class="w-4 h-4 text-teal-500/80"></i> Integrantes Relevados</div>
-          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiPersonas">0</div>
-          <div class="text-[10px] text-teal-400 font-medium mt-1">Total personas en hogares</div>
-        </div>
-
-        <div class="card-premium border-l-2 border-l-blue-500"
-          title="Suma total de hombres registrados en los hogares que completaron la encuesta exitosamente.">
-          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="mars"
-              class="w-4 h-4 text-blue-500/80"></i> Hombres Encuestados</div>
-          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiHombres">0</div>
-          <div class="text-[10px] text-blue-500 font-medium mt-1">Total hombres</div>
-        </div>
-
-        <div class="card-premium border-l-2 border-l-pink-500"
-          title="Suma total de mujeres registradas en los hogares que completaron la encuesta exitosamente.">
-          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="venus"
-              class="w-4 h-4 text-pink-500/80"></i> Mujeres Encuestadas</div>
-          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiMujeres">0</div>
-          <div class="text-[10px] text-pink-500 font-medium mt-1">Total mujeres</div>
-        </div>
-
-
-      </section>
-
-      <!-- =========================================================== -->
-      <!-- SECCIÓN C — ROW 1: Flujo Temporal + Mapa Caliente Horario  -->
-      <!-- =========================================================== -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm sm:text-base">
-              <i data-lucide="activity" class="text-brand-blue w-4 h-4"></i>
-              Tendencia de Levantamiento Diario
-            </h3>
-          </div>
-          <div class="flex-1 w-full min-h-0 relative"><canvas id="chartPorDia"></canvas></div>
-        </div>
-
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm sm:text-base">
-              <i data-lucide="clock" class="text-brand-emerald w-4 h-4"></i>
-              Distribución de Encuestas por Hora
-            </h3>
-          </div>
-          <div class="flex-1 w-full min-h-0 relative"><canvas id="chartHorario"></canvas></div>
-        </div>
-
-      </div>
-
-      <!-- =========================================================== -->
-      <!-- SECCIÓN C — ROW 2: Vol./Enc. | Tipología | Uso            -->
-      <!-- =========================================================== -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col">
-          <div class="flex justify-between items-center mb-4">
-            <div>
-              <h3 class="font-bold flex items-center gap-2 font-outfit text-sm sm:text-base">
-                <i data-lucide="bar-chart-3" class="text-brand-blue w-4 h-4"></i>
-                Composición de Volumen
-              </h3>
-              <p class="text-[10px] text-slate-500 mt-0.5">Encuestas por encuestador (top 10)</p>
-            </div>
-          </div>
-          <div class="flex-1 w-full min-h-0 relative"><canvas id="chartEncuestador"></canvas></div>
-        </div>
-
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col items-center">
-          <div class="w-full mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm sm:text-base">
-              <i data-lucide="home" class="text-brand-purple w-4 h-4"></i>
-              Tipología de Vivienda
-            </h3>
-            <p class="text-[10px] text-slate-500 mt-0.5">Clasificación estructural relevada</p>
-          </div>
-          <div class="flex-1 w-full min-h-0 relative"><canvas id="chartCondicion"></canvas></div>
-          <div id="condicionTotal"
-            class="mt-3 px-3 py-1 bg-slate-100 dark:bg-slate-800/50 rounded-lg text-[10px] text-slate-500 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700/50">
-            Total: 0 unidades</div>
-        </div>
-
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col items-center">
-          <div class="w-full mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm sm:text-base">
-              <i data-lucide="building-2" class="text-brand-emerald w-4 h-4"></i>
-              Destino de la Estructura
-            </h3>
-            <p class="text-[10px] text-slate-500 mt-0.5">Uso funcional primario detectado</p>
-          </div>
-          <div class="flex-1 w-full min-h-0 relative"><canvas id="chartUso"></canvas></div>
-          <div id="usoTotal"
-            class="mt-3 px-3 py-1 bg-slate-100 dark:bg-slate-800/50 rounded-lg text-[10px] text-slate-500 dark:text-slate-300 font-bold border border-slate-200 dark:border-slate-700/50">
-            Total: 0 unidades</div>
-        </div>
-
-      </div>
-
-    </div>
-
-
-
-    <!-- MODULO: MAPA -->
-    <div id="tab-mapa" class="tab-content flex flex-col gap-4 hidden-tab animate-fade-in">
-
-      <div id="mapSectionWrapper"
-        class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:h-[80vh] lg:min-h-[700px] transition-all duration-500">
-        <div id="mapDisplayContainer"
-          class="lg:col-span-10 relative glass-panel rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 shadow-inner">
-          <!-- Map title overlay -->
-          <!-- Map title overlay removed -->
-
-          <!-- Map Expansion Control Group (Bottom Right) -->
-          <div id="mapControlGroup"
-            class="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 z-[var(--z-map-control)] pointer-events-auto flex items-center bg-slate-900/80 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden shadow-2xl transition-all hover:border-white/20">
-            <button id="btnMapStateNormal"
-              class="p-3 sm:p-2.5 hover:bg-white/10 text-white transition-all border-r border-white/10 group active:scale-95"
-              title="Vista Estándar">
-              <i data-lucide="layout-dashboard" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
-            </button>
-            <button id="btnMapStateExpanded"
-              class="p-3 sm:p-2.5 hover:bg-white/10 text-white transition-all border-r border-white/10 group active:scale-95"
-              title="Expandir Layout">
-              <i data-lucide="maximize" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
-            </button>
-            <button id="btnMapStateFull"
-              class="p-3 sm:p-2.5 hover:bg-white/10 text-white transition-all group active:scale-95"
-              title="Pantalla Completa">
-              <i data-lucide="expand" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
-            </button>
-          </div>
-
-          <div id="mapView" class="absolute inset-0 z-[var(--z-map-base)] bg-slate-100 dark:bg-[#0B1120]"></div>
-
-          <!-- Floating Legend -->
-          <div
-            class="absolute bottom-12 left-4 z-[var(--z-map-overlay)] bg-white/90 dark:bg-[#0f172a]/95 backdrop-blur-md rounded-xl p-3 shadow-xl border border-slate-200 dark:border-white/10 text-[10px] font-inter">
-            <div
-              class="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-widest mb-2 border-b border-slate-200 dark:border-slate-800 pb-1">
-              Leyenda</div>
-            <div class="flex flex-col gap-1.5">
-              <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-[#10B981] border border-white/20"></span>
-                <span class="text-slate-700 dark:text-slate-300">Efectiva</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-[#F59E0B] border border-white/20"></span>
-                <span class="text-slate-700 dark:text-slate-300">No Respuesta</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-[#EF4444] border border-white/20"></span>
-                <span class="text-slate-700 dark:text-slate-300">⚠ Distancia > 500m</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Floating coverage badge -->
-          <div id="mapCoverageBadge"
-            class="absolute top-2.5 left-2.5 z-[var(--z-map-overlay)] bg-brand-blue/90 backdrop-blur-md rounded-xl px-2.5 py-2 shadow-xl border border-white/20 text-[10px] font-inter hidden transition-all duration-300">
-            <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
-              <div class="flex flex-col items-center">
-                <span id="mapMunCount" class="text-white font-black text-xs leading-none">0</span>
-                <span class="text-[7px] sm:text-[8px] text-white/70 uppercase font-bold">Mun</span>
-              </div>
-              <div class="h-px w-6 sm:h-6 sm:w-px bg-white/20 sm:block"></div>
-              <div class="flex flex-col items-center">
-                <span id="mapParCount" class="text-white font-black text-xs leading-none">0</span>
-                <span class="text-[7px] sm:text-[8px] text-white/70 uppercase font-bold">Parr</span>
-              </div>
-              <div class="h-px w-6 sm:h-6 sm:w-px bg-white/20 sm:block"></div>
-              <div class="flex flex-col items-center">
-                <span id="mapNodoCount" class="text-white font-black text-xs leading-none">0</span>
-                <span class="text-[7px] sm:text-[8px] text-white/70 uppercase font-bold">Nodos</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cobertura Extended Metrics & Quick Filters -->
-        <div id="mapKpiGrid"
-          class="lg:col-span-2 grid grid-cols-2 sm:flex sm:flex-col gap-2 transition-all duration-500 overflow-visible">
-          <!-- Toggle button for full-screen mobile drawer -->
-          <button id="btnToggleMapKpis"
-            class="hidden glass-panel rounded-xl p-3 items-center justify-center border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 shadow-lg active:scale-95 transition-all">
-            <div class="flex items-center gap-2">
-              <i data-lucide="bar-chart-3" class="w-4 h-4 text-brand-blue"></i>
-              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Métricas</span>
-            </div>
-          </button>
-          <div
-            class="header-label col-span-2 sm:col-span-1 text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-widest ml-1 mb-1 hidden sm:block">
-            Filtros Rápidos</div>
-
-          <button id="btnMapFilterAll"
-            class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-blue hover:bg-slate-50 dark:hover:bg-white/5 transition-all group active-filter">
-            <div class="flex items-center gap-2">
-              <i data-lucide="layers" class="w-3.5 h-3.5 text-brand-blue"></i>
-              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Todos</span>
-            </div>
-            <span class="text-sm font-black font-outfit text-slate-800 dark:text-white" id="mapKpiPoints">0</span>
-          </button>
-
-          <button id="btnMapFilterEfectivas"
-            class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-emerald hover:bg-brand-emerald/5 transition-all group">
-            <div class="flex items-center gap-2">
-              <i data-lucide="check-circle" class="w-3.5 h-3.5 text-brand-emerald"></i>
-              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Encuestas
-                efectivas</span>
-            </div>
-            <span class="text-sm font-black font-outfit text-slate-800 dark:text-white" id="mapKpiComplete">0</span>
-          </button>
-
-          <button id="btnMapFilterNoRespuesta"
-            class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange hover:bg-brand-orange/5 transition-all group">
-            <div class="flex items-center gap-2">
-              <i data-lucide="help-circle" class="w-3.5 h-3.5 text-brand-orange"></i>
-              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">No Respuesta</span>
-            </div>
-            <span class="text-sm font-black font-outfit text-slate-800 dark:text-white" id="mapKpiNoRespuesta">0</span>
-          </button>
-
-          <button id="btnMapFilterAlertas"
-            class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-red hover:bg-brand-red/5 transition-all group">
-            <div class="flex items-center gap-2">
-              <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-brand-red"></i>
-              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Alertas</span>
-            </div>
-            <span class="text-sm font-black font-outfit text-brand-red" id="mapKpiAlertas">0</span>
-          </button>
-
-          <!-- Boton Ver Ruta de encuestador (Unificado) -->
-          <button id="btnVerRutaAgente" data-route-active="0"
-            class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange hover:bg-brand-orange/5 transition-all group active:scale-[.98] disabled:opacity-40 disabled:cursor-not-allowed"
-            title="Selecciona un encuestador en el filtro superior para trazar su ruta" disabled>
-            <div class="flex items-center gap-2">
-              <i data-lucide="route" class="w-3.5 h-3.5 text-brand-orange"></i>
-              <span class="route-label text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Ver
-                Ruta</span>
-            </div>
-            <span id="mapRouteAgentCount" class="text-[10px] font-black font-outfit text-brand-orange">—</span>
-          </button>
-
-          <!-- Indicador Encuestadores (Unificado) -->
-          <div
-            class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-purple opacity-80">
-            <div class="flex items-center gap-2">
-              <i data-lucide="users" class="w-3.5 h-3.5 text-brand-purple"></i>
-              <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase">Encuestadores</span>
-            </div>
-            <span class="text-sm font-black font-outfit text-slate-800 dark:text-white" id="mapKpiAgents">0</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Combined Data Engine Section (Stacked below) -->
-      <div
-        class="card-premium flex flex-col overflow-hidden p-0 lg:h-[85vh] lg:min-h-[750px] min-h-[600px] border border-slate-200 dark:border-white/5">
-        <div
-          class="p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50 dark:bg-slate-900/50">
-          <div class="flex items-center gap-3">
-            <div class="p-2 bg-brand-emerald/10 rounded-lg">
-              <i data-lucide="database" class="text-brand-emerald w-5 h-5"></i>
-            </div>
-            <div>
-              <h3 class="font-bold font-outfit text-lg text-slate-800 dark:text-white">Motor de Datos Unificado</h3>
-              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Explorador de registros
-                tabulados</p>
-            </div>
-          </div>
-          <div class="flex items-center gap-3 w-full sm:w-auto">
-            <div class="relative w-full sm:w-64">
-              <i data-lucide="search"
-                class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500"></i>
-              <input type="text" id="searchEncuesta" placeholder="Búsqueda rápida..."
-                class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-800 dark:text-white outline-none focus:border-brand-emerald/50 focus:ring-1 transition-all" />
-            </div>
-          </div>
-        </div>
-        <div class="flex-1 bg-white dark:bg-[#111827] relative">
-          <div id="detailGrid" class="absolute inset-0 border-0"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MODULO: RENDIMIENTO -->
-    <div id="tab-ranking" class="tab-content flex flex-col gap-8 hidden-tab">
-      <!-- Resumen de Desempeño Global -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- KPI: Total Efectivas -->
-        <div class="glass-panel rounded-2xl p-4 border-l-4 border-brand-emerald">
-          <div class="flex items-center gap-3">
-            <div class="p-2 bg-brand-emerald/10 rounded-lg">
-              <i data-lucide="check-circle" class="text-brand-emerald w-5 h-5"></i>
-            </div>
-            <div>
-              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Encuestas efectivas</p>
-              <h3 class="font-black font-outfit text-2xl text-slate-800 dark:text-white" id="rankKpiEfectivas">0</h3>
-            </div>
-          </div>
-        </div>
-        <!-- KPI: Total No Respuesta -->
-        <div class="glass-panel rounded-2xl p-4 border-l-4 border-brand-orange">
-          <div class="flex items-center gap-3">
-            <div class="p-2 bg-brand-orange/10 rounded-lg">
-              <i data-lucide="help-circle" class="text-brand-orange w-5 h-5"></i>
-            </div>
-            <div>
-              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">No Respuesta</p>
-              <h3 class="font-black font-outfit text-2xl text-slate-800 dark:text-white" id="rankKpiNoRespuesta">0</h3>
-            </div>
-          </div>
-        </div>
-        <!-- KPI: Total Alertas -->
-        <div class="glass-panel rounded-2xl p-4 border-l-4 border-brand-red">
-          <div class="flex items-center gap-3">
-            <div class="p-2 bg-brand-red/10 rounded-lg">
-              <i data-lucide="alert-triangle" class="text-brand-red w-5 h-5"></i>
-            </div>
-            <div>
-              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Alertas Totales</p>
-              <h3 class="font-black font-outfit text-2xl text-brand-red" id="rankKpiAlerts">0</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <!-- Ránking de Encuestadores -->
-        <div class="lg:col-span-12 glass-panel rounded-2xl p-6 flex flex-col">
-          <header
-            class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-4 border-b border-slate-200/50 dark:border-white/5">
-            <div class="flex items-center gap-3">
-              <div class="p-2.5 bg-brand-orange/10 rounded-xl">
-                <i data-lucide="award" class="text-brand-orange w-6 h-6"></i>
-              </div>
-              <div>
-                <h3 class="font-bold font-outfit text-xl text-slate-800 dark:text-white">Leaderboard de Encuestadores
-                </h3>
-                <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest mt-0.5">Porcentaje de
-                  efectividad (Efectivo vs No Respuesta)</p>
-              </div>
-            </div>
-            <div
-              class="flex items-center gap-1 p-1 bg-slate-100 dark:bg-white/5 rounded-lg border border-slate-200/50 dark:border-white/10">
-              <button class="sort-btn px-2.5 py-1.5 text-[9px] font-black uppercase rounded-md active"
-                data-sort="eficiencia">Efectividad</button>
-              <button class="sort-btn px-2.5 py-1.5 text-[9px] font-black uppercase rounded-md"
-                data-sort="encuestas">Volumen</button>
-            </div>
-          </header>
-
-          <div id="rankingTable" class="flex-1 border-0 custom-scrollbar"></div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <!-- MODULO: INCONSISTENCIAS -->
-    <div id="tab-inconsistencias"
-      class="tab-content flex flex-col gap-4 sm:gap-6 hidden-tab lg:h-[calc(100vh-180px)] h-auto overflow-y-auto lg:overflow-visible">
-      <div class="flex justify-between items-end px-2">
-        <div>
-          <h2 class="text-2xl font-black font-outfit text-slate-900 dark:text-white">Motor de Inconsistencias</h2>
-          <p class="text-sm text-slate-500">Alertas de calidad de datos detectadas automáticamente por el sistema de
-            validación.</p>
-        </div>
-      </div>
-
-      <!-- Cards resumen por tipo de alerta -->
-      <div id="inconsistenciasCards" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-        <!-- Rendered by inconsistencias.js -->
-      </div>
-
-      <!-- Tabla de detalle de registros con alertas -->
-      <div id="inconsistenciasContainer"
-        class="card-premium flex flex-col overflow-hidden p-0 min-h-[500px] lg:min-h-0">
-        <div
-          class="p-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-50 dark:bg-slate-900/50">
-          <div class="flex items-center gap-3">
-            <div class="p-2 bg-brand-red/10 rounded-lg">
-              <i data-lucide="shield-alert" class="text-brand-red w-5 h-5"></i>
-            </div>
-            <div>
-              <h3 class="font-bold font-outfit text-lg text-slate-800 dark:text-white">Registros con Alertas Activas
-              </h3>
-              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Detalle de todas las
-                inconsistencias por registro</p>
-            </div>
-          </div>
-          <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-            <div class="relative w-full sm:w-48">
-              <i data-lucide="filter" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-              <select id="incFilterAlerta"
-                class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-800 dark:text-white outline-none focus:border-brand-red/50 focus:ring-1 transition-all appearance-none cursor-pointer">
-                <option value="">Todas las alertas</option>
-                <!-- Rendered by inconsistencias.js -->
-              </select>
-            </div>
-            <div class="relative w-full sm:w-64">
-              <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-              <input type="text" id="incSearchInput" placeholder="Buscar cédula, control, etc..."
-                class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-xl pl-10 pr-8 py-2 text-xs text-slate-800 dark:text-white outline-none focus:border-brand-red/50 focus:ring-1 transition-all" />
-              <button id="incClearSearch"
-                class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-brand-red hidden transition-colors"
-                title="Limpiar búsqueda">
-                <i data-lucide="x" class="w-4 h-4"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div id="inconsistenciasTable" class="w-full" style="height: 500px;">
-          <!-- Tabulator will be initialized here -->
-        </div>
-      </div>
-    </div>
-
-    <!-- MODULO: MM-111 VERIFICACION FÍSICA -->
-    <div id="tab-mm111"
-      class="tab-content flex flex-col gap-4 sm:gap-6 hidden-tab lg:h-[calc(100vh-180px)] h-auto overflow-y-auto lg:overflow-visible">
-      <!-- Cabecera Institucional y Geográfica -->
-      <div
-        class="glass-panel rounded-2xl p-4 sm:p-6 border-t-4 border-t-brand-blue flex flex-col gap-4 sm:gap-6 shadow-sm">
-        <div
-          class="flex flex-col lg:flex-row justify-between items-start lg:items-center border-b border-slate-200 dark:border-slate-800 pb-4 gap-4">
-          <div class="flex items-center gap-3 sm:gap-4 shrink-0">
-            <div
-              class="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center border border-slate-200 dark:border-slate-700 shrink-0">
-              <svg class="w-6 h-6 sm:w-8 sm:h-8 text-slate-800 dark:text-white" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2">
-                <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4" />
-                <path d="M14 2v6h6" />
-                <path d="m3 12.5 5 5 9-9" />
-              </svg>
-            </div>
-            <div>
-              <h1
-                class="text-lg sm:text-2xl font-black font-outfit tracking-tight text-slate-800 dark:text-white leading-tight">
-                Marco
-                Maestro de Muestreo (VIV MM-111)</h1>
-              <p class="text-[10px] sm:text-xs text-slate-500 font-bold uppercase tracking-widest mt-0.5">(CRTE) -
-                INSTITUTO NACIONAL DE
-                ESTADÍSTICA</p>
-            </div>
-          </div>
-
-          <div class="lg:mt-0 flex flex-col items-stretch lg:items-end w-full lg:w-auto">
-            <label
-              class="text-[9px] sm:text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1.5 ml-1 lg:text-right">Seleccionar
-              Planilla
-              Física (Control Nro.)</label>
-            <div class="flex items-center gap-2">
-              <div class="relative flex-1 lg:w-64">
-                <i data-lucide="list-filter"
-                  class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                <select id="mm111SearchControl"
-                  class="w-full bg-slate-50 dark:bg-[#0B1120] border-2 border-brand-blue/30 rounded-xl pl-10 pr-8 py-2.5 text-sm text-slate-800 dark:text-white font-bold outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 transition-all font-outfit appearance-none cursor-pointer">
-                  <option value="">Seleccionar Control...</option>
-                </select>
-                <i data-lucide="chevron-down"
-                  class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
-              </div>
-              <button id="btnLoadMM111"
-                class="btn-primary py-2.5 px-4 sm:px-6 shadow-lg shadow-brand-blue/20">Localizar</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Segmento Geográfico -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div
-            class="p-3 bg-slate-50 dark:bg-[#0B1120]/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
-            <div>
-              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Entidad Federal</p>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Entidad">---
-              </p>
-            </div>
-            <div
-              class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700"
-              id="mm111EntidadCod">--</div>
-          </div>
-          <div
-            class="p-3 bg-slate-50 dark:bg-[#0B1120]/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
-            <div>
-              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Municipio</p>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Municipio">---
-              </p>
-            </div>
-            <div
-              class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700"
-              id="mm111MunicipioCod">--</div>
-          </div>
-          <div
-            class="p-3 bg-slate-50 dark:bg-[#0B1120]/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
-            <div>
-              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Parroquia</p>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Parroquia">---
-              </p>
-            </div>
-            <div
-              class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700"
-              id="mm111ParroquiaCod">--</div>
-          </div>
-          <div
-            class="p-3 bg-slate-50 dark:bg-[#0B1120]/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
-            <div>
-              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Centro Poblado</p>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111CPoblado">---
-              </p>
-            </div>
-            <div
-              class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700"
-              id="mm111CPobladoCod">--</div>
-          </div>
-        </div>
-
-        <!-- Barra de Controles Operativos -->
-        <div
-          class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-[1px] bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
-            <span class="text-[9px] uppercase font-bold text-slate-500">Segmento</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Segmento">-
-            </div>
-          </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
-            <span class="text-[9px] uppercase font-bold text-slate-500">Sector</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Sector">-</div>
-          </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
-            <span class="text-[9px] uppercase font-bold text-slate-500">Nodo</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Nodo">-</div>
-          </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
-            <span class="text-[9px] uppercase font-bold text-slate-500">Semana</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Semana">-</div>
-          </div>
-          <div
-            class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120] col-span-2 sm:col-span-4 lg:col-span-1">
-            <span class="text-[9px] uppercase font-bold text-slate-500">Control Maestro</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300 truncate w-full"
-              id="mm111ControlMaestro">-</div>
-          </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-[#FDE68A] dark:bg-[#FBBF24]">
-            <span class="text-[10px] uppercase font-black text-[#92400E]">Control Nro.</span>
-            <div class="text-lg font-black font-outfit text-[#78350F]" id="mm111ControlNro">0000</div>
-          </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
-            <span class="text-[9px] uppercase font-bold text-slate-500">Lote</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Lote">-</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tabla de Listado de Viviendas -->
-      <div
-        class="card-premium flex-1 flex flex-col p-0 overflow-hidden border-2 border-slate-200 dark:border-slate-700 mt-4 relative min-h-[500px] lg:min-h-0">
-        <div
-          class="w-full flex-1 overflow-x-auto overflow-y-auto bg-white dark:bg-[#0B1120] custom-scrollbar pb-6 relative outline-none"
-          tabindex="0">
-          <table class="w-full text-left border-collapse text-xs">
-            <thead
-              class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 uppercase sticky top-0 z-20 font-bold border-b-2 border-slate-200 dark:border-slate-700">
-              <tr>
-                <th
-                  class="py-3 px-3 whitespace-nowrap text-center sticky left-0 z-30 bg-slate-100 dark:bg-slate-800 shadow-[inset_-1px_0_0_rgba(226,232,240,1)] dark:shadow-[inset_-1px_0_0_rgba(30,41,59,1)]">
-                  Línea</th>
-                <th class="py-3 px-3 whitespace-nowrap text-center">Serie</th>
-                <th class="py-3 px-3 whitespace-nowrap text-center">Manz.</th>
-                <th class="py-3 px-3 whitespace-nowrap text-center">Parc.</th>
-                <th class="py-3 px-3 whitespace-nowrap text-center">Edif.</th>
-                <th class="py-3 px-3 whitespace-nowrap text-center">Estruc.</th>
-                <th class="py-3 px-3">Uso U.I.</th>
-                <th class="py-3 px-3 whitespace-nowrap text-center">Lado Manz.</th>
-                <th class="py-3 px-3">Dirección (Sector/Calle/Av)</th>
-                <th class="py-3 px-3">Razón Inclusión</th>
-                <th class="py-3 px-3 whitespace-nowrap">Encuestador</th>
-              </tr>
-            </thead>
-            <tbody id="mm111HTMLGrid"
-              class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-800 dark:text-slate-200">
-              <tr>
-                <td colspan="11" class="text-center py-10 text-slate-400">Ingrese un Número de Control para visualizar
-                  las planillas.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-
-
-    </div>
+    <!-- Components will be injected here by layout.js -->
 
   </main>
 
-  <!-- Error state Modal -->
-  <div id="errorState"
-    class="hidden fixed inset-0 z-[120] bg-[#0B1120]/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center">
-    <div
-      class="w-24 h-24 bg-brand-red/10 rounded-full flex items-center justify-center mb-6 ring-[12px] ring-brand-red/5 animate-pulse">
-      <i data-lucide="power-off" class="text-brand-red w-10 h-10"></i>
-    </div>
-    <h2 class="text-4xl font-black font-outfit text-white mb-3">Conexión Caída</h2>
-    <p id="errorMsg"
-      class="text-slate-400 max-w-md mb-8 text-sm leading-relaxed border border-slate-800 bg-slate-900/50 p-4 rounded-xl">
-      Error crítico al intentar obtener los datasets desde el puerto local 8000.
-    </p>
-    <button onclick="loadAssets()" class="btn-primary px-8 py-3 text-lg font-bold">
-      <i data-lucide="refresh-cw" class="w-5 h-5"></i> Forzar Reintento
-    </button>
-  </div>
-
-  <!-- Off-Canvas Modal para Filtros Globales Avanzados -->
-  <div id="filtersOverlay"
-    class="fixed inset-0 z-[var(--z-offcanvas)] bg-slate-900/20 dark:bg-[#0B1120]/40 hidden backdrop-blur-sm transition-opacity opacity-0"
-    aria-hidden="true"></div>
-
-  <div id="offCanvasFilters"
-    class="fixed inset-y-0 right-0 z-[var(--z-offcanvas)] w-full sm:w-[400px] border-l border-slate-200 dark:border-white/10 transform translate-x-full transition-transform duration-300 ease-out flex flex-col shadow-[-10px_0_40px_rgba(0,0,0,0.1)] dark:shadow-[-10px_0_40px_rgba(0,0,0,0.5)] bg-white dark:bg-[#0f172a]"
-    role="dialog" aria-modal="true" aria-labelledby="filtersTitle">
-
-    <!-- Background glow elements -->
-    <div class="absolute top-0 right-0 w-64 h-64 bg-brand-blue/10 rounded-full blur-[80px] pointer-events-none"></div>
-
-    <div class="flex items-center justify-between p-6 border-b border-slate-100 dark:border-slate-800/80 relative z-10">
-      <div>
-        <h3 id="filtersTitle"
-          class="font-outfit font-black text-xl text-slate-800 dark:text-white flex items-center gap-2">
-          <i data-lucide="settings-2" class="text-brand-blue w-6 h-6"></i> Reglas de Filtrado
-        </h3>
-        <p class="text-[10px] text-slate-400 font-medium uppercase tracking-widest mt-1">Refina el bloque de datos</p>
-      </div>
-
-      <button id="btnCloseFilters"
-        class="p-2.5 bg-slate-100 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-300 hover:text-slate-800 dark:hover:text-white rounded-xl border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-500 transition-all">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-    </div>
-
-    <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-8 relative z-10 custom-scrollbar">
-      <!-- Section 1 -->
-      <div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
-        <h4 class="text-xs uppercase font-black text-slate-400 tracking-widest flex items-center gap-2 mb-4">
-          <i data-lucide="map-pinned" class="w-3.5 h-3.5 text-brand-blue"></i> Contexto Geográfico
-        </h4>
-        <div class="space-y-4">
-          <div class="group">
-            <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Municipio</label>
-            <select id="filterMunicipio"
-              class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-blue transition-colors">
-              <option value="">Todos los municipios</option>
-            </select>
-          </div>
-          <div class="group">
-            <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Parroquia</label>
-            <select id="filterParroquia"
-              class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-blue transition-colors">
-              <option value="">Todas las parroquias</option>
-            </select>
-          </div>
-          <div class="group">
-            <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Nodo / Zona</label>
-            <select id="filterNodo"
-              class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-blue transition-colors">
-              <option value="">Todos los nodos</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- Section 2 -->
-      <div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
-        <h4 class="text-xs uppercase font-black text-slate-400 tracking-widest flex items-center gap-2 mb-4">
-          <i data-lucide="home" class="w-3.5 h-3.5 text-brand-purple"></i> Parámetros Estructurales
-        </h4>
-        <div class="space-y-4">
-          <div class="group">
-            <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Estado Operativo</label>
-            <select id="filterEstado"
-              class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-purple transition-colors">
-              <option value="">Todas</option>
-              <option value="completada">Completada (Efectiva)</option>
-              <option value="parcial">No Respuestas / Rechazo</option>
-            </select>
-          </div>
-          <div class="group">
-            <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Condición de Ocupación</label>
-            <select id="filterCondicion"
-              class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-purple transition-colors">
-              <option value="">Todas</option>
-            </select>
-          </div>
-          <div class="group">
-            <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Tipología Vivienda</label>
-            <select id="filterSituacionVivienda"
-              class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-purple transition-colors">
-              <option value="">Todas</option>
-            </select>
-          </div>
-          <div class="group">
-            <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Uso Registrado</label>
-            <select id="filterUso"
-              class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-purple transition-colors">
-              <option value="">Todos</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- Section 3 -->
-      <div class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-5 border border-slate-200 dark:border-slate-800">
-        <h4 class="text-xs uppercase font-black text-slate-400 tracking-widest flex items-center gap-2 mb-4">
-          <i data-lucide="tag" class="w-3.5 h-3.5 text-brand-orange"></i> Metadatos
-        </h4>
-        <div class="space-y-4">
-          <div class="group">
-            <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Agrupación Semanal</label>
-            <select id="filterSemana"
-              class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-orange transition-colors">
-              <option value="">Consolidado global</option>
-            </select>
-          </div>
-          <div class="group">
-            <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Supervisor Control</label>
-            <select id="filterControl"
-              class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-orange transition-colors">
-              <option value="">Todos</option>
-            </select>
-          </div>
-          <div class="group">
-            <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Alertas Detectadas</label>
-            <select id="filterAlerta"
-              class="w-full bg-white dark:bg-[#0B1120] border border-slate-300 dark:border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-800 dark:text-slate-200 outline-none focus:border-brand-orange transition-colors">
-              <option value="">Todas las alertas</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="p-6 bg-white dark:bg-[#0f172a] border-t border-slate-100 dark:border-slate-800/80 z-10 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] dark:shadow-[0_-10px_20px_rgba(0,0,0,0.2)] flex gap-3">
-      <button id="btnResetOffcanvas" class="btn-secondary flex-1 py-3.5 text-sm uppercase tracking-widest font-bold">
-        <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Limpiar
-      </button>
-      <button id="btnApplyFilters" class="btn-primary flex-[2] py-3.5 text-sm uppercase tracking-widest font-bold">
-        <i data-lucide="check" class="w-4 h-4"></i> Aplicar Parámetros
-      </button>
-    </div>
-  </div>
-
-  <!-- Detail Dialog Modal -->
-  <div id="detailModal" class="hidden fixed inset-0 z-[var(--z-modal)] flex items-center justify-center">
-    <div class="absolute inset-0 bg-[#0B1120]/80 backdrop-blur-md" onclick="closeDetailModal()" aria-hidden="true">
-    </div>
-    <div
-      class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-0 rounded-xl sm:rounded-2xl z-10 w-[95%] sm:w-11/12 max-w-7xl text-slate-800 dark:text-slate-200 shadow-[0_20px_60px_rgba(0,0,0,0.15)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col transform transition-all scale-95 opacity-0"
-      id="detailModalPane" role="dialog" aria-modal="true" aria-labelledby="detailModalTitle">
-      <div
-        class="flex justify-between items-center p-6 border-b border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50">
-        <h3 id="detailModalTitle"
-          class="font-outfit font-black text-xl text-slate-900 dark:text-white flex items-center gap-3">
-          <i data-lucide="file-json" class="text-brand-purple w-6 h-6"></i> Ficha de Inspección
-        </h3>
-        <div class="flex items-center gap-2">
-          <button onclick="toggleDetailModalExpand()" id="detailModalExpand"
-            class="p-2 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-purple"
-            title="Expandir/Contraer">
-            <i data-lucide="maximize" id="detailModalExpandIcon" class="w-4 h-4"></i>
-          </button>
-          <button onclick="closeDetailModal()" id="detailModalClose"
-            class="p-2 bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-purple">
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
-        </div>
-      </div>
-      <div id="detailModalBody" class="overflow-y-auto max-h-[75vh] p-6 text-sm font-inter custom-scrollbar"
-        tabindex="0">
-        <!-- Inject dynamic content here via JS -->
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Footer -->
-  <footer
-    class="border-t border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0B1120] px-6 py-4 sm:mt-auto mt-10">
-    <div
-      class="max-w-[1600px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] text-slate-500 font-inter">
+  <footer class="border-t border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0B1120] px-6 py-4 mt-auto">
+    <div class="max-w-[1600px] mx-auto flex flex-col sm:flex-row items-center justify-between gap- 2 text-[10px] text-slate-500">
       <span>DashboardSociales — ESCA/EHM &copy; 2026</span>
-      <div class="flex items-center gap-4">
-        <span class="text-slate-600">Powered by KoboToolbox + FastAPI</span>
-      </div>
+      <span class="text-slate-600">Powered by KoboToolbox + FastAPI</span>
     </div>
   </footer>
 
-  <script type="module" src="js/main.js?v=39"></script>
+  <script type="module" src="js/main.js?v=40"></script>
 </body>
-
 </html>

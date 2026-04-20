@@ -26,7 +26,7 @@ export function showDetailModal(rec) {
         stParr:    fmt(extractNested(rec, 'par')),
         stSect:    fmt(extractNested(rec, 'sector') || extractNested(rec, 'S1/sector') || extractNested(rec, 'S1/group_segmeto_sector/sector')),
         stNodo:    fmt(extractNested(rec, 'nodo')),
-        stAgente:  fmt(extractNested(rec, 'nombre')  || extractNested(rec, 'S0/s0_nombreapellido')),
+        stEncuestador: fmt(extractNested(rec, 'nombre')  || extractNested(rec, 'S0/s0_nombreapellido')),
         stCedula:  fmt(extractNested(rec, 'cedula')  || extractNested(rec, 'S0/cedula_encuestador')),
         stFecha:   fmt(extractNested(rec, 'fecha')   || extractNested(rec, 'today/_submission_time')),
         stDur:     fmt(extractNested(rec, 'durMin') ? `${extractNested(rec, 'durMin')} min` : null),
@@ -187,6 +187,15 @@ window.toggleDetailModalExpand = function () {
     }
     if (window.lucide) window.lucide.createIcons();
     if (state.detailMiniMapObj) setTimeout(() => state.detailMiniMapObj.invalidateSize(), 350);
+};
+
+window.viewTraceByRecord = function(uuid) {
+    const rec = state.rawData.find(r => r._uuid === uuid || r.uuid === uuid);
+    if (rec) {
+        showDetailModal(rec);
+    } else {
+        console.warn(`[Modal] Registro con UUID ${uuid} no encontrado.`);
+    }
 };
 
 window.closeDetailModal = closeDetailModal;

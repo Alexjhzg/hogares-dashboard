@@ -6,7 +6,7 @@ import { state } from '../state.js';
 export function updateChartsTheme(isDark) {
     if (typeof Chart === 'undefined') return;
     
-    const textColor = isDark ? '#94a3b8' : '#475569';
+    const textColor = isDark ? '#ffffff' : '#000000';
     const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
     
     Chart.defaults.color = textColor;
@@ -18,11 +18,28 @@ export function updateChartsTheme(isDark) {
 
     Object.values(state.charts).forEach(c => {
         if (!c) return;
-        const opts = c.options.plugins;
-        if (!opts) return;
+        
+        // Update general color
+        c.options.color = textColor;
 
-        if (opts.datalabels) {
-            opts.datalabels.color = isDark ? '#e2e8f0' : '#1e293b';
+        // Update plugin options
+        if (c.options.plugins) {
+            if (c.options.plugins.datalabels) {
+                c.options.plugins.datalabels.color = textColor;
+            }
+            if (c.options.plugins.legend && c.options.plugins.legend.labels) {
+                c.options.plugins.legend.labels.color = textColor;
+            }
+        }
+        
+        // Update scales
+        if (c.options.scales) {
+            if (c.options.scales.x && c.options.scales.x.ticks) {
+                c.options.scales.x.ticks.color = textColor;
+            }
+            if (c.options.scales.y && c.options.scales.y.ticks) {
+                c.options.scales.y.ticks.color = textColor;
+            }
         }
         
         if (typeof c.update === 'function') c.update('none');
@@ -40,7 +57,7 @@ export const centerTextPlugin = {
             const { ctx, chartArea: { left, top, width, height } } = chart;
             ctx.save();
             const isDark = document.documentElement.classList.contains('dark');
-            const color = isDark ? '#f1f5f9' : '#0f172a';
+            const color = isDark ? '#ffffff' : '#000000';
             
             ctx.font = 'bold 18px Outfit';
             ctx.fillStyle = color;
@@ -49,7 +66,7 @@ export const centerTextPlugin = {
             ctx.fillText(opts.text || '', left + width / 2, top + height / 2);
             
             ctx.font = 'bold 9px Inter';
-            ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+            ctx.fillStyle = isDark ? '#ffffff' : '#000000';
             ctx.fillText('TOTAL', left + width / 2, top + height / 2 + 18);
             ctx.restore();
         }
@@ -76,12 +93,15 @@ export function destroyChart(id) {
  */
 export function baseChartOpts() {
     const isDark = document.documentElement.classList.contains('dark');
+    const textColor = isDark ? '#ffffff' : '#000000';
     return {
         responsive: true,
         maintainAspectRatio: false,
+        color: textColor,
         plugins: {
             legend: { 
                 labels: { 
+                    color: textColor,
                     font: { size: 11, family: "'Inter', sans-serif", weight: 'bold' } 
                 } 
             },
@@ -96,8 +116,8 @@ export function baseChartOpts() {
             },
         },
         scales: {
-            x: { ticks: { font: { size: 11, family: "'Inter', sans-serif", weight: '600' } }, grid: {} },
-            y: { ticks: { font: { size: 11, family: "'Inter', sans-serif", weight: '600' } }, grid: {} },
+            x: { ticks: { color: textColor, font: { size: 11, family: "'Inter', sans-serif", weight: '600' } }, grid: {} },
+            y: { ticks: { color: textColor, font: { size: 11, family: "'Inter', sans-serif", weight: '600' } }, grid: {} },
         },
     };
 }

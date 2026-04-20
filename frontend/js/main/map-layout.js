@@ -35,7 +35,7 @@ export function setMapState(mode) {
     if (toggleBtn) toggleBtn.classList.add('hidden');
 
     kpiGrid.querySelectorAll('button:not(#btnToggleMapKpis), div.glass-panel').forEach(el => {
-        el.className = el.id === 'btnVerRutaAgente' ? 
+        el.className = el.id === 'btnVerRutaEncuestador' ? 
             "glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange hover:bg-brand-orange/5 transition-all group active:scale-[.98] disabled:opacity-40 disabled:cursor-not-allowed" :
             "glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 hover:bg-slate-50 dark:hover:bg-white/5 transition-all group";
         
