@@ -171,8 +171,8 @@ export const USO_STYLES = {
 
 export const RAZON_STYLES = {
     'PRESENTES':   { color: '#2563EB', badge: 'bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border border-blue-100 dark:border-blue-800/50' },
-    'AUSENTES':    { color: '#DC2626', badge: 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400 border border-red-100 dark:border-red-800/50' },
-    'DESOCUPAD':   { color: '#16A34A', badge: 'bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 border border-green-100 dark:border-green-800/50' },
+    'AUSENTES':    { color: '#FACC15', badge: 'bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400 border border-amber-100 dark:border-amber-800/50' },
+    'DESOCUPAD':   { color: '#DC2626', badge: 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400 border border-red-100 dark:border-red-800/50' },
     'RECHAZO':     { color: '#FACC15', badge: 'bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400 border border-amber-100 dark:border-amber-800/50' },
     'NADIE':       { color: '#FACC15', badge: 'bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400 border border-amber-100 dark:border-amber-800/50' },
     'DEFAULT':     { color: '#94A3B8', badge: 'bg-slate-100 text-slate-500 dark:bg-slate-800/50 dark:text-slate-400 border border-slate-200 dark:border-slate-700' }

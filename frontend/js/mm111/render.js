@@ -16,7 +16,7 @@ export function updateMM111Grid(records) {
         if (rec['S1/P_nomsect']) dirParts.push(rec['S1/P_nomsect']);
         for (let j = 1; j <= 4; j++) {
             const etiq = rec[`S1/G_P9/gp10_${j}_etiq`];
-            const val  = rec[`S1/G_P9/GP10_${j}b`];
+            const val = rec[`S1/G_P9/GP10_${j}b`];
             if (etiq && val) dirParts.push(`${etiq} ${val}`);
         }
         const nro = rec['control_de_la_entrevista/in10'] || rec['control_entrevista/in10'];
@@ -26,16 +26,16 @@ export function updateMM111Grid(records) {
         const dirFinal = dirParts.length > 0 ? dirParts.join(', ') : (rec['S1/direccion'] || rec._meta.nota || '-');
 
         return {
-            linea:      rec['group_sh53u78/n_linea'] || (i + 1),
-            serie:      rec['group_sh53u78/n_serie'] || '-',
-            manzana:    rec['S1/manzana'] || '-',
-            parcela:    rec['S1/parcela'] || '-',
+            linea: rec['group_sh53u78/n_linea'] || (i + 1),
+            serie: rec['group_sh53u78/n_serie'] || '-',
+            manzana: rec['S1/manzana'] || '-',
+            parcela: rec['S1/parcela'] || '-',
             edificacion: rec['S1/Edificaci_n'] || rec['S1/edificacion'] || '-',
             estructura: rec['S1/estructura'] || rec['S1/unidad'] || '-',
-            uso:        rec['S1/Uso_de_la_Unidad_inmobiliaria'] || rec._meta.uso || '-',
-            ladoManz:   rec['S1/lado_manz'] || '-',
-            direccion:  dirFinal,
-            razon:      rec['Condici_n_de_ocupaci_n/condicion_de_ocupacion'] || rec._meta.condicion || '-',
+            uso: rec['S1/Uso_de_la_Unidad_inmobiliaria'] || rec._meta.uso || '-',
+            ladoManz: rec['S1/lado_manz'] || '-',
+            direccion: dirFinal,
+            razon: rec['Condici_n_de_ocupaci_n/condicion_de_ocupacion'] || rec._meta.condicion || '-',
             encuestador: rec._meta.nombre ? rec._meta.nombre.split(' ')[0] : 'N/A',
         };
     });
@@ -57,10 +57,11 @@ function initMM111Table(initialData) {
         layout: "fitColumns",
         height: "100%",
         responsiveLayout: "collapse",
-        placeholder: "<div class='p-12 text-center text-slate-400 font-medium'>No hay registros para este Control.</div>",
+        placeholder: "<div class='p-12 text-center text-slate-400 font-medium'>Seleccione un número de Control para visualizar el listado de las encuestas.</div>",
         columns: [
-            { title: "Línea", field: "linea", width: 65, hozAlign: "center", frozen: true,
-              formatter: cell => `<span class="font-mono font-bold text-slate-700 dark:text-slate-200">${cell.getValue()}</span>`
+            {
+                title: "Línea", field: "linea", width: 65, hozAlign: "center", frozen: true,
+                formatter: cell => `<span class="font-mono font-bold text-slate-700 dark:text-slate-200">${cell.getValue()}</span>`
             },
             { title: "Serie", field: "serie", width: 60, hozAlign: "center", formatter: cell => `<span class="font-mono opacity-70">${cell.getValue()}</span>` },
             { title: "Manz.", field: "manzana", width: 65, hozAlign: "center" },
@@ -71,8 +72,9 @@ function initMM111Table(initialData) {
             { title: "Lado", field: "ladoManz", width: 60, hozAlign: "center" },
             { title: "Dirección", field: "direccion", minWidth: 250, formatter: "textarea" },
             { title: "Razón Inclusión", field: "razon", minWidth: 180, formatter: badgeRazonFormatter },
-            { title: "Encuestador", field: "encuestador", width: 100, hozAlign: "center",
-              formatter: cell => `<span class="text-[10px] font-black uppercase text-slate-400 tracking-wider">${cell.getValue()}</span>`
+            {
+                title: "Encuestador", field: "encuestador", width: 100, hozAlign: "center",
+                formatter: cell => `<span class="text-[10px] font-black uppercase text-slate-400 tracking-wider">${cell.getValue()}</span>`
             },
         ],
     });
@@ -81,7 +83,7 @@ function initMM111Table(initialData) {
 function badgeUsoFormatter(cell) {
     const val = String(cell.getValue()).toUpperCase();
     let style = USO_STYLES.DEFAULT;
-    
+
     for (const key in USO_STYLES) {
         if (val.includes(key)) {
             style = USO_STYLES[key];
@@ -96,7 +98,7 @@ function badgeRazonFormatter(cell) {
     const val = String(cell.getValue()).toUpperCase();
     const cleanVal = val.replace(/_/g, ' ');
     let style = RAZON_STYLES.DEFAULT;
-    
+
     for (const key in RAZON_STYLES) {
         if (val.includes(key)) {
             style = RAZON_STYLES[key];
@@ -111,11 +113,11 @@ function badgeRazonFormatter(cell) {
  * Resets the header information to default state.
  */
 export function clearMM111Header() {
-    ['mm111Entidad','mm111Municipio','mm111Parroquia','mm111CPoblado']
+    ['mm111Entidad', 'mm111Municipio', 'mm111Parroquia', 'mm111CPoblado']
         .forEach(id => { if ($(id)) $(id).textContent = '---'; });
-    ['mm111EntidadCod','mm111MunicipioCod','mm111ParroquiaCod','mm111CPobladoCod']
+    ['mm111EntidadCod', 'mm111MunicipioCod', 'mm111ParroquiaCod', 'mm111CPobladoCod']
         .forEach(id => { if ($(id)) $(id).textContent = '--'; });
-    ['mm111Segmento','mm111Sector','mm111Nodo','mm111Semana','mm111ControlMaestro','mm111Lote']
+    ['mm111Segmento', 'mm111Sector', 'mm111Nodo', 'mm111Semana', 'mm111ControlMaestro', 'mm111Lote']
         .forEach(id => { if ($(id)) $(id).textContent = '-'; });
     if ($('mm111ControlNro')) $('mm111ControlNro').textContent = '0000';
 }
@@ -150,6 +152,6 @@ export function renderResultsList(filtered, query) {
                 <p class="text-xs text-slate-400 font-medium">No se encontraron resultados para "${query}"</p>
             </div>`;
     }
-    
+
     if (window.lucide) lucide.createIcons();
 }

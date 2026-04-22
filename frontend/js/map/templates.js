@@ -32,22 +32,22 @@ export function getSurveyMarkerPopupHtml(m, uuid, color, borderColor, alertBadge
     const hasSegData = m.segmento || m.sector || m.manzana || m.parcela || m.edificacion || m.direccion;
     
     const segSection = hasSegData ? `
-        <div class="border-t border-white/5 pt-3 mb-3">
+        <div class="border-t border-slate-100 dark:border-white/5 pt-3 mb-3">
             <div class="flex items-center gap-1.5 mb-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                <span class="text-[8px] uppercase font-bold text-sky-400 tracking-wider">Datos del Segmento</span>
+                <span class="text-[8px] uppercase font-bold text-sky-600 dark:text-sky-400 tracking-wider">Datos del Segmento</span>
             </div>
             <div class="grid grid-cols-3 gap-2 mb-2">
-                <div><div class="text-[8px] uppercase text-slate-500 font-bold">Segmento</div><div class="text-[10px] font-bold text-sky-300">${m.segmento || '—'}</div></div>
-                <div><div class="text-[8px] uppercase text-slate-500 font-bold">Sector</div><div class="text-[10px] font-bold text-white">${m.sector || '—'}</div></div>
-                <div><div class="text-[8px] uppercase text-slate-500 font-bold">Manzana</div><div class="text-[10px] font-bold text-white">${m.manzana || '—'}</div></div>
+                <div><div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Segmento</div><div class="text-[10px] font-bold text-sky-600 dark:text-sky-300">${m.segmento || '—'}</div></div>
+                <div><div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Sector</div><div class="text-[10px] font-bold text-slate-800 dark:text-white">${m.sector || '—'}</div></div>
+                <div><div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Manzana</div><div class="text-[10px] font-bold text-slate-800 dark:text-white">${m.manzana || '—'}</div></div>
             </div>
             <div class="grid grid-cols-3 gap-2">
-                <div><div class="text-[8px] uppercase text-slate-500 font-bold">Parcela</div><div class="text-[10px] font-bold text-white">${m.parcela || '—'}</div></div>
-                <div><div class="text-[8px] uppercase text-slate-500 font-bold">Edificación</div><div class="text-[10px] font-bold text-white">${m.edificacion || '—'}</div></div>
-                <div><div class="text-[8px] uppercase text-slate-500 font-bold">Lado Manz.</div><div class="text-[10px] font-bold text-white">${m.lado_manz || '—'}</div></div>
+                <div><div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Parcela</div><div class="text-[10px] font-bold text-slate-800 dark:text-white">${m.parcela || '—'}</div></div>
+                <div><div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Edificación</div><div class="text-[10px] font-bold text-slate-800 dark:text-white">${m.edificacion || '—'}</div></div>
+                <div><div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Lado Manz.</div><div class="text-[10px] font-bold text-slate-800 dark:text-white">${m.lado_manz || '—'}</div></div>
             </div>
-            ${m.direccion ? `<div class="mt-2"><div class="text-[8px] uppercase text-slate-500 font-bold">Dirección / Sector</div><div class="text-[10px] font-semibold text-slate-300 leading-tight">${m.direccion}</div></div>` : ''}
+            ${m.direccion ? `<div class="mt-2"><div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Dirección / Sector</div><div class="text-[10px] font-semibold text-slate-600 dark:text-slate-300 leading-tight">${m.direccion}</div></div>` : ''}
         </div>` : '';
 
     return `
