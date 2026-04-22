@@ -12,6 +12,8 @@ export function updateKPIs() {
     
     const avgDuracion = durs.length ? avg(durs) : 0;
     const personas    = state.filtered.reduce((s, r) => s + (r._meta.totalPers || 0), 0);
+    const hogaresUni  = state.filtered.reduce((s, r) => s + (r._meta.hogaresUniPersonales || 0), 0);
+    const controles   = new Set(state.filtered.map(r => r._meta.control)).size;
     const hombres     = state.filtered.reduce((s, r) => s + (r._meta.totalHombres || 0), 0);
     const mujeres     = state.filtered.reduce((s, r) => s + (r._meta.totalMujeres || 0), 0);
     const municipios  = new Set(state.filtered.map(r => r._meta.mun)).size;
@@ -23,6 +25,8 @@ export function updateKPIs() {
     if ($('kpiEncuestadores'))  $('kpiEncuestadores').textContent  = encs;
     if ($('kpiDuracion'))       $('kpiDuracion').textContent       = avgDuracion ? `${Math.round(avgDuracion)} min` : 'N/A';
     if ($('kpiPersonas'))       $('kpiPersonas').textContent       = personas;
+    if ($('kpiHogaresUni'))     $('kpiHogaresUni').textContent     = hogaresUni;
+    if ($('kpiControles'))      $('kpiControles').textContent      = controles;
     if ($('kpiHombres'))        $('kpiHombres').textContent        = hombres;
     if ($('kpiMujeres'))        $('kpiMujeres').textContent        = mujeres;
     if ($('kpiMunicipios'))     $('kpiMunicipios').textContent     = municipios;

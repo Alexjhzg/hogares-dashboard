@@ -28,15 +28,26 @@ export function getMM111TabHTML() {
           <div class="lg:mt-0 flex flex-col items-stretch lg:items-end w-full lg:w-auto">
             <label class="text-[9px] sm:text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1.5 ml-1 lg:text-right">Seleccionar Planilla Física (Control Nro.)</label>
             <div class="flex items-center gap-2">
-              <div class="relative flex-1 lg:w-64">
-                <i data-lucide="list-filter" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-                <select id="mm111SearchControl"
-                  class="w-full bg-slate-50 dark:bg-[#0B1120] border-2 border-brand-blue/30 rounded-xl pl-10 pr-8 py-2.5 text-sm text-slate-800 dark:text-white font-bold outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 transition-all font-outfit appearance-none cursor-pointer">
-                  <option value="">Seleccionar Control...</option>
-                </select>
-                <i data-lucide="chevron-down" class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+              <div class="relative flex-1 lg:w-80 group">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-brand-blue transition-colors"></i>
+                <input type="text" id="mm111SearchControl" autocomplete="off" placeholder="Buscar Control..."
+                  class="w-full bg-slate-50 dark:bg-[#0B1120] border-2 border-brand-blue/30 rounded-xl pl-10 pr-10 py-2.5 text-sm text-slate-800 dark:text-white font-bold outline-none focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/10 transition-all font-outfit" />
+                
+                <button id="mm111ClearSearch" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hidden">
+                   <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+
+                <!-- Search Results Dropdown -->
+                <div id="mm111SearchResults" class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl z-[100] max-h-64 overflow-y-auto hidden glass-panel">
+                  <div class="p-2 space-y-1" id="mm111ResultsList">
+                    <!-- Results will be injected here -->
+                  </div>
+                </div>
               </div>
-              <button id="btnLoadMM111" class="btn-primary py-2.5 px-4 sm:px-6 shadow-lg shadow-brand-blue/20">Localizar</button>
+              <button id="btnLoadMM111" class="btn-primary py-2.5 px-4 sm:px-6 shadow-lg shadow-brand-blue/20 flex items-center gap-2">
+                <i data-lucide="map-pin" class="w-4 h-4"></i>
+                <span>Localizar</span>
+              </button>
             </div>
           </div>
         </div>

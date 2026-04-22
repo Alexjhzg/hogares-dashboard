@@ -89,7 +89,8 @@ export function resetFilters() {
         'filterEncuestador', 'filterFechaInicio', 'filterFechaFin', 'filterSemana',
         'filterControl', 'filterMunicipio', 'filterParroquia', 'filterNodo',
         'filterEstado', 'filterCondicion', 'filterSituacionVivienda', 'filterUso', 
-        'filterAlerta', 'filterHoraTransmision', 'filterHoraInicio', 'searchEncuesta'
+        'filterAlerta', 'filterHoraTransmision', 'filterHoraInicio', 'searchEncuesta',
+        'mm111SearchControl'
     ];
     
     ids.forEach(id => {

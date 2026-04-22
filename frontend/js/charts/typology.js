@@ -16,7 +16,6 @@ export function renderChartCondicion() {
     if (!canvas) return;
 
     const total = entries.reduce((s, e) => s + e[1], 0);
-    if ($('condicionTotal')) $('condicionTotal').textContent = `Total: ${total}`;
 
     state.charts.cond = new Chart(canvas, {
         type: 'doughnut',
@@ -60,7 +59,6 @@ export function renderChartUso() {
     if (!canvas) return;
 
     const total = entries.reduce((s, e) => s + e[1], 0);
-    if ($('usoTotal')) $('usoTotal').textContent = `Total: ${total}`;
 
     state.charts.uso = new Chart(canvas, {
         type: 'doughnut',

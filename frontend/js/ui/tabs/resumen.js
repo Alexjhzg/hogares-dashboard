@@ -75,7 +75,7 @@ export function getResumenTabHTML() {
       </section>
 
       <!-- TIER 2: Detalle Demográfico y de Tiempo -->
-      <section class="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <section class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
         <div class="card-premium border-l-2 border-l-brand-orange" title="Tiempo promedio invertido en completar una entrevista efectiva (desde el inicio hasta el fin del formulario).">
           <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-brand-orange/80"></i> Duración Media</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiDuracion">0m</div>
@@ -83,6 +83,14 @@ export function getResumenTabHTML() {
         <div class="card-premium border-l-2 border-l-teal-500" title="Censo total de personas registradas dentro de los hogares que respondieron la encuesta de manera efectiva.">
           <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="users" class="w-4 h-4 text-teal-500/80"></i> Integrantes</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiPersonas">0</div>
+        </div>
+        <div class="card-premium border-l-2 border-l-indigo-500" title="Cantidad de hogares donde solo se registró a un (1) habitante o encuestado.">
+          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="user" class="w-4 h-4 text-indigo-500/80"></i> Hogares Unipersonales</div>
+          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiHogaresUni">0</div>
+        </div>
+        <div class="card-premium border-l-2 border-l-cyan-500" title="Cantidad total de planillas físicas (Controles) registradas en el sistema.">
+          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="clipboard-list" class="w-4 h-4 text-cyan-500/80"></i> Total Controles</div>
+          <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiControles">0</div>
         </div>
         <div class="card-premium border-l-2 border-l-blue-500" title="Total de personas de sexo masculino registradas en los hogares censados.">
           <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="mars" class="w-4 h-4 text-blue-500/80"></i> Hombres</div>
@@ -139,7 +147,6 @@ export function getResumenTabHTML() {
             </h3>
           </div>
           <div class="flex-1 w-full relative"><canvas id="chartCondicion"></canvas></div>
-          <div id="condicionTotal" class="mt-3 text-[10px] font-bold opacity-60">Total: 0</div>
         </div>
         <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col items-center" title="Desglose del uso principal de las estructuras visitadas (Residencial, Comercial, Mixto, etc.).">
           <div class="w-full mb-4">
@@ -148,7 +155,6 @@ export function getResumenTabHTML() {
             </h3>
           </div>
           <div class="flex-1 w-full relative"><canvas id="chartUso"></canvas></div>
-          <div id="usoTotal" class="mt-3 text-[10px] font-bold opacity-60">Total: 0</div>
         </div>
       </div>
     </div>`;

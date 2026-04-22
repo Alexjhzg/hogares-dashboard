@@ -42,7 +42,7 @@ export function getRankingTabHTML() {
             <div class="flex items-center gap-3">
               <div class="p-2.5 bg-brand-orange/10 rounded-xl"><i data-lucide="award" class="text-brand-orange w-6 h-6"></i></div>
               <div>
-                <h3 class="font-bold font-outfit text-xl text-slate-800 dark:text-white">Leaderboard</h3>
+                <h3 class="font-bold font-outfit text-xl text-slate-800 dark:text-white">Clasificación de Encuestadores</h3>
                 <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest mt-0.5">Top por efectividad operativa</p>
               </div>
             </div>

@@ -34,6 +34,23 @@ export function processData() {
         const declaredCode = (n.segmento === '000' || n.segmento === '0') ? n.sector : n.segmento;
         const actualSeg = validateSegment(lat, lng, declaredCode);
 
+        // Count unipersonal households
+        let hogaresUniPersonales = 0;
+        if (Array.isArray(hogaresRaw)) {
+            hogaresRaw.forEach(h => {
+                const members = Array.isArray(h['lista_hogar/lista_miembros']) 
+                    ? h['lista_hogar/lista_miembros'] 
+                    : (Array.isArray(h['datos_hogar/hogar/integrantes_hogar']) ? h['datos_hogar/hogar/integrantes_hogar'] : []);
+                
+                let count = members.length;
+                if (count === 0) {
+                    const c = parseInt(h['lista_hogar/personas_hogar'] || h['lista_hogar/lista_miembros_count'] || '0', 10);
+                    if (!isNaN(c)) count = c;
+                }
+                if (count === 1) hogaresUniPersonales++;
+            });
+        }
+
         // 4. Enrichment (_meta object)
         const isCompletada = /totalment/i.test(n.nota);
         
@@ -42,6 +59,7 @@ export function processData() {
             durMin,
             totalPers, totalHombres, totalMujeres,
             hogares: hogaresCount,
+            hogaresUniPersonales,
             lat, lng,
             distance_m, dist_ini_fin,
             actual_seg: actualSeg,
