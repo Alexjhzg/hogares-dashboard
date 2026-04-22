@@ -13,12 +13,13 @@ export function initMM111Events() {
 
     if (!searchInput || !resultsPanel) return;
 
-    const controls = getControlMetadata();
     let selectedIndex = -1;
-
+    
     // --- Search Input Logic ---
     const showResults = (val) => {
         const query = val.toLowerCase().trim();
+        const controls = getControlMetadata(); // Get fresh list based on current filters
+
         const filtered = controls.filter(c => 
             c.control.toLowerCase().includes(query) || 
             c.mun.toLowerCase().includes(query) ||

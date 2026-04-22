@@ -26,7 +26,10 @@ export function getMM111TabHTML() {
           </div>
 
           <div class="lg:mt-0 flex flex-col items-stretch lg:items-end w-full lg:w-auto">
-            <label class="text-[9px] sm:text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1.5 ml-1 lg:text-right">Seleccionar Planilla Física (Control Nro.)</label>
+            <label class="text-[9px] sm:text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1.5 ml-1 lg:text-right flex items-center lg:justify-end gap-2">
+              Seleccionar Planilla Física (Control Nro.)
+              <span id="mm111FilteredCount" class="bg-brand-blue/10 text-brand-blue px-2 py-0.5 rounded-md text-[9px] font-black border border-brand-blue/20">0</span>
+            </label>
             <div class="flex items-center gap-2">
               <div class="relative flex-1 lg:w-80 group">
                 <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-brand-blue transition-colors"></i>
@@ -119,31 +122,7 @@ export function getMM111TabHTML() {
 
       <!-- Tabla de Listado de Viviendas -->
       <div class="card-premium flex-1 flex flex-col p-0 overflow-hidden border-2 border-slate-200 dark:border-slate-700 mt-4 relative min-h-[500px] lg:min-h-0">
-        <div class="w-full flex-1 overflow-x-auto overflow-y-auto bg-white dark:bg-[#0B1120] custom-scrollbar pb-6 relative outline-none" tabindex="0">
-          <table class="w-full text-left border-collapse text-xs">
-            <thead class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 uppercase sticky top-0 z-20 font-bold border-b-2 border-slate-200 dark:border-slate-700">
-              <tr>
-                <th class="py-3 px-3 whitespace-nowrap text-center sticky left-0 z-30 bg-slate-100 dark:bg-slate-800 shadow-[inset_-1px_0_0_rgba(226,232,240,1)] dark:shadow-[inset_-1px_0_0_rgba(30,41,59,1)]">
-                  Línea</th>
-                <th class="py-3 px-3 whitespace-nowrap text-center">Serie</th>
-                <th class="py-3 px-3 whitespace-nowrap text-center">Manz.</th>
-                <th class="py-3 px-3 whitespace-nowrap text-center">Parc.</th>
-                <th class="py-3 px-3 whitespace-nowrap text-center">Edif.</th>
-                <th class="py-3 px-3 whitespace-nowrap text-center">Estruc.</th>
-                <th class="py-3 px-3">Uso U.I.</th>
-                <th class="py-3 px-3 whitespace-nowrap text-center">Lado Manz.</th>
-                <th class="py-3 px-3">Dirección (Sector/Calle/Av)</th>
-                <th class="py-3 px-3">Razón Inclusión</th>
-                <th class="py-3 px-3 whitespace-nowrap">Encuestador</th>
-              </tr>
-            </thead>
-            <tbody id="mm111HTMLGrid" class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-800 dark:text-slate-200">
-              <tr>
-                <td colspan="11" class="text-center py-10 text-slate-400">Ingrese un Número de Control para visualizar las planillas.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div id="mm111Grid" class="w-full h-full bg-white dark:bg-[#0B1120]"></div>
       </div>
     </div>`;
 }

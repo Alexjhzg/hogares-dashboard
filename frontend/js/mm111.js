@@ -5,7 +5,7 @@
 
 import { $ } from './helpers.js';
 import { initMM111Events } from './mm111/events.js';
-import { loadMM111ControlData } from './mm111/logic.js';
+import { loadMM111ControlData, getControlMetadata } from './mm111/logic.js';
 import { clearMM111Header, updateMM111Grid } from './mm111/render.js';
 
 // Public API exports
@@ -27,10 +27,16 @@ export function renderMM111() {
 
     const searchInput = $('mm111SearchControl');
     const clearBtn    = $('mm111ClearSearch');
+    const countEl     = $('mm111FilteredCount');
     
     if (!searchInput) return;
 
     // 2. Sync UI states
+    if (countEl) {
+        const kpiVal = $('kpiControles')?.textContent || '0';
+        countEl.textContent = kpiVal;
+    }
+
     if (searchInput.value.trim().length === 0) {
         clearBtn?.classList.add('hidden');
     } else {

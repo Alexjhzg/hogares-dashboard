@@ -128,6 +128,9 @@ export const MAP_LABELS = {
         'mixto': 'MIXTO',
         'agr_cola': 'AGRÍCOLA',
         'transporte': 'TRANSPORTE',
+        'religioso': 'RELIGIOSO',
+        'servicio_social_comunal': 'SERVICIO',
+        'creativo_cultural_deportivo': 'CREATIVO O CULTURAL',
         'N/A': 'N/A'
     }
 };
@@ -146,4 +149,32 @@ export const ENCUESTADORES_INE = [
     '28474258',
 ].map(c => c.trim());
 export const IS_INE = new Set(ENCUESTADORES_INE);
+
+/**
+ * ─── Semantic Styles (Unification) ───────────────────────────────────────────
+ * Centralized styles for categories used in charts and table badges.
+ */
+export const USO_STYLES = {
+    'RESIDENCIAL': { color: '#2563EB', badge: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50' },
+    'COMERCIO':    { color: '#FACC15', badge: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800/50' },
+    'COMERCIAL':   { color: '#FACC15', badge: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800/50' },
+    'MIXTO':       { color: '#16A34A', badge: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800/50' },
+    'CONSTRUCCI':  { color: '#DC2626', badge: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800/50' },
+    'RELIGIOSO':   { color: '#7C3AED', badge: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border border-purple-200 dark:border-purple-800/50' },
+    'CREATIVO':    { color: '#DB2777', badge: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400 border border-pink-200 dark:border-pink-800/50' },
+    'CULTURAL':    { color: '#DB2777', badge: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400 border border-pink-200 dark:border-pink-800/50' },
+    'SERVICIO':    { color: '#94A3B8', badge: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-800' },
+    'AGRÍCOLA':    { color: '#84CC16', badge: 'bg-lime-100 text-lime-700 dark:bg-lime-900/30 dark:text-lime-400 border border-lime-200 dark:border-lime-800/50' },
+    'TRANSPORTE':  { color: '#06B6D4', badge: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-800/50' },
+    'DEFAULT':     { color: '#94A3B8', badge: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400' }
+};
+
+export const RAZON_STYLES = {
+    'PRESENTES':   { color: '#2563EB', badge: 'bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border border-blue-100 dark:border-blue-800/50' },
+    'AUSENTES':    { color: '#DC2626', badge: 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400 border border-red-100 dark:border-red-800/50' },
+    'DESOCUPAD':   { color: '#16A34A', badge: 'bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400 border border-green-100 dark:border-green-800/50' },
+    'RECHAZO':     { color: '#FACC15', badge: 'bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400 border border-amber-100 dark:border-amber-800/50' },
+    'NADIE':       { color: '#FACC15', badge: 'bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400 border border-amber-100 dark:border-amber-800/50' },
+    'DEFAULT':     { color: '#94A3B8', badge: 'bg-slate-100 text-slate-500 dark:bg-slate-800/50 dark:text-slate-400 border border-slate-200 dark:border-slate-700' }
+};
 

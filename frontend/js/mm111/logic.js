@@ -69,13 +69,16 @@ export function loadMM111ControlData(controlNro) {
  */
 export function getControlMetadata() {
     const controlMap = new Map();
-    state.rawData.forEach(r => {
-        if (r._meta.control && !controlMap.has(r._meta.control)) {
-            controlMap.set(r._meta.control, {
-                control: r._meta.control,
-                mun: r._meta.mun || 'N/A',
-                seg: r._meta.segmento || '',
-                sec: r._meta.sector || ''
+    state.filtered.forEach(r => {
+        const m = r._meta;
+        if (!m || !m.control) return;
+
+        if (!controlMap.has(m.control)) {
+            controlMap.set(m.control, {
+                control: m.control,
+                mun: m.mun || 'N/A',
+                seg: m.segmento || '',
+                sec: m.sector || ''
             });
         }
     });

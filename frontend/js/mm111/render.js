@@ -1,18 +1,17 @@
+import { state } from '../state.js';
 import { $ } from '../helpers.js';
+import { USO_STYLES, RAZON_STYLES } from '../config.js';
 
 /**
- * Updates the main grid table with control records.
+ * Initializes or updates the Tabulator instance for MM-111.
  */
 export function updateMM111Grid(records) {
-    const tbody = $('mm111HTMLGrid');
-    if (!tbody) return;
-
-    if (!records || records.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="11" class="text-center py-10 text-slate-400">No hay registros para este Control.</td></tr>';
+    if (typeof Tabulator === 'undefined') {
+        console.error('Tabulator not found');
         return;
     }
 
-    const rows = records.map((rec, i) => {
+    const rows = (records || []).map((rec, i) => {
         let dirParts = [];
         if (rec['S1/P_nomsect']) dirParts.push(rec['S1/P_nomsect']);
         for (let j = 1; j <= 4; j++) {
@@ -43,21 +42,69 @@ export function updateMM111Grid(records) {
 
     rows.sort((a, b) => parseInt(a.linea) - parseInt(b.linea));
 
-    tbody.innerHTML = rows.map((r, i) => `
-        <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border-b border-slate-100 dark:border-slate-800 ${i % 2 === 0 ? 'bg-white dark:bg-[#0B1120]' : 'bg-slate-50 dark:bg-slate-900/50'}">
-            <td class="py-3 px-3 align-top font-mono font-bold text-center sticky left-0 z-10 ${i % 2 === 0 ? 'bg-white dark:bg-[#0B1120]' : 'bg-slate-50 dark:bg-slate-900/50'} shadow-[inset_-1px_0_0_rgba(226,232,240,1)] dark:shadow-[inset_-1px_0_0_rgba(30,41,59,1)]">${r.linea}</td>
-            <td class="py-3 px-3 align-top font-mono text-center">${r.serie}</td>
-            <td class="py-3 px-3 align-top text-center">${r.manzana}</td>
-            <td class="py-3 px-3 align-top text-center">${r.parcela}</td>
-            <td class="py-3 px-3 align-top text-center">${r.edificacion}</td>
-            <td class="py-3 px-3 align-top text-center">${r.estructura}</td>
-            <td class="py-3 px-3 align-top font-semibold truncate max-w-[120px]" title="${r.uso}">${r.uso}</td>
-            <td class="py-3 px-3 align-top text-center">${r.ladoManz}</td>
-            <td class="py-3 px-3 align-top whitespace-normal min-w-[200px] leading-snug">${r.direccion}</td>
-            <td class="py-3 px-3 align-top whitespace-normal min-w-[150px] leading-snug text-slate-500 dark:text-slate-400">${r.razon}</td>
-            <td class="py-3 px-3 align-top font-bold text-[10px] text-slate-400 dark:text-slate-500 uppercase">${r.encuestador}</td>
-        </tr>
-    `).join('');
+    if (!state.mm111Table) {
+        initMM111Table(rows);
+    } else {
+        state.mm111Table.setData(rows).then(() => {
+            state.mm111Table.redraw(true);
+        });
+    }
+}
+
+function initMM111Table(initialData) {
+    state.mm111Table = new Tabulator("#mm111Grid", {
+        data: initialData,
+        layout: "fitColumns",
+        height: "100%",
+        responsiveLayout: "collapse",
+        placeholder: "<div class='p-12 text-center text-slate-400 font-medium'>No hay registros para este Control.</div>",
+        columns: [
+            { title: "Línea", field: "linea", width: 65, hozAlign: "center", frozen: true,
+              formatter: cell => `<span class="font-mono font-bold text-slate-700 dark:text-slate-200">${cell.getValue()}</span>`
+            },
+            { title: "Serie", field: "serie", width: 60, hozAlign: "center", formatter: cell => `<span class="font-mono opacity-70">${cell.getValue()}</span>` },
+            { title: "Manz.", field: "manzana", width: 65, hozAlign: "center" },
+            { title: "Parc.", field: "parcela", width: 65, hozAlign: "center" },
+            { title: "Edif.", field: "edificacion", width: 65, hozAlign: "center" },
+            { title: "Estr.", field: "estructura", width: 65, hozAlign: "center" },
+            { title: "Uso de la Unidad", field: "uso", minWidth: 120, formatter: badgeUsoFormatter },
+            { title: "Lado", field: "ladoManz", width: 60, hozAlign: "center" },
+            { title: "Dirección", field: "direccion", minWidth: 250, formatter: "textarea" },
+            { title: "Razón Inclusión", field: "razon", minWidth: 180, formatter: badgeRazonFormatter },
+            { title: "Encuestador", field: "encuestador", width: 100, hozAlign: "center",
+              formatter: cell => `<span class="text-[10px] font-black uppercase text-slate-400 tracking-wider">${cell.getValue()}</span>`
+            },
+        ],
+    });
+}
+
+function badgeUsoFormatter(cell) {
+    const val = String(cell.getValue()).toUpperCase();
+    let style = USO_STYLES.DEFAULT;
+    
+    for (const key in USO_STYLES) {
+        if (val.includes(key)) {
+            style = USO_STYLES[key];
+            break;
+        }
+    }
+
+    return `<span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-tight ${style.badge}">${val}</span>`;
+}
+
+function badgeRazonFormatter(cell) {
+    const val = String(cell.getValue()).toUpperCase();
+    const cleanVal = val.replace(/_/g, ' ');
+    let style = RAZON_STYLES.DEFAULT;
+    
+    for (const key in RAZON_STYLES) {
+        if (val.includes(key)) {
+            style = RAZON_STYLES[key];
+            break;
+        }
+    }
+
+    return `<span class="px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-tight ${style.badge}">${cleanVal}</span>`;
 }
 
 /**

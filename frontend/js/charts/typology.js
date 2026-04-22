@@ -1,7 +1,27 @@
 import { state } from '../state.js';
 import { $ } from '../helpers.js';
-import { COLORS, MAP_LABELS } from '../config.js';
+import { COLORS, MAP_LABELS, USO_STYLES, RAZON_STYLES } from '../config.js';
 import { destroyChart } from './theme.js';
+
+/**
+ * ─── Color Resolvers (Unified) ──────────────────────────────────────────────
+ * These functions ensure charts and badges use the same color palette.
+ */
+function getUsoColor(label) {
+    const upper = String(label).toUpperCase();
+    for (const key in USO_STYLES) {
+        if (upper.includes(key)) return USO_STYLES[key].color;
+    }
+    return USO_STYLES.DEFAULT.color;
+}
+
+function getCondColor(label) {
+    const upper = String(label).toUpperCase();
+    for (const key in RAZON_STYLES) {
+        if (upper.includes(key)) return RAZON_STYLES[key].color;
+    }
+    return RAZON_STYLES.DEFAULT.color;
+}
 
 export function renderChartCondicion() {
     destroyChart('cond');
@@ -23,7 +43,7 @@ export function renderChartCondicion() {
             labels: entries.map(e => e[0]),
             datasets: [{ 
                 data: entries.map(e => e[1]), 
-                backgroundColor: COLORS.map(c => c + 'aa'), 
+                backgroundColor: entries.map(e => getCondColor(e[0]) + 'aa'), 
                 borderColor: '#1c2128' 
             }]
         },
@@ -66,7 +86,7 @@ export function renderChartUso() {
             labels: entries.map(e => e[0]),
             datasets: [{ 
                 data: entries.map(e => e[1]), 
-                backgroundColor: COLORS.map(c => c + 'aa'), 
+                backgroundColor: entries.map(e => getUsoColor(e[0]) + 'aa'), 
                 borderColor: '#1c2128' 
             }]
         },
