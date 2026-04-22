@@ -1246,3 +1246,25 @@ body.has-map-fullscreen #mapKpiGrid .glass-panel {
         overflow: visible;
     }
 }
+/* ─── Global Button Icon Animations ──────────────────── */
+button i[data-lucide], 
+button svg {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block; /* Ensure transform works correctly */
+}
+
+button:hover i[data-lucide], 
+button:hover svg {
+    transform: rotate(-12deg);
+}
+
+/* Specific adjustment for buttons that should rotate the other way or more */
+#btnReset:hover i,
+#btnRefresh:hover i {
+    transform: rotate(-20deg) scale(1.1);
+}
+
+/* Ensure Lucide icons keep their stroke-width and beauty */
+[data-lucide] {
+    stroke-width: 2.5px;
+}

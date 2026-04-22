@@ -163,7 +163,7 @@ export const USO_STYLES = {
     'RELIGIOSO':   { color: '#7C3AED', badge: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border border-purple-200 dark:border-purple-800/50' },
     'CREATIVO':    { color: '#DB2777', badge: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400 border border-pink-200 dark:border-pink-800/50' },
     'CULTURAL':    { color: '#DB2777', badge: 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400 border border-pink-200 dark:border-pink-800/50' },
-    'SERVICIO':    { color: '#94A3B8', badge: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-800' },
+    'SERVICIO':    { color: '#F97316', badge: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 border border-orange-200 dark:border-orange-800/50' },
     'AGRÍCOLA':    { color: '#84CC16', badge: 'bg-lime-100 text-lime-700 dark:bg-lime-900/30 dark:text-lime-400 border border-lime-200 dark:border-lime-800/50' },
     'TRANSPORTE':  { color: '#06B6D4', badge: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-400 border border-cyan-200 dark:border-cyan-800/50' },
     'DEFAULT':     { color: '#94A3B8', badge: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400' }

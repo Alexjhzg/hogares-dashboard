@@ -132,8 +132,8 @@ export function getFiltersOffCanvasHTML() {
       </div>
 
       <div class="p-6 bg-white dark:bg-[#0f172a] border-t border-slate-100 dark:border-slate-800/80 z-10 flex gap-3">
-        <button id="btnResetOffcanvas" class="btn-secondary flex-1 py-3.5 text-xs font-bold uppercase">
-          <i data-lucide="rotate-ccw" class="w-4 h-4"></i> Limpiar
+        <button id="btnResetOffcanvas" class="group flex items-center justify-center gap-2 py-3.5 px-4 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-orange hover:border-brand-orange/30 transition-all text-xs font-bold uppercase flex-1">
+          <i data-lucide="brush-cleaning" class="w-4 h-4 group-hover:-rotate-12 transition-transform"></i> Limpiar
         </button>
         <button id="btnApplyFilters" class="btn-primary flex-[2] py-3.5 text-xs font-bold uppercase">
           <i data-lucide="check" class="w-4 h-4"></i> Aplicar Parámetros

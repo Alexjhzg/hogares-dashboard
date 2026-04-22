@@ -23,7 +23,10 @@ export function bindEvents(callbacks) {
     if ($('btnResetOffcanvas')) $('btnResetOffcanvas').onclick = resetHandler;
 
     // Data source & Refresh
-    if ($('btnRefresh')) $('btnRefresh').addEventListener('click', () => loadData($('assetSelect').value, onProcessData));
+    if ($('btnRefresh')) $('btnRefresh').addEventListener('click', () => {
+        const assetId = $('assetSelect').value;
+        if (assetId) loadData(assetId, onProcessData);
+    });
     if ($('btnRetryConnection')) $('btnRetryConnection').addEventListener('click', () => loadAssets(onProcessData));
     if ($('assetSelect')) $('assetSelect').addEventListener('change', e => loadData(e.target.value, onProcessData));
     if ($('searchEncuesta')) $('searchEncuesta').addEventListener('input', () => applyFilters());

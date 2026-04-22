@@ -69,7 +69,7 @@ function initMM111Table(initialData) {
             { title: "Edif.", field: "edificacion", width: 65, hozAlign: "center" },
             { title: "Estr.", field: "estructura", width: 65, hozAlign: "center" },
             { title: "Uso de la Unidad", field: "uso", minWidth: 120, formatter: badgeUsoFormatter },
-            { title: "Lado", field: "ladoManz", width: 60, hozAlign: "center" },
+            { title: "Lado Manz.", field: "ladoManz", width: 90, hozAlign: "center" },
             { title: "Dirección", field: "direccion", minWidth: 250, formatter: "textarea" },
             { title: "Razón Inclusión", field: "razon", minWidth: 180, formatter: badgeRazonFormatter },
             {

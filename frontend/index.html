@@ -64,12 +64,12 @@
       <div class="h-5 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block mx-1"></div>
 
       <div class="flex items-center gap-1">
-        <button id="btnThemeToggle" class="p-2 sm:p-2.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-blue dark:hover:text-white transition-all active:scale-95">
+        <button id="btnThemeToggle" class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-blue dark:hover:text-white transition-all active:scale-95">
           <i data-lucide="moon" class="w-4 h-4 block dark:hidden" id="iconMoon"></i>
           <i data-lucide="sun" class="w-4 h-4 hidden dark:block" id="iconSun"></i>
         </button>
-        <button id="btnRefresh" disabled class="p-2 sm:p-2.5 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-slate-900 transition-all active:scale-95 disabled:opacity-20">
-          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+        <button id="btnRefresh" title="Sincronizar con Kobo" class="group w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-blue transition-all active:scale-95">
+          <i data-lucide="refresh-cw" class="w-4 h-4 group-hover:rotate-180 transition-transform"></i>
         </button>
       </div>
       <div id="statusBadge" class="hidden">Conectando...</div>
@@ -109,7 +109,7 @@
         <button id="filterSEGEN" class="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-purple transition-all text-xs font-bold whitespace-nowrap group w-full lg:w-auto">
           <i data-lucide="map-pinned" class="w-4 h-4"></i><span>Solo SEGEN</span>
         </button>
-        <button id="btnReset" class="flex items-center justify-center gap-2 btn-secondary py-2.5 px-3 group w-full lg:w-auto" title="Limpiar"><i data-lucide="rotate-ccw" class="w-4 h-4 group-hover:-rotate-180 transition-transform"></i><span>Limpiar</span></button>
+        <button id="btnReset" class="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-orange transition-all text-xs font-bold whitespace-nowrap group w-full lg:w-auto" title="Limpiar"><i data-lucide="brush-cleaning" class="w-4 h-4 group-hover:-rotate-12 transition-transform"></i><span>Limpiar</span></button>
         <button id="btnOpenFilters" class="flex items-center justify-center gap-2 btn-primary relative w-full lg:w-auto"><i data-lucide="sliders-horizontal" class="w-4 h-4"></i><span>Filtros</span><span id="activeFiltersBadge" class="hidden absolute -top-2 -right-2 bg-brand-orange text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#0B1120] animate-pulse">0</span></button>
       </div>
     </section>
