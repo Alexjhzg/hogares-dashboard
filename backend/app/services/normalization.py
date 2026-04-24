@@ -1,5 +1,5 @@
 from datetime import datetime
-from app.utils.geo import parse_geopoint, haversine_meters
+from app.utils.geo import parse_geopoint, haversine_meters, extract_precision
 
 def to_int(v, default: int = 0) -> int:
     try:
@@ -94,6 +94,10 @@ def normalize_record(rec: dict) -> dict:
     end_pt = parse_geopoint(end_geo)
     mapped["start_pt"] = start_pt
     mapped["end_pt"] = end_pt
+    
+    # Precisión de GPS
+    mapped["start_precision"] = extract_precision(start_geo)
+    mapped["end_precision"] = extract_precision(end_geo)
 
     # Distancia y flags geográficos
     distance_m = haversine_meters(start_pt, end_pt) if start_pt and end_pt else None

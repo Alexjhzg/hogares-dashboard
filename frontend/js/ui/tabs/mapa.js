@@ -35,7 +35,7 @@ export function getMapaTabHTML() {
                 <span class="w-3 h-3 rounded-full bg-[#F59E0B]"></span><span>No Respuesta</span>
               </div>
               <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-[#EF4444]"></span><span>⚠ Distancia > 500m</span>
+                <span class="w-3 h-3 rounded-full bg-[#EF4444]"></span><span>Alertas</span>
               </div>
             </div>
           </div>

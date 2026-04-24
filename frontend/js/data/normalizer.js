@@ -34,6 +34,12 @@ export function normalizeRecord(r) {
         try { hora_trans = new Date(r['_submission_time']).getHours(); } catch (_) { } 
     }
 
+    const extractPrecision = (geo) => {
+        if (!geo || typeof geo !== 'string') return null;
+        const parts = geo.trim().split(' ');
+        return parts.length >= 4 ? parseFloat(parts[3]) : null;
+    };
+
     // Basic mapping
     return {
         cedula,
@@ -44,6 +50,8 @@ export function normalizeRecord(r) {
         hora,
         hora_trans,
         formType,
+        start_precision: extractPrecision(r['start-geopoint'] || r['start_geopoint']),
+        end_precision: extractPrecision(r['group_sh53u78/ubicacion_i'] || r['end-geopoint']),
         mun:    r['S1/mun'] || 'N/A',
         par:    r['S1/par'] || 'N/A',
         nodo:   r['S1/nodo'] || 'N/A',

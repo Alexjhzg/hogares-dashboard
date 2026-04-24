@@ -10,6 +10,18 @@ def parse_geopoint(s: str) -> tuple[float, float] | None:
     except Exception:
         return None
 
+def extract_precision(s: str) -> float | None:
+    """Extrae el cuarto valor (precisión) de un string geopoint 'lat lon alt prec'."""
+    if not s or not isinstance(s, str):
+        return None
+    parts = s.strip().split()
+    if len(parts) >= 4:
+        try:
+            return float(parts[3])
+        except (ValueError, IndexError):
+            return None
+    return None
+
 def haversine_meters(a: tuple[float, float], b: tuple[float, float]) -> float | None:
     """Distancia en metros entre dos pares (lat, lon) — fórmula Haversine."""
     if not a or not b:
