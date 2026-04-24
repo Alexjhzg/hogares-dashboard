@@ -29,6 +29,7 @@ export function applyFilters() {
     const alerta   = $('filterAlerta')?.value ?? '';
     const hTrans   = $('filterHoraTransmision')?.value ?? '';
     const hInicio   = $('filterHoraInicio')?.value ?? '';
+    const clasif   = $('filterClasificacion')?.value ?? '';
 
     state.filtered = state.rawData.filter(r => {
         const m = r._meta;
@@ -72,6 +73,7 @@ export function applyFilters() {
         if (alerta && !m.alertas.includes(alerta)) return false;
         if (hTrans !== '' && String(m.hora_trans) !== hTrans) return false;
         if (hInicio !== '' && String(m.hora) !== hInicio) return false;
+        if (clasif && m.tipo_vivienda !== clasif) return false;
 
         return true;
     });
@@ -89,8 +91,8 @@ export function resetFilters() {
         'filterEncuestador', 'filterFechaInicio', 'filterFechaFin', 'filterSemana',
         'filterControl', 'filterMunicipio', 'filterParroquia', 'filterNodo',
         'filterEstado', 'filterCondicion', 'filterSituacionVivienda', 'filterUso', 
-        'filterAlerta', 'filterHoraTransmision', 'filterHoraInicio', 'searchEncuesta',
-        'mm111SearchControl'
+        'filterAlerta', 'filterHoraTransmision', 'filterHoraInicio', 'filterClasificacion',
+        'searchEncuesta', 'mm111SearchControl'
     ];
     
     ids.forEach(id => {

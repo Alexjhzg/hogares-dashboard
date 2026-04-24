@@ -17,7 +17,8 @@ export {
 // 3. Typology and Structural Distribution (Doughnuts)
 export { 
     renderChartCondicion, 
-    renderChartUso 
+    renderChartUso,
+    renderChartClasificacion
 } from './charts/typology.js';
 
 // 4. Temporal Analysis and Summaries (Lines, Histograms, Grouped Bars)

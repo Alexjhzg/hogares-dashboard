@@ -102,15 +102,84 @@ export function getResumenTabHTML() {
         </div>
       </section>
 
-      <!-- Gráficos de Tendencia -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col" title="Evolución temporal del volumen de recolección de datos según la fecha de realización de la entrevista.">
-          <div class="flex justify-between items-center mb-4">
+      <!-- TIER 1.5: Clasificación de Estados de Vivienda (Ahorra arriba de las donas) -->
+      <section class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="card-premium border-l-2 border-l-brand-purple" title="Viviendas donde no se pudo realizar la entrevista por ausencia o rechazo.">
+          <div class="kpi-label !mt-0 mb-1 flex items-center gap-1.5"><i data-lucide="user-round-x" class="w-4 h-4 text-brand-purple"></i> TIPO A</div>
+          <div class="flex items-baseline gap-2">
+            <div class="kpi-value-text text-xl" id="kpiTipoA">0</div>
+            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter" id="pctTipoA">0%</div>
+          </div>
+          <div class="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-widest">Ausentes / Rechazos</div>
+        </div>
+        <div class="card-premium border-l-2 border-l-brand-orange" title="Viviendas desocupadas, en construcción o de uso ocasional.">
+          <div class="kpi-label !mt-0 mb-1 flex items-center gap-1.5"><i data-lucide="brick-wall" class="w-4 h-4 text-brand-orange"></i> TIPO B</div>
+          <div class="flex items-baseline gap-2">
+            <div class="kpi-value-text text-xl" id="kpiTipoB">0</div>
+            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter" id="pctTipoB">0%</div>
+          </div>
+          <div class="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-widest">Desocupadas / Construcción</div>
+        </div>
+        <div class="card-premium border-l-2 border-l-brand-red" title="Viviendas demolidas, inexistentes o de uso no residencial permanente.">
+          <div class="kpi-label !mt-0 mb-1 flex items-center gap-1.5"><i data-lucide="hammer" class="w-4 h-4 text-brand-red"></i> TIPO C</div>
+          <div class="flex items-baseline gap-2">
+            <div class="kpi-value-text text-xl" id="kpiTipoC">0</div>
+            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter" id="pctTipoC">0%</div>
+          </div>
+          <div class="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-widest">Inexistentes / Demolidas</div>
+        </div>
+        <div class="card-premium border-l-2 border-l-brand-emerald" title="Viviendas con entrevistas exitosas (Ocupadas con ocupantes presentes).">
+          <div class="kpi-label !mt-0 mb-1 flex items-center gap-1.5"><i data-lucide="user-check" class="w-4 h-4 text-brand-emerald"></i> TIPO E</div>
+          <div class="flex items-baseline gap-2">
+            <div class="kpi-value-text text-xl" id="kpiTipoE">0</div>
+            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter" id="pctTipoE">0%</div>
+          </div>
+          <div class="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-widest">Entrevistas Efectivas</div>
+        </div>
+      </section>
+
+      <!-- SECCIÓN 1: Distribución y Tipologías (DONAS) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+        <!-- Gráfico de Clasificación (A, B, C, E) -->
+        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col items-center" title="Distribución porcentual de las viviendas según su clasificación final.">
+          <div class="w-full mb-4">
             <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
-              <i data-lucide="activity" class="text-brand-blue w-4 h-4"></i> Tendencia Diaria
+              <i data-lucide="pie-chart" class="text-brand-emerald w-4 h-4"></i> Clasificación de Viviendas
             </h3>
           </div>
-          <div class="flex-1 min-h-0 relative"><canvas id="chartPorDia"></canvas></div>
+          <div class="flex-1 w-full relative">
+            <canvas id="chartClasificacion"></canvas>
+          </div>
+        </div>
+
+        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col items-center" title="Distribución de las unidades inmobiliarias según su estado de habitabilidad u ocupación.">
+          <div class="w-full mb-4">
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
+              <i data-lucide="home" class="text-brand-purple w-4 h-4"></i> Tipología Vivienda
+            </h3>
+          </div>
+          <div class="flex-1 w-full relative"><canvas id="chartCondicion"></canvas></div>
+        </div>
+
+        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col items-center" title="Desglose del uso principal de las estructuras visitadas (Residencial, Comercial, Mixto, etc.).">
+          <div class="w-full mb-4">
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
+              <i data-lucide="building-2" class="text-brand-emerald w-4 h-4"></i> Uso Estructura
+            </h3>
+          </div>
+          <div class="flex-1 w-full relative"><canvas id="chartUso"></canvas></div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 2: Métricas Operativas y Rendimiento -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col" title="Ranking de productividad mostrando los 15 encuestadores con mayor volumen de captación en el periodo.">
+          <div class="w-full mb-4">
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
+              <i data-lucide="bar-chart-3" class="text-brand-blue w-4 h-4"></i> Volumen por Encuestador
+            </h3>
+          </div>
+          <div class="flex-1 min-h-0 relative"><canvas id="chartEncuestador"></canvas></div>
         </div>
         <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col" title="Frecuencia de las encuestas según la hora de inicio registrada por el dispositivo en campo (Métricas de Jornada Laboral).">
           <div class="flex justify-between items-center mb-4">
@@ -130,31 +199,15 @@ export function getResumenTabHTML() {
         </div>
       </div>
 
-      <!-- Distribución y Tipologías -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col" title="Ranking de productividad mostrando los 15 encuestadores con mayor volumen de captación en el periodo.">
-          <div class="w-full mb-4">
+      <!-- SECCIÓN 3: Tendencia Temporal (FINAL) -->
+      <div class="grid grid-cols-1 gap-4 sm:gap-6">
+        <div class="card-premium min-h-[350px] flex flex-col" title="Evolución temporal del volumen de recolección de datos según la fecha de realización de la entrevista.">
+          <div class="flex justify-between items-center mb-4">
             <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
-              <i data-lucide="bar-chart-3" class="text-brand-blue w-4 h-4"></i> Volumen por Encuestador
+              <i data-lucide="activity" class="text-brand-blue w-4 h-4"></i> Tendencia Diaria de Recolección
             </h3>
           </div>
-          <div class="flex-1 min-h-0 relative"><canvas id="chartEncuestador"></canvas></div>
-        </div>
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col items-center" title="Distribución de las unidades inmobiliarias según su estado de habitabilidad u ocupación.">
-          <div class="w-full mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
-              <i data-lucide="home" class="text-brand-purple w-4 h-4"></i> Tipología Vivienda
-            </h3>
-          </div>
-          <div class="flex-1 w-full relative"><canvas id="chartCondicion"></canvas></div>
-        </div>
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col items-center" title="Desglose del uso principal de las estructuras visitadas (Residencial, Comercial, Mixto, etc.).">
-          <div class="w-full mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
-              <i data-lucide="building-2" class="text-brand-emerald w-4 h-4"></i> Uso Estructura
-            </h3>
-          </div>
-          <div class="flex-1 w-full relative"><canvas id="chartUso"></canvas></div>
+          <div class="flex-1 min-h-0 relative"><canvas id="chartPorDia"></canvas></div>
         </div>
       </div>
     </div>`;

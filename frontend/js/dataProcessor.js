@@ -11,6 +11,7 @@ import { parseDemographics } from './data/survey-parsers.js';
 import { getCoordinates, calculateDistances, validateSegment } from './data/geo-rules.js';
 import { runAlertEngine } from './data/alert-engine.js';
 import { rebuildEncMap } from './data/aggregators.js';
+import { classifyHousingState } from './data/housingClassifier.js';
 
 /**
  * Main entry point for data processing.
@@ -53,6 +54,7 @@ export function processData() {
 
         // 4. Enrichment (_meta object)
         const isCompletada = /totalment/i.test(n.nota);
+        const tipoVivienda = classifyHousingState(n.situacion_vivienda || n.condicion);
         
         r._meta = {
             ...n,
@@ -64,6 +66,7 @@ export function processData() {
             distance_m, dist_ini_fin,
             actual_seg: actualSeg,
             estado: isCompletada ? 'completada' : 'no_respuesta',
+            tipo_vivienda: tipoVivienda,
             // Simple flags for legacy support
             flag_distance_gt_500: distance_m !== null && distance_m > 500,
             flag_short_duration:  durMin     !== null && durMin      < 10, 

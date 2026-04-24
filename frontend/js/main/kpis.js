@@ -18,6 +18,20 @@ export function updateKPIs() {
     const mujeres     = state.filtered.reduce((s, r) => s + (r._meta.totalMujeres || 0), 0);
     const municipios  = new Set(state.filtered.map(r => r._meta.mun)).size;
 
+    // Housing Type Classification KPIs
+    const tipoA = state.filtered.filter(r => r._meta && r._meta.tipo_vivienda === 'TIPO A').length;
+    const tipoB = state.filtered.filter(r => r._meta && r._meta.tipo_vivienda === 'TIPO B').length;
+    const tipoC = state.filtered.filter(r => r._meta && r._meta.tipo_vivienda === 'TIPO C').length;
+    const tipoE = state.filtered.filter(r => r._meta && r._meta.tipo_vivienda === 'TIPO E').length;
+    const tipoND = state.filtered.filter(r => r._meta && r._meta.tipo_vivienda === 'NO DEFINIDO').length;
+
+    const total = state.filtered.length || 1;
+    const pctA = Math.round((tipoA / total) * 100);
+    const pctB = Math.round((tipoB / total) * 100);
+    const pctC = Math.round((tipoC / total) * 100);
+    const pctE = Math.round((tipoE / total) * 100);
+    const pctND = Math.round((tipoND / total) * 100);
+
     // Header KPIs
     if ($('kpiTotal'))          $('kpiTotal').textContent          = state.filtered.length;
     if ($('kpiCompletadas'))    $('kpiCompletadas').textContent    = completadas;
@@ -30,6 +44,18 @@ export function updateKPIs() {
     if ($('kpiHombres'))        $('kpiHombres').textContent        = hombres;
     if ($('kpiMujeres'))        $('kpiMujeres').textContent        = mujeres;
     if ($('kpiMunicipios'))     $('kpiMunicipios').textContent     = municipios;
+
+    // Housing Type Displays
+    if ($('kpiTipoA')) $('kpiTipoA').textContent = tipoA;
+    if ($('pctTipoA')) $('pctTipoA').textContent = `${pctA}%`;
+    if ($('kpiTipoB')) $('kpiTipoB').textContent = tipoB;
+    if ($('pctTipoB')) $('pctTipoB').textContent = `${pctB}%`;
+    if ($('kpiTipoC')) $('kpiTipoC').textContent = tipoC;
+    if ($('pctTipoC')) $('pctTipoC').textContent = `${pctC}%`;
+    if ($('kpiTipoE')) $('kpiTipoE').textContent = tipoE;
+    if ($('pctTipoE')) $('pctTipoE').textContent = `${pctE}%`;
+    if ($('kpiTipoND')) $('kpiTipoND').textContent = tipoND;
+    if ($('pctTipoND')) $('pctTipoND').textContent = `${pctND}%`;
 
     // Productivity
     const encPerHour = state.filtered.length / (encs * 8 || 1);

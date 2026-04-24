@@ -170,6 +170,11 @@ export const USO_STYLES = {
 };
 
 export const RAZON_STYLES = {
+    'TIPO A':      { color: '#8B5CF6', badge: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border border-purple-200 dark:border-purple-800/50' },
+    'TIPO B':      { color: '#F59E0B', badge: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400 border border-orange-200 dark:border-orange-800/50' },
+    'TIPO C':      { color: '#DC2626', badge: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800/50' },
+    'TIPO E':      { color: '#10B981', badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50' },
+    'NO DEFINIDO': { color: '#94A3B8', badge: 'bg-slate-100 text-slate-500 dark:bg-slate-800/50 dark:text-slate-400' },
     'PRESENTES':   { color: '#2563EB', badge: 'bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 border border-blue-100 dark:border-blue-800/50' },
     'AUSENTES':    { color: '#FACC15', badge: 'bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400 border border-amber-100 dark:border-amber-800/50' },
     'DESOCUPAD':   { color: '#DC2626', badge: 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400 border border-red-100 dark:border-red-800/50' },

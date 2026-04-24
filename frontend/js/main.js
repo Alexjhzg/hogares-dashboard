@@ -16,7 +16,7 @@ import { renderInconsistencias } from './inconsistencias.js';
 import { 
     updateChartsTheme, 
     renderChartEncuestador, renderChartDuracion, renderChartHorario, 
-    renderChartHistograma, renderChartCondicion, renderChartUso, 
+    renderChartHistograma, renderChartCondicion, renderChartUso, renderChartClasificacion,
     renderChartPorDia, renderChartResumenSemanal, renderChartHoraTransmision
 } from './charts.js';
 
@@ -41,7 +41,7 @@ function renderAll() {
     // Charts: Each wrapped to prevent cascading failure
     const chartFn = [
         renderChartEncuestador, renderChartDuracion, renderChartHorario, renderChartHoraTransmision,
-        renderChartHistograma, renderChartCondicion, renderChartUso, 
+        renderChartHistograma, renderChartCondicion, renderChartUso, renderChartClasificacion,
         renderChartPorDia, renderChartResumenSemanal,
     ];
     

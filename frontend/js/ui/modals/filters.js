@@ -71,6 +71,16 @@ export function getFiltersOffCanvasHTML() {
               </select>
             </div>
             <div>
+              <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Clasificación de Vivienda (A, B, C, E)</label>
+              <select id="filterClasificacion" class="w-full bg-white dark:bg-[#0B1120] border rounded-lg px-3 py-2 text-sm outline-none">
+                <option value="">Todas las categorías</option>
+                <option value="TIPO A">TIPO A - Ausentes / Rechazos</option>
+                <option value="TIPO B">TIPO B - Desocupadas / Construcción</option>
+                <option value="TIPO C">TIPO C - Inexistentes / Demolidas</option>
+                <option value="TIPO E">TIPO E - Entrevistas Efectivas</option>
+              </select>
+            </div>
+            <div>
               <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Condición de Ocupación</label>
               <select id="filterCondicion" class="w-full bg-white dark:bg-[#0B1120] border rounded-lg px-3 py-2 text-sm outline-none">
                 <option value="">Todas</option>

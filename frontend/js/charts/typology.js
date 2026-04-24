@@ -17,6 +17,7 @@ function getUsoColor(label) {
 
 function getCondColor(label) {
     const upper = String(label).toUpperCase();
+    if (RAZON_STYLES[upper]) return RAZON_STYLES[upper].color;
     for (const key in RAZON_STYLES) {
         if (upper.includes(key)) return RAZON_STYLES[key].color;
     }
@@ -106,5 +107,65 @@ export function renderChartUso() {
                 centerText: { text: String(total) }
             }
         },
+    });
+}
+
+export function renderChartClasificacion() {
+    if (!$('chartClasificacion')) return;
+    destroyChart('clasif');
+
+    const counts = {
+        'TIPO A': 0,
+        'TIPO B': 0,
+        'TIPO C': 0,
+        'TIPO E': 0
+    };
+
+    state.filtered.forEach(r => {
+        const label = r._meta && r._meta.tipo_vivienda;
+        if (counts.hasOwnProperty(label)) {
+            counts[label]++;
+        }
+    });
+
+    const entries = Object.entries(counts);
+    const labels = entries.map(e => e[0]);
+    const data = entries.map(e => e[1]);
+    const colors = labels.map(l => getCondColor(l));
+    const total = data.reduce((a, b) => a + b, 0);
+
+    const canvas = $('chartClasificacion');
+    state.charts.clasif = new Chart(canvas, {
+        type: 'doughnut',
+        data: {
+            labels,
+            datasets: [{
+                data,
+                backgroundColor: colors.map(c => c + 'aa'),
+                borderColor: '#1c2128',
+                borderWidth: 2,
+                hoverOffset: 15
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { 
+                        color: document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000', 
+                        boxWidth: 10, 
+                        font: { size: 10, weight: 'bold' } 
+                    }
+                },
+                datalabels: {
+                    color: document.documentElement.classList.contains('dark') ? '#ffffff' : '#000000',
+                    font: { weight: 'bold', size: 11 },
+                    formatter: (value) => value > 0 ? value : '',
+                },
+                centerText: { text: String(total) }
+            }
+        }
     });
 }

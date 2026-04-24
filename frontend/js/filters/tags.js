@@ -21,6 +21,7 @@ export function renderActiveFilterTags() {
         { id: 'filterSemana',           label: 'Sem' },
         { id: 'filterControl',          label: 'Control' },
         { id: 'filterAlerta',           label: 'Alerta' },
+        { id: 'filterClasificacion',    label: 'Clasif' },
     ];
 
     let activeCount = 0;
