@@ -10,28 +10,36 @@ export function getRankingTabHTML() {
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <div class="glass-panel rounded-2xl p-4 border-l-4 border-brand-emerald">
           <div class="flex items-center gap-3">
-            <div class="p-2 bg-brand-emerald/10 rounded-lg"><i data-lucide="check-circle" class="text-brand-emerald w-5 h-5"></i></div>
+            <div class="p-2 bg-brand-emerald/10 rounded-lg text-brand-emerald">
+              <i data-lucide="check-circle" class="w-5 h-5"></i>
+            </div>
             <div>
-              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Efectivas</p>
-              <h3 class="font-black font-outfit text-2xl" id="rankKpiEfectivas">0</h3>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest font-sans mt-0">Efectivas</p>
+              <h3 class="font-black font-outfit text-2xl text-slate-900 dark:text-white mt-0.5" id="rankKpiEfectivas">0</h3>
             </div>
           </div>
         </div>
+
         <div class="glass-panel rounded-2xl p-4 border-l-4 border-brand-orange">
           <div class="flex items-center gap-3">
-            <div class="p-2 bg-brand-orange/10 rounded-lg"><i data-lucide="help-circle" class="text-brand-orange w-5 h-5"></i></div>
+            <div class="p-2 bg-brand-orange/10 rounded-lg text-brand-orange">
+              <i data-lucide="help-circle" class="w-5 h-5"></i>
+            </div>
             <div>
-              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">No Efectiva</p>
-              <h3 class="font-black font-outfit text-2xl" id="rankKpiNoEfectiva">0</h3>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest font-sans mt-0">No Efectiva</p>
+              <h3 class="font-black font-outfit text-2xl text-slate-900 dark:text-white mt-0.5" id="rankKpiNoEfectiva">0</h3>
             </div>
           </div>
         </div>
+
         <div class="glass-panel rounded-2xl p-4 border-l-4 border-brand-red">
           <div class="flex items-center gap-3">
-            <div class="p-2 bg-brand-red/10 rounded-lg"><i data-lucide="alert-triangle" class="text-brand-red w-5 h-5"></i></div>
+            <div class="p-2 bg-brand-red/10 rounded-lg text-brand-red">
+              <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+            </div>
             <div>
-              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Alertas Totales</p>
-              <h3 class="font-black font-outfit text-2xl text-brand-red" id="rankKpiAlerts">0</h3>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest font-sans mt-0">Alertas Totales</p>
+              <h3 class="font-black font-outfit text-2xl text-brand-red mt-0.5" id="rankKpiAlerts">0</h3>
             </div>
           </div>
         </div>

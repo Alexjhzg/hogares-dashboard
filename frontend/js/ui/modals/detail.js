@@ -6,7 +6,7 @@
 export function getDetailModalHTML() {
     return `
     <div id="detailModal" class="hidden fixed inset-0 z-[var(--z-modal)] flex items-center justify-center">
-      <div class="absolute inset-0 bg-[#0B1120]/80 backdrop-blur-md" id="detailModalBackdrop"></div>
+      <div class="absolute inset-0 bg-surface-dark/80 backdrop-blur-md" id="detailModalBackdrop"></div>
       <div
         class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-0 rounded-xl sm:rounded-2xl z-10 w-[95%] sm:w-11/12 max-w-7xl text-slate-800 dark:text-slate-200 shadow-2xl overflow-hidden flex flex-col transform transition-all scale-95 opacity-0"
         id="detailModalPane" role="dialog" aria-modal="true" aria-labelledby="detailModalTitle">

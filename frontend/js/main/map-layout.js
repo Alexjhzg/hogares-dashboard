@@ -36,16 +36,16 @@ export function setMapState(mode) {
 
     kpiGrid.querySelectorAll('button:not(#btnToggleMapKpis), div.glass-panel').forEach(el => {
         el.className = el.id === 'btnVerRutaEncuestador' ? 
-            "glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange hover:bg-brand-orange/5 transition-all group active:scale-[.98] disabled:opacity-40 disabled:cursor-not-allowed" :
-            "glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 hover:bg-slate-50 dark:hover:bg-white/5 transition-all group";
+            "glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange hover:bg-brand-orange/5 transition-all group disabled:opacity-40 disabled:cursor-not-allowed" :
+            "glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 hover:bg-slate-100/50 dark:hover:bg-white/5 transition-all group";
         
         // Restore border colors based on ID
-        if (el.id === 'btnMapFilterAll') el.classList.add('border-brand-blue', 'dark:border-brand-blue');
-        if (el.id === 'btnMapFilterEfectivas') el.classList.add('border-brand-emerald', 'dark:border-brand-emerald');
-        if (el.id === 'btnMapFilterNoEfectiva') el.classList.add('border-brand-orange', 'dark:border-brand-orange');
-        if (el.id === 'btnMapFilterAlertas') el.classList.add('border-brand-red', 'dark:border-brand-red');
+        if (el.id === 'btnMapFilterAll') el.classList.add('border-brand-blue');
+        if (el.id === 'btnMapFilterEfectivas') el.classList.add('border-brand-emerald');
+        if (el.id === 'btnMapFilterNoEfectiva') el.classList.add('border-brand-orange');
+        if (el.id === 'btnMapFilterAlertas') el.classList.add('border-brand-red');
         if (el.classList.contains('opacity-80') || el.id === 'kpiMapEncuestadorContainer') {
-            el.classList.add('border-brand-purple', 'dark:border-brand-purple');
+            el.classList.add('border-brand-purple');
         }
 
         const label = el.querySelector('span.uppercase');

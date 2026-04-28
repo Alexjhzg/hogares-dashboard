@@ -141,9 +141,9 @@ export function getResumenTabHTML() {
       <!-- SECCIÓN 1: Distribución y Tipologías (DONAS) -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         <!-- Gráfico de Clasificación (A, B, C, E) -->
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col items-center" title="Distribución porcentual de las viviendas según su clasificación final.">
+        <div class="relative overflow-hidden rounded-2xl bg-white/80 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-slate-800/50 p-5 flex flex-col items-center min-h-[300px] sm:h-[380px] transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-700/50 group" title="Distribución porcentual de las viviendas según su clasificación final.">
           <div class="w-full mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm text-slate-800 dark:text-slate-200">
               <i data-lucide="pie-chart" class="text-brand-emerald w-4 h-4"></i> Clasificación de Viviendas
             </h3>
           </div>
@@ -152,62 +152,82 @@ export function getResumenTabHTML() {
           </div>
         </div>
 
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col items-center" title="Distribución de las unidades inmobiliarias según su estado de habitabilidad u ocupación.">
+        <!-- Tipología Vivienda -->
+        <div class="relative overflow-hidden rounded-2xl bg-white/80 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-slate-800/50 p-5 flex flex-col items-center min-h-[300px] sm:h-[380px] transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-700/50 group" title="Distribución de las unidades inmobiliarias según su estado de habitabilidad u ocupación.">
           <div class="w-full mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm text-slate-800 dark:text-slate-200">
               <i data-lucide="home" class="text-brand-purple w-4 h-4"></i> Tipología Vivienda
             </h3>
           </div>
-          <div class="flex-1 w-full relative"><canvas id="chartCondicion"></canvas></div>
+          <div class="flex-1 w-full relative">
+            <canvas id="chartCondicion"></canvas>
+          </div>
         </div>
 
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col items-center" title="Desglose del uso principal de las estructuras visitadas (Residencial, Comercial, Mixto, etc.).">
+        <!-- Uso Estructura -->
+        <div class="relative overflow-hidden rounded-2xl bg-white/80 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-slate-800/50 p-5 flex flex-col items-center min-h-[300px] sm:h-[380px] transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-700/50 group" title="Desglose del uso principal de las estructuras visitadas (Residencial, Comercial, Mixto, etc.).">
           <div class="w-full mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm text-slate-800 dark:text-slate-200">
               <i data-lucide="building-2" class="text-brand-emerald w-4 h-4"></i> Uso Estructura
             </h3>
           </div>
-          <div class="flex-1 w-full relative"><canvas id="chartUso"></canvas></div>
+          <div class="flex-1 w-full relative">
+            <canvas id="chartUso"></canvas>
+          </div>
         </div>
       </div>
 
       <!-- SECCIÓN 2: Métricas Operativas y Rendimiento -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col" title="Ranking de productividad mostrando los 15 encuestadores con mayor volumen de captación en el periodo.">
+        <!-- Volumen por Encuestador -->
+        <div class="relative overflow-hidden rounded-2xl bg-white/80 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-slate-800/50 p-5 flex flex-col min-h-[300px] sm:h-[380px] transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-700/50 group" title="Ranking de productividad mostrando los 15 encuestadores con mayor volumen de captación en el periodo.">
           <div class="w-full mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm text-slate-800 dark:text-slate-200">
               <i data-lucide="bar-chart-3" class="text-brand-blue w-4 h-4"></i> Volumen por Encuestador
             </h3>
           </div>
-          <div class="flex-1 min-h-0 relative"><canvas id="chartEncuestador"></canvas></div>
+          <div class="flex-1 min-h-0 relative">
+            <canvas id="chartEncuestador"></canvas>
+          </div>
         </div>
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col" title="Frecuencia de las encuestas según la hora de inicio registrada por el dispositivo en campo (Métricas de Jornada Laboral).">
+
+        <!-- Distribución Horaria -->
+        <div class="relative overflow-hidden rounded-2xl bg-white/80 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-slate-800/50 p-5 flex flex-col min-h-[300px] sm:h-[380px] transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-700/50 group" title="Frecuencia de las encuestas según la hora de inicio registrada por el dispositivo en campo (Métricas de Jornada Laboral).">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm text-slate-800 dark:text-slate-200">
               <i data-lucide="clock" class="text-brand-emerald w-4 h-4"></i> Distribución Horaria
             </h3>
           </div>
-          <div class="flex-1 min-h-0 relative"><canvas id="chartHorario"></canvas></div>
+          <div class="flex-1 min-h-0 relative">
+            <canvas id="chartHorario"></canvas>
+          </div>
         </div>
-        <div class="card-premium min-h-[300px] sm:h-[380px] flex flex-col" title="Frecuencia de envío de encuestas según la hora en que el dispositivo transmitió los datos al servidor (Métricas de Envío).">
+
+        <!-- Hora de Transmisión -->
+        <div class="relative overflow-hidden rounded-2xl bg-white/80 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-slate-800/50 p-5 flex flex-col min-h-[300px] sm:h-[380px] transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-700/50 group" title="Frecuencia de envío de encuestas según la hora en que el dispositivo transmitió los datos al servidor (Métricas de Envío).">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm text-slate-800 dark:text-slate-200">
               <i data-lucide="cloud-upload" class="text-brand-orange w-4 h-4"></i> Hora de Transmisión
             </h3>
           </div>
-          <div class="flex-1 min-h-0 relative"><canvas id="chartHoraTransmision"></canvas></div>
+          <div class="flex-1 min-h-0 relative">
+            <canvas id="chartHoraTransmision"></canvas>
+          </div>
         </div>
       </div>
 
       <!-- SECCIÓN 3: Tendencia Temporal (FINAL) -->
       <div class="grid grid-cols-1 gap-4 sm:gap-6">
-        <div class="card-premium min-h-[350px] flex flex-col" title="Evolución temporal del volumen de recolección de datos según la fecha de realización de la entrevista.">
+        <!-- Tendencia Diaria de Recolección -->
+        <div class="relative overflow-hidden rounded-2xl bg-white/80 dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-slate-800/50 p-5 flex flex-col min-h-[350px] transition-all duration-300 hover:border-slate-300 dark:hover:border-slate-700/50 group" title="Evolución temporal del volumen de recolección de datos según la fecha de realización de la entrevista.">
           <div class="flex justify-between items-center mb-4">
-            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm">
+            <h3 class="font-bold flex items-center gap-2 font-outfit text-sm text-slate-800 dark:text-slate-200">
               <i data-lucide="activity" class="text-brand-blue w-4 h-4"></i> Tendencia Diaria de Recolección
             </h3>
           </div>
-          <div class="flex-1 min-h-0 relative"><canvas id="chartPorDia"></canvas></div>
+          <div class="flex-1 min-h-0 relative">
+            <canvas id="chartPorDia"></canvas>
+          </div>
         </div>
       </div>
     </div>`;

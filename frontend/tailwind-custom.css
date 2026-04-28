@@ -109,16 +109,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(15, 23, 42, 0.5);
+    background: var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(51, 65, 85, 0.6);
+    background: var(--border-medium);
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(71, 85, 105, 0.9);
+    background: var(--text-muted);
 }
 
 /* ─── KPI Value Text ───────────── */

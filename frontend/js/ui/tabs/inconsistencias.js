@@ -24,12 +24,12 @@ export function getInconsistenciasTabHTML() {
             <h3 class="font-bold font-outfit text-lg text-slate-800 dark:text-white">Registros con Alertas</h3>
           </div>
           <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-            <select id="incFilterAlerta" class="bg-white dark:bg-[#0B1120] border rounded-xl px-3 py-2 text-xs outline-none focus:ring-1">
+            <select id="incFilterAlerta" class="bg-white dark:bg-surface-dark border rounded-xl px-3 py-2 text-xs outline-none focus:ring-1">
                 <option value="">Todas las alertas</option>
             </select>
             <div class="relative w-full sm:w-64">
               <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
-              <input type="text" id="incSearchInput" placeholder="Buscar..." class="w-full bg-white dark:bg-[#0B1120] border rounded-xl pl-10 pr-8 py-2 text-xs outline-none" />
+              <input type="text" id="incSearchInput" placeholder="Buscar..." class="w-full bg-white dark:bg-surface-dark border rounded-xl pl-10 pr-8 py-2 text-xs outline-none" />
               <button id="incClearSearch" class="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hidden"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
           </div>

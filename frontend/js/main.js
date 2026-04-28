@@ -9,7 +9,7 @@ import { loadAssets, loadData } from './api.js';
 import { processData }      from './dataProcessor.js';
 import { populateFilters, setRenderAll } from './filters.js';
 import { updateGrid, renderRankingTable } from './table.js';
-import { renderMap, initVerRutaButton } from './map.js';
+import { renderMap, initVerRutaButton, loadGeoJSONData, loadControlsData } from './map.js';
 import { closeDetailModal } from './modal.js';
 import { renderMM111 }      from './mm111.js';
 import { renderInconsistencias } from './inconsistencias.js';
@@ -95,7 +95,6 @@ async function init() {
     checkLibraryHealth();
     
     // Parallel discovery and initial data load
-    const { loadGeoJSONData, loadControlsData } = await import('./map.js');
     
     Promise.allSettled([
         loadGeoJSONData(),

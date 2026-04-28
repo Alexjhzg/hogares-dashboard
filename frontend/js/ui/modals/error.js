@@ -6,7 +6,7 @@
 export function getErrorStateHTML() {
     return `
     <div id="errorState"
-      class="hidden fixed inset-0 z-[120] bg-[#0B1120]/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center">
+      class="hidden fixed inset-0 z-[var(--z-modal)] bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center">
       <div
         class="w-24 h-24 bg-brand-red/10 rounded-full flex items-center justify-center mb-6 ring-[12px] ring-brand-red/5 animate-pulse">
         <i data-lucide="power-off" class="text-brand-red w-10 h-10"></i>

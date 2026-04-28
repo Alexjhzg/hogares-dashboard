@@ -20,6 +20,9 @@ if (window.tailwind) {
                         purple: '#8B5CF6',  /* Highlights/Secondary */
                         orange: '#F59E0B',  /* Warnings/Progress */
                         red: '#EF4444',     /* Errors/Alerts */
+                    },
+                    surface: {
+                        dark: '#0B1120',    /* App dark background */
                     }
                 }
             }

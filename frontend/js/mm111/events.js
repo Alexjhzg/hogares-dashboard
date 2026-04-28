@@ -1,6 +1,7 @@
 import { $ } from '../helpers.js';
 import { loadMM111ControlData, getControlMetadata } from './logic.js';
 import { renderResultsList, clearMM111Header, updateMM111Grid } from './render.js';
+import { applyFilters } from '../filters/logic.js';
 
 /**
  * Initializes all event listeners for the MM-111 module.
@@ -53,7 +54,6 @@ export function initMM111Events() {
         loadMM111ControlData(val);
         
         // Apply filters globally to sync everything
-        const { applyFilters } = await import('../filters/logic.js');
         applyFilters();
     };
 
@@ -114,8 +114,6 @@ export function initMM111Events() {
 
             searchInput.focus();
             showResults('');
-
-            const { applyFilters } = await import('../filters/logic.js');
             applyFilters();
         };
     }

@@ -31,7 +31,7 @@
   <link rel="stylesheet" href="tailwind-custom.css" />
 </head>
 
-<body class="bg-slate-50 text-slate-800 dark:bg-[#0B1120] dark:text-slate-300 font-sans min-h-screen flex flex-col transition-colors duration-300">
+<body class="bg-slate-50 text-slate-800 dark:bg-surface-dark dark:text-slate-300 font-sans min-h-screen flex flex-col transition-colors duration-300">
 
   <!-- ======= HEADER ======= -->
   <header class="sticky top-0 z-[var(--z-header)] glass-panel border-b-0 px-3 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between shadow-md transition-all">
@@ -86,14 +86,14 @@
           <label class="block text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2 ml-1">Encuestador</label>
           <div class="relative">
             <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 pointer-events-none"></i>
-            <select id="filterEncuestador" class="w-full bg-white dark:bg-[#0B1120]/80 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:border-brand-blue/50 focus:ring-1 outline-none transition-all appearance-none cursor-pointer">
+            <select id="filterEncuestador" class="w-full bg-white dark:bg-surface-dark/80 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:border-brand-blue/50 focus:ring-1 outline-none transition-all appearance-none cursor-pointer">
               <option value="">Todos los encuestadores</option>
             </select>
           </div>
         </div>
         <div class="flex-1 min-w-[280px] lg:max-w-sm">
           <label class="block text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2 ml-1">Periodo</label>
-          <div class="flex items-center gap-2 bg-white dark:bg-[#0B1120]/80 border border-slate-300 dark:border-slate-700 rounded-xl p-1 focus-within:border-brand-blue/50 transition-all">
+          <div class="flex items-center gap-2 bg-white dark:bg-surface-dark/80 border border-slate-300 dark:border-slate-700 rounded-xl p-1 focus-within:border-brand-blue/50 transition-all">
             <input type="date" id="filterFechaInicio" class="flex-1 min-w-0 bg-transparent text-slate-700 dark:text-slate-300 px-2 py-1.5 text-xs sm:text-sm outline-none" />
             <span class="text-slate-400 font-black text-[10px] px-1">→</span>
             <input type="date" id="filterFechaFin" class="flex-1 min-w-0 bg-transparent text-slate-700 dark:text-slate-300 px-2 py-1.5 text-xs sm:text-sm outline-none" />
@@ -110,7 +110,7 @@
           <i data-lucide="map-pinned" class="w-4 h-4"></i><span>Solo SEGEN</span>
         </button>
         <button id="btnReset" class="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-orange transition-all text-xs font-bold whitespace-nowrap group w-full lg:w-auto" title="Limpiar"><i data-lucide="brush-cleaning" class="w-4 h-4 group-hover:-rotate-12 transition-transform"></i><span>Limpiar</span></button>
-        <button id="btnOpenFilters" class="flex items-center justify-center gap-2 btn-primary relative w-full lg:w-auto"><i data-lucide="sliders-horizontal" class="w-4 h-4"></i><span>Filtros</span><span id="activeFiltersBadge" class="hidden absolute -top-2 -right-2 bg-brand-orange text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-[#0B1120] animate-pulse">0</span></button>
+        <button id="btnOpenFilters" class="flex items-center justify-center gap-2 btn-primary relative w-full lg:w-auto"><i data-lucide="sliders-horizontal" class="w-4 h-4"></i><span>Filtros</span><span id="activeFiltersBadge" class="hidden absolute -top-2 -right-2 bg-brand-orange text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-surface-dark animate-pulse">0</span></button>
       </div>
     </section>
 
@@ -129,7 +129,7 @@
 
   </main>
 
-  <footer class="border-t border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-[#0B1120] px-6 py-4 mt-auto">
+  <footer class="border-t border-slate-200 dark:border-slate-800/50 bg-slate-50 dark:bg-surface-dark px-6 py-4 mt-auto">
     <div class="max-w-[1600px] mx-auto flex flex-col sm:flex-row items-center justify-between gap- 2 text-[10px] text-slate-500">
       <span>DashboardSociales — ESCA/EHM &copy; 2026</span>
       <span class="text-slate-600">Powered by KoboToolbox + FastAPI</span>

@@ -34,7 +34,7 @@ export function getMM111TabHTML() {
               <div class="relative flex-1 lg:w-80 group">
                 <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-brand-blue transition-colors"></i>
                 <input type="text" id="mm111SearchControl" autocomplete="off" placeholder="Buscar Control..."
-                  class="w-full bg-slate-50 dark:bg-[#0B1120] border-2 border-brand-blue/30 rounded-xl pl-10 pr-10 py-2.5 text-sm text-slate-800 dark:text-white font-bold outline-none focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/10 transition-all font-outfit" />
+                  class="w-full bg-slate-50 dark:bg-surface-dark border-2 border-brand-blue/30 rounded-xl pl-10 pr-10 py-2.5 text-sm text-slate-800 dark:text-white font-bold outline-none focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/10 transition-all font-outfit" />
                 
                 <button id="mm111ClearSearch" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hidden">
                    <i data-lucide="x" class="w-4 h-4"></i>
@@ -57,28 +57,28 @@ export function getMM111TabHTML() {
 
         <!-- Segmento Geográfico -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="p-3 bg-slate-50 dark:bg-[#0B1120]/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
+          <div class="p-3 bg-slate-50 dark:bg-surface-dark/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
             <div>
               <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Entidad Federal</p>
               <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Entidad">---</p>
             </div>
             <div class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700" id="mm111EntidadCod">--</div>
           </div>
-          <div class="p-3 bg-slate-50 dark:bg-[#0B1120]/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
+          <div class="p-3 bg-slate-50 dark:bg-surface-dark/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
             <div>
               <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Municipio</p>
               <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Municipio">---</p>
             </div>
             <div class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700" id="mm111MunicipioCod">--</div>
           </div>
-          <div class="p-3 bg-slate-50 dark:bg-[#0B1120]/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
+          <div class="p-3 bg-slate-50 dark:bg-surface-dark/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
             <div>
               <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Parroquia</p>
               <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Parroquia">---</p>
             </div>
             <div class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700" id="mm111ParroquiaCod">--</div>
           </div>
-          <div class="p-3 bg-slate-50 dark:bg-[#0B1120]/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
+          <div class="p-3 bg-slate-50 dark:bg-surface-dark/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
             <div>
               <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Centro Poblado</p>
               <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111CPoblado">---</p>
@@ -89,31 +89,31 @@ export function getMM111TabHTML() {
 
         <!-- Barra de Controles Operativos -->
         <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-[1px] bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-surface-dark">
             <span class="text-[9px] uppercase font-bold text-slate-500">Segmento</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Segmento">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-surface-dark">
             <span class="text-[9px] uppercase font-bold text-slate-500">Sector</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Sector">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-surface-dark">
             <span class="text-[9px] uppercase font-bold text-slate-500">Nodo</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Nodo">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-surface-dark">
             <span class="text-[9px] uppercase font-bold text-slate-500">Semana</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Semana">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120] col-span-2 sm:col-span-4 lg:col-span-1">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-surface-dark col-span-2 sm:col-span-4 lg:col-span-1">
             <span class="text-[9px] uppercase font-bold text-slate-500">Control Maestro</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300 truncate w-full" id="mm111ControlMaestro">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-[#FDE68A] dark:bg-[#FBBF24]">
-            <span class="text-[10px] uppercase font-black text-[#92400E]">Control Nro.</span>
-            <div class="text-lg font-black font-outfit text-[#78350F]" id="mm111ControlNro">0000</div>
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-amber-200 dark:bg-amber-400">
+            <span class="text-[10px] uppercase font-black text-amber-800">Control Nro.</span>
+            <div class="text-lg font-black font-outfit text-amber-900" id="mm111ControlNro">0000</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-[#0B1120]">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-surface-dark">
             <span class="text-[9px] uppercase font-bold text-slate-500">Lote</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Lote">-</div>
           </div>
@@ -122,7 +122,7 @@ export function getMM111TabHTML() {
 
       <!-- Tabla de Listado de Viviendas -->
       <div class="card-premium flex-1 flex flex-col p-0 overflow-hidden border-2 border-slate-200 dark:border-slate-700 mt-4 relative min-h-[500px] lg:min-h-0">
-        <div id="mm111Grid" class="w-full h-full bg-white dark:bg-[#0B1120]"></div>
+        <div id="mm111Grid" class="w-full h-full bg-white dark:bg-surface-dark"></div>
       </div>
     </div>`;
 }

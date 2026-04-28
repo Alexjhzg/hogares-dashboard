@@ -1,6 +1,7 @@
 import { state } from '../state.js';
 import { COLORS } from '../config.js';
 import { getSegmentPopupHtml, getControlTooltipHtml } from './templates.js';
+import { getPolygonBBox } from '../helpers.js';
 
 /**
  * Loads the segment polygons from the GeoJSON file into state.
@@ -14,7 +15,6 @@ export async function loadGeoJSONData() {
         state.geoJSONData = data;
 
         // Pre-calculate BBOXes for efficient lookup
-        const { getPolygonBBox } = await import('../helpers.js');
         state.segmentBBoxes = state.geoJSONData.features.map(f => {
             if (!f.geometry) return null;
             let allPoints = [];
