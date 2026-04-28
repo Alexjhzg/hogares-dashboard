@@ -57,7 +57,7 @@ export function showDetailModal(rec) {
     data.stSerie   = fmt(data.rawSerie   || null);
     data.stEstado  = data.m.estado === 'completada'
         ? '<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-brand-green/20 text-brand-green border border-brand-green/30">Completada (Efectiva)</span>'
-        : '<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-brand-orange/20 text-brand-orange border border-brand-orange/30">No Respuesta / Error</span>';
+        : '<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-brand-orange/20 text-brand-orange border border-brand-orange/30">No Efectiva / Error</span>';
     
     data.stDist = data.rawDist !== null
         ? `<span class="font-outfit font-black ${data.isFlagged ? 'text-brand-red' : 'text-brand-emerald'}">${Math.round(data.rawDist)} m</span>`

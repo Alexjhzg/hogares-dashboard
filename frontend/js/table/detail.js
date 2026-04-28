@@ -70,7 +70,7 @@ export function initGrid(initialData = []) {
         rowFormatter: row => {
             const data = row.getData();
             if (data.estado === 'completada')        row.getElement().classList.add('row-complete');
-            else if (data.estado === 'no_respuesta') row.getElement().classList.add('row-no-respuesta');
+            else if (data.estado === 'no_efectiva') row.getElement().classList.add('row-no-efectiva');
             if (data.hasAlerts)                      row.getElement().classList.add('row-flagged');
         }
     });

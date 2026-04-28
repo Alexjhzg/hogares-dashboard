@@ -21,8 +21,8 @@ export function getRankingTabHTML() {
           <div class="flex items-center gap-3">
             <div class="p-2 bg-brand-orange/10 rounded-lg"><i data-lucide="help-circle" class="text-brand-orange w-5 h-5"></i></div>
             <div>
-              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">No Respuesta</p>
-              <h3 class="font-black font-outfit text-2xl" id="rankKpiNoRespuesta">0</h3>
+              <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">No Efectiva</p>
+              <h3 class="font-black font-outfit text-2xl" id="rankKpiNoEfectiva">0</h3>
             </div>
           </div>
         </div>

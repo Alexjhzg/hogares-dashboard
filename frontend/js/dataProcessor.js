@@ -65,7 +65,7 @@ export function processData() {
             lat, lng,
             distance_m, dist_ini_fin,
             actual_seg: actualSeg,
-            estado: isCompletada ? 'completada' : 'no_respuesta',
+            estado: isCompletada ? 'completada' : 'no_efectiva',
             tipo_vivienda: tipoVivienda,
             // Simple flags for legacy support
             flag_distance_gt_500: distance_m !== null && distance_m > 500,

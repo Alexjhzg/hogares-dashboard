@@ -34,7 +34,7 @@ export function getResumenTabHTML() {
             <i data-lucide="check-circle" class="w-5 h-5"></i>
           </div>
           <div class="kpi-value-text" id="kpiCompletadas">0</div>
-          <div class="text-[10px] font-bold text-emerald-400 tracking-wider uppercase mt-1">Encuestas Efectivas</div>
+          <div class="text-[10px] font-bold text-emerald-400 tracking-wider uppercase mt-1">Efectiva</div>
         </div>
 
         <div class="card-premium group relative animate-slide-up" title="Registros donde no se pudo concretar la entrevista debido a rechazos, ausencia de informante u otros motivos.">
@@ -42,8 +42,8 @@ export function getResumenTabHTML() {
           <div class="h-10 w-10 rounded-lg bg-orange-500/20 text-orange-400 flex items-center justify-center mb-4">
             <i data-lucide="help-circle" class="w-5 h-5"></i>
           </div>
-          <div class="kpi-value-text" id="kpiNoRespuesta">0</div>
-          <div class="text-[10px] font-bold text-orange-400 tracking-wider uppercase mt-1">No Respuestas</div>
+          <div class="kpi-value-text" id="kpiNoEfectiva">0</div>
+          <div class="text-[10px] font-bold text-orange-400 tracking-wider uppercase mt-1">No Efectivas</div>
         </div>
 
         <div class="card-premium group relative animate-slide-up" title="Rendimiento porcentual calculado como (Encuestas Efectivas / Total Encuestas Recibidas) * 100.">

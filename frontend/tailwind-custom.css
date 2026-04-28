@@ -326,7 +326,7 @@ canvas {
     border-left: 3px solid var(--color-brand-emerald) !important;
 }
 
-.tabulator .tabulator-row.row-no-respuesta {
+.tabulator .tabulator-row.row-no-efectiva {
     border-left: 3px solid var(--color-brand-orange) !important;
 }
 

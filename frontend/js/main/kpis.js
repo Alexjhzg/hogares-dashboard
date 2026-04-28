@@ -3,7 +3,7 @@ import { $, avg } from '../helpers.js';
 
 export function updateKPIs() {
     const completadas = state.filtered.filter(r => r._meta && r._meta.estado === 'completada').length;
-    const noRespuesta = state.filtered.length - completadas;
+    const noEfectiva = state.filtered.length - completadas;
     const encs        = new Set(state.filtered.map(r => r._meta.cedula)).size;
     const durs        = state.filtered
         .filter(r => r._meta.estado === 'completada')
@@ -35,7 +35,7 @@ export function updateKPIs() {
     // Header KPIs
     if ($('kpiTotal'))          $('kpiTotal').textContent          = state.filtered.length;
     if ($('kpiCompletadas'))    $('kpiCompletadas').textContent    = completadas;
-    if ($('kpiNoRespuesta'))    $('kpiNoRespuesta').textContent    = noRespuesta;
+    if ($('kpiNoEfectiva'))    $('kpiNoEfectiva').textContent    = noEfectiva;
     if ($('kpiEncuestadores'))  $('kpiEncuestadores').textContent  = encs;
     if ($('kpiDuracion'))       $('kpiDuracion').textContent       = avgDuracion ? `${Math.round(avgDuracion)} min` : 'N/A';
     if ($('kpiPersonas'))       $('kpiPersonas').textContent       = personas;
@@ -95,6 +95,6 @@ export function updateKPIs() {
 
     // Ranking Tab KPIs
     if ($('rankKpiEfectivas'))   $('rankKpiEfectivas').textContent    = completadas;
-    if ($('rankKpiNoRespuesta')) $('rankKpiNoRespuesta').textContent  = noRespuesta;
+    if ($('rankKpiNoEfectiva')) $('rankKpiNoEfectiva').textContent  = noEfectiva;
     if ($('rankKpiAlerts'))      $('rankKpiAlerts').textContent       = totalConAlertas;
 }

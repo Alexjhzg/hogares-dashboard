@@ -3,7 +3,7 @@ import { ALERT_MAP, IS_INE } from '../config.js';
 export const estadoFormatter = (cell) => {
     const v = cell.getValue();
     const color = v === 'completada' ? '#10B981' : '#F59E0B';
-    const label = v === 'completada' ? 'EFECTIVA' : 'NO RESPUESTA';
+    const label = v === 'completada' ? 'EFECTIVA' : 'NO EFECTIVA';
     return `<span style="color:${color};font-weight:700;font-size:10px;letter-spacing:0.02em">${label}</span>`;
 };
 

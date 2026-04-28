@@ -42,7 +42,7 @@ export function setMapState(mode) {
         // Restore border colors based on ID
         if (el.id === 'btnMapFilterAll') el.classList.add('border-brand-blue', 'dark:border-brand-blue');
         if (el.id === 'btnMapFilterEfectivas') el.classList.add('border-brand-emerald', 'dark:border-brand-emerald');
-        if (el.id === 'btnMapFilterNoRespuesta') el.classList.add('border-brand-orange', 'dark:border-brand-orange');
+        if (el.id === 'btnMapFilterNoEfectiva') el.classList.add('border-brand-orange', 'dark:border-brand-orange');
         if (el.id === 'btnMapFilterAlertas') el.classList.add('border-brand-red', 'dark:border-brand-red');
         if (el.classList.contains('opacity-80') || el.id === 'kpiMapEncuestadorContainer') {
             el.classList.add('border-brand-purple', 'dark:border-brand-purple');

@@ -67,7 +67,7 @@ export function getFiltersOffCanvasHTML() {
               <select id="filterEstado" class="w-full bg-white dark:bg-[#0B1120] border rounded-lg px-3 py-2 text-sm outline-none">
                 <option value="">Todas</option>
                 <option value="completada">Completada (Efectiva)</option>
-                <option value="parcial">No Respuestas / Rechazo</option>
+                <option value="no_efectiva">No Efectivas / Rechazo</option>
               </select>
             </div>
             <div>

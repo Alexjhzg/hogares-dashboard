@@ -134,26 +134,33 @@ export async function loadControlsData() {
 }
 
 export function drawControlsLayer() {
-    if (!state.controlsData || !state.map || state.controlsLayer) return;
+    if (!state.controlsData || !state.map) return;
     try {
+        if (state.controlsLayer) {
+            state.controlsLayer.remove();
+            if (state.layerControl) {
+                state.layerControl.removeLayer(state.controlsLayer);
+            }
+        }
+        
         state.controlsLayer = L.geoJSON(state.controlsData, {
             pointToLayer: (feature, latlng) => {
                 return L.circleMarker(latlng, {
-                    radius: 4,
-                    fillColor: '#FACC15',
-                    color: '#92400E',
+                    radius: 3.5,
+                    fillColor: '#38BDF8',  // Color único
+                    color: '#ffffff',
                     weight: 1,
                     opacity: 0.9,
-                    fillOpacity: 0.7,
+                    fillOpacity: 0.85,
                 });
             },
             onEachFeature: (feature, layer) => {
                 layer.bindTooltip(getControlTooltipHtml(feature.properties), { sticky: true, opacity: 0.95 });
             }
-        });
+        }); // No se añade al mapa — desactivado por defecto
 
         if (state.layerControl) {
-            state.layerControl.addOverlay(state.controlsLayer, '📍 Puntos de Control');
+            state.layerControl.addOverlay(state.controlsLayer, 'Viviendas');
         }
     } catch (e) {
         console.error('FAILED TO DRAW CONTROLS LAYER:', e);

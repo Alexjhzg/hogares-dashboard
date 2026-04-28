@@ -117,7 +117,7 @@ export function bindEvents(callbacks) {
     }
 
     // Quick map filters
-    const mapFilterMap = { 'All': 'all', 'Efectivas': 'efectivas', 'NoRespuesta': 'no_respuesta', 'Alertas': 'alertas' };
+    const mapFilterMap = { 'All': 'all', 'Efectivas': 'efectivas', 'NoEfectiva': 'no_efectiva', 'Alertas': 'alertas' };
     Object.entries(mapFilterMap).forEach(([suffix, mode]) => {
         const btn = $(`btnMapFilter${suffix}`);
         if (btn) btn.addEventListener('click', () => {

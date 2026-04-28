@@ -60,10 +60,10 @@ export function applyFilters() {
 
         // 5. Survey Status
         if (estado === 'completada' && m.estado !== 'completada') return false;
-        if ((estado === 'no_respuesta' || estado === 'parcial') && m.estado === 'completada') return false;
+        if (estado === 'no_efectiva' && m.estado === 'completada') return false;
         
         if (state.quickFilterMode === 'efectivas' && m.estado !== 'completada') return false;
-        if (state.quickFilterMode === 'no_respuesta' && m.estado === 'completada') return false;
+        if (state.quickFilterMode === 'no_efectiva' && m.estado === 'completada') return false;
         if (state.quickFilterMode === 'alertas' && !m.hasAlerts) return false;
 
         // 6. Typology & Quality

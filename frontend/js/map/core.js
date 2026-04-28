@@ -1,5 +1,5 @@
 import { state } from '../state.js';
-import { drawGeoJSONLayer } from './layers.js';
+import { drawGeoJSONLayer, drawControlsLayer } from './layers.js';
 
 export function initMap() {
     if (state.map) return;
@@ -23,4 +23,5 @@ export function initMap() {
 
     // Draw segments layer
     drawGeoJSONLayer();
+    drawControlsLayer();
 }

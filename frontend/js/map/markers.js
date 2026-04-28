@@ -12,7 +12,7 @@ export function renderMap() {
     const points = state.filtered.filter(r => r._meta.lat && r._meta.lng);
 
     const completedOnMap = points.filter(r => r._meta && r._meta.estado === 'completada').length;
-    const noRespOnMap = points.length - completedOnMap;
+    const noEfectOnMap = points.length - completedOnMap;
     const agentsOnMap = new Set(points.map(r => r._meta.cedula)).size;
     const alertasOnMap = points.filter(r => r._meta.hasAlerts).length;
     const munsOnMap = new Set(points.map(r => r._meta.mun).filter(m => m && m !== 'N/A'));
@@ -21,7 +21,7 @@ export function renderMap() {
 
     if ($('mapKpiPoints')) $('mapKpiPoints').textContent = points.length;
     if ($('mapKpiComplete')) $('mapKpiComplete').textContent = completedOnMap;
-    if ($('mapKpiNoRespuesta')) $('mapKpiNoRespuesta').textContent = noRespOnMap;
+    if ($('mapKpiNoEfectiva')) $('mapKpiNoEfectiva').textContent = noEfectOnMap;
     if ($('mapKpiAgents')) $('mapKpiAgents').textContent = agentsOnMap;
     if ($('mapKpiAlertas')) $('mapKpiAlertas').textContent = alertasOnMap;
 
@@ -47,7 +47,7 @@ export function renderMap() {
         } else if (isComplete) {
             color = '#10B981'; borderColor = '#059669'; alertBadge = 'Efectiva';
         } else {
-            color = '#F59E0B'; borderColor = '#D97706'; alertBadge = 'No Respuesta';
+            color = '#F59E0B'; borderColor = '#D97706'; alertBadge = 'No Efectiva';
         }
 
         const durText = m.durMin !== null ? `${Math.round(m.durMin)} min` : '—';
@@ -94,8 +94,8 @@ window.setQuickFilter = function (mode) {
             active: ['bg-brand-emerald/10', 'dark:bg-brand-emerald/20', 'border-brand-emerald', 'ring-brand-emerald/30'],
             inactive: 'border-brand-emerald' 
         },
-        'no_respuesta': { 
-            id: 'btnMapFilterNoRespuesta', 
+        'no_efectiva': { 
+            id: 'btnMapFilterNoEfectiva', 
             active: ['bg-brand-orange/10', 'dark:bg-brand-orange/20', 'border-brand-orange', 'ring-brand-orange/30'],
             inactive: 'border-brand-orange' 
         },

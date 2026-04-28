@@ -45,7 +45,9 @@ export function renderChartCondicion() {
             datasets: [{ 
                 data: entries.map(e => e[1]), 
                 backgroundColor: entries.map(e => getCondColor(e[0]) + 'aa'), 
-                borderColor: '#1c2128' 
+                borderColor: '#1c2128',
+                borderWidth: 2,
+                hoverOffset: 15 
             }]
         },
         options: {
@@ -88,7 +90,9 @@ export function renderChartUso() {
             datasets: [{ 
                 data: entries.map(e => e[1]), 
                 backgroundColor: entries.map(e => getUsoColor(e[0]) + 'aa'), 
-                borderColor: '#1c2128' 
+                borderColor: '#1c2128',
+                borderWidth: 2,
+                hoverOffset: 15 
             }]
         },
         options: {

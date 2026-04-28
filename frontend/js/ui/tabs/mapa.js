@@ -29,10 +29,13 @@ export function getMapaTabHTML() {
             <div class="text-[9px] uppercase font-bold text-slate-500 dark:text-slate-400 tracking-widest mb-2 border-b border-slate-200 dark:border-slate-800 pb-1">Leyenda</div>
             <div class="flex flex-col gap-1.5">
               <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-[#38BDF8]"></span><span>Viviendas</span>
+              </div>
+              <div class="flex items-center gap-2">
                 <span class="w-3 h-3 rounded-full bg-[#10B981]"></span><span>Efectiva</span>
               </div>
               <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-[#F59E0B]"></span><span>No Respuesta</span>
+                <span class="w-3 h-3 rounded-full bg-[#F59E0B]"></span><span>No Efectiva</span>
               </div>
               <div class="flex items-center gap-2">
                 <span class="w-3 h-3 rounded-full bg-[#EF4444]"></span><span>Alertas</span>
@@ -71,9 +74,9 @@ export function getMapaTabHTML() {
             <div class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-brand-emerald opacity-80"></i><span class="text-[10px] font-bold uppercase">Efectivas</span></div>
             <span class="text-sm font-black" id="mapKpiComplete">0</span>
           </button>
-          <button id="btnMapFilterNoRespuesta" class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange">
-            <div class="flex items-center gap-1.5"><i data-lucide="help-circle" class="w-3.5 h-3.5 text-brand-orange opacity-80"></i><span class="text-[10px] font-bold uppercase">No Resp.</span></div>
-            <span class="text-sm font-black" id="mapKpiNoRespuesta">0</span>
+          <button id="btnMapFilterNoEfectiva" class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange">
+            <div class="flex items-center gap-1.5"><i data-lucide="help-circle" class="w-3.5 h-3.5 text-brand-orange opacity-80"></i><span class="text-[10px] font-bold uppercase">No Efect.</span></div>
+            <span class="text-sm font-black" id="mapKpiNoEfectiva">0</span>
           </button>
           <button id="btnMapFilterAlertas" class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-red">
             <div class="flex items-center gap-1.5"><i data-lucide="shield-alert" class="w-3.5 h-3.5 text-brand-red opacity-80"></i><span class="text-[10px] font-bold uppercase">Alertas</span></div>
