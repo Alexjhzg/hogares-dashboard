@@ -18,6 +18,8 @@ export const BADGE_COLORS = {
     'CEDULA_INVALIDA':        { bg: '#EF444422', border: '#EF4444', text: '#EF4444' },
     'INGRESO_ANOMALO':        { bg: '#F59E0B22', border: '#F59E0B', text: '#F59E0B' },
     'DESPLAZAMIENTO_ANOMALO': { bg: '#F59E0B22', border: '#F59E0B', text: '#F59E0B' },
+    'HOGARES_INCONSISTENTES': { bg: '#EF444422', border: '#EF4444', text: '#EF4444' },
+    'INTEGRANTES_INCONSISTENTES': { bg: '#EF444422', border: '#EF4444', text: '#EF4444' },
 };
 
 /**

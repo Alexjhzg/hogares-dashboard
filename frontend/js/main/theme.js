@@ -19,12 +19,19 @@ export function initTheme() {
 }
 
 export function applyTheme(isDark) {
+    const iconMoon = $('iconMoon');
+    const iconSun = $('iconSun');
+
     if (isDark) {
         document.documentElement.classList.add('dark');
         localStorage.setItem('esca_theme', 'dark');
+        if (iconMoon) iconMoon.style.display = 'none';
+        if (iconSun) iconSun.style.display = 'block';
     } else {
         document.documentElement.classList.remove('dark');
         localStorage.setItem('esca_theme', 'light');
+        if (iconMoon) iconMoon.style.display = 'block';
+        if (iconSun) iconSun.style.display = 'none';
     }
     
     // Notify charts module to update colors

@@ -109,9 +109,9 @@ export function getMM111TabHTML() {
             <span class="text-[9px] uppercase font-bold text-slate-500">Control Maestro</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300 truncate w-full" id="mm111ControlMaestro">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-amber-200/20 dark:bg-amber-400/10 border-x border-amber-200 dark:border-amber-500/20">
-            <span class="text-[10px] uppercase font-black text-amber-800 dark:text-amber-400">Control Nro.</span>
-            <div class="text-lg font-black font-outfit text-amber-900 dark:text-amber-200" id="mm111ControlNro">0000</div>
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-yellow-50 dark:bg-yellow-500/5 border-x border-yellow-100 dark:border-yellow-500/10">
+            <span class="text-[10px] uppercase font-black text-yellow-600 dark:text-yellow-400">Control Nro.</span>
+            <div class="text-lg font-black font-outfit text-yellow-700 dark:text-yellow-200" id="mm111ControlNro">0000</div>
           </div>
           <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-white dark:bg-surface-dark">
             <span class="text-[9px] uppercase font-bold text-slate-500">Lote</span>

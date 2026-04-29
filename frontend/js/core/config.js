@@ -108,6 +108,18 @@ El mínimo razonable para ESCA es ${DUR_MIN_ESCA} minutos.`,
         detail: 'La distancia entre el punto de captura inicial y el punto de cierre de la encuesta supera los 30 metros. El encuestador pudo haberse movido durante la encuesta.',
         color: '#F59E0B'
     },
+    {
+        code: 'HOGARES_INCONSISTENTES',
+        label: 'Hogares con Inconsistencias',
+        detail: 'La cantidad de hogares registrados difiere de la cantidad de hogares declarados.',
+        color: '#EF4444'
+    },
+    {
+        code: 'INTEGRANTES_INCONSISTENTES',
+        label: 'Integrantes con Inconsistencias',
+        detail: 'La lista de integrantes por hogar no coincide con el total de miembros declarado.',
+        color: '#EF4444'
+    },
 ];
 
 /**
