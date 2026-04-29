@@ -3,39 +3,39 @@
  * Orchestrates all modules. This is the only file loaded by index.html.
  */
 
-import { state }            from './state.js';
-import { $ }                from './helpers.js';
-import { loadAssets, loadData } from './api.js';
-import { processData }      from './dataProcessor.js';
-import { populateFilters, setRenderAll } from './filters.js';
-import { updateGrid, renderRankingTable } from './table.js';
-import { renderMap, initVerRutaButton, loadGeoJSONData, loadControlsData } from './map.js';
-import { closeDetailModal } from './modal.js';
-import { renderMM111 }      from './mm111.js';
-import { renderInconsistencias } from './inconsistencias.js';
+import { state }            from '../core/index.js';
+import { $ }                from '../utils/index.js';
+import { loadAssets, loadData } from '../api/index.js';
+import { processData }      from '../data/index.js';
+import { populateFilters, setRenderAll } from '../filters/index.js';
+import { updateGrid, renderRankingTable } from '../table/index.js';
+import { renderMap, initVerRutaButton, loadGeoJSONData, loadControlsData } from '../map/index.js';
+import { closeDetailModal } from '../modal/index.js';
+import { renderMM111 }      from '../mm111/index.js';
+import { renderInconsistencias } from '../inconsistencias/index.js';
 import { 
     updateChartsTheme, 
     renderChartEncuestador, renderChartDuracion, renderChartHorario, 
     renderChartHistograma, renderChartCondicion, renderChartUso, renderChartClasificacion,
     renderChartPorDia, renderChartResumenSemanal, renderChartHoraTransmision
-} from './charts.js';
+} from '../charts/index.js';
 
 // Sub-modules
 // UI Layout Components
-import { injectLayout } from './ui/layout.js';
+import { injectLayout } from '../ui/index.js';
 
-import { initTheme } from './main/theme.js';
-import { updateKPIs } from './main/kpis.js';
-import { switchTab } from './main/navigation.js';
-import { setMapState } from './main/map-layout.js';
-import { bindEvents } from './main/events.js';
+import { initTheme } from './theme.js';
+import { updateKPIs } from './kpis.js';
+import { switchTab } from './navigation.js';
+import { setMapState } from './map-layout.js';
+import { bindEvents } from './events.js';
 
-console.log('main.js: Modular orchestrator initializing ✓');
+console.log('main/index.js: Modular orchestrator initializing ✓');
 
 // ── Render Orchestration ──────────────────────────────────────────────────────
 
 function renderAll() {
-    console.log('main.js: renderAll() starting');
+    console.log('main/index.js: renderAll() starting');
     try { updateKPIs(); } catch (e) { console.error('KPI Update Error:', e); }
     
     // Charts: Each wrapped to prevent cascading failure
@@ -78,7 +78,7 @@ async function init() {
     // 2. Init Core UI
     initTheme();
 
-    console.log('main.js: init() start');
+    console.log('main/index.js: init() start');
     
     updateCurrentDate();
     
@@ -100,13 +100,13 @@ async function init() {
         loadGeoJSONData(),
         loadControlsData().then(() => {
             if (state.rawData.length > 0) {
-                console.log('main.js: Refreshing data with catalog index…');
+                console.log('main/index.js: Refreshing data with catalog index…');
                 onProcessData();
             }
         }),
         loadAssets(uid => loadData(uid, onProcessData))
     ]).then(() => {
-        console.log('main.js: Bootstrap phase completed.');
+        console.log('main/index.js: Bootstrap phase completed.');
         if (window.lucide) lucide.createIcons();
     });
 }

@@ -1,5 +1,5 @@
-import { state } from '../state.js';
-import { COLORS } from '../config.js';
+import { state } from '../core/index.js';
+import { COLORS } from '../core/index.js';
 import { getMiniMapPopupHtml, getMarkerPopupHtml } from './templates.js';
 import { getControlTooltipHtml } from '../map/templates.js';
 import { extractNested, _ctrlKey } from './utils.js';

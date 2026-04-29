@@ -4,7 +4,7 @@
  * and background processing overlays.
  */
 
-import { $ } from '../helpers.js';
+import { $ } from '../utils/index.js';
 
 let hideTimeout = null;
 

@@ -1,7 +1,7 @@
-import { state } from '../state.js';
-import { $ } from '../helpers.js';
-import { loadAssets, loadData } from '../api.js';
-import { resetFilters, applyFilters, openFiltersPanel, closeFiltersPanel } from '../filters.js';
+import { state } from '../core/index.js';
+import { $ } from '../utils/index.js';
+import { loadAssets, loadData } from '../api/index.js';
+import { resetFilters, applyFilters, openFiltersPanel, closeFiltersPanel } from '../filters/index.js';
 import { setMapState } from './map-layout.js';
 import { switchTab } from './navigation.js';
 import { updateKPIs } from './kpis.js';

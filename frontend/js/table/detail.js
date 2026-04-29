@@ -1,6 +1,6 @@
-import { state } from '../state.js';
-import { ROWS_PER_PAGE } from '../config.js';
-import { showDetailModal } from '../modal.js';
+import { state } from '../core/index.js';
+import { ROWS_PER_PAGE } from '../core/index.js';
+import { showDetailModal } from '../modal/index.js';
 import { 
     estadoFormatter, duracionFormatter, alertasFormatter, actionButtonFormatter 
 } from './formatters.js';

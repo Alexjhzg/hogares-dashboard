@@ -1,4 +1,4 @@
-import { state } from '../state.js';
+import { state } from '../core/index.js';
 import { drawGeoJSONLayer, drawControlsLayer } from './layers.js';
 
 export function initMap() {

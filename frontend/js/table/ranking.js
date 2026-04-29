@@ -1,5 +1,5 @@
-import { state } from '../state.js';
-import { applyFilters } from '../filters.js';
+import { state } from '../core/index.js';
+import { applyFilters } from '../filters/index.js';
 import { rankingNombreFormatter, efectividadFormatter } from './formatters.js';
 
 export function renderRankingTable(rows) {

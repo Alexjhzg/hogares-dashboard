@@ -1,7 +1,7 @@
-import { state } from '../state.js';
-import { $ } from '../helpers.js';
-import { applyFilters } from '../filters.js';
-import { COLORS, ALERT_MAP } from '../config.js';
+import { state } from '../core/index.js';
+import { $ } from '../utils/index.js';
+import { applyFilters } from '../filters/index.js';
+import { COLORS, ALERT_MAP } from '../core/index.js';
 import { getSurveyMarkerPopupHtml } from './templates.js';
 import { drawAgentRoute } from './route.js';
 

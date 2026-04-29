@@ -1,4 +1,4 @@
-import { ALERT_MAP, IS_INE } from '../config.js';
+import { ALERT_MAP, IS_INE } from '../core/index.js';
 
 export const estadoFormatter = (cell) => {
     const v = cell.getValue();

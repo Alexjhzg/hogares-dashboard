@@ -4,7 +4,7 @@
  */
 
 // 1. Theme and Core Configuration
-export { updateChartsTheme, destroyChart, baseChartOpts } from './charts/theme.js';
+export { updateChartsTheme, destroyChart, baseChartOpts } from './theme.js';
 
 // 2. Operational Metrics (Bars)
 export { 
@@ -12,21 +12,21 @@ export {
     renderChartDuracion, 
     renderChartHorario,
     renderChartHoraTransmision
-} from './charts/operational.js';
+} from './operational.js';
 
 // 3. Typology and Structural Distribution (Doughnuts)
 export { 
     renderChartCondicion, 
     renderChartUso,
     renderChartClasificacion
-} from './charts/typology.js';
+} from './typology.js';
 
 // 4. Temporal Analysis and Summaries (Lines, Histograms, Grouped Bars)
 export { 
     renderChartPorDia, 
     renderChartHistograma, 
     renderChartResumenSemanal 
-} from './charts/timeline.js';
+} from './timeline.js';
 
 /**
  * Note: Chart.js and its plugins (DataLabels) are expected to be available globally 

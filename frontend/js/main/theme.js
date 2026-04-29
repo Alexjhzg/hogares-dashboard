@@ -1,5 +1,5 @@
-import { $ } from '../helpers.js';
-import { updateChartsTheme } from '../charts.js';
+import { $ } from '../utils/index.js';
+import { updateChartsTheme } from '../charts/index.js';
 
 export function initTheme() {
     const storedTheme = localStorage.getItem('esca_theme');

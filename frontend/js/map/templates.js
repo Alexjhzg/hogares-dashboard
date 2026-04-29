@@ -1,4 +1,4 @@
-import { ALERT_MAP } from '../config.js';
+import { ALERT_MAP } from '../core/index.js';
 
 export function getSegmentPopupHtml(typeLabel, displayId, color, props) {
     return `<div class="p-2 font-sans">

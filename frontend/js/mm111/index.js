@@ -3,14 +3,14 @@
  * Manages the Geographic Sampling Framework module.
  */
 
-import { $ } from './helpers.js';
-import { initMM111Events } from './mm111/events.js';
-import { loadMM111ControlData, getControlMetadata } from './mm111/logic.js';
-import { clearMM111Header, updateMM111Grid } from './mm111/render.js';
+import { $ } from '../utils/index.js';
+import { initMM111Events } from './events.js';
+import { loadMM111ControlData, getControlMetadata } from './logic.js';
+import { clearMM111Header, updateMM111Grid } from './render.js';
 
 // Public API exports
-export { loadMM111ControlData } from './mm111/logic.js';
-export { updateMM111Grid, clearMM111Header } from './mm111/render.js';
+export { loadMM111ControlData } from './logic.js';
+export { updateMM111Grid, clearMM111Header } from './render.js';
 
 let mm111Initialized = false;
 

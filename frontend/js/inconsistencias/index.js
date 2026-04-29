@@ -4,14 +4,14 @@
  * local search filters, and the detailed audit grid.
  */
 
-import { state } from './state.js';
-import { ALERT_MAP } from './config.js';
-import { $ } from './helpers.js';
+import { state } from '../core/index.js';
+import { ALERT_MAP } from '../core/index.js';
+import { $ } from '../utils/index.js';
 
 // Sub-modules
-import { renderEmptyState, generateCardHTML } from './inconsistencias/cards.js';
-import { updateInconsistenciasTable } from './inconsistencias/table.js';
-import { filters, bindInconsistenciasEvents } from './inconsistencias/ui-events.js';
+import { renderEmptyState, generateCardHTML } from './cards.js';
+import { updateInconsistenciasTable } from './table.js';
+import { filters, bindInconsistenciasEvents } from './ui-events.js';
 
 /**
  * Main entry point for rendering the inconsistencies tab.

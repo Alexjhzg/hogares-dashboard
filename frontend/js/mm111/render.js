@@ -1,6 +1,6 @@
-import { state } from '../state.js';
-import { $ } from '../helpers.js';
-import { USO_STYLES, RAZON_STYLES } from '../config.js';
+import { state } from '../core/index.js';
+import { $ } from '../utils/index.js';
+import { USO_STYLES, RAZON_STYLES } from '../core/index.js';
 
 /**
  * Initializes or updates the Tabulator instance for MM-111.

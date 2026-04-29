@@ -3,20 +3,24 @@
  * Injects all modular UI components (tabs and modals) into the DOM Shell.
  */
 
-import { $ } from '../helpers.js';
+import { $ } from '../utils/index.js';
 
 // Import Tabs
-import { getResumenTabHTML } from './tabs/resumen.js';
-import { getMapaTabHTML }    from './tabs/mapa.js';
-import { getRankingTabHTML } from './tabs/ranking.js';
-import { getMM111TabHTML }   from './tabs/mm111.js';
-import { getInconsistenciasTabHTML } from './tabs/inconsistencias.js';
+import {
+    getResumenTabHTML,
+    getMapaTabHTML,
+    getRankingTabHTML,
+    getMM111TabHTML,
+    getInconsistenciasTabHTML
+} from './tabs/index.js';
 
 // Import Modals & Overlays
-import { getLoadingOverlayHTML } from './modals/loading.js';
-import { getErrorStateHTML }     from './modals/error.js';
-import { getFiltersOffCanvasHTML } from './modals/filters.js';
-import { getDetailModalHTML }    from './modals/detail.js';
+import {
+    getLoadingOverlayHTML,
+    getErrorStateHTML,
+    getFiltersOffCanvasHTML,
+    getDetailModalHTML
+} from './modals/index.js';
 
 /**
  * Injects all UI fragments into the main document body.

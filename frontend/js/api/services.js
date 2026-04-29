@@ -3,7 +3,7 @@
  * Pure network calls to the backend. Does not handle UI or Caching directly.
  */
 
-import { BACKEND_URL } from '../config.js';
+import { BACKEND_URL } from '../core/index.js';
 
 /**
  * Fetches the list of available assets (Kobo forms) from the backend.

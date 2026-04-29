@@ -4,13 +4,13 @@
  * (cache.js), and feedback UI (ui.js).
  */
 
-import { state } from './state.js';
-import { $ } from './helpers.js';
+import { state } from '../core/index.js';
+import { $ } from '../utils/index.js';
 
 // Sub-modules
-import { showLoading, hideLoading, setConnectionUI } from './api/ui.js';
-import { DB } from './api/cache.js';
-import { fetchAssets, fetchSurveyData } from './api/services.js';
+import { showLoading, hideLoading, setConnectionUI } from './ui.js';
+import { DB } from './cache.js';
+import { fetchAssets, fetchSurveyData } from './services.js';
 
 // Re-export UI helpers for other modules to use
 export { showLoading, hideLoading, setConnectionUI };
@@ -21,7 +21,7 @@ export { showLoading, hideLoading, setConnectionUI };
  * @param {Function} onDataLoaded - callback called with uid when data should be loaded
  */
 export async function loadAssets(onDataLoaded) {
-    console.log('api.js: Orchestrating loadAssets()...');
+    console.log('api/index.js: Orchestrating loadAssets()...');
     showLoading('Buscando formularios en KoboToolbox…');
     
     let assets = null;
@@ -122,7 +122,7 @@ export async function loadData(uid, onProcessData) {
     }
 
     state.rawData = jsonData.results || (Array.isArray(jsonData) ? jsonData : []);
-    console.log(`api.js: Loaded ${state.rawData.length} records ${isOfflineMode ? '(Offline Cache)' : ''}`);
+    console.log(`api/index.js: Loaded ${state.rawData.length} records ${isOfflineMode ? '(Offline Cache)' : ''}`);
 
     const badge = $('statusBadge');
     if (badge) badge.textContent = `${state.rawData.length} registros`;

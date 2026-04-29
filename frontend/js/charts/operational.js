@@ -1,5 +1,5 @@
-import { state } from '../state.js';
-import { $, avg } from '../helpers.js';
+import { state } from '../core/index.js';
+import { $, avg } from '../utils/index.js';
 import { destroyChart, baseChartOpts } from './theme.js';
 
 export function renderChartEncuestador() {

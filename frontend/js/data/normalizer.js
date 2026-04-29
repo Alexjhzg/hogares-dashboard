@@ -1,4 +1,4 @@
-import { state } from '../state.js';
+import { state } from '../core/index.js';
 
 export function normalizeRecord(r) {
     const cedula = String(r['S0/cedula_encuestador'] || 'N/A').trim();

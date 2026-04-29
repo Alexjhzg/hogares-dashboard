@@ -1,7 +1,7 @@
-import { state } from '../state.js';
-import { COLORS } from '../config.js';
+import { state } from '../core/index.js';
+import { COLORS } from '../core/index.js';
 import { getSegmentPopupHtml, getControlTooltipHtml } from './templates.js';
-import { getPolygonBBox } from '../helpers.js';
+import { getPolygonBBox } from '../utils/index.js';
 
 /**
  * Loads the segment polygons from the GeoJSON file into state.

@@ -1,5 +1,5 @@
-import { state } from '../state.js';
-import { $ } from '../helpers.js';
+import { state } from '../core/index.js';
+import { $ } from '../utils/index.js';
 
 /**
  * Manages the different layout states for the map section.

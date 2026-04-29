@@ -3,7 +3,7 @@
  * Manages domestic events for the audit tab (search, card clicks, filters).
  */
 
-import { $ } from '../helpers.js';
+import { $ } from '../utils/index.js';
 
 // Local state for the module (private to the orchestrator call)
 export const filters = {

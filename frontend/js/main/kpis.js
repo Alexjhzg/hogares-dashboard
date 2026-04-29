@@ -1,5 +1,5 @@
-import { state } from '../state.js';
-import { $, avg } from '../helpers.js';
+import { state } from '../core/index.js';
+import { $, avg } from '../utils/index.js';
 
 export function updateKPIs() {
     const completadas = state.filtered.filter(r => r._meta && r._meta.estado === 'completada').length;

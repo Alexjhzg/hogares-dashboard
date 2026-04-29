@@ -1,6 +1,6 @@
-import { state } from '../state.js';
-import { $ } from '../helpers.js';
-import { IS_INE } from '../config.js';
+import { state } from '../core/index.js';
+import { $ } from '../utils/index.js';
+import { IS_INE } from '../core/index.js';
 import { renderActiveFilterTags } from './tags.js';
 
 let _renderAll = () => {};

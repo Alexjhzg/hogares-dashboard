@@ -1,11 +1,11 @@
-import { state } from '../state.js';
-import { parseGeoString, haversineMeters, matchSegmentCodes } from '../helpers.js';
+import { state } from '../core/index.js';
+import { parseGeoString, haversineMeters, matchSegmentCodes } from '../utils/index.js';
 import {
     DUR_MIN_OK, DUR_MAX_OK, DIST_APERT_MAX,
     DUR_MIN_EHM, DUR_MIN_ESCA,
     CEDULA_MIN_LEN, CEDULA_MAX_LEN,
     INGRESO_MIN, INGRESO_MAX,
-} from '../config.js';
+} from '../core/index.js';
 
 export function runAlertEngine(params) {
     const { r, normalized, durMin, totalPers, distance_m, dist_ini_fin, actualSeg, ptIni, isCompletada, hogaresRaw } = params;

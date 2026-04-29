@@ -3,22 +3,22 @@
  * Orchestrates the transformation of raw records into enriched _meta objects.
  */
 
-import { state } from './state.js';
+import { state } from '../core/index.js';
 
 // Sub-modules
-import { normalizeRecord, calculateDuration } from './data/normalizer.js';
-import { parseDemographics } from './data/survey-parsers.js';
-import { getCoordinates, calculateDistances, validateSegment } from './data/geo-rules.js';
-import { runAlertEngine } from './data/alert-engine.js';
-import { rebuildEncMap } from './data/aggregators.js';
-import { classifyHousingState } from './data/housingClassifier.js';
+import { normalizeRecord, calculateDuration } from './normalizer.js';
+import { parseDemographics } from './survey-parsers.js';
+import { getCoordinates, calculateDistances, validateSegment } from './geo-rules.js';
+import { runAlertEngine } from './alert-engine.js';
+import { rebuildEncMap } from './aggregators.js';
+import { classifyHousingState } from './housingClassifier.js';
 
 /**
  * Main entry point for data processing.
  * Runs the transformation pipeline for each record and then aggregates results.
  */
 export function processData() {
-    console.log('dataProcessor: Processing raw data pipeline...');
+    console.log('data/index.js: Processing raw data pipeline...');
     
     state.rawData.forEach(r => {
         // 1. Normalization
@@ -87,7 +87,7 @@ export function processData() {
     // 7. Aggregation: Build EncMap & Rankings
     rebuildEncMap();
     
-    console.log('dataProcessor: Pipeline completed ✓');
+    console.log('data/index.js: Pipeline completed ✓');
 }
 
 /**

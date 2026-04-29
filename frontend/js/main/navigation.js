@@ -1,9 +1,9 @@
-import { state } from '../state.js';
-import { $ } from '../helpers.js';
-import { initMap, renderMap } from '../map.js';
-import { updateGrid, renderRankingTable } from '../table.js';
-import { renderMM111 } from '../mm111.js';
-import { renderInconsistencias } from '../inconsistencias.js';
+import { state } from '../core/index.js';
+import { $ } from '../utils/index.js';
+import { initMap, renderMap } from '../map/index.js';
+import { updateGrid, renderRankingTable } from '../table/index.js';
+import { renderMM111 } from '../mm111/index.js';
+import { renderInconsistencias } from '../inconsistencias/index.js';
 
 // Track which tabs have been rendered at least once
 const _tabRendered = {};

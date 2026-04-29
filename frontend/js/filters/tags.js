@@ -1,4 +1,4 @@
-import { $ } from '../helpers.js';
+import { $ } from '../utils/index.js';
 import { applyFilters } from './logic.js';
 
 /**

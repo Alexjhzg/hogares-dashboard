@@ -3,9 +3,9 @@
  * Manages the Tabulator instance for the data quality audit view.
  */
 
-import { state } from '../state.js';
-import { ALERT_MAP } from '../config.js';
-import { showDetailModal } from '../modal.js';
+import { state } from '../core/index.js';
+import { ALERT_MAP } from '../core/index.js';
+import { showDetailModal } from '../modal/index.js';
 
 /**
  * Initializes the Tabulator table for inconsistencies.

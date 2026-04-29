@@ -1,5 +1,5 @@
-import { state } from '../state.js';
-import { $ } from '../helpers.js';
+import { state } from '../core/index.js';
+import { $ } from '../utils/index.js';
 import { clearMM111Header, updateMM111Grid } from './render.js';
 
 /**

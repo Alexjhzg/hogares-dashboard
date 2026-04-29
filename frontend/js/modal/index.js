@@ -1,16 +1,16 @@
 // ─── Modals (Refactorized) ─────────────────────────────────────────────────────
 // Orchestrator for Detail Modal and UI interactions.
 
-import { state } from './state.js';
-import { $, matchSegmentCodes } from './helpers.js';
-import { extractNested, fmt, parseGeo, calcDistance, _padM, _ctrlKey } from './modal/utils.js';
+import { state } from '../core/index.js';
+import { $, matchSegmentCodes } from '../utils/index.js';
+import { extractNested, fmt, parseGeo, calcDistance, _padM, _ctrlKey } from './utils.js';
 import { 
     getModalLayout, 
     getAlertsHtml, 
     getControlValidationHtml, 
     getRawJsonHtml 
-} from './modal/templates.js';
-import { initOrUpdateMiniMap } from './modal/modal-map.js';
+} from './templates.js';
+import { initOrUpdateMiniMap } from './modal-map.js';
 
 // ── Detail Modal ──────────────────────────────────────────────────────────────
 

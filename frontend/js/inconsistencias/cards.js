@@ -3,7 +3,7 @@
  * Handles the visual representation of alert summaries as interactive cards.
  */
 
-import { ALERT_MAP } from '../config.js';
+import { ALERT_MAP } from '../core/index.js';
 
 export const BADGE_COLORS = {
     'TIEMPO_CORTO_EHM':       { bg: '#F59E0B22', border: '#F59E0B', text: '#F59E0B' },

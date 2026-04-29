@@ -1,6 +1,6 @@
-import { state } from '../state.js';
-import { $ } from '../helpers.js';
-import { IS_INE, ALERT_RULES } from '../config.js';
+import { state } from '../core/index.js';
+import { $ } from '../utils/index.js';
+import { IS_INE, ALERT_RULES } from '../core/index.js';
 
 export function openFiltersPanel() {
     const panel = $('offCanvasFilters');

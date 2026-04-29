@@ -1,4 +1,4 @@
-import { state } from '../state.js';
+import { state } from '../core/index.js';
 
 /**
  * Updates global Chart.js defaults and existing chart instances for theme changes.
