@@ -89,31 +89,31 @@ export function getMM111TabHTML() {
 
         <!-- Barra de Controles Operativos -->
         <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-[1px] bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-surface-dark">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-white dark:bg-surface-dark">
             <span class="text-[9px] uppercase font-bold text-slate-500">Segmento</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Segmento">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-surface-dark">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-white dark:bg-surface-dark">
             <span class="text-[9px] uppercase font-bold text-slate-500">Sector</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Sector">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-surface-dark">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-white dark:bg-surface-dark">
             <span class="text-[9px] uppercase font-bold text-slate-500">Nodo</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Nodo">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-surface-dark">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-white dark:bg-surface-dark">
             <span class="text-[9px] uppercase font-bold text-slate-500">Semana</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Semana">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-surface-dark col-span-2 sm:col-span-4 lg:col-span-1">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-white dark:bg-surface-dark col-span-2 sm:col-span-4 lg:col-span-1">
             <span class="text-[9px] uppercase font-bold text-slate-500">Control Maestro</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300 truncate w-full" id="mm111ControlMaestro">-</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-amber-200 dark:bg-amber-400">
-            <span class="text-[10px] uppercase font-black text-amber-800">Control Nro.</span>
-            <div class="text-lg font-black font-outfit text-amber-900" id="mm111ControlNro">0000</div>
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-amber-200/20 dark:bg-amber-400/10 border-x border-amber-200 dark:border-amber-500/20">
+            <span class="text-[10px] uppercase font-black text-amber-800 dark:text-amber-400">Control Nro.</span>
+            <div class="text-lg font-black font-outfit text-amber-900 dark:text-amber-200" id="mm111ControlNro">0000</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-slate-100 dark:bg-surface-dark">
+          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-white dark:bg-surface-dark">
             <span class="text-[9px] uppercase font-bold text-slate-500">Lote</span>
             <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Lote">-</div>
           </div>

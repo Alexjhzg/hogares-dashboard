@@ -1,3 +1,21 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: 'Inter', 'sans-serif';
+    --font-inter: 'Inter', 'sans-serif';
+    --font-outfit: 'Outfit', 'sans-serif';
+    
+    --color-brand-blue: #3B82F6;
+    --color-brand-emerald: #10B981;
+    --color-brand-purple: #8B5CF6;
+    --color-brand-orange: #F59E0B;
+    --color-brand-red: #EF4444;
+    
+    --color-surface-dark: #0B1120;
+}
+
 /* ═══════════════════════════════════════════════════════
    DashboardSociales — Tailwind Custom Overrides
    Premium Dark Analytics Dashboard
@@ -931,7 +949,9 @@ body.has-map-fullscreen #mapKpiGrid .glass-panel {
     background-color: var(--glass-bg);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--glass-border);
     /* Light/dark handled by CSS variables — no .dark override needed */
 }
 
@@ -939,7 +959,9 @@ body.has-map-fullscreen #mapKpiGrid .glass-panel {
     background-color: var(--glass-bg);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--glass-border);
     border-radius: 1rem;
     padding: 1.5rem;
     transition: all 0.3s;

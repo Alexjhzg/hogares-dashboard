@@ -11,7 +11,7 @@ export const duracionFormatter = (cell) => {
     const v = cell.getValue();
     if (v === null) return '—';
     const color = v < 15 ? '#EF4444' : v < 25 ? '#F59E0B' : '#10B981';
-    return `<span style="color:${color};font-weight:800;font-family:Outfit,sans-serif;">${v}m</span>`;
+    return `<span style="color:${color};font-weight:800;font-family:Outfit,sans-serif;">${parseFloat(v).toFixed(2)}m</span>`;
 };
 
 export const alertasFormatter = (cell) => {

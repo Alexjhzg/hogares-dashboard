@@ -21,9 +21,13 @@ export function processData() {
     console.log('data/index.js: Processing raw data pipeline...');
     
     state.rawData.forEach(r => {
-        // 1. Normalization
+        // 1. Normalization (Frontend schema)
         const n = normalizeRecord(r);
-        const durMin = calculateDuration(n.start, n.end);
+        
+        // Use backend duration if available
+        const durMin = (r._backend_meta && r._backend_meta.duration_minutes !== undefined) 
+            ? r._backend_meta.duration_minutes 
+            : calculateDuration(n.start, n.end);
 
         // 2. Demographic Parsing (EHM/ESCA)
         const { totalPers, totalHombres, totalMujeres, hogaresCount, hogaresRaw } = parseDemographics(r, n.formType);

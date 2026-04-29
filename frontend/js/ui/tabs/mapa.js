@@ -10,14 +10,14 @@ export function getMapaTabHTML() {
         <!-- Leaflet Container -->
         <div id="mapDisplayContainer" class="lg:col-span-10 relative glass-panel rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 shadow-inner">
           <div id="mapControlGroup"
-            class="absolute bottom-4 right-4 z-[var(--z-map-control)] flex items-center bg-slate-900/80 backdrop-blur-md border border-white/10 rounded-xl overflow-hidden shadow-2xl transition-all">
-            <button id="btnMapStateNormal" class="p-2.5 hover:bg-white/10 text-white border-r border-white/10 group" title="Normal">
+            class="absolute bottom-4 right-4 z-[var(--z-map-control)] flex items-center bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden shadow-xl dark:shadow-2xl transition-all">
+            <button id="btnMapStateNormal" class="p-2.5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-white border-r border-slate-200 dark:border-white/10 group" title="Normal">
               <i data-lucide="layout-dashboard" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
             </button>
-            <button id="btnMapStateExpanded" class="p-2.5 hover:bg-white/10 text-white border-r border-white/10 group" title="Expandido">
+            <button id="btnMapStateExpanded" class="p-2.5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-white border-r border-slate-200 dark:border-white/10 group" title="Expandido">
               <i data-lucide="maximize" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
             </button>
-            <button id="btnMapStateFull" class="p-2.5 hover:bg-white/10 text-white group" title="Completo">
+            <button id="btnMapStateFull" class="p-2.5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-white group" title="Completo">
               <i data-lucide="expand" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
             </button>
           </div>
@@ -98,9 +98,9 @@ export function getMapaTabHTML() {
             <span class="text-sm font-black text-brand-red font-outfit" id="mapKpiAlertas">0</span>
           </button>
 
-          <button id="btnVerRutaEncuestador" disabled class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange hover:bg-brand-orange/5 transition-all group disabled:opacity-40 disabled:cursor-not-allowed">
+          <button id="btnVerRutaEncuestador" disabled class="glass-panel rounded-xl p-3 flex items-center justify-between !border-l-4 !border-orange-500 hover:bg-orange-500/5 transition-all group disabled:opacity-40 disabled:cursor-not-allowed">
             <div class="flex items-center gap-1.5">
-              <i data-lucide="route" class="w-3.5 h-3.5 text-brand-orange opacity-80"></i>
+              <i data-lucide="route" class="w-3.5 h-3.5 text-orange-500 opacity-80"></i>
               <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest font-sans">Ver Ruta</span>
             </div>
             <span id="mapRouteAgentCount" class="text-[10px] font-black text-slate-500 dark:text-slate-400">—</span>

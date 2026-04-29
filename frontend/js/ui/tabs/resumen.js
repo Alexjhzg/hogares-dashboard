@@ -76,27 +76,27 @@ export function getResumenTabHTML() {
 
       <!-- TIER 2: Detalle Demográfico y de Tiempo -->
       <section class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
-        <div class="card-premium border-l-2 border-l-brand-orange" title="Tiempo promedio invertido en completar una entrevista efectiva (desde el inicio hasta el fin del formulario).">
+        <div class="card-premium !border-l-2 !border-l-brand-orange" title="Tiempo promedio invertido en completar una entrevista efectiva (desde el inicio hasta el fin del formulario).">
           <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-brand-orange/80"></i> Duración Media</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiDuracion">0m</div>
         </div>
-        <div class="card-premium border-l-2 border-l-teal-500" title="Censo total de personas registradas dentro de los hogares que respondieron la encuesta de manera efectiva.">
+        <div class="card-premium !border-l-2 !border-l-teal-500" title="Censo total de personas registradas dentro de los hogares que respondieron la encuesta de manera efectiva.">
           <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="users" class="w-4 h-4 text-teal-500/80"></i> Integrantes</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiPersonas">0</div>
         </div>
-        <div class="card-premium border-l-2 border-l-indigo-500" title="Cantidad de hogares donde solo se registró a un (1) habitante o encuestado.">
+        <div class="card-premium !border-l-2 !border-l-indigo-500" title="Cantidad de hogares donde solo se registró a un (1) habitante o encuestado.">
           <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="user" class="w-4 h-4 text-indigo-500/80"></i> Hogares Unipersonales</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiHogaresUni">0</div>
         </div>
-        <div class="card-premium border-l-2 border-l-cyan-500" title="Cantidad total de planillas físicas (Controles) registradas en el sistema.">
+        <div class="card-premium !border-l-2 !border-l-cyan-500" title="Cantidad total de planillas físicas (Controles) registradas en el sistema.">
           <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="clipboard-list" class="w-4 h-4 text-cyan-500/80"></i> Total Controles</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiControles">0</div>
         </div>
-        <div class="card-premium border-l-2 border-l-blue-500" title="Total de personas de sexo masculino registradas en los hogares censados.">
+        <div class="card-premium !border-l-2 !border-l-blue-500" title="Total de personas de sexo masculino registradas en los hogares censados.">
           <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="mars" class="w-4 h-4 text-blue-500/80"></i> Hombres</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiHombres">0</div>
         </div>
-        <div class="card-premium border-l-2 border-l-pink-500" title="Total de personas de sexo femenino registradas en los hogares censados.">
+        <div class="card-premium !border-l-2 !border-l-pink-500" title="Total de personas de sexo femenino registradas en los hogares censados.">
           <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="venus" class="w-4 h-4 text-pink-500/80"></i> Mujeres</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiMujeres">0</div>
         </div>
@@ -104,7 +104,7 @@ export function getResumenTabHTML() {
 
       <!-- TIER 1.5: Clasificación de Estados de Vivienda (Ahorra arriba de las donas) -->
       <section class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div class="card-premium border-l-2 border-l-brand-purple" title="Viviendas donde no se pudo realizar la entrevista por ausencia o rechazo.">
+        <div class="card-premium !border-l-2 !border-l-brand-purple" title="Viviendas donde no se pudo realizar la entrevista por ausencia o rechazo.">
           <div class="kpi-label !mt-0 mb-1 flex items-center gap-1.5"><i data-lucide="user-round-x" class="w-4 h-4 text-brand-purple"></i> TIPO A</div>
           <div class="flex items-baseline gap-2">
             <div class="kpi-value-text text-xl" id="kpiTipoA">0</div>
@@ -112,7 +112,7 @@ export function getResumenTabHTML() {
           </div>
           <div class="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-widest">Ausentes / Rechazos</div>
         </div>
-        <div class="card-premium border-l-2 border-l-brand-orange" title="Viviendas desocupadas, en construcción o de uso ocasional.">
+        <div class="card-premium !border-l-2 !border-l-brand-orange" title="Viviendas desocupadas, en construcción o de uso ocasional.">
           <div class="kpi-label !mt-0 mb-1 flex items-center gap-1.5"><i data-lucide="brick-wall" class="w-4 h-4 text-brand-orange"></i> TIPO B</div>
           <div class="flex items-baseline gap-2">
             <div class="kpi-value-text text-xl" id="kpiTipoB">0</div>
@@ -120,7 +120,7 @@ export function getResumenTabHTML() {
           </div>
           <div class="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-widest">Desocupadas / Construcción</div>
         </div>
-        <div class="card-premium border-l-2 border-l-brand-red" title="Viviendas demolidas, inexistentes o de uso no residencial permanente.">
+        <div class="card-premium !border-l-2 !border-l-brand-red" title="Viviendas demolidas, inexistentes o de uso no residencial permanente.">
           <div class="kpi-label !mt-0 mb-1 flex items-center gap-1.5"><i data-lucide="hammer" class="w-4 h-4 text-brand-red"></i> TIPO C</div>
           <div class="flex items-baseline gap-2">
             <div class="kpi-value-text text-xl" id="kpiTipoC">0</div>
@@ -128,7 +128,7 @@ export function getResumenTabHTML() {
           </div>
           <div class="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-widest">Inexistentes / Demolidas</div>
         </div>
-        <div class="card-premium border-l-2 border-l-brand-emerald" title="Viviendas con entrevistas exitosas (Ocupadas con ocupantes presentes).">
+        <div class="card-premium !border-l-2 !border-l-brand-emerald" title="Viviendas con entrevistas exitosas (Ocupadas con ocupantes presentes).">
           <div class="kpi-label !mt-0 mb-1 flex items-center gap-1.5"><i data-lucide="user-check" class="w-4 h-4 text-brand-emerald"></i> TIPO E</div>
           <div class="flex items-baseline gap-2">
             <div class="kpi-value-text text-xl" id="kpiTipoE">0</div>

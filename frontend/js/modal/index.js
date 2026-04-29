@@ -29,7 +29,10 @@ export function showDetailModal(rec) {
         stEncuestador: fmt(extractNested(rec, 'nombre')  || extractNested(rec, 'S0/s0_nombreapellido')),
         stCedula:  fmt(extractNested(rec, 'cedula')  || extractNested(rec, 'S0/cedula_encuestador')),
         stFecha:   fmt(extractNested(rec, 'fecha')   || extractNested(rec, 'today/_submission_time')),
-        stDur:     fmt(extractNested(rec, 'durMin') ? `${extractNested(rec, 'durMin')} min` : null),
+        stDur:     fmt((() => {
+            const d = extractNested(rec, 'durMin');
+            return d ? `${parseFloat(d).toFixed(2)} min` : null;
+        })()),
         declaredSeg: extractNested(rec, 'segmento') || extractNested(rec, 'S1/segmento') || extractNested(rec, 'S1/group_segmeto_sector/segmento'),
         actualSeg: extractNested(rec, 'actual_seg'),
         rawControl: String(extractNested(rec, 'group_sh53u78/control') || extractNested(rec, 'control') || ''),

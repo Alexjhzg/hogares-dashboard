@@ -36,14 +36,14 @@ export function setMapState(mode) {
 
     kpiGrid.querySelectorAll('button:not(#btnToggleMapKpis), div.glass-panel').forEach(el => {
         el.className = el.id === 'btnVerRutaEncuestador' ? 
-            "glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-orange hover:bg-brand-orange/5 transition-all group disabled:opacity-40 disabled:cursor-not-allowed" :
-            "glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 hover:bg-slate-100/50 dark:hover:bg-white/5 transition-all group";
+            "glass-panel rounded-xl p-3 flex items-center justify-between !border-l-4 !border-orange-500 hover:bg-orange-500/5 transition-all group disabled:opacity-40 disabled:cursor-not-allowed" :
+            "glass-panel rounded-xl p-3 flex items-center justify-between !border-l-4 hover:bg-slate-100/50 dark:hover:bg-white/5 transition-all group";
         
         // Restore border colors based on ID
-        if (el.id === 'btnMapFilterAll') el.classList.add('border-brand-blue');
-        if (el.id === 'btnMapFilterEfectivas') el.classList.add('border-brand-emerald');
-        if (el.id === 'btnMapFilterNoEfectiva') el.classList.add('border-brand-orange');
-        if (el.id === 'btnMapFilterAlertas') el.classList.add('border-brand-red');
+        if (el.id === 'btnMapFilterAll') el.classList.add('!border-brand-blue');
+        if (el.id === 'btnMapFilterEfectivas') el.classList.add('!border-brand-emerald');
+        if (el.id === 'btnMapFilterNoEfectiva') el.classList.add('!border-brand-orange');
+        if (el.id === 'btnMapFilterAlertas') el.classList.add('!border-brand-red');
         if (el.classList.contains('opacity-80') || el.id === 'kpiMapEncuestadorContainer') {
             el.classList.add('border-brand-purple');
         }
@@ -73,7 +73,7 @@ export function setMapState(mode) {
 
         kpiGrid.querySelectorAll(':scope > button, :scope > div.glass-panel').forEach(el => {
             if (el.id === 'btnToggleMapKpis') return;
-            el.classList.add('flex-col', 'items-center', 'justify-center', 'min-w-0', 'sm:min-w-[130px]', 'flex-1', 'border-l-0', 'border-b-2', 'sm:border-b-4', 'gap-0.5', 'py-1', 'sm:py-1.5', 'px-2');
+            el.classList.add('flex-col', 'items-center', 'justify-center', 'min-w-0', 'sm:min-w-[130px]', 'flex-1', '!border-l-0', '!border-b-2', 'sm:!border-b-4', 'gap-0.5', 'py-1', 'sm:py-1.5', 'px-2');
         });
     } 
     else if (mode === 'full') {
@@ -88,7 +88,7 @@ export function setMapState(mode) {
 
         kpiGrid.querySelectorAll(':scope > button, :scope > div.glass-panel').forEach(el => {
             if (el.id === 'btnToggleMapKpis') return;
-            el.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'min-w-[55px]', 'sm:min-w-[75px]', 'border-2', 'rounded-xl', 'shadow-lg', 'gap-0', 'p-2');
+            el.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'min-w-[55px]', 'sm:min-w-[75px]', '!border-2', 'rounded-xl', 'shadow-lg', 'gap-0', 'p-2');
             const label = el.querySelector('span.uppercase');
             if (label) label.classList.add('hidden');
             el.classList.add('kpi-drawer-item');

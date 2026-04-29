@@ -11,6 +11,15 @@ export function runAlertEngine(params) {
     const { r, normalized, durMin, totalPers, distance_m, dist_ini_fin, actualSeg, ptIni, isCompletada, hogaresRaw } = params;
     const alertas = [];
 
+    // 0. Incorporar alertas pre-calculadas por el Backend (DRY)
+    if (r._backend_meta && r._backend_meta.flags) {
+        const bf = r._backend_meta.flags;
+        if (bf.distance_gt_500m) alertas.push('FUERA_SEGMENTO');
+        if (bf.short_duration) alertas.push('TIEMPO_CORTO');
+        if (bf.hogar_count_mismatch) alertas.push('HOGARES_INCONSISTENTES');
+        if (bf.integrantes_mismatch) alertas.push('INTEGRANTES_INCONSISTENTES');
+    }
+
     // 1. Apertura muy lejos
     try {
         const sgeo = r['start-geopoint'] || r['start_geopoint'];

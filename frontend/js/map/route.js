@@ -83,7 +83,7 @@ export function initVerRutaButton() {
         if (!hasAgent) {
             clearAgentRoute();
             btn.dataset.routeActive = '0';
-            btn.classList.remove('bg-brand-orange/20', 'border-brand-orange');
+            btn.classList.remove('bg-orange-500/20', 'border-orange-500');
             const labelEl = btn.querySelector('.route-label');
             if (labelEl) labelEl.textContent = 'Ver Ruta';
 
@@ -109,7 +109,7 @@ export function initVerRutaButton() {
             if (state.map && state.markerCluster && !state.map.hasLayer(state.markerCluster)) {
                 state.map.addLayer(state.markerCluster);
             }
-            btn.classList.remove('bg-brand-orange/20', 'border-brand-orange');
+            btn.classList.remove('bg-orange-500/20', 'border-orange-500');
             const pts = state.filtered.filter(r => r._meta?.cedula === cedula && r._meta.lat && r._meta.lng).length;
             if (countLabel) countLabel.textContent = `${pts} pts`;
             const labelEl = btn.querySelector('.route-label');
@@ -124,7 +124,7 @@ export function initVerRutaButton() {
                 if (state.map && state.markerCluster && state.map.hasLayer(state.markerCluster)) {
                     state.map.removeLayer(state.markerCluster);
                 }
-                btn.classList.add('bg-brand-orange/20', 'border-brand-orange');
+                btn.classList.add('bg-orange-500/20', 'border-orange-500');
                 const pts = state.filtered.filter(r => r._meta?.cedula === cedula && r._meta.lat && r._meta.lng).length;
                 if (countLabel) countLabel.textContent = `${pts} pts`;
                 const labelEl = btn.querySelector('.route-label');

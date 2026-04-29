@@ -42,8 +42,7 @@ export function renderMap() {
         let color, borderColor, alertBadge;
         if (hasAlerts) {
             color = '#EF4444'; borderColor = '#DC2626';
-            const firstRule = ALERT_MAP[alertas[0]];
-            alertBadge = `⚠ ${firstRule ? firstRule.label : 'Alerta'}${alertas.length > 1 ? ` +${alertas.length - 1}` : ''}`;
+            alertBadge = 'Alerta';
         } else if (isComplete) {
             color = '#10B981'; borderColor = '#059669'; alertBadge = 'Efectiva';
         } else {

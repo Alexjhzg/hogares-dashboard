@@ -8,7 +8,7 @@ export function getRankingTabHTML() {
     <div id="tab-ranking" class="tab-content flex flex-col gap-8 hidden-tab animate-fade-in">
       <!-- Resumen de Desempeño Global -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div class="glass-panel rounded-2xl p-4 border-l-4 border-brand-emerald">
+        <div class="glass-panel rounded-2xl p-4 !border-l-4 !border-brand-emerald">
           <div class="flex items-center gap-3">
             <div class="p-2 bg-brand-emerald/10 rounded-lg text-brand-emerald">
               <i data-lucide="check-circle" class="w-5 h-5"></i>
@@ -20,7 +20,7 @@ export function getRankingTabHTML() {
           </div>
         </div>
 
-        <div class="glass-panel rounded-2xl p-4 border-l-4 border-brand-orange">
+        <div class="glass-panel rounded-2xl p-4 !border-l-4 !border-brand-orange">
           <div class="flex items-center gap-3">
             <div class="p-2 bg-brand-orange/10 rounded-lg text-brand-orange">
               <i data-lucide="help-circle" class="w-5 h-5"></i>
@@ -32,7 +32,7 @@ export function getRankingTabHTML() {
           </div>
         </div>
 
-        <div class="glass-panel rounded-2xl p-4 border-l-4 border-brand-red">
+        <div class="glass-panel rounded-2xl p-4 !border-l-4 !border-brand-red">
           <div class="flex items-center gap-3">
             <div class="p-2 bg-brand-red/10 rounded-lg text-brand-red">
               <i data-lucide="alert-triangle" class="w-5 h-5"></i>

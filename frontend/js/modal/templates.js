@@ -37,14 +37,14 @@ export function getModalLayout(data) {
                         <div class="flex justify-between items-center mb-2 border-b border-slate-100 dark:border-slate-700/50 pb-2"><span class="text-[10px] text-slate-500 font-bold">Seg. en Mapa:</span><span class="text-[10px] font-mono font-bold ${alertas.includes('SEGMENTO_INCORRECTO') || alertas.includes('FUERA_SEGMENTO') ? 'text-brand-red' : 'text-brand-emerald'}">${actualSeg ? '#' + actualSeg : '(Nulo)'}</span></div>
                         <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-slate-500 font-bold">Desplazamiento:</span><span class="text-[10px] font-mono font-bold ${alertas.includes('DESPLAZAMIENTO_ANOMALO') ? 'text-brand-orange' : 'text-slate-700 dark:text-slate-300'}">${walkedDistance !== null ? Math.round(walkedDistance)+'m' : 'N/A'}</span></div>
                         <div class="flex justify-between items-center mb-1"><span class="text-[10px] text-slate-500 font-bold">Dist. Centro:</span><span class="text-[10px] font-mono font-bold ${isFlagged ? 'text-brand-red' : 'text-brand-emerald'}">${rawDist !== null ? Math.round(rawDist)+'m' : 'N/A'}</span></div>
-                        <div class="flex justify-between items-center"><span class="text-[10px] text-slate-500 font-bold">Tiempo Base:</span><span class="text-[10px] font-mono text-brand-blue font-bold">${durMin ? durMin+' min' : 'N/A'}</span></div>
+                        <div class="flex justify-between items-center"><span class="text-[10px] text-slate-500 font-bold">Tiempo Base:</span><span class="text-[10px] font-mono text-brand-blue font-bold">${durMin ? parseFloat(durMin).toFixed(2)+' min' : 'N/A'}</span></div>
                     </div>
                 </div>
-                <div id="detailMap" class="absolute inset-0 z-0 bg-slate-800"></div>
+                <div id="detailMap" class="absolute inset-0 z-0 bg-slate-100 dark:bg-slate-800"></div>
             </div>
             <div class="p-1 border-t border-slate-200 dark:border-slate-700 text-center text-[10px] text-slate-400 leading-tight">El círculo sombreado indica la zona válida de cobertura (radio de 500m).</div>
         </div>` : `
-        <div class="mt-4 p-4 border border-dashed border-slate-700 rounded-xl text-center text-slate-500">
+        <div class="mt-4 p-4 border border-dashed border-slate-300 dark:border-slate-700 rounded-xl text-center text-slate-500">
             <span class="text-xs uppercase tracking-widest font-bold block">No hay datos geográficos</span>
             <span class="text-[10px] block mt-1">Este registro no generó ni capturó coordenadas GPS con precisión adecuada.</span>
         </div>`;
