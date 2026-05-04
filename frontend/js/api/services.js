@@ -21,12 +21,13 @@ export async function fetchAssets() {
 /**
  * Fetches the raw survey submission data for a specific asset UID.
  * @param {string} uid 
+ * @param {boolean} refresh - Force refresh cache from Kobo
  * @returns {Promise<Object>}
  */
-export async function fetchSurveyData(uid) {
+export async function fetchSurveyData(uid, refresh = false) {
     if (!uid) throw new Error('Missing UID in fetchSurveyData');
     
-    const url = `${BACKEND_URL}/api/data/${uid}`;
+    const url = `${BACKEND_URL}/api/data/${uid}${refresh ? '?refresh=true' : ''}`;
     const response = await fetch(url);
     if (!response.ok) {
         throw new Error(`Error API (${response.status}) at fetchSurveyData`);

@@ -66,7 +66,7 @@ export function getMapaTabHTML() {
             <i data-lucide="layout-grid" class="w-5 h-5 text-brand-blue opacity-80"></i>
           </button>
           
-          <button id="btnMapFilterAll" class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-blue hover:bg-slate-100/50 dark:hover:bg-white/5 transition-all group active-filter">
+          <button id="btnMapFilterAll" class="glass-panel rounded-xl p-3 flex items-center justify-between border-l-4 border-brand-blue hover:bg-slate-100/50 dark:hover:bg-white/5 transition-all group active-filter-blue shadow-md">
             <div class="flex items-center gap-1.5">
               <i data-lucide="layers" class="w-3.5 h-3.5 text-brand-blue opacity-80"></i>
               <span class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest font-sans">Todos</span>

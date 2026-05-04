@@ -1,4 +1,4 @@
-import { ALERT_MAP } from '../core/index.js';
+import { ALERT_MAP, DUR_MIN_OK, DUR_MAX_OK } from '../core/index.js';
 
 export function getSegmentPopupHtml(typeLabel, displayId, color, props) {
     return `<div class="p-2 font-sans">
@@ -85,11 +85,11 @@ export function getSurveyMarkerPopupHtml(m, uuid, color, borderColor, alertBadge
             <div class="grid grid-cols-2 gap-4 border-t border-slate-100 dark:border-white/5 pt-3 mb-3">
                 <div>
                     <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Duración</div>
-                    <div class="text-[10px] font-bold" style="color:${m.durMin !== null && (m.durMin < 15 || m.durMin > 45) ? '#EF4444' : '#10B981'}">${durText}</div>
+                    <div class="text-[10px] font-bold" style="color:${m.durMin !== null && (m.durMin < DUR_MIN_OK || m.durMin > DUR_MAX_OK) ? '#EF4444' : '#10B981'}">${durText}</div>
                 </div>
                 <div class="text-right">
-                    <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Distancia (A->I)</div>
-                    <div class="text-[10px] font-bold" style="color:${hasAlerts ? '#EF4444' : '#64748b'}">${distText}</div>
+                    <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Desplazamiento <span class="font-normal lowercase tracking-normal opacity-80">(ini&rarr;fin)</span></div>
+                    <div class="text-[10px] font-bold" style="color:${m.dist_ini_fin !== null && m.dist_ini_fin > 30 ? '#EF4444' : '#10B981'}">${m.dist_ini_fin !== null ? Math.round(m.dist_ini_fin) + ' m' : '—'}</div>
                 </div>
             </div>
 
@@ -110,16 +110,10 @@ export function getSurveyMarkerPopupHtml(m, uuid, color, borderColor, alertBadge
 
             ${segSection}
 
-            <div class="grid grid-cols-2 gap-2 border-t border-slate-100 dark:border-white/5 pt-3 mb-3">
-                <div>
-                    <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Desplazamiento</div>
-                    <div class="text-[10px] font-bold" style="color:${m.dist_ini_fin !== null && m.dist_ini_fin > 30 ? '#F59E0B' : '#10B981'}">${m.dist_ini_fin !== null ? Math.round(m.dist_ini_fin) + ' m' : '—'} <span class="text-[8px] text-slate-400 dark:text-slate-500">(Ini->Fin)</span></div>
-                </div>
-                <div class="flex items-end justify-end">
-                    <button onclick="window.viewTraceByRecord('${uuid}')" class="px-3 py-1 bg-brand-blue/10 dark:bg-brand-blue/20 hover:bg-brand-blue/20 dark:hover:bg-brand-blue/40 border border-brand-blue/20 dark:border-brand-blue/30 text-brand-blue rounded-lg text-[9px] font-bold uppercase tracking-widest transition-colors flex items-center gap-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><circle cx="10" cy="13" r="2"/><path d="m16 19-3.5-3.5"/></svg> Ficha de Inspección
-                    </button>
-                </div>
+            <div class="border-t border-slate-100 dark:border-white/5 pt-3 mb-3">
+                <button onclick="window.viewTraceByRecord('${uuid}')" class="w-full justify-center px-3 py-1.5 bg-brand-blue/10 dark:bg-brand-blue/20 hover:bg-brand-blue/20 dark:hover:bg-brand-blue/40 border border-brand-blue/20 dark:border-brand-blue/30 text-brand-blue rounded-lg text-[9px] font-bold uppercase tracking-widest transition-colors flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><circle cx="10" cy="13" r="2"/><path d="m16 19-3.5-3.5"/></svg> Abrir Ficha de Inspección
+                </button>
             </div>
 
             <div class="grid grid-cols-2 gap-2 border-t border-slate-100 dark:border-white/5 pt-3">

@@ -116,10 +116,11 @@ export async function loadControlsData() {
             state.validLineas.add(linea);
 
             if (!state.controlDetails.has(ctrl)) {
-                state.controlDetails.set(ctrl, { series: new Set(), lineas: new Set() });
+                state.controlDetails.set(ctrl, { series: new Set(), lineas: new Set(), combos: [] });
             }
             state.controlDetails.get(ctrl).series.add(serie);
             state.controlDetails.get(ctrl).lineas.add(linea);
+            state.controlDetails.get(ctrl).combos.push({ serie, linea });
 
             state.controlsIndex.set(`${ctrl}-${serie}-${linea}`, {
                 COD_SEG: String(p.COD_SEG ?? '').trim(),

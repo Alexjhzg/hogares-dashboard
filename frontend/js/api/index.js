@@ -89,11 +89,12 @@ export async function loadAssets(onDataLoaded) {
 /**
  * Download all survey submissions for the given asset UID.
  * @param {string} uid - asset UID
- * @param {Function} onProcessData - callback called after data is stored in state.rawData
+ * @param {Function} onDataProcessed - callback called after data is stored in state.rawData
+ * @param {boolean} refresh - Force refresh from Kobo (bypasses server and browser cache)
  */
-export async function loadData(uid, onProcessData) {
+export async function loadData(uid, onDataProcessed, refresh = false) {
     if (!uid) return;
-    showLoading('Descargando datos desde Kobo API…');
+    showLoading(refresh ? 'Sincronizando con KoboToolbox…' : 'Descargando datos desde el servidor…');
     const btnRefresh = $('btnRefresh');
     if (btnRefresh) btnRefresh.disabled = true;
 
@@ -102,15 +103,18 @@ export async function loadData(uid, onProcessData) {
 
     try {
         // Try Network
-        jsonData = await fetchSurveyData(uid);
+        jsonData = await fetchSurveyData(uid, refresh);
         await DB.set(`data_cache_${uid}`, jsonData);
         setConnectionUI(true);
     } catch (err) {
         console.warn('Network failure. Trying cache...', err);
-        jsonData = await DB.get(`data_cache_${uid}`);
-        if (jsonData) {
-            isOfflineMode = true;
-            setConnectionUI(false);
+        // Only try cache if NOT a forced refresh
+        if (!refresh) {
+            jsonData = await DB.get(`data_cache_${uid}`);
+            if (jsonData) {
+                isOfflineMode = true;
+                setConnectionUI(false);
+            }
         }
     }
 
@@ -138,7 +142,7 @@ export async function loadData(uid, onProcessData) {
     requestAnimationFrame(() => {
         setTimeout(() => {
             // 3. Start Heavy Processing & Rendering
-            if (onProcessData) onProcessData();
+            if (onDataProcessed) onDataProcessed();
             if (window.lucide) lucide.createIcons();
 
             // 4. Final yield to ensure charts/maps finished their first paint

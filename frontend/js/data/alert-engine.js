@@ -15,7 +15,6 @@ export function runAlertEngine(params) {
     if (r._backend_meta && r._backend_meta.flags) {
         const bf = r._backend_meta.flags;
         if (bf.distance_gt_500m) alertas.push('FUERA_SEGMENTO');
-        if (bf.short_duration) alertas.push('TIEMPO_CORTO');
         if (bf.hogar_count_mismatch) alertas.push('HOGARES_INCONSISTENTES');
         if (bf.integrantes_mismatch) alertas.push('INTEGRANTES_INCONSISTENTES');
     }
@@ -30,8 +29,8 @@ export function runAlertEngine(params) {
         }
     } catch (_) {}
 
-    // 2. Cobertura del segmento
-    if (distance_m !== null && distance_m > 600) alertas.push('FUERA_SEGMENTO');
+    // 2. Cobertura del segmento (evitar duplicado con flag del backend)
+    if (distance_m !== null && distance_m > 600 && !alertas.includes('FUERA_SEGMENTO')) alertas.push('FUERA_SEGMENTO');
     if (dist_ini_fin !== null && dist_ini_fin > 30) alertas.push('DESPLAZAMIENTO_ANOMALO');
 
     // 3. Velocidad / Duración
@@ -46,9 +45,12 @@ export function runAlertEngine(params) {
     }
     if (isCompletada && durMin !== null && durMin > DUR_MAX_OK) alertas.push('TIEMPO_LARGO');
 
-    // 4. Cédula
-    const cedulaStr = normalized.cedula.replace(/\D/g, '');
-    if (cedulaStr.length < CEDULA_MIN_LEN || cedulaStr.length > CEDULA_MAX_LEN) alertas.push('CEDULA_INVALIDA');
+    // 4. Cédula — solo validar si el campo tiene un valor real (no el placeholder 'N/A')
+    const rawCedula = normalized.cedula;
+    if (rawCedula && rawCedula !== 'N/A') {
+        const cedulaStr = rawCedula.replace(/\D/g, '');
+        if (cedulaStr.length < CEDULA_MIN_LEN || cedulaStr.length > CEDULA_MAX_LEN) alertas.push('CEDULA_INVALIDA');
+    }
 
     // 5. Ingresos (Solo ESCA por ahora)
     hogaresRaw.forEach(h => {
@@ -75,11 +77,15 @@ export function runAlertEngine(params) {
     });
 
     // 7. Validación de Segmento
+    // Solo evaluar si hay GeoJSON cargado (segmentBBoxes disponibles)
     const declaredCode = (normalized.segmento === '000' || normalized.segmento === '0') ? normalized.sector : normalized.segmento;
-    if (actualSeg && !matchSegmentCodes(declaredCode, actualSeg)) {
-        alertas.push('SEGMENTO_INCORRECTO');
-    } else if (!actualSeg && normalized.lat !== null) {
-        alertas.push('SEGMENTO_INCORRECTO');
+    if (state.segmentBBoxes && state.segmentBBoxes.length > 0) {
+        if (actualSeg && !matchSegmentCodes(declaredCode, actualSeg)) {
+            // El punto cae en un segmento diferente al declarado
+            alertas.push('SEGMENTO_INCORRECTO');
+        }
+        // Nota: si actualSeg es null, significa que el punto no cayó en ningún polígono
+        // (puede ser error de GPS o borde de segmento) — no se penaliza automáticamente
     }
 
     return alertas;

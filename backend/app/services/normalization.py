@@ -111,7 +111,11 @@ def normalize_record(rec: dict) -> dict:
             dt_end = datetime.fromisoformat(mapped["end"].replace("Z", "+00:00"))
             duration_sec = (dt_end - dt_start).total_seconds()
             mapped["duration_minutes"] = duration_sec / 60.0
-            mapped["flag_short_duration"] = mapped["duration_minutes"] < 15
+            
+            # Solo aplica la alerta de tiempo si la encuesta fue Efectiva (Completada)
+            nota_str = str(mapped.get("no_respuesta_raw") or "").lower()
+            is_completada = "totalment" in nota_str
+            mapped["flag_short_duration"] = is_completada and mapped["duration_minutes"] < 15
         else:
             mapped["duration_minutes"] = None
             mapped["flag_short_duration"] = False
@@ -181,3 +185,95 @@ def normalize_record(rec: dict) -> dict:
     mapped["_submitted_by"] = rec.get("_submitted_by")
 
     return mapped
+
+def filter_record(rec: dict) -> dict:
+    """
+    Elimina campos innecesarios del registro crudo de Kobo para reducir el tamaño del JSON.
+    Solo mantiene los campos que el frontend o la normalización necesitan.
+    """
+    # 1. Campos de primer nivel que queremos mantener
+    allowed_top_keys = {
+        "S0/cedula_encuestador", "S0/s0_nombreapellido",
+        "start", "end", "today", "_submission_time", "_uuid", "_id", "_submitted_by", "_geolocation",
+        "start-geopoint", "start_geopoint", "end-geopoint", "end_geopoint",
+        "S1/ent", "S1/mun", "S1/par", "S1/nodo", "S1/cpoblado", "S1/segmento", "S1/sector", "S1/manzana", 
+        "S1/parcela", "S1/Edificaci_n", "S1/edificacion", "S1/unidad", "S1/Uso_de_la_Unidad_inmobiliaria", 
+        "S1/P_nomsect", "S1/direccion", "S1/ubicacion", "S1/lado_manz",
+        "group_segmeto_sector/segmento", "group_segmeto_sector/sector",
+        "S1/group_segmeto_sector/segmento", "S1/group_segmeto_sector/sector",
+        "group_sh53u78/fecha_actual", "group_sh53u78/semana", "group_sh53u78/control", "group_sh53u78/lote", 
+        "group_sh53u78/n_linea", "group_sh53u78/n_serie", "group_sh53u78/ubicacion_i",
+        "Condici_n_de_ocupaci_n/ingresada", "Condici_n_de_ocupaci_n/condicion_de_ocupacion", 
+        "Condici_n_de_ocupaci_n/situacion_vivienda",
+        "ubicacion_final/observaciones", "ubicacion_final/fecha_entrevista_1", "ubicacion_final/nota", 
+        "ubicacion_final/hora_fin", "ubicacion_final/hora_f", "hora_f", "ubicacion_final/ubicacion_f", "ubicacion_f",
+        "control_entrevista/in12",
+        "lista_hogar", # EHM
+        "datos_hogar/hogar", "datos_hogar/hogar_count", # ESCA
+        "_backend_meta" # Nuestro enriquecimiento
+    }
+
+    filtered = {}
+    for k, v in rec.items():
+        if k in allowed_top_keys or "evaluacion" in k.lower() or "evaluador" in k.lower() or "supervision" in k.lower():
+            filtered[k] = v
+
+    # 2. Filtrar dentro de los grupos repetitivos (Hogares)
+    # ESCA
+    if "datos_hogar/hogar" in filtered and isinstance(filtered["datos_hogar/hogar"], list):
+        new_hogares = []
+        for h in filtered["datos_hogar/hogar"]:
+            h_filtered = {}
+            # Campos nivel hogar
+            h_keys = ["datos_hogar/hogar/semana_h", "datos_hogar/hogar/control_h", "datos_hogar/hogar/E2", 
+                      "datos_hogar/hogar/integrantes_hogar_count", "datos_hogar/hogar/integrantes_hogar",
+                      "datos_hogar/hogar/productos_22/arranque", "datos_hogar/hogar/productos_22/productos", 
+                      "datos_hogar/hogar/productos_22/productos_count", "situacion_hogar"]
+            for hk in h_keys:
+                if hk in h: h_filtered[hk] = h[hk]
+            
+            # Filtrar productos (Solo nos importa si hay productos y cuántos)
+            if "datos_hogar/hogar/productos_22/productos" in h and isinstance(h["datos_hogar/hogar/productos_22/productos"], list):
+                # Reemplazamos la lista pesada por una lista de objetos vacíos para mantener .length en el frontend
+                # y preservar la lógica de alert-engine.js
+                h_filtered["datos_hogar/hogar/productos_22/productos"] = [{} for _ in h["datos_hogar/hogar/productos_22/productos"]]
+            
+            # Filtrar integrantes
+            if "datos_hogar/hogar/integrantes_hogar" in h and isinstance(h["datos_hogar/hogar/integrantes_hogar"], list):
+                new_ints = []
+                for m in h["datos_hogar/hogar/integrantes_hogar"]:
+                    m_filtered = {}
+                    # Mantener solo sexo e ingreso para el motor de alertas y demografía
+                    for mk, mv in m.items():
+                        if mk.endswith("/sexo") or mk == "sexo" or \
+                           mk.endswith("/cuanto_actividad") or \
+                           mk.endswith("/integrantes_hogar_count"):
+                            m_filtered[mk] = mv
+                    new_ints.append(m_filtered)
+                h_filtered["datos_hogar/hogar/integrantes_hogar"] = new_ints
+            
+            new_hogares.append(h_filtered)
+        filtered["datos_hogar/hogar"] = new_hogares
+
+    # EHM
+    if "lista_hogar" in filtered and isinstance(filtered["lista_hogar"], list):
+        new_hogares_ehm = []
+        for h in filtered["lista_hogar"]:
+            h_filtered = {}
+            h_keys = ["lista_hogar/lista_miembros", "lista_hogar/personas_hogar", "lista_hogar/lista_miembros_count"]
+            for hk in h_keys:
+                if hk in h: h_filtered[hk] = h[hk]
+            
+            if "lista_hogar/lista_miembros" in h_filtered and isinstance(h_filtered["lista_hogar/lista_miembros"], list):
+                new_ints = []
+                for m in h_filtered["lista_hogar/lista_miembros"]:
+                    m_filtered = {}
+                    for mk, mv in m.items():
+                        if mk.endswith("/sexo") or mk == "sexo":
+                            m_filtered[mk] = mv
+                    new_ints.append(m_filtered)
+                h_filtered["lista_hogar/lista_miembros"] = new_ints
+            new_hogares_ehm.append(h_filtered)
+        filtered["lista_hogar"] = new_hogares_ehm
+
+    return filtered

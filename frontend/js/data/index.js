@@ -108,24 +108,24 @@ function _checkLineaSerie() {
         const s = String(parseInt(r._meta.n_serie, 10) || 0);
         const l = String(parseInt(r._meta.n_linea, 10) || 0);
         
+        const comboKey = `${c}-${s}-${l}`;
+        const isComboValid = state.controlsIndex.has(comboKey);
+        
         const isCtrlValid  = state.validControls.has(c);
-        const isSerieValid = state.validSeries.has(s);
-        const isLineaValid = state.validLineas.has(l);
 
         r._meta._ls_ctrl_ok  = isCtrlValid;
-        r._meta._ls_serie_ok = isSerieValid;
-        r._meta._ls_linea_ok = isLineaValid;
+        r._meta._ls_serie_ok = isComboValid;
+        r._meta._ls_linea_ok = isComboValid;
 
-        if (!isCtrlValid || !isSerieValid || !isLineaValid) {
+        if (!isComboValid) {
             if (!r._meta.alertas.includes('LINEA_SERIE_INVALIDA')) {
                 r._meta.alertas.push('LINEA_SERIE_INVALIDA');
                 r._meta.hasAlerts = true;
             }
             const reasons = [];
-            if (!isCtrlValid)  reasons.push('Control');
-            if (!isSerieValid) reasons.push('Serie');
-            if (!isLineaValid) reasons.push('Línea');
-            r._meta._ls_key_reported = `${reasons.join(', ')} no definido(s) en base de datos`;
+            if (!isCtrlValid) reasons.push('Control');
+            else reasons.push('Combinación Serie/Línea');
+            r._meta._ls_key_reported = `${reasons.join(', ')} inválida en BD`;
         }
     });
 }

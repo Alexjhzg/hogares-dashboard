@@ -1290,3 +1290,59 @@ button:hover svg {
 [data-lucide] {
     stroke-width: 2.5px;
 }
+/* ─── Active Filter States for Map KPIs ──────────────── */
+.active-filter-blue {
+    background-color: var(--color-brand-blue) !important;
+    border-color: var(--color-brand-blue) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(var(--color-brand-blue-rgb), 0.4) !important;
+    transform: translateY(-1px);
+}
+
+.active-filter-emerald {
+    background-color: var(--color-brand-emerald) !important;
+    border-color: var(--color-brand-emerald) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(var(--color-brand-emerald-rgb), 0.4) !important;
+    transform: translateY(-1px);
+}
+
+.active-filter-orange {
+    background-color: var(--color-brand-orange) !important;
+    border-color: var(--color-brand-orange) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(var(--color-brand-orange-rgb), 0.4) !important;
+    transform: translateY(-1px);
+}
+
+.active-filter-red {
+    background-color: var(--color-brand-red) !important;
+    border-color: var(--color-brand-red) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(var(--color-brand-red-rgb), 0.4) !important;
+    transform: translateY(-1px);
+}
+
+.active-filter-route {
+    background-color: #F97316 !important;
+    /* orange-500 */
+    border-color: #F97316 !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4) !important;
+    transform: translateY(-1px);
+}
+
+[class*="active-filter-"],
+[class*="active-filter-"] * {
+    color: white !important;
+    stroke: white !important;
+    opacity: 1 !important;
+}
+
+[class*="active-filter-"] svg {
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.2));
+}
+
+[class*="active-filter-"] {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

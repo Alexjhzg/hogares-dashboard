@@ -2,11 +2,15 @@ import os
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 from app.api.api_v1 import api_router
 from app.core.config import settings
 
 app = FastAPI(title=settings.PROJECT_NAME)
+
+# Gzip Compression
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # CORS
 app.add_middleware(

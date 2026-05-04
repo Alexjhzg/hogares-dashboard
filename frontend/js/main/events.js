@@ -25,7 +25,7 @@ export function bindEvents(callbacks) {
     // Data source & Refresh
     if ($('btnRefresh')) $('btnRefresh').addEventListener('click', () => {
         const assetId = $('assetSelect').value;
-        if (assetId) loadData(assetId, onProcessData);
+        if (assetId) loadData(assetId, onProcessData, true);
     });
     if ($('btnRetryConnection')) $('btnRetryConnection').addEventListener('click', () => loadAssets(onProcessData));
     if ($('assetSelect')) $('assetSelect').addEventListener('change', e => loadData(e.target.value, onProcessData));

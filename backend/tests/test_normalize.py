@@ -1,5 +1,5 @@
 import pytest
-from backend.main import normalize_record
+from app.services.normalization import normalize_record
 
 
 def make_record(start="2026-02-09T11:52:09.183-04:00", end="2026-02-09T12:07:09.183-04:00", start_geo="9.0 -63.0 0 0", end_geo="9.0 -63.0 0 0"):
@@ -26,6 +26,7 @@ def make_record(start="2026-02-09T11:52:09.183-04:00", end="2026-02-09T12:07:09.
                 "datos_hogar/hogar/E2": "1",
             }
         ],
+        "ubicacion_final/nota": "totalmente",
     }
 
 

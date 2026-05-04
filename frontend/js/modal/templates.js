@@ -111,7 +111,7 @@ export function getModalLayout(data) {
                     <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Condición de Ocupación</div>${stCond}</div>
                     <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Uso Estructural</div>${stUso}</div>
                     <div class="pt-2 border-t border-slate-200 dark:border-slate-700">
-                        <div class="text-[10px] text-slate-500 font-bold uppercase mb-1">Distancia calc. al segmento</div>
+                        <div class="text-[10px] text-slate-500 font-bold uppercase mb-1">Desplazamiento (Inicio &rarr; Fin)</div>
                         ${stDist}
                     </div>
                     <div class="pt-2 border-t border-slate-200 dark:border-slate-700">
@@ -160,8 +160,20 @@ export function getControlValidationHtml(data) {
     const noIndexMsg = !hasCtrlIndex
         ? `<div class="mt-2 text-[9px] text-slate-400 bg-slate-100 dark:bg-slate-800 rounded px-2 py-1.5 text-center">⚠ Índice de controles no cargado aún</div>`
         : '';
+    let validCombosHtml = '';
+    if (hasCtrlIndex && !ctrlEntry && data.validCombos && data.validCombos.length > 0) {
+        validCombosHtml = `
+            <div class="mt-2 p-2 bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded text-[9px] text-slate-600 dark:text-slate-400">
+                <div class="font-bold mb-1 text-slate-700 dark:text-slate-300 text-center uppercase tracking-wider">Pares S/L válidos para este Control:</div>
+                <div class="grid grid-cols-2 gap-1 font-mono text-center">
+                    ${data.validCombos.map(c => `<div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded py-0.5"><span class="text-slate-400">S:</span>${_padM(c.serie,2)} <span class="text-slate-400 ml-1">L:</span>${_padM(c.linea,3)}</div>`).join('')}
+                </div>
+            </div>
+        `;
+    }
+
     const notFoundMsg = hasCtrlIndex && !ctrlEntry
-        ? `<div class="mt-2 px-2 py-1.5 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700/30 rounded text-[9px] text-red-700 dark:text-red-300 text-center">Clave <b class="font-mono">${ctrlKey}</b><br>no existe en CONTROLES.geojson</div>`
+        ? `<div class="mt-2 px-2 py-1.5 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700/30 rounded text-[9px] text-red-700 dark:text-red-300 text-center">Clave <b class="font-mono">${ctrlKey}</b><br>no existe en CONTROLES.geojson</div>${validCombosHtml}`
         : '';
 
     return `<div class="bg-slate-50 dark:bg-slate-800/40 rounded-xl p-5 border border-slate-200 dark:border-slate-700/50">

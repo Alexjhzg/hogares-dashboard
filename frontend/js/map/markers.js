@@ -113,10 +113,12 @@ window.setQuickFilter = function (mode) {
             'bg-brand-emerald/10', 'dark:bg-brand-emerald/20', 'border-brand-emerald', 'ring-brand-emerald/30',
             'bg-brand-orange/10', 'dark:bg-brand-orange/20', 'border-brand-orange', 'ring-brand-orange/30',
             'bg-brand-red/10', 'dark:bg-brand-red/20', 'border-brand-red', 'ring-brand-red/30',
-            'ring-1', 'shadow-md', 'border-slate-400'
+            'ring-1', 'shadow-md', 'border-slate-400',
+            'active-filter-blue', 'active-filter-emerald', 'active-filter-orange', 'active-filter-red'
         );
         if (m === mode) {
-            btn.classList.add(...cfg.active, 'ring-1', 'shadow-md');
+            const activeClass = `active-filter-${m === 'all' ? 'blue' : m === 'efectivas' ? 'emerald' : m === 'no_efectiva' ? 'orange' : 'red'}`;
+            btn.classList.add(activeClass, 'shadow-md');
         } else {
             btn.classList.add(cfg.inactive);
         }

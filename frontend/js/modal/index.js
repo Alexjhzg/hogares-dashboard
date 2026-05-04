@@ -20,34 +20,38 @@ export function showDetailModal(rec) {
     if (!modal || !body || !rec) return;
 
     // 1. Data Extraction & Formatting
+    // Prefer _meta (already normalized) over raw Kobo paths to avoid picking up
+    // group-objects (e.g. rec['S1'] = { segmento:... }) instead of scalar values.
+    const m = rec._meta || {};
     const data = {
-        stEntidad: fmt(extractNested(rec, 'S1/ent') || extractNested(rec, 'ent')),
-        stMpio:    fmt(extractNested(rec, 'mun')),
-        stParr:    fmt(extractNested(rec, 'par')),
-        stSect:    fmt(extractNested(rec, 'sector') || extractNested(rec, 'S1/sector') || extractNested(rec, 'S1/group_segmeto_sector/sector')),
-        stNodo:    fmt(extractNested(rec, 'nodo')),
-        stEncuestador: fmt(extractNested(rec, 'nombre')  || extractNested(rec, 'S0/s0_nombreapellido')),
-        stCedula:  fmt(extractNested(rec, 'cedula')  || extractNested(rec, 'S0/cedula_encuestador')),
-        stFecha:   fmt(extractNested(rec, 'fecha')   || extractNested(rec, 'today/_submission_time')),
+        stEntidad: fmt(m.ent || rec['S1/ent'] || rec['ent'] || null),
+        stMpio:    fmt(m.mun  || null),
+        stParr:    fmt(m.par  || null),
+        stSect:    fmt(m.sector || null),
+        stNodo:    fmt(m.nodo  || null),
+        stEncuestador: fmt(m.nombre  || rec['S0/s0_nombreapellido'] || null),
+        stCedula:  fmt(m.cedula  !== 'N/A' ? m.cedula : null),
+        stFecha:   fmt(m.fecha   || rec['today'] || rec['_submission_time'] || null),
         stDur:     fmt((() => {
-            const d = extractNested(rec, 'durMin');
-            return d ? `${parseFloat(d).toFixed(2)} min` : null;
+            const d = m.durMin;
+            return d != null ? `${parseFloat(d).toFixed(2)} min` : null;
         })()),
-        declaredSeg: extractNested(rec, 'segmento') || extractNested(rec, 'S1/segmento') || extractNested(rec, 'S1/group_segmeto_sector/segmento'),
-        actualSeg: extractNested(rec, 'actual_seg'),
-        rawControl: String(extractNested(rec, 'group_sh53u78/control') || extractNested(rec, 'control') || ''),
-        rawSerie:   String(extractNested(rec, 'n_serie') || ''),
-        rawLinea:   String(extractNested(rec, 'n_linea') || ''),
-        stHogares: fmt(extractNested(rec, 'hogares') || extractNested(rec, 'datos_hogar/hogar_count') || extractNested(rec, 'lista_hogar_count')),
-        stPers:    fmt(extractNested(rec, 'totalPers') || extractNested(rec, 'datos_hogar/hogar.integrantes_hogar')),
-        stUso:     fmt(extractNested(rec, 'uso')     || extractNested(rec, 'S1/Uso_de_la_Unidad_inmobiliaria')),
-        stCond:    fmt(extractNested(rec, 'condicion') || extractNested(rec, 'Condici_n_de_ocupaci_n/condicion_de_ocupacion')),
-        alertas:   rec._meta?.alertas || [],
-        hasAlerts: rec._meta?.hasAlerts || false,
-        isFlagged: rec._meta?.flag_distance_gt_500,
-        durMin:    extractNested(rec, 'durMin'),
-        rawDist:   extractNested(rec, 'distance_m'),
-        m:         rec._meta || {}
+        // Segmento declarado: prefer _meta, then raw Kobo scalar (not the object)
+        declaredSeg: m.segmento || rec['S1/segmento'] || rec['S1/group_segmeto_sector/segmento'] || null,
+        actualSeg: m.actual_seg || null,
+        rawControl: String(m.control || rec['group_sh53u78/control'] || ''),
+        rawSerie:   String(m.n_serie  || ''),
+        rawLinea:   String(m.n_linea  || ''),
+        stHogares: fmt(m.hogares ?? null),
+        stPers:    fmt(m.totalPers ?? null),
+        stUso:     fmt(m.uso     || null),
+        stCond:    fmt(m.condicion || null),
+        alertas:   m.alertas   || [],
+        hasAlerts: m.hasAlerts || false,
+        isFlagged: m.flag_distance_gt_500,
+        durMin:    m.durMin ?? null,
+        rawDist:   m.distance_m ?? null,
+        m
     };
 
     data.isRural = data.declaredSeg === '000' || data.declaredSeg === '0';
@@ -60,20 +64,22 @@ export function showDetailModal(rec) {
     data.stSerie   = fmt(data.rawSerie   || null);
     data.stEstado  = data.m.estado === 'completada'
         ? '<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-brand-green/20 text-brand-green border border-brand-green/30">Completada (Efectiva)</span>'
-        : '<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-brand-orange/20 text-brand-orange border border-brand-orange/30">No Efectiva / Error</span>';
+        : '<span class="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest bg-brand-orange/20 text-brand-orange border border-brand-orange/30">No Efectiva</span>';
     
-    data.stDist = data.rawDist !== null
-        ? `<span class="font-outfit font-black ${data.isFlagged ? 'text-brand-red' : 'text-brand-emerald'}">${Math.round(data.rawDist)} m</span>`
-        : '<span class="text-slate-500 font-medium italic">N/A</span>';
+
 
     // 2. Control Catalog Lookup
     const ctrlKey = _ctrlKey(data.rawControl, data.rawSerie, data.rawLinea);
     const ctrlEntry = (state.controlsIndex instanceof Map) ? state.controlsIndex.get(ctrlKey) : null;
     const hasCtrlIndex = state.controlsIndex instanceof Map && state.controlsIndex.size > 0;
+    
+    const parsedControl = data.rawControl ? String(data.rawControl).trim().slice(-4) : '';
+    const ctrlDetails = (state.controlDetails instanceof Map) ? state.controlDetails.get(parsedControl) : null;
+    const validCombos = ctrlDetails ? ctrlDetails.combos : [];
 
     data.ctrlPanelHtml = getControlValidationHtml({
         m: data.m, rawControl: data.rawControl, rawSerie: data.rawSerie, rawLinea: data.rawLinea,
-        _padM, hasCtrlIndex, ctrlEntry, ctrlKey
+        _padM, hasCtrlIndex, ctrlEntry, ctrlKey, validCombos
     });
 
     // 3. Mini-Map Data Preparation
@@ -85,6 +91,11 @@ export function showDetailModal(rec) {
     const ptMain = (rawLat && rawLng) ? { lat: parseFloat(rawLat), lng: parseFloat(rawLng) } : null;
     
     data.walkedDistance = ptIni && ptFin ? calcDistance(ptIni, ptFin) : null;
+    
+    data.stDist = data.walkedDistance !== null
+        ? `<span class="font-outfit font-black ${data.walkedDistance > 30 ? 'text-brand-red' : 'text-brand-emerald'}">${Math.round(data.walkedDistance)} m</span>`
+        : '<span class="text-slate-500 font-medium italic">N/A</span>';
+
     data.hasMapData = ptStart || ptIni || ptFin || ptMain;
     
     data.segmentMatchStatus = (!data.valLeftVal || !data.actualSeg) 

@@ -61,7 +61,7 @@ hayan completado sin realizar las preguntas completas.`,
         code: 'TIEMPO_LARGO',
         label: 'Duración Larga',
         color: '#EF4444',
-        detail: 'La encuesta superó los 60 minutos. Posible pausa prolongada o error de cierre.'
+        detail: 'La encuesta superó los 45 minutos. Posible pausa prolongada o error de cierre.'
     },
     {
         code: 'SEGMENTO_INCORRECTO',
