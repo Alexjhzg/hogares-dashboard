@@ -215,8 +215,13 @@ def filter_record(rec: dict) -> dict:
 
     filtered = {}
     for k, v in rec.items():
-        if k in allowed_top_keys or "evaluacion" in k.lower() or "evaluador" in k.lower() or "supervision" in k.lower():
+        if k in allowed_top_keys:
             filtered[k] = v
+        else:
+            # Solo hacemos lower() si no está en las claves permitidas fijas
+            kl = k.lower()
+            if "evaluacion" in kl or "evaluador" in kl or "supervision" in kl:
+                filtered[k] = v
 
     # 2. Filtrar dentro de los grupos repetitivos (Hogares)
     # ESCA

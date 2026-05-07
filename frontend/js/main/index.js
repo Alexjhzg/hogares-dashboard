@@ -62,8 +62,8 @@ function renderAll() {
 // Inject renderAll into filters to avoid circular dependencies
 setRenderAll(renderAll);
 
-const onProcessData = () => {
-    processData();
+const onProcessData = async () => {
+    await processData();
     populateFilters();
     state.filtered = [...state.rawData];
     renderAll();

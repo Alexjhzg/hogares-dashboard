@@ -53,12 +53,10 @@ async def get_asset_data(asset_uid: str, refresh: bool = False):
         data = await kobo_service.get_asset_data(asset_uid)
         results = data.get("results", [])
         
-        filtered_results = []
-        for r in results:
-            # 1. Normalizar (añade _backend_meta)
-            r["_backend_meta"] = normalize_record(r)
-            # 2. Filtrar campos innecesarios
-            filtered_results.append(filter_record(r))
+        # Procesamos en un solo paso con list comprehension (más rápido que .append() en bucle)
+        # 1. Normalizar (añade _backend_meta)
+        # 2. Filtrar campos innecesarios
+        filtered_results = [filter_record({**r, "_backend_meta": normalize_record(r)}) for r in results]
             
         final_payload = {
             "count": data.get("count", 0),

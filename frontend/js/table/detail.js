@@ -27,7 +27,9 @@ export function initGrid(initialData = []) {
                 columns: [
                     { title: 'Cédula',  field: 'cedula',  headerFilter: 'input', minWidth: 90,  responsive: 0 },
                     { title: 'Nombre',  field: 'nombre',  headerFilter: 'input', minWidth: 140, responsive: 0 },
-                    { title: 'Control', field: 'control', headerFilter: 'input', width: 90,     responsive: 0 },
+                    { title: 'Control', field: 'control', headerFilter: 'input', width: 85,     responsive: 0 },
+                    { title: 'Serie',   field: 'serie',   headerFilter: 'input', width: 60,     responsive: 2 },
+                    { title: 'Línea',   field: 'linea',   headerFilter: 'input', width: 60,     responsive: 2 },
                 ]
             },
             {
@@ -90,6 +92,8 @@ export function updateGrid(data = state.filtered) {
             cedula:   m.cedula   || '',
             nombre:   m.nombre   || '',
             control:  m.control  || '',
+            serie:    m.n_serie  || '',
+            linea:    m.n_linea  || '',
             fecha:    m.fecha    || '',
             mun:      m.mun      || '',
             par:      m.par      || '',
@@ -109,10 +113,18 @@ export function updateGrid(data = state.filtered) {
         initGrid(rows);
     } else {
         try {
-            state.detailTable.setData(rows);
+            state.detailTable.setData(rows).then(() => {
+                state.detailTable.redraw(true);
+            });
         } catch (e) {
             console.warn('Tabulator setData delayed:', e.message);
-            setTimeout(() => state.detailTable && state.detailTable.setData(rows), 100);
+            setTimeout(() => {
+                if (state.detailTable) {
+                    state.detailTable.setData(rows).then(() => {
+                        state.detailTable.redraw(true);
+                    });
+                }
+            }, 100);
         }
     }
 }

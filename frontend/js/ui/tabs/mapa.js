@@ -132,8 +132,8 @@ export function getMapaTabHTML() {
               class="w-full bg-white dark:bg-surface-dark border border-slate-300 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2 text-xs outline-none focus:ring-1" />
           </div>
         </div>
-        <div class="flex-1 bg-white dark:bg-slate-900 relative">
-          <div id="detailGrid" class="absolute inset-0 border-0"></div>
+        <div class="flex-1 bg-white dark:bg-slate-900 relative min-h-0">
+          <div id="detailGrid" class="w-full h-full border-0"></div>
         </div>
       </div>
     </div>`;

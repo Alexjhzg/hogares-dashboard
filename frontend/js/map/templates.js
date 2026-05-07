@@ -57,7 +57,12 @@ export function getSurveyMarkerPopupHtml(m, uuid, color, borderColor, alertBadge
                 <span class="px-2 py-0.5 rounded-md text-[9px] font-bold text-white shadow-sm" style="background:${color}">${alertBadge}</span>
             </div>
             <div class="font-bold text-sm text-slate-900 dark:text-white mb-0.5">${m.nombre}</div>
-            <div class="text-[10px] text-slate-500 dark:text-slate-400 mb-3">${m.fecha} · ${m.cedula}</div>
+            <div class="text-[10px] text-slate-500 dark:text-slate-400 mb-1">${m.fecha} · ${m.cedula}</div>
+            <div class="flex gap-2 text-[9px] font-bold text-brand-blue mb-3">
+                <span class="bg-brand-blue/5 px-1.5 py-0.5 rounded">Ctrl: ${m.control ? m.control.slice(-4) : '—'}</span>
+                <span class="bg-brand-blue/5 px-1.5 py-0.5 rounded">S: ${m.n_serie || '—'}</span>
+                <span class="bg-brand-blue/5 px-1.5 py-0.5 rounded">L: ${m.n_linea || '—'}</span>
+            </div>
             
             <div class="border-t border-slate-100 dark:border-white/5 pt-3 mb-3">
                 <div class="flex justify-between gap-4 mb-2">
@@ -146,7 +151,7 @@ export function getRouteTooltipHtml(num, hora, m, durText) {
         <div style="font-family:Inter,sans-serif;font-size:11px;line-height:1.6;padding:2px 4px">
             <b>#${num} · ${hora}</b><br>
             ${m.nombre || '—'}<br>
-            Ctrl: ${m.control ? m.control.slice(-4) : '—'} · L${m.n_linea || '—'}<br>
+            Ctrl: ${m.control ? m.control.slice(-4) : '—'} · S${m.n_serie || '—'} · L${m.n_linea || '—'}<br>
             Duración: ${durText}
         </div>
     `;

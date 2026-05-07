@@ -140,9 +140,9 @@ export async function loadData(uid, onDataProcessed, refresh = false) {
 
     // 2. Yield process to let browser paint the shell while loader is visible
     requestAnimationFrame(() => {
-        setTimeout(() => {
+        setTimeout(async () => {
             // 3. Start Heavy Processing & Rendering
-            if (onDataProcessed) onDataProcessed();
+            if (onDataProcessed) await onDataProcessed();
             if (window.lucide) lucide.createIcons();
 
             // 4. Final yield to ensure charts/maps finished their first paint
