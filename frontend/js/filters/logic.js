@@ -102,7 +102,22 @@ export function resetFilters() {
 
     if ($('filterMunicipio')) $('filterMunicipio').dispatchEvent(new Event('change'));
     
+    // Reset Entity Filters
+    state.filterINE = false;
+    state.filterSEGEN = false;
+    ['filterINE', 'filterSEGEN'].forEach(id => {
+        const el = $(id);
+        if (el) el.classList.remove('active', 'bg-brand-emerald', 'bg-brand-purple', 'text-white');
+    });
+
     state.filtered = [...state.rawData];
+    state.quickFilterMode = 'all';
+
+    // Reset visual state of map quick filters if they exist
+    if (typeof window.setQuickFilter === 'function') {
+        window.setQuickFilter('all');
+    }
+
     renderActiveFilterTags();
     if (typeof _renderAll === 'function') _renderAll();
 }

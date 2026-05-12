@@ -10,7 +10,7 @@ import { $ } from '../utils/index.js';
 // Sub-modules
 import { showLoading, hideLoading, setConnectionUI } from './ui.js';
 import { DB } from './cache.js';
-import { fetchAssets, fetchSurveyData } from './services.js';
+import { fetchAssets, fetchSurveyData, schedulePrefetch } from './services.js';
 
 // Re-export UI helpers for other modules to use
 export { showLoading, hideLoading, setConnectionUI };
@@ -80,6 +80,12 @@ export async function loadAssets(onDataLoaded) {
         if (sel) sel.value = escaV3.uid;
         state.assetName = escaV3.name;
         if (onDataLoaded) onDataLoaded(escaV3.uid);
+
+        // ── Prefetch proactivo ──────────────────────────────────────────────
+        // Al arrancar, pre-calentamos la caché del segundo asset de la lista
+        // para que esté listo cuando el usuario lo seleccione.
+        const nextAsset = assets.find(a => a.uid !== escaV3.uid);
+        if (nextAsset) schedulePrefetch(nextAsset.uid);
     } else {
         // If no auto-select, we finally hide the loader so user can choose
         hideLoading();
@@ -101,9 +107,17 @@ export async function loadData(uid, onDataProcessed, refresh = false) {
     let jsonData = null;
     let isOfflineMode = false;
 
+    // Resolver cuál es el siguiente UID en el select para informar al backend
+    const sel = $('assetSelect');
+    const allOptions = sel ? [...sel.options].map(o => o.value).filter(Boolean) : [];
+    const currentIdx = allOptions.indexOf(uid);
+    const nextUid = currentIdx >= 0 && currentIdx + 1 < allOptions.length
+        ? allOptions[currentIdx + 1]
+        : '';
+
     try {
-        // Try Network
-        jsonData = await fetchSurveyData(uid, refresh);
+        // Try Network — pasamos next_uid para que el backend lance el prefetch
+        jsonData = await fetchSurveyData(uid, refresh, nextUid);
         await DB.set(`data_cache_${uid}`, jsonData);
         setConnectionUI(true);
     } catch (err) {

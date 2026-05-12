@@ -1,5 +1,6 @@
 import { state } from '../core/index.js';
-import { parseGeoString, haversineMeters, matchSegmentCodes } from '../utils/index.js';
+import { parseGeoString, matchSegmentCodes } from '../utils/index.js';
+import * as turf from '@turf/turf';
 import {
     DUR_MIN_OK, DUR_MAX_OK, DIST_APERT_MAX,
     DUR_MIN_EHM, DUR_MIN_ESCA,
@@ -17,6 +18,8 @@ export function runAlertEngine(params) {
         if (bf.distance_gt_500m) alertas.push('FUERA_SEGMENTO');
         if (bf.hogar_count_mismatch) alertas.push('HOGARES_INCONSISTENTES');
         if (bf.integrantes_mismatch) alertas.push('INTEGRANTES_INCONSISTENTES');
+        if (bf.wrong_segment) alertas.push('SEGMENTO_INCORRECTO');
+        if (bf.far_from_control) alertas.push('CONTROL_DISTANTE');
     }
 
     // 1. Apertura muy lejos
@@ -24,7 +27,7 @@ export function runAlertEngine(params) {
         const sgeo = r['start-geopoint'] || r['start_geopoint'];
         const startPt = parseGeoString(sgeo) || (r['_geolocation']?.length >= 2 ? [r['_geolocation'][0], r['_geolocation'][1]] : null);
         if (startPt && ptIni && ptIni[0]) {
-            const d = haversineMeters(startPt[0], startPt[1], ptIni[0], ptIni[1]);
+            const d = turf.distance([startPt[1], startPt[0]], [ptIni[1], ptIni[0]], {units: 'meters'});
             if (d > DIST_APERT_MAX) alertas.push('APERT_LEJOS');
         }
     } catch (_) {}
@@ -76,16 +79,13 @@ export function runAlertEngine(params) {
         }
     });
 
-    // 7. Validación de Segmento
-    // Solo evaluar si hay GeoJSON cargado (segmentBBoxes disponibles)
+    // Solo evaluar si hay segmento real asignado (desde Backend o Fallback)
     const declaredCode = (normalized.segmento === '000' || normalized.segmento === '0') ? normalized.sector : normalized.segmento;
-    if (state.segmentBBoxes && state.segmentBBoxes.length > 0) {
-        if (actualSeg && !matchSegmentCodes(declaredCode, actualSeg)) {
+    if (actualSeg && declaredCode) {
+        if (!matchSegmentCodes(declaredCode, actualSeg)) {
             // El punto cae en un segmento diferente al declarado
             alertas.push('SEGMENTO_INCORRECTO');
         }
-        // Nota: si actualSeg es null, significa que el punto no cayó en ningún polígono
-        // (puede ser error de GPS o borde de segmento) — no se penaliza automáticamente
     }
 
     return alertas;

@@ -120,6 +120,12 @@ El mínimo razonable para ESCA es ${DUR_MIN_ESCA} minutos.`,
         detail: 'La lista de integrantes por hogar no coincide con el total de miembros declarado.',
         color: '#EF4444'
     },
+    {
+        code: 'CONTROL_DISTANTE',
+        label: 'Control Distante',
+        detail: 'La ubicación GPS del levantamiento está a más de 600 metros del punto de control teórico definido en la base de datos oficial.',
+        color: '#EF4444'
+    },
 ];
 
 /**

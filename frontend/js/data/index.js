@@ -8,7 +8,7 @@ import { state } from '../core/index.js';
 // Sub-modules
 import { normalizeRecord, calculateDuration } from './normalizer.js';
 import { parseDemographics } from './survey-parsers.js';
-import { getCoordinates, calculateDistances, validateSegment } from './geo-rules.js';
+import { getCoordinates } from './geo-rules.js';
 import { runAlertEngine } from './alert-engine.js';
 import { classifyHousingState } from './housingClassifier.js';
 
@@ -48,12 +48,14 @@ export async function processData() {
             // 2. Demographic Parsing (EHM/ESCA)
             const { totalPers, totalHombres, totalMujeres, hogaresCount, hogaresRaw } = parseDemographics(r, n.formType);
 
-            // 3. Geographic Analytics
-            const { lat, lng, ptIni, ptFin } = getCoordinates(r);
-            const { distance_m, dist_ini_fin } = calculateDistances(r, ptIni, ptFin);
-            
-            const declaredCode = (n.segmento === '000' || n.segmento === '0') ? n.sector : n.segmento;
-            const actualSeg = validateSegment(lat, lng, declaredCode);
+            // 3. Geographic Analytics (Backend Enriched)
+            const { ptIni } = getCoordinates(r); // Kept for legacy alert engine compatibility
+            const geoMeta = r._geo_meta || {};
+            const lat = geoMeta.lat ?? null;
+            const lng = geoMeta.lng ?? null;
+            const distance_m = geoMeta.distance_m ?? null;
+            const dist_ini_fin = geoMeta.dist_ini_fin ?? null;
+            const actualSeg = geoMeta.actual_seg ?? null;
 
             // Count unipersonal households
             let hogaresUniPersonales = 0;

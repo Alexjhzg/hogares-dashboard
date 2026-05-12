@@ -3,6 +3,7 @@ import { $ } from '../utils/index.js';
 import { applyFilters } from '../filters/index.js';
 import { showDetailModal } from '../modal/index.js';
 import { getRouteMarkerIconHtml, getRouteTooltipHtml } from './templates.js';
+import { GeoAnalysis } from './geo-analysis.js';
 
 function clearAgentRoute() {
     if (state.agentRouteLayer) {
@@ -28,7 +29,11 @@ export function drawAgentRoute(cedula) {
     const countEl = $('mapRouteAgentCount');
     if (countEl) countEl.textContent = `${agentPoints.length} ptos`;
 
-    const latlngs = agentPoints.map(r => [r._meta.lat, r._meta.lng]);
+    const latlngsRaw = agentPoints.map(r => [r._meta.lat, r._meta.lng]);
+    
+    // Suavizado de Ruta (Simplificación sutil a 1 metro)
+    const latlngs = GeoAnalysis.simplifyPath(latlngsRaw, 0.00001);
+    
     const layers = [];
 
     layers.push(L.polyline(latlngs, {

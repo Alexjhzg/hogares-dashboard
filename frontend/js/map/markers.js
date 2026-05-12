@@ -9,7 +9,7 @@ export function renderMap() {
     if (!state.map || !state.markerCluster) return;
     state.markerCluster.clearLayers();
 
-    const points = state.filtered.filter(r => r._meta.lat && r._meta.lng);
+    const points = state.filtered.filter(r => r._meta.lat != null && r._meta.lng != null);
 
     const completedOnMap = points.filter(r => r._meta && r._meta.estado === 'completada').length;
     const noEfectOnMap = points.length - completedOnMap;

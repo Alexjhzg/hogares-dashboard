@@ -25,56 +25,7 @@ export function parseGeoString(g) {
     } catch (e) { return null; }
 }
 
-/**
- * Haversine distance in metres between two (lat, lon) pairs.
- */
-export function haversineMeters(lat1, lon1, lat2, lon2) {
-    const toRad = x => x * Math.PI / 180;
-    const R = 6371000;
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-    const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-}
 
-/**
- * Point-in-Polygon check using Ray Casting algorithm.
- * @param {number[]} point - [lat, lng] point to check.
- * @param {number[][]} polygon - Array of [lng, lat] coordinates (GeoJSON standard ring).
- */
-export function isPointInPolygon(point, polygon) {
-    const [lat, lng] = point;
-    let inside = false;
-    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-        const [xi, yi] = polygon[i]; // xi=lng, yi=lat (GeoJSON style)
-        const [xj, yj] = polygon[j]; // xj=lng, yj=lat
-        
-        const intersect = ((yi > lat) !== (yj > lat)) &&
-            (lng < (xj - xi) * (lat - yi) / (yj - yi) + xi);
-        if (intersect) inside = !inside;
-    }
-    return inside;
-}
-
-/**
- * Get Bounding Box for a polygon [[lng, lat], ...] (GeoJSON standard outer ring)
- * Returns {minLat, maxLat, minLng, maxLng}
- * Using correctly destructured labels for clarity.
- */
-export function getPolygonBBox(polygon) {
-    let minLat = Infinity, maxLat = -Infinity;
-    let minLng = Infinity, maxLng = -Infinity;
-    for (const [lng, lat] of polygon) {
-        if (lat < minLat) minLat = lat;
-        if (lat > maxLat) maxLat = lat;
-        if (lng < minLng) minLng = lng;
-        if (lng > maxLng) maxLng = lng;
-    }
-    return { minLat, maxLat, minLng, maxLng };
-}
 
 /**
  * Compares two segment codes, handling potential padding or full UBIGEO strings.

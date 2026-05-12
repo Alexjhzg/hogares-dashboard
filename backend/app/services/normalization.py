@@ -1,5 +1,6 @@
 from datetime import datetime
 from app.utils.geo import parse_geopoint, haversine_meters, extract_precision
+from app.services.spatial_validator import spatial_validator
 
 def to_int(v, default: int = 0) -> int:
     try:
@@ -104,6 +105,40 @@ def normalize_record(rec: dict) -> dict:
     mapped["distance_meters"] = distance_m
     mapped["flag_distance_gt_500m"] = distance_m is not None and distance_m > 500
 
+    # ── VALIDACIÓN ESPACIAL AVANZADA (Shapely) ──────────────────────────────
+    # 1. Detectar segmento real basado en GPS (usamos end_pt que suele ser la ubicación i/f)
+    real_seg = None
+    dist_to_control = None
+    
+    check_pt = end_pt or start_pt
+    if check_pt:
+        real_seg = spatial_validator.find_segment(check_pt[0], check_pt[1])
+        
+        # 2. Distancia al punto de control teórico
+        ctrl = mapped.get("control")
+        serie = mapped.get("n_serie")
+        linea = mapped.get("n_linea")
+        if ctrl and serie and linea:
+            control_info = spatial_validator.get_control_point(ctrl, serie, linea)
+            if control_info:
+                dist_to_control = spatial_validator.calculate_distance_to_control(
+                    check_pt[0], check_pt[1], control_info
+                )
+
+    mapped["real_segment_properties"] = real_seg
+    mapped["distance_to_control"] = dist_to_control
+    
+    # Flags de integridad espacial
+    mapped["flag_wrong_segment"] = False
+    if real_seg:
+        # Comparar con lo declarado (considerando normalización de ceros)
+        declared_seg = str(mapped.get("segmento") or mapped.get("sector") or "").strip().zfill(3)
+        real_seg_id = str(real_seg.get("COD_SEG") or real_seg.get("cod_seg") or "").strip().zfill(3)
+        if declared_seg != "000" and real_seg_id != "000" and declared_seg != real_seg_id:
+            mapped["flag_wrong_segment"] = True
+    
+    mapped["flag_far_from_control"] = dist_to_control is not None and dist_to_control > 600 # 600m threshold
+
     # Duración de la encuesta
     try:
         if mapped.get("start") and mapped.get("end"):
@@ -178,6 +213,8 @@ def normalize_record(rec: dict) -> dict:
         "short_duration": mapped["flag_short_duration"],
         "hogar_count_mismatch": mapped["flag_hogar_count_mismatch"],
         "integrantes_mismatch": len(integrantes_mismatch) > 0,
+        "wrong_segment": mapped.get("flag_wrong_segment", False),
+        "far_from_control": mapped.get("flag_far_from_control", False),
     }
 
     # Metadatos de envío
@@ -210,7 +247,8 @@ def filter_record(rec: dict) -> dict:
         "control_entrevista/in12",
         "lista_hogar", # EHM
         "datos_hogar/hogar", "datos_hogar/hogar_count", # ESCA
-        "_backend_meta" # Nuestro enriquecimiento
+        "_backend_meta", # Nuestro enriquecimiento base
+        "_geo_meta" # Nuestro enriquecimiento geoespacial
     }
 
     filtered = {}
