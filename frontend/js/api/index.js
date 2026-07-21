@@ -71,20 +71,22 @@ export async function loadAssets(onDataLoaded) {
     if (badge) badge.textContent = 'Formularios Listos';
     if (window.lucide) lucide.createIcons();
 
-    // Auto-select "ESCA Ampliada V3"
-    const escaV3 = assets.find(a =>
+    // Auto-select preferencia ESCA V4 -> V3 -> Primer asset disponible
+    const defaultAsset = assets.find(a =>
+        a.name.toLowerCase().includes('esca') && a.name.toLowerCase().includes('v4')
+    ) || assets.find(a =>
         a.name.toLowerCase().includes('esca') && a.name.toLowerCase().includes('v3')
-    );
+    ) || assets[0];
 
-    if (escaV3) {
-        if (sel) sel.value = escaV3.uid;
-        state.assetName = escaV3.name;
-        if (onDataLoaded) onDataLoaded(escaV3.uid);
+    if (defaultAsset) {
+        if (sel) sel.value = defaultAsset.uid;
+        state.assetName = defaultAsset.name;
+        if (onDataLoaded) onDataLoaded(defaultAsset.uid);
 
         // ── Prefetch proactivo ──────────────────────────────────────────────
         // Al arrancar, pre-calentamos la caché del segundo asset de la lista
         // para que esté listo cuando el usuario lo seleccione.
-        const nextAsset = assets.find(a => a.uid !== escaV3.uid);
+        const nextAsset = assets.find(a => a.uid !== defaultAsset.uid);
         if (nextAsset) schedulePrefetch(nextAsset.uid);
     } else {
         // If no auto-select, we finally hide the loader so user can choose
@@ -168,6 +170,21 @@ export async function loadData(uid, onDataProcessed, refresh = false) {
             });
         }, 100);
     });
+}
+
+/**
+ * Load the planned housing data from planificacion.json.
+ */
+export async function loadPlanificacionData() {
+    if (state.planificacionData) return;
+    try {
+        const response = await fetch('data/planificacion.json');
+        if (!response.ok) throw new Error('Error loading planificacion.json');
+        state.planificacionData = await response.json();
+        console.log('api/index.js: Planned housing data loaded ✓');
+    } catch (err) {
+        console.error('Failed to load planificacion.json:', err);
+    }
 }
 
 // Expose loadAssets globally for legacy support in index.html (onclick)

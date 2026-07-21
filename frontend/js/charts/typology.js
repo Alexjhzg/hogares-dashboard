@@ -1,6 +1,6 @@
 import { state } from '../core/index.js';
 import { $ } from '../utils/index.js';
-import { COLORS, MAP_LABELS, USO_STYLES, RAZON_STYLES } from '../core/index.js';
+import { COLORS, MAP_LABELS, USO_STYLES, RAZON_STYLES, SUBTIPO_STYLES } from '../core/index.js';
 import { destroyChart } from './theme.js';
 
 /**
@@ -24,15 +24,20 @@ function getCondColor(label) {
     return RAZON_STYLES.DEFAULT.color;
 }
 
+function getSubtipoColor(label) {
+    const style = SUBTIPO_STYLES[label] || SUBTIPO_STYLES['DEFAULT'];
+    return style.color;
+}
+
 export function renderChartCondicion() {
     destroyChart('cond');
     const counts = {};
     state.filtered.forEach(r => {
-        const raw = r._meta.condicion;
-        const label = MAP_LABELS.condicion[raw] || String(raw).replace(/_/g, ' ');
-        counts[label] = (counts[label] || 0) + 1;
+        const subtipo = r._meta?.subtipo_vivienda || 'Otro (Especifique)';
+        counts[subtipo] = (counts[subtipo] || 0) + 1;
     });
-    const entries = Object.entries(counts);
+    // Sort by count descending
+    const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
     const canvas = $('chartCondicion');
     if (!canvas) return;
 
@@ -44,7 +49,7 @@ export function renderChartCondicion() {
             labels: entries.map(e => e[0]),
             datasets: [{ 
                 data: entries.map(e => e[1]), 
-                backgroundColor: entries.map(e => getCondColor(e[0]) + 'aa'), 
+                backgroundColor: entries.map(e => getSubtipoColor(e[0]) + 'bb'), 
                 borderColor: '#1c2128',
                 borderWidth: 2,
                 hoverOffset: 15 
@@ -68,6 +73,7 @@ export function renderChartCondicion() {
         },
     });
 }
+
 
 export function renderChartUso() {
     destroyChart('uso');

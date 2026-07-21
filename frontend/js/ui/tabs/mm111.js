@@ -34,14 +34,14 @@ export function getMM111TabHTML() {
               <div class="relative flex-1 lg:w-80 group">
                 <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-brand-blue transition-colors"></i>
                 <input type="text" id="mm111SearchControl" autocomplete="off" placeholder="Buscar Control..."
-                  class="w-full bg-slate-50 dark:bg-surface-dark border-2 border-brand-blue/30 rounded-xl pl-10 pr-10 py-2.5 text-sm text-slate-800 dark:text-white font-bold outline-none focus:border-brand-blue focus:ring-4 focus:ring-brand-blue/10 transition-all font-outfit" />
+                  class="w-full bg-white dark:bg-surface-dark border border-slate-300 dark:border-slate-700/80 rounded-xl pl-10 pr-10 py-2.5 text-sm text-slate-800 dark:text-slate-200 font-bold outline-none focus:border-brand-blue/50 focus:ring-1 transition-all" />
                 
                 <button id="mm111ClearSearch" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hidden">
                    <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
 
                 <!-- Search Results Dropdown -->
-                <div id="mm111SearchResults" class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl z-[100] max-h-64 overflow-y-auto hidden glass-panel">
+                <div id="mm111SearchResults" class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl z-[100] max-h-64 overflow-y-auto hidden custom-scrollbar">
                   <div class="p-2 space-y-1" id="mm111ResultsList">
                     <!-- Results will be injected here -->
                   </div>
@@ -55,67 +55,53 @@ export function getMM111TabHTML() {
           </div>
         </div>
 
-        <!-- Segmento Geográfico -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div class="p-3 bg-slate-50 dark:bg-surface-dark/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
+        <!-- Información de Planilla Geográfica (Simplificada) -->
+        <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mt-2">
+          <!-- 1. Entidad -->
+          <div class="p-4 bg-slate-50 dark:bg-surface-dark/40 rounded-xl border border-slate-200 dark:border-slate-800/80 flex justify-between items-center shadow-sm">
             <div>
-              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Entidad Federal</p>
+              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Entidad</p>
               <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Entidad">---</p>
             </div>
-            <div class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700" id="mm111EntidadCod">--</div>
+            <div class="bg-slate-200/60 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700" id="mm111EntidadCod">--</div>
           </div>
-          <div class="p-3 bg-slate-50 dark:bg-surface-dark/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
-            <div>
-              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Municipio</p>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Municipio">---</p>
-            </div>
-            <div class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700" id="mm111MunicipioCod">--</div>
-          </div>
-          <div class="p-3 bg-slate-50 dark:bg-surface-dark/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
-            <div>
-              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Parroquia</p>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Parroquia">---</p>
-            </div>
-            <div class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700" id="mm111ParroquiaCod">--</div>
-          </div>
-          <div class="p-3 bg-slate-50 dark:bg-surface-dark/60 rounded-xl border border-slate-200 dark:border-slate-800 flex justify-between items-center">
-            <div>
-              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Centro Poblado</p>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111CPoblado">---</p>
-            </div>
-            <div class="bg-slate-200 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700" id="mm111CPobladoCod">--</div>
-          </div>
-        </div>
 
-        <!-- Barra de Controles Operativos -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-[1px] bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm">
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-white dark:bg-surface-dark">
-            <span class="text-[9px] uppercase font-bold text-slate-500">Segmento</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Segmento">-</div>
+          <!-- 2. Control -->
+          <div class="p-4 bg-yellow-50 dark:bg-yellow-500/5 rounded-xl border border-yellow-100 dark:border-yellow-500/10 flex justify-between items-center shadow-sm">
+            <div>
+              <p class="text-[9px] uppercase font-black text-yellow-600 dark:text-yellow-400 tracking-wider">Control</p>
+              <p class="text-base font-black font-outfit text-yellow-700 dark:text-yellow-200 mt-1" id="mm111ControlNro">0000</p>
+            </div>
+            <div class="bg-yellow-100/80 dark:bg-yellow-950/30 px-3 py-1.5 rounded-lg text-xs font-black text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-900/30">CTRL</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-white dark:bg-surface-dark">
-            <span class="text-[9px] uppercase font-bold text-slate-500">Sector</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Sector">-</div>
+
+          <!-- 3. Lote -->
+          <div class="p-4 bg-slate-50 dark:bg-surface-dark/40 rounded-xl border border-slate-200 dark:border-slate-800/80 flex justify-between items-center shadow-sm">
+            <div>
+              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Lote</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Lote">-</p>
+            </div>
+            <div class="bg-slate-200/60 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700">LOTE</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-white dark:bg-surface-dark">
-            <span class="text-[9px] uppercase font-bold text-slate-500">Nodo</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Nodo">-</div>
+
+          <!-- 4. Segmento o Sector -->
+          <div class="p-4 bg-slate-50 dark:bg-surface-dark/40 rounded-xl border border-slate-200 dark:border-slate-800/80 flex justify-between items-center shadow-sm">
+            <div>
+              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Segmento / Sector</p>
+              <div class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 flex gap-1">
+                <span id="mm111Segmento">-</span> / <span id="mm111Sector">-</span>
+              </div>
+            </div>
+            <div class="bg-slate-200/60 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700">SEG/SEC</div>
           </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-white dark:bg-surface-dark">
-            <span class="text-[9px] uppercase font-bold text-slate-500">Semana</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Semana">-</div>
-          </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-white dark:bg-surface-dark col-span-2 sm:col-span-4 lg:col-span-1">
-            <span class="text-[9px] uppercase font-bold text-slate-500">Control Maestro</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300 truncate w-full" id="mm111ControlMaestro">-</div>
-          </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-yellow-50 dark:bg-yellow-500/5 border-x border-yellow-100 dark:border-yellow-500/10">
-            <span class="text-[10px] uppercase font-black text-yellow-600 dark:text-yellow-400">Control Nro.</span>
-            <div class="text-lg font-black font-outfit text-yellow-700 dark:text-yellow-200" id="mm111ControlNro">0000</div>
-          </div>
-          <div class="px-4 py-3 flex flex-col items-center justify-center text-center bg-white dark:bg-surface-dark">
-            <span class="text-[9px] uppercase font-bold text-slate-500">Lote</span>
-            <div class="text-sm font-black font-outfit mt-1 text-slate-800 dark:text-slate-300" id="mm111Lote">-</div>
+
+          <!-- 5. Duración de Levantamiento -->
+          <div class="p-4 bg-slate-50 dark:bg-surface-dark/40 rounded-xl border border-slate-200 dark:border-slate-800/80 flex justify-between items-center shadow-sm">
+            <div>
+              <p class="text-[9px] uppercase font-bold text-slate-500 tracking-wider">Duración de Levantamiento</p>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 mt-1 truncate" id="mm111Duracion">-</p>
+            </div>
+            <div class="bg-slate-200/60 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-black font-outfit border border-slate-300 dark:border-slate-700">DUR.</div>
           </div>
         </div>
       </div>

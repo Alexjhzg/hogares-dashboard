@@ -1,4 +1,4 @@
-import { ALERT_MAP, DUR_MIN_OK, DUR_MAX_OK } from '../core/index.js';
+import { ALERT_MAP, DUR_MIN_OK, DUR_MAX_OK, getMunicipioLabel } from '../core/index.js';
 
 export function getSegmentPopupHtml(typeLabel, displayId, color, props) {
     return `<div class="p-2 font-sans">
@@ -68,7 +68,7 @@ export function getSurveyMarkerPopupHtml(m, uuid, color, borderColor, alertBadge
                 <div class="flex justify-between gap-4 mb-2">
                     <div class="flex-1">
                         <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Municipio</div>
-                        <div class="text-[10px] font-bold text-slate-800 dark:text-white">${m.mun}</div>
+                        <div class="text-[10px] font-bold text-slate-800 dark:text-white">${getMunicipioLabel(m.mun)}</div>
                     </div>
                     <div class="flex-1 text-right">
                         <div class="text-[8px] uppercase text-slate-400 dark:text-slate-500 font-bold">Parroquia</div>

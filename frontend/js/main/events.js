@@ -5,6 +5,7 @@ import { resetFilters, applyFilters, openFiltersPanel, closeFiltersPanel } from 
 import { setMapState } from './map-layout.js';
 import { switchTab } from './navigation.js';
 import { updateKPIs } from './kpis.js';
+import { initSearchableCombobox } from '../ui/components/combobox.js';
 
 export function bindEvents(callbacks) {
     const { onProcessData } = callbacks;
@@ -66,8 +67,45 @@ export function bindEvents(callbacks) {
     setupToggleFilter('filterSEGEN', 'filterSEGEN', 'bg-brand-purple', 'filterINE', 'filterINE');
 
     // Primary filters change
-    ['filterEncuestador', 'filterFechaInicio', 'filterFechaFin', 'filterHoraTransmision', 'filterHoraInicio'].forEach(id => {
+    ['filterEncuestador', 'filterMunicipio', 'filterSemana', 'filterFechaInicio', 'filterFechaFin', 'filterHoraTransmision', 'filterHoraInicio', 'filterTasaNoRespuesta'].forEach(id => {
         if ($(id)) $(id).addEventListener('change', applyFilters);
+    });
+
+    // 1-Click Presets
+    if ($('presetAlertas')) {
+        $('presetAlertas').addEventListener('click', () => {
+            state.quickFilterMode = 'alertas';
+            applyFilters();
+        });
+    }
+    if ($('presetNoRespuesta')) {
+        $('presetNoRespuesta').addEventListener('click', () => {
+            const el = $('filterClasificacion');
+            if (el) {
+                el.value = el.value === 'TIPO A' ? '' : 'TIPO A';
+                el.dispatchEvent(new Event('change'));
+            }
+            applyFilters();
+        });
+    }
+    if ($('presetNoEfectivas')) {
+        $('presetNoEfectivas').addEventListener('click', () => {
+            const el = $('filterEstado');
+            if (el) {
+                el.value = el.value === 'no_efectiva' ? '' : 'no_efectiva';
+                el.dispatchEvent(new Event('change'));
+            }
+            applyFilters();
+        });
+    }
+
+    // Quick map filters
+    const mapFilterMap = { 'All': 'all', 'Efectivas': 'efectivas', 'NoEfectiva': 'no_efectiva', 'Alertas': 'alertas' };
+    Object.entries(mapFilterMap).forEach(([suffix, mode]) => {
+        const btn = $(`btnMapFilter${suffix}`);
+        if (btn) btn.addEventListener('click', () => {
+            if (typeof window.setQuickFilter === 'function') window.setQuickFilter(mode);
+        });
     });
 
     // Daily Goal Mapping
@@ -84,46 +122,6 @@ export function bindEvents(callbacks) {
         });
     }
 
-    // Cascading municipality → parroquia → nodo
-    if ($('filterMunicipio')) {
-        $('filterMunicipio').addEventListener('change', () => {
-            const mun = $('filterMunicipio').value;
-            const selPar = $('filterParroquia');
-            const selNodo = $('filterNodo');
-            if (!selPar || !selNodo) return;
-            
-            selPar.innerHTML = '<option value="">Todas</option>';
-            selNodo.innerHTML = '<option value="">Todos</option>';
-            
-            const pars = new Set(), nodos = new Set();
-            state.rawData.forEach(r => {
-                if (r._meta && (mun === '' || r._meta.mun === mun)) {
-                    if (r._meta.par) pars.add(r._meta.par);
-                    if (r._meta.nodo) nodos.add(r._meta.nodo);
-                }
-            });
-            
-            [...pars].sort().forEach(p => { 
-                const o = document.createElement('option'); 
-                o.value = p; o.textContent = p; 
-                selPar.appendChild(o); 
-            });
-            [...nodos].sort().forEach(n => { 
-                const o = document.createElement('option'); 
-                o.value = n; o.textContent = n; 
-                selNodo.appendChild(o); 
-            });
-        });
-    }
-
-    // Quick map filters
-    const mapFilterMap = { 'All': 'all', 'Efectivas': 'efectivas', 'NoEfectiva': 'no_efectiva', 'Alertas': 'alertas' };
-    Object.entries(mapFilterMap).forEach(([suffix, mode]) => {
-        const btn = $(`btnMapFilter${suffix}`);
-        if (btn) btn.addEventListener('click', () => {
-            if (typeof window.setQuickFilter === 'function') window.setQuickFilter(mode);
-        });
-    });
 
     // Map Layout State Buttons
     if ($('btnMapStateNormal'))   $('btnMapStateNormal').addEventListener('click', () => setMapState('normal'));
@@ -172,14 +170,28 @@ export function bindEvents(callbacks) {
         const { closeDetailModal } = callbacks;
         if (closeDetailModal) closeDetailModal();
     });
+    if ($('btnDetailPrev')) $('btnDetailPrev').addEventListener('click', () => {
+        const { navigateDetailModal } = callbacks;
+        if (navigateDetailModal) navigateDetailModal(-1);
+    });
+    if ($('btnDetailNext')) $('btnDetailNext').addEventListener('click', () => {
+        const { navigateDetailModal } = callbacks;
+        if (navigateDetailModal) navigateDetailModal(1);
+    });
 
     // Keyboard Shortcuts
     document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') {
-            const detailModal = $('detailModal');
-            if (detailModal && !detailModal.classList.contains('hidden')) {
+        const detailModal = $('detailModal');
+        if (detailModal && !detailModal.classList.contains('hidden')) {
+            if (e.key === 'Escape') {
                 const { closeDetailModal } = callbacks;
                 if (closeDetailModal) closeDetailModal();
+            } else if (e.key === 'ArrowLeft') {
+                const { navigateDetailModal } = callbacks;
+                if (navigateDetailModal) navigateDetailModal(-1);
+            } else if (e.key === 'ArrowRight') {
+                const { navigateDetailModal } = callbacks;
+                if (navigateDetailModal) navigateDetailModal(1);
             }
         }
     });

@@ -1,4 +1,4 @@
-import { ALERT_MAP, IS_INE } from '../core/index.js';
+import { ALERT_MAP, IS_INE, SUBTIPO_STYLES } from '../core/index.js';
 
 export const estadoFormatter = (cell) => {
     const v = cell.getValue();
@@ -51,3 +51,33 @@ export const actionButtonFormatter = () => `
         </button>
     </div>
 `;
+
+export const noRespuestaFormatter = (cell) => {
+    const v = Number(cell.getValue()) || 0;
+    const color = v > 30 ? '#EF4444' : v > 15 ? '#F59E0B' : '#10B981';
+    return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0">
+        <span style="font-weight:900;color:${color};font-size:15px;">${v}%</span>
+        <div style="width:100%;max-width:80px;height:6px;background:rgba(0,0,0,0.06);border-radius:10px;overflow:hidden">
+            <div style="width:${Math.min(100, v)}%;height:100%;background:${color};border-radius:10px;"></div>
+        </div>
+    </div>`;
+};
+
+export const desgloseTipologiaFormatter = (cell) => {
+    const d = cell.getData();
+    const tA = d.tipoA || 0;
+    const tB = d.tipoB || 0;
+    const tC = d.tipoC || 0;
+    return `<div style="display:flex;align-items:center;gap:4px;justify-content:center;">
+        <span title="Tipo A (Ausentes/Rechazos): ${tA}" style="background:rgba(139,92,246,0.15);color:#8B5CF6;border:1px solid rgba(139,92,246,0.3);font-size:9px;font-weight:800;padding:1px 5px;border-radius:4px;">A: ${tA}</span>
+        <span title="Tipo B (Desocupadas): ${tB}" style="background:rgba(245,158,11,0.15);color:#F59E0B;border:1px solid rgba(245,158,11,0.3);font-size:9px;font-weight:800;padding:1px 5px;border-radius:4px;">B: ${tB}</span>
+        <span title="Tipo C (No Residencial/Demolida): ${tC}" style="background:rgba(100,116,139,0.15);color:#64748B;border:1px solid rgba(100,116,139,0.3);font-size:9px;font-weight:800;padding:1px 5px;border-radius:4px;">C: ${tC}</span>
+    </div>`;
+};
+
+export const subtipoFormatter = (cell) => {
+    const val = cell.getValue();
+    if (!val) return '<span style="color:var(--text-muted);font-size:10px">—</span>';
+    const style = SUBTIPO_STYLES[val] || SUBTIPO_STYLES['DEFAULT'];
+    return `<span style="display:inline-flex;align-items:center;background:${style.colorBg};color:${style.color};border:1px solid ${style.color}44;border-radius:6px;padding:2px 6px;font-size:9px;font-weight:800;letter-spacing:0.03em;white-space:nowrap;">${val}</span>`;
+};

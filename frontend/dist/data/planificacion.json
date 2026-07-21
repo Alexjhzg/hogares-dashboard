@@ -1,0 +1,4577 @@
+{
+  "meta": {
+    "total_viviendas": 3251,
+    "total_controles": 216,
+    "semanas": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "programas": [
+      "EHM",
+      "ESCA"
+    ]
+  },
+  "por_semana": [
+    {
+      "semana": 1,
+      "programa": "EHM",
+      "control": "0004",
+      "nodo": "16036",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "AV EL EJERCITO"
+    },
+    {
+      "semana": 1,
+      "programa": "EHM",
+      "control": "0017",
+      "nodo": "16094",
+      "n_viviendas": 21,
+      "municipio": "ACOSTA",
+      "parroquia": "Acosta",
+      "comunidad": "CULANTRILLAR"
+    },
+    {
+      "semana": 1,
+      "programa": "EHM",
+      "control": "0071",
+      "nodo": "16026",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "El Corozo",
+      "comunidad": "EL COROZO"
+    },
+    {
+      "semana": 2,
+      "programa": "EHM",
+      "control": "0031",
+      "nodo": "16059",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. El Faro Urbanizacion las margaritas"
+    },
+    {
+      "semana": 2,
+      "programa": "EHM",
+      "control": "0048",
+      "nodo": "16031",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "San Vicente",
+      "comunidad": "San Vicente"
+    },
+    {
+      "semana": 2,
+      "programa": "EHM",
+      "control": "0074",
+      "nodo": "16095",
+      "n_viviendas": 15,
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "comunidad": "Los kilometros"
+    },
+    {
+      "semana": 3,
+      "programa": "EHM",
+      "control": "0024",
+      "nodo": "16071",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "Centro Cerca de IUPSM"
+    },
+    {
+      "semana": 3,
+      "programa": "EHM",
+      "control": "0056",
+      "nodo": "16115",
+      "n_viviendas": 16,
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "comunidad": "Campo Rojo"
+    },
+    {
+      "semana": 3,
+      "programa": "EHM",
+      "control": "0077",
+      "nodo": "16115",
+      "n_viviendas": 14,
+      "municipio": "CEDEÑO",
+      "parroquia": "Cedeño",
+      "comunidad": "Urb. Las Maricelas- Caicara"
+    },
+    {
+      "semana": 4,
+      "programa": "EHM",
+      "control": "0001",
+      "nodo": "16102",
+      "n_viviendas": 15,
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "comunidad": "Caripito"
+    },
+    {
+      "semana": 4,
+      "programa": "EHM",
+      "control": "0026",
+      "nodo": "16012",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Urb. Bella Vista"
+    },
+    {
+      "semana": 4,
+      "programa": "EHM",
+      "control": "0051",
+      "nodo": "16076",
+      "n_viviendas": 15,
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "comunidad": "Caripito"
+    },
+    {
+      "semana": 4,
+      "programa": "EHM",
+      "control": "0068",
+      "nodo": "16012",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Maturín",
+      "comunidad": "Los Pozos de Guanipa"
+    },
+    {
+      "semana": 5,
+      "programa": "EHM",
+      "control": "0015",
+      "nodo": "16061",
+      "n_viviendas": 15,
+      "municipio": "AGUASAY",
+      "parroquia": "Aguasay",
+      "comunidad": "El Caro"
+    },
+    {
+      "semana": 5,
+      "programa": "EHM",
+      "control": "0043",
+      "nodo": "16117",
+      "n_viviendas": 17,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Santa Elena de las Piñas"
+    },
+    {
+      "semana": 5,
+      "programa": "EHM",
+      "control": "0078",
+      "nodo": "16061",
+      "n_viviendas": 15,
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "comunidad": "No Aplica"
+    },
+    {
+      "semana": 6,
+      "programa": "EHM",
+      "control": "0037",
+      "nodo": "16102",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Alto Sucre"
+    },
+    {
+      "semana": 6,
+      "programa": "EHM",
+      "control": "0064",
+      "nodo": "16025",
+      "n_viviendas": 16,
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "comunidad": "Caripito"
+    },
+    {
+      "semana": 6,
+      "programa": "EHM",
+      "control": "0073",
+      "nodo": "16031",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. La Llovisna"
+    },
+    {
+      "semana": 7,
+      "programa": "EHM",
+      "control": "0013",
+      "nodo": "16039",
+      "n_viviendas": 17,
+      "municipio": "PUNCERES",
+      "parroquia": "Punceres",
+      "comunidad": "Los Baños-Punceres"
+    },
+    {
+      "semana": 7,
+      "programa": "EHM",
+      "control": "0018",
+      "nodo": "16020",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "El Marquez"
+    },
+    {
+      "semana": 7,
+      "programa": "EHM",
+      "control": "0032",
+      "nodo": "16020",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "La Murallita"
+    },
+    {
+      "semana": 8,
+      "programa": "EHM",
+      "control": "0025",
+      "nodo": "16105",
+      "n_viviendas": 15,
+      "municipio": "CARIPE",
+      "parroquia": "Caripe",
+      "comunidad": "Caripe"
+    },
+    {
+      "semana": 8,
+      "programa": "EHM",
+      "control": "0045",
+      "nodo": "16015",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Urb. Villas de los Angeles"
+    },
+    {
+      "semana": 8,
+      "programa": "EHM",
+      "control": "0066",
+      "nodo": "16115",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "Av. Orinoco- Periquera"
+    },
+    {
+      "semana": 8,
+      "programa": "EHM",
+      "control": "0083",
+      "nodo": "16015",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Maturín",
+      "comunidad": "El Rincón de Monagas"
+    },
+    {
+      "semana": 9,
+      "programa": "EHM",
+      "control": "0003",
+      "nodo": "16033",
+      "n_viviendas": 16,
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "El Tejero",
+      "comunidad": "El Tejero"
+    },
+    {
+      "semana": 9,
+      "programa": "EHM",
+      "control": "0027",
+      "nodo": "16117",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Urb. Juanico"
+    },
+    {
+      "semana": 9,
+      "programa": "EHM",
+      "control": "0040",
+      "nodo": "16038",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Brisas de Venezuela- Invasión de La Puente"
+    },
+    {
+      "semana": 9,
+      "programa": "EHM",
+      "control": "0055",
+      "nodo": "16066",
+      "n_viviendas": 21,
+      "municipio": "AGUASAY",
+      "parroquia": "Aguasay",
+      "comunidad": "Paradero- Aguasay"
+    },
+    {
+      "semana": 10,
+      "programa": "EHM",
+      "control": "0011",
+      "nodo": "16031",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. Los Samanes"
+    },
+    {
+      "semana": 10,
+      "programa": "EHM",
+      "control": "0041",
+      "nodo": "16059",
+      "n_viviendas": 16,
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "comunidad": "Río Bonito-Caripito"
+    },
+    {
+      "semana": 10,
+      "programa": "EHM",
+      "control": "0063",
+      "nodo": "16082",
+      "n_viviendas": 18,
+      "municipio": "MATURIN",
+      "parroquia": "La Pica",
+      "comunidad": "La Pica- Via San Agustin"
+    },
+    {
+      "semana": 11,
+      "programa": "EHM",
+      "control": "0019",
+      "nodo": "16051",
+      "n_viviendas": 15,
+      "municipio": "PIAR",
+      "parroquia": "Piar",
+      "comunidad": "Aragua de Maturín"
+    },
+    {
+      "semana": 11,
+      "programa": "EHM",
+      "control": "0038",
+      "nodo": "16106",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Los Cortijos"
+    },
+    {
+      "semana": 11,
+      "programa": "EHM",
+      "control": "6005",
+      "nodo": "16051",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Urb. Juanico-"
+    },
+    {
+      "semana": 12,
+      "programa": "EHM",
+      "control": "0023",
+      "nodo": "16068",
+      "n_viviendas": 14,
+      "municipio": "SOTILLO",
+      "parroquia": "Sotillo",
+      "comunidad": "Barrancas de Sotillo"
+    },
+    {
+      "semana": 12,
+      "programa": "EHM",
+      "control": "0057",
+      "nodo": "16010",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Urb. Altos de Caruno- Tipuro"
+    },
+    {
+      "semana": 12,
+      "programa": "EHM",
+      "control": "0082",
+      "nodo": "16060",
+      "n_viviendas": 11,
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "comunidad": "Los Morros de Caripito"
+    },
+    {
+      "semana": 12,
+      "programa": "EHM",
+      "control": "6008",
+      "nodo": "16042",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "La Cruz"
+    },
+    {
+      "semana": 13,
+      "programa": "EHM",
+      "control": "0060",
+      "nodo": "16017",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Urb. Juanico"
+    },
+    {
+      "semana": 13,
+      "programa": "EHM",
+      "control": "0072",
+      "nodo": "16038",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Mereyal"
+    },
+    {
+      "semana": 14,
+      "programa": "EHM",
+      "control": "0002",
+      "nodo": "16044",
+      "n_viviendas": 19,
+      "municipio": "CARIPE",
+      "parroquia": "La Guanota",
+      "comunidad": "La Guanota- Caripe"
+    },
+    {
+      "semana": 14,
+      "programa": "EHM",
+      "control": "0079",
+      "nodo": "16036",
+      "n_viviendas": 18,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Barrio Bolivar"
+    },
+    {
+      "semana": 14,
+      "programa": "EHM",
+      "control": "6003",
+      "nodo": "16057",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Urb. Puertas del Sur etapa   7"
+    },
+    {
+      "semana": 15,
+      "programa": "EHM",
+      "control": "0020",
+      "nodo": "16082",
+      "n_viviendas": 15,
+      "municipio": "CEDEÑO",
+      "parroquia": "San Félix",
+      "comunidad": "Los Cardones"
+    },
+    {
+      "semana": 15,
+      "programa": "EHM",
+      "control": "0034",
+      "nodo": "16102",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Urb. Andres Eloy Blanco- La Montañita"
+    },
+    {
+      "semana": 15,
+      "programa": "EHM",
+      "control": "0061",
+      "nodo": "16075",
+      "n_viviendas": 15,
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "comunidad": "Caripito"
+    },
+    {
+      "semana": 16,
+      "programa": "EHM",
+      "control": "0014",
+      "nodo": "16117",
+      "n_viviendas": 16,
+      "municipio": "AGUASAY",
+      "parroquia": "Aguasay",
+      "comunidad": "Altamira- Aguasay"
+    },
+    {
+      "semana": 16,
+      "programa": "EHM",
+      "control": "0046",
+      "nodo": "16071",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. La Libertad"
+    },
+    {
+      "semana": 16,
+      "programa": "EHM",
+      "control": "0052",
+      "nodo": "16054",
+      "n_viviendas": 16,
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "comunidad": "Punta de Mata"
+    },
+    {
+      "semana": 16,
+      "programa": "EHM",
+      "control": "0065",
+      "nodo": "16071",
+      "n_viviendas": 16,
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "comunidad": "Punta de Mata"
+    },
+    {
+      "semana": 17,
+      "programa": "EHM",
+      "control": "0039",
+      "nodo": "16018",
+      "n_viviendas": 16,
+      "municipio": "CEDEÑO",
+      "parroquia": "Cedeño",
+      "comunidad": "calle  el tubo la UPEL"
+    },
+    {
+      "semana": 17,
+      "programa": "EHM",
+      "control": "0049",
+      "nodo": "16088",
+      "n_viviendas": 18,
+      "municipio": "URACOA",
+      "parroquia": "Uracoa",
+      "comunidad": "Calle 1 Entre PPAL ALTO GURI II y calle 2 Casa VTA"
+    },
+    {
+      "semana": 17,
+      "programa": "EHM",
+      "control": "5007",
+      "nodo": "16088",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "hospital del serez"
+    },
+    {
+      "semana": 18,
+      "programa": "EHM",
+      "control": "0016",
+      "nodo": "16093",
+      "n_viviendas": 16,
+      "municipio": "CEDEÑO",
+      "parroquia": "Areo",
+      "comunidad": "San Juan de Areo"
+    },
+    {
+      "semana": 18,
+      "programa": "EHM",
+      "control": "0021",
+      "nodo": "16051",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "hospital del serez"
+    },
+    {
+      "semana": 18,
+      "programa": "EHM",
+      "control": "0033",
+      "nodo": "16038",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. Las Cayenas"
+    },
+    {
+      "semana": 18,
+      "programa": "EHM",
+      "control": "6006",
+      "nodo": "16050",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "calle  el tubo la UPEL"
+    },
+    {
+      "semana": 19,
+      "programa": "EHM",
+      "control": "0005",
+      "nodo": "16036",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Plantación"
+    },
+    {
+      "semana": 19,
+      "programa": "EHM",
+      "control": "0054",
+      "nodo": "16068",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Maturín",
+      "comunidad": "El Piñalito"
+    },
+    {
+      "semana": 19,
+      "programa": "EHM",
+      "control": "0075",
+      "nodo": "16046",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Los Guaritos"
+    },
+    {
+      "semana": 20,
+      "programa": "EHM",
+      "control": "0012",
+      "nodo": "16031",
+      "n_viviendas": 16,
+      "municipio": "URACOA",
+      "parroquia": "Uracoa",
+      "comunidad": "Sector Paso Nuevo"
+    },
+    {
+      "semana": 20,
+      "programa": "EHM",
+      "control": "0042",
+      "nodo": "16088",
+      "n_viviendas": 17,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Sector 5 de Julio"
+    },
+    {
+      "semana": 20,
+      "programa": "EHM",
+      "control": "0058",
+      "nodo": "16020",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. Los Girasoles"
+    },
+    {
+      "semana": 20,
+      "programa": "EHM",
+      "control": "0084",
+      "nodo": "16020",
+      "n_viviendas": 15,
+      "municipio": "SOTILLO",
+      "parroquia": "Los Barrancos de Fajardo",
+      "comunidad": "La Cafetera"
+    },
+    {
+      "semana": 21,
+      "programa": "EHM",
+      "control": "0009",
+      "nodo": "16074",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "Sector Negro Primero"
+    },
+    {
+      "semana": 21,
+      "programa": "EHM",
+      "control": "0050",
+      "nodo": "16115",
+      "n_viviendas": 15,
+      "municipio": "ACOSTA",
+      "parroquia": "Acosta",
+      "comunidad": "San Antonio"
+    },
+    {
+      "semana": 21,
+      "programa": "EHM",
+      "control": "0059",
+      "nodo": "16074",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Sector Colinas del Paramaconi"
+    },
+    {
+      "semana": 22,
+      "programa": "EHM",
+      "control": "0022",
+      "nodo": "16015",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Sector La Puente"
+    },
+    {
+      "semana": 22,
+      "programa": "EHM",
+      "control": "0035",
+      "nodo": "16017",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "San Vicente",
+      "comunidad": "San Vicente"
+    },
+    {
+      "semana": 22,
+      "programa": "EHM",
+      "control": "0070",
+      "nodo": "16095",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Brisas del Aeropuerto"
+    },
+    {
+      "semana": 23,
+      "programa": "EHM",
+      "control": "0010",
+      "nodo": "16036",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. Juana La avanzadora"
+    },
+    {
+      "semana": 23,
+      "programa": "EHM",
+      "control": "0047",
+      "nodo": "16082",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Sabana Grande"
+    },
+    {
+      "semana": 23,
+      "programa": "EHM",
+      "control": "0062",
+      "nodo": "16017",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Sabana Grande"
+    },
+    {
+      "semana": 23,
+      "programa": "EHM",
+      "control": "0076",
+      "nodo": "16031",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Los Guaritos- Av. 05"
+    },
+    {
+      "semana": 24,
+      "programa": "EHM",
+      "control": "0030",
+      "nodo": "16068",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Urb. Bello Campo"
+    },
+    {
+      "semana": 24,
+      "programa": "EHM",
+      "control": "0069",
+      "nodo": "16056",
+      "n_viviendas": 14,
+      "municipio": "SOTILLO",
+      "parroquia": "Los Barrancos de Fajardo",
+      "comunidad": "La Cafetera"
+    },
+    {
+      "semana": 24,
+      "programa": "EHM",
+      "control": "0081",
+      "nodo": "16056",
+      "n_viviendas": 16,
+      "municipio": "SOTILLO",
+      "parroquia": "Los Barrancos de Fajardo",
+      "comunidad": "Los Pozos"
+    },
+    {
+      "semana": 25,
+      "programa": "EHM",
+      "control": "0007",
+      "nodo": "16017",
+      "n_viviendas": 18,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Brisas de La Floresta"
+    },
+    {
+      "semana": 25,
+      "programa": "EHM",
+      "control": "0036",
+      "nodo": "16017",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "La Puente"
+    },
+    {
+      "semana": 25,
+      "programa": "EHM",
+      "control": "0067",
+      "nodo": "16056",
+      "n_viviendas": 19,
+      "municipio": "SOTILLO",
+      "parroquia": "Los Barrancos de Fajardo",
+      "comunidad": "Los Barrancos de Fajardo"
+    },
+    {
+      "semana": 1,
+      "programa": "ESCA",
+      "control": "2050",
+      "nodo": "16036",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Edif. El Chaparral"
+    },
+    {
+      "semana": 1,
+      "programa": "ESCA",
+      "control": "2062",
+      "nodo": "16036",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "FUNDEMOS"
+    },
+    {
+      "semana": 1,
+      "programa": "ESCA",
+      "control": "2074",
+      "nodo": "16015",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Sector La Cañada"
+    },
+    {
+      "semana": 1,
+      "programa": "ESCA",
+      "control": "2084",
+      "nodo": "16071",
+      "n_viviendas": 16,
+      "municipio": "ACOSTA",
+      "parroquia": "Acosta",
+      "comunidad": "Punta de Mata"
+    },
+    {
+      "semana": 1,
+      "programa": "ESCA",
+      "control": "2098",
+      "nodo": "16059",
+      "n_viviendas": 19,
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "comunidad": "LOS KILOMETROS"
+    },
+    {
+      "semana": 1,
+      "programa": "ESCA",
+      "control": "3038",
+      "nodo": "16012",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "URB LA MACARENA"
+    },
+    {
+      "semana": 2,
+      "programa": "ESCA",
+      "control": "2068",
+      "nodo": "16102",
+      "n_viviendas": 15,
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "comunidad": "Caripito Cerca del registro"
+    },
+    {
+      "semana": 2,
+      "programa": "ESCA",
+      "control": "2075",
+      "nodo": "16058",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "C. H. La Gran Victoria"
+    },
+    {
+      "semana": 2,
+      "programa": "ESCA",
+      "control": "2085",
+      "nodo": "16091",
+      "n_viviendas": 15,
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "comunidad": "Punta de Mata"
+    },
+    {
+      "semana": 2,
+      "programa": "ESCA",
+      "control": "3006",
+      "nodo": "16031",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. Las Margaritas El Faro"
+    },
+    {
+      "semana": 2,
+      "programa": "ESCA",
+      "control": "3023",
+      "nodo": "16086",
+      "n_viviendas": 15,
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "comunidad": "CALLEJON S/N CRUCE CON CALLEJON S/N SIN DEFINICION"
+    },
+    {
+      "semana": 2,
+      "programa": "ESCA",
+      "control": "3036",
+      "nodo": "16115",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "Negro Primero"
+    },
+    {
+      "semana": 3,
+      "programa": "ESCA",
+      "control": "2063",
+      "nodo": "16036",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Guaritos IV"
+    },
+    {
+      "semana": 3,
+      "programa": "ESCA",
+      "control": "2076",
+      "nodo": "16068",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Santa Elena de las Piñas"
+    },
+    {
+      "semana": 3,
+      "programa": "ESCA",
+      "control": "2086",
+      "nodo": "16086",
+      "n_viviendas": 15,
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "comunidad": "Sector LaManga III"
+    },
+    {
+      "semana": 3,
+      "programa": "ESCA",
+      "control": "3046",
+      "nodo": "16000",
+      "n_viviendas": 15,
+      "municipio": "SANTA BARBARA",
+      "parroquia": "SANTA BARBARA",
+      "comunidad": "SANTA BARBARA"
+    },
+    {
+      "semana": 4,
+      "programa": "ESCA",
+      "control": "2053",
+      "nodo": "16061",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Brisas de la arboleda"
+    },
+    {
+      "semana": 4,
+      "programa": "ESCA",
+      "control": "2077",
+      "nodo": "16061",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Urb. Dionisio Nuñez"
+    },
+    {
+      "semana": 4,
+      "programa": "ESCA",
+      "control": "2087",
+      "nodo": "16086",
+      "n_viviendas": 15,
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "comunidad": "Calle 3Entre Calle 2 Y Calle SANTA CRUZ,AL LADO DE"
+    },
+    {
+      "semana": 4,
+      "programa": "ESCA",
+      "control": "3002",
+      "nodo": "16044",
+      "n_viviendas": 16,
+      "municipio": "CARIPE",
+      "parroquia": "SAN AGUSTIN",
+      "comunidad": "San Agustin"
+    },
+    {
+      "semana": 4,
+      "programa": "ESCA",
+      "control": "3029",
+      "nodo": "16061",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Urb. Los Jabillos"
+    },
+    {
+      "semana": 5,
+      "programa": "ESCA",
+      "control": "2054",
+      "nodo": "16061",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Urb. Los Chaguaramos Tipuro"
+    },
+    {
+      "semana": 5,
+      "programa": "ESCA",
+      "control": "2064",
+      "nodo": "16038",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Urb.Villa canaima"
+    },
+    {
+      "semana": 5,
+      "programa": "ESCA",
+      "control": "2078",
+      "nodo": "16082",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Sueños de Bolivar"
+    },
+    {
+      "semana": 5,
+      "programa": "ESCA",
+      "control": "2088",
+      "nodo": "16014",
+      "n_viviendas": 14,
+      "municipio": "LIBERTADOR",
+      "parroquia": "TABASCA",
+      "comunidad": "4"
+    },
+    {
+      "semana": 5,
+      "programa": "ESCA",
+      "control": "3034",
+      "nodo": "16017",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Brisas del Aeropuerto"
+    },
+    {
+      "semana": 5,
+      "programa": "ESCA",
+      "control": "3044",
+      "nodo": "16087",
+      "n_viviendas": 16,
+      "municipio": "CEDEÑO",
+      "parroquia": "Areo",
+      "comunidad": "Cachipo"
+    },
+    {
+      "semana": 6,
+      "programa": "ESCA",
+      "control": "2055",
+      "nodo": "16068",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Urb. Tierra del Sol"
+    },
+    {
+      "semana": 6,
+      "programa": "ESCA",
+      "control": "2079",
+      "nodo": "16017",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Mereyal"
+    },
+    {
+      "semana": 6,
+      "programa": "ESCA",
+      "control": "2089",
+      "nodo": "16061",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Urb. Dionisio Nuñez"
+    },
+    {
+      "semana": 6,
+      "programa": "ESCA",
+      "control": "3003",
+      "nodo": "16044",
+      "n_viviendas": 13,
+      "municipio": "CARIPE",
+      "parroquia": "SAN AGUSTIN",
+      "comunidad": "San Agustin Caripe"
+    },
+    {
+      "semana": 6,
+      "programa": "ESCA",
+      "control": "3005",
+      "nodo": "16054",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Paramaconi- Nuevos Horizontes"
+    },
+    {
+      "semana": 6,
+      "programa": "ESCA",
+      "control": "3040",
+      "nodo": "16054",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "terrazas* verificar"
+    },
+    {
+      "semana": 7,
+      "programa": "ESCA",
+      "control": "2056",
+      "nodo": "16031",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. Los Girasoles"
+    },
+    {
+      "semana": 7,
+      "programa": "ESCA",
+      "control": "2065",
+      "nodo": "16052",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. Las Garzas"
+    },
+    {
+      "semana": 7,
+      "programa": "ESCA",
+      "control": "2080",
+      "nodo": "16115",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "Sector Negro Primero"
+    },
+    {
+      "semana": 7,
+      "programa": "ESCA",
+      "control": "2090",
+      "nodo": "16001",
+      "n_viviendas": 11,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Sector Los Capachos"
+    },
+    {
+      "semana": 7,
+      "programa": "ESCA",
+      "control": "3017",
+      "nodo": "16071",
+      "n_viviendas": 15,
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "comunidad": "Punta de Mata"
+    },
+    {
+      "semana": 7,
+      "programa": "ESCA",
+      "control": "3032",
+      "nodo": "16017",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "prados del este"
+    },
+    {
+      "semana": 8,
+      "programa": "ESCA",
+      "control": "2069",
+      "nodo": "16094",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "EL FURRIAL",
+      "comunidad": "La Candelaria"
+    },
+    {
+      "semana": 8,
+      "programa": "ESCA",
+      "control": "2081",
+      "nodo": "16079",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Sector San Rafael"
+    },
+    {
+      "semana": 8,
+      "programa": "ESCA",
+      "control": "2091",
+      "nodo": "16115",
+      "n_viviendas": 17,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "Callejon  Barreto"
+    },
+    {
+      "semana": 8,
+      "programa": "ESCA",
+      "control": "3022",
+      "nodo": "16086",
+      "n_viviendas": 20,
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "comunidad": "Temblador"
+    },
+    {
+      "semana": 8,
+      "programa": "ESCA",
+      "control": "3030",
+      "nodo": "16061",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Via Principal de Boquerón"
+    },
+    {
+      "semana": 9,
+      "programa": "ESCA",
+      "control": "2058",
+      "nodo": "16031",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. El Faro- Condominio Las Aves"
+    },
+    {
+      "semana": 9,
+      "programa": "ESCA",
+      "control": "2066",
+      "nodo": "16007",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. Aves del Paraiso"
+    },
+    {
+      "semana": 9,
+      "programa": "ESCA",
+      "control": "2070",
+      "nodo": "16095",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "San Vicente",
+      "comunidad": "San Vicente"
+    },
+    {
+      "semana": 9,
+      "programa": "ESCA",
+      "control": "2092",
+      "nodo": "16042",
+      "n_viviendas": 18,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Altamira"
+    },
+    {
+      "semana": 9,
+      "programa": "ESCA",
+      "control": "3035",
+      "nodo": "16114",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "Sector Mercado Viejo"
+    },
+    {
+      "semana": 10,
+      "programa": "ESCA",
+      "control": "2071",
+      "nodo": "16102",
+      "n_viviendas": 12,
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "comunidad": "Caripito"
+    },
+    {
+      "semana": 10,
+      "programa": "ESCA",
+      "control": "2083",
+      "nodo": "16112",
+      "n_viviendas": 15,
+      "municipio": "CARIPE",
+      "parroquia": "SABANA DE PIEDRA",
+      "comunidad": "Sabana De Piedra-Caripe"
+    },
+    {
+      "semana": 10,
+      "programa": "ESCA",
+      "control": "2093",
+      "nodo": "16095",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "San Vicente",
+      "comunidad": "San Vicente"
+    },
+    {
+      "semana": 10,
+      "programa": "ESCA",
+      "control": "3025",
+      "nodo": "16029",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Maturín",
+      "comunidad": "El Pueblito De Aribí"
+    },
+    {
+      "semana": 10,
+      "programa": "ESCA",
+      "control": "3045",
+      "nodo": "16080",
+      "n_viviendas": 16,
+      "municipio": "SANTA BARBARA",
+      "parroquia": "SANTA BARBARA",
+      "comunidad": "Santa Barbara"
+    },
+    {
+      "semana": 11,
+      "programa": "ESCA",
+      "control": "2060",
+      "nodo": "16036",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Urb. Bella Vista"
+    },
+    {
+      "semana": 11,
+      "programa": "ESCA",
+      "control": "2067",
+      "nodo": "16042",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "La Pica",
+      "comunidad": "La Pica- Vuelta Larga"
+    },
+    {
+      "semana": 11,
+      "programa": "ESCA",
+      "control": "2072",
+      "nodo": "16071",
+      "n_viviendas": 16,
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "comunidad": "Punta de Mata- Mercado"
+    },
+    {
+      "semana": 11,
+      "programa": "ESCA",
+      "control": "2094",
+      "nodo": "16106",
+      "n_viviendas": 16,
+      "municipio": "PIAR",
+      "parroquia": "Piar",
+      "comunidad": "Aragua de Maturín"
+    },
+    {
+      "semana": 11,
+      "programa": "ESCA",
+      "control": "2096",
+      "nodo": "16088",
+      "n_viviendas": 18,
+      "municipio": "URACOA",
+      "parroquia": "Uracoa",
+      "comunidad": "Uracoa"
+    },
+    {
+      "semana": 11,
+      "programa": "ESCA",
+      "control": "3027",
+      "nodo": "16004",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Barrio Morichal"
+    },
+    {
+      "semana": 12,
+      "programa": "ESCA",
+      "control": "2061",
+      "nodo": "16036",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Fundemos"
+    },
+    {
+      "semana": 12,
+      "programa": "ESCA",
+      "control": "2073",
+      "nodo": "16076",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Maturín",
+      "comunidad": "Boquerón de Amana"
+    },
+    {
+      "semana": 12,
+      "programa": "ESCA",
+      "control": "2095",
+      "nodo": "16039",
+      "n_viviendas": 14,
+      "municipio": "PUNCERES",
+      "parroquia": "Punceres",
+      "comunidad": "La Bruja- Punceres"
+    },
+    {
+      "semana": 12,
+      "programa": "ESCA",
+      "control": "3026",
+      "nodo": "16036",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Alto de Los Godos"
+    },
+    {
+      "semana": 12,
+      "programa": "ESCA",
+      "control": "3039",
+      "nodo": "16031",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Las Carolinas"
+    },
+    {
+      "semana": 13,
+      "programa": "ESCA",
+      "control": "2007",
+      "nodo": "16071",
+      "n_viviendas": 14,
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "comunidad": "Punta de Mata"
+    },
+    {
+      "semana": 13,
+      "programa": "ESCA",
+      "control": "2016",
+      "nodo": "16015",
+      "n_viviendas": 17,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "El Caro- La Puente"
+    },
+    {
+      "semana": 13,
+      "programa": "ESCA",
+      "control": "2017",
+      "nodo": "16057",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Urb. Puertas del Sur ETAPA  3"
+    },
+    {
+      "semana": 13,
+      "programa": "ESCA",
+      "control": "2038",
+      "nodo": "16054",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. La Libertad"
+    },
+    {
+      "semana": 13,
+      "programa": "ESCA",
+      "control": "3020",
+      "nodo": "16033",
+      "n_viviendas": 15,
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "El Tejero",
+      "comunidad": "EL TEJERO"
+    },
+    {
+      "semana": 13,
+      "programa": "ESCA",
+      "control": "3031",
+      "nodo": "16082",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "LAS COCUIZAS"
+    },
+    {
+      "semana": 14,
+      "programa": "ESCA",
+      "control": "2002",
+      "nodo": "16102",
+      "n_viviendas": 15,
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "comunidad": "Caripito"
+    },
+    {
+      "semana": 14,
+      "programa": "ESCA",
+      "control": "2004",
+      "nodo": "16105",
+      "n_viviendas": 13,
+      "municipio": "CARIPE",
+      "parroquia": "Caripe",
+      "comunidad": "Pedregal- Caripe"
+    },
+    {
+      "semana": 14,
+      "programa": "ESCA",
+      "control": "2037",
+      "nodo": "16012",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. Puestas del Sol- La Cruz"
+    },
+    {
+      "semana": 14,
+      "programa": "ESCA",
+      "control": "2043",
+      "nodo": "16042",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "La Pica",
+      "comunidad": "La Esperanza- La Pica"
+    },
+    {
+      "semana": 14,
+      "programa": "ESCA",
+      "control": "3016",
+      "nodo": "16108",
+      "n_viviendas": 15,
+      "municipio": "CEDEÑO",
+      "parroquia": "Areo",
+      "comunidad": "Areo"
+    },
+    {
+      "semana": 14,
+      "programa": "ESCA",
+      "control": "3043",
+      "nodo": "16082",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "La Pica",
+      "comunidad": "Carital - La Pica"
+    },
+    {
+      "semana": 15,
+      "programa": "ESCA",
+      "control": "2010",
+      "nodo": "16086",
+      "n_viviendas": 16,
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "comunidad": "CALLE SIN NOMBRE"
+    },
+    {
+      "semana": 15,
+      "programa": "ESCA",
+      "control": "2012",
+      "nodo": "16036",
+      "n_viviendas": 13,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Edif. Los Coloraos"
+    },
+    {
+      "semana": 15,
+      "programa": "ESCA",
+      "control": "2014",
+      "nodo": "16036",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Complejo Paramaconi"
+    },
+    {
+      "semana": 15,
+      "programa": "ESCA",
+      "control": "2042",
+      "nodo": "16011",
+      "n_viviendas": 12,
+      "municipio": "MATURIN",
+      "parroquia": "JUSEPIN",
+      "comunidad": "Jusepín"
+    },
+    {
+      "semana": 15,
+      "programa": "ESCA",
+      "control": "2049",
+      "nodo": "16088",
+      "n_viviendas": 19,
+      "municipio": "URACOA",
+      "parroquia": "Uracoa",
+      "comunidad": "Uracoa"
+    },
+    {
+      "semana": 15,
+      "programa": "ESCA",
+      "control": "3041",
+      "nodo": "16054",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "SANTA CRUZ"
+    },
+    {
+      "semana": 16,
+      "programa": "ESCA",
+      "control": "2006",
+      "nodo": "16108",
+      "n_viviendas": 12,
+      "municipio": "CEDEÑO",
+      "parroquia": "Areo",
+      "comunidad": "Areo"
+    },
+    {
+      "semana": 16,
+      "programa": "ESCA",
+      "control": "2026",
+      "nodo": "16068",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Urb. Bosques de La Laguna- Conj. El Cedro"
+    },
+    {
+      "semana": 16,
+      "programa": "ESCA",
+      "control": "2029",
+      "nodo": "16017",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Sabana Grande"
+    },
+    {
+      "semana": 16,
+      "programa": "ESCA",
+      "control": "2041",
+      "nodo": "16035",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. Guanaguanay"
+    },
+    {
+      "semana": 16,
+      "programa": "ESCA",
+      "control": "3015",
+      "nodo": "16105",
+      "n_viviendas": 14,
+      "municipio": "CARIPE",
+      "parroquia": "Caripe",
+      "comunidad": "CARIPE"
+    },
+    {
+      "semana": 17,
+      "programa": "ESCA",
+      "control": "2027",
+      "nodo": "16082",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Urb. Las Cayenas"
+    },
+    {
+      "semana": 17,
+      "programa": "ESCA",
+      "control": "2030",
+      "nodo": "16001",
+      "n_viviendas": 13,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Urb. Agua de Canto"
+    },
+    {
+      "semana": 17,
+      "programa": "ESCA",
+      "control": "2040",
+      "nodo": "16031",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Av. Rivas"
+    },
+    {
+      "semana": 17,
+      "programa": "ESCA",
+      "control": "2047",
+      "nodo": "16087",
+      "n_viviendas": 12,
+      "municipio": "PUNCERES",
+      "parroquia": "CACHIPO",
+      "comunidad": "Sector Paraiso"
+    },
+    {
+      "semana": 17,
+      "programa": "ESCA",
+      "control": "3014",
+      "nodo": "16104",
+      "n_viviendas": 15,
+      "municipio": "ACOSTA",
+      "parroquia": "SAN FRANCISCO",
+      "comunidad": "San Juan de Areo"
+    },
+    {
+      "semana": 17,
+      "programa": "ESCA",
+      "control": "3042",
+      "nodo": "16011",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "JUSEPIN",
+      "comunidad": "Joaquin del Tigre"
+    },
+    {
+      "semana": 18,
+      "programa": "ESCA",
+      "control": "2011",
+      "nodo": "16086",
+      "n_viviendas": 9,
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "comunidad": "Calle MIRANDA Entre Calle PROLONGACION LIBERTADOR "
+    },
+    {
+      "semana": 18,
+      "programa": "ESCA",
+      "control": "2024",
+      "nodo": "16068",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Urb. Agua de Canto"
+    },
+    {
+      "semana": 18,
+      "programa": "ESCA",
+      "control": "2033",
+      "nodo": "16114",
+      "n_viviendas": 7,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "Av. Rivas"
+    },
+    {
+      "semana": 18,
+      "programa": "ESCA",
+      "control": "3024",
+      "nodo": "16109",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Maturín",
+      "comunidad": "Joaquin del Tigre"
+    },
+    {
+      "semana": 18,
+      "programa": "ESCA",
+      "control": "3037",
+      "nodo": "16115",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "Sector Paraiso"
+    },
+    {
+      "semana": 19,
+      "programa": "ESCA",
+      "control": "2001",
+      "nodo": "16003",
+      "n_viviendas": 12,
+      "municipio": "AGUASAY",
+      "parroquia": "Aguasay",
+      "comunidad": "Calle JOSE ANTONIO ANZOATEGUI Entre Calle TONORO Y"
+    },
+    {
+      "semana": 19,
+      "programa": "ESCA",
+      "control": "2013",
+      "nodo": "16036",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Sector Alto Los Godos"
+    },
+    {
+      "semana": 19,
+      "programa": "ESCA",
+      "control": "2028",
+      "nodo": "16017",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Carrera 03 El Silencio"
+    },
+    {
+      "semana": 19,
+      "programa": "ESCA",
+      "control": "3019",
+      "nodo": "16071",
+      "n_viviendas": 15,
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "comunidad": "Punta de Mata"
+    },
+    {
+      "semana": 19,
+      "programa": "ESCA",
+      "control": "3028",
+      "nodo": "16015",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "La Puente"
+    },
+    {
+      "semana": 20,
+      "programa": "ESCA",
+      "control": "2015",
+      "nodo": "16015",
+      "n_viviendas": 20,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "La Puente"
+    },
+    {
+      "semana": 20,
+      "programa": "ESCA",
+      "control": "2034",
+      "nodo": "16115",
+      "n_viviendas": 17,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "Centro Calle Sucre"
+    },
+    {
+      "semana": 20,
+      "programa": "ESCA",
+      "control": "2044",
+      "nodo": "16095",
+      "n_viviendas": 18,
+      "municipio": "MATURIN",
+      "parroquia": "San Vicente",
+      "comunidad": "San Vicente"
+    },
+    {
+      "semana": 20,
+      "programa": "ESCA",
+      "control": "2045",
+      "nodo": "16106",
+      "n_viviendas": 10,
+      "municipio": "PIAR",
+      "parroquia": "Piar",
+      "comunidad": "Aragua de Maturín"
+    },
+    {
+      "semana": 20,
+      "programa": "ESCA",
+      "control": "3018",
+      "nodo": "16071",
+      "n_viviendas": 13,
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "comunidad": "Punta de Mata"
+    },
+    {
+      "semana": 20,
+      "programa": "ESCA",
+      "control": "3033",
+      "nodo": "16017",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Las Cocuizas"
+    },
+    {
+      "semana": 21,
+      "programa": "ESCA",
+      "control": "2018",
+      "nodo": "16066",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Sagrado Corazón de Jesús- La Invasión de la Puente"
+    },
+    {
+      "semana": 21,
+      "programa": "ESCA",
+      "control": "2020",
+      "nodo": "16061",
+      "n_viviendas": 12,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Urb. San Miguel"
+    },
+    {
+      "semana": 21,
+      "programa": "ESCA",
+      "control": "2035",
+      "nodo": "16115",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "Conj. Res. Melany Josefina"
+    },
+    {
+      "semana": 21,
+      "programa": "ESCA",
+      "control": "2048",
+      "nodo": "16010",
+      "n_viviendas": 16,
+      "municipio": "SOTILLO",
+      "parroquia": "Sotillo",
+      "comunidad": "Barrancas"
+    },
+    {
+      "semana": 21,
+      "programa": "ESCA",
+      "control": "3007",
+      "nodo": "16074",
+      "n_viviendas": 15,
+      "municipio": "ACOSTA",
+      "parroquia": "Acosta",
+      "comunidad": "San Antonio Rotación I-2018"
+    },
+    {
+      "semana": 21,
+      "programa": "ESCA",
+      "control": "3010",
+      "nodo": "16063",
+      "n_viviendas": 13,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "Sec. Prados del Sur Rotación I-2018"
+    },
+    {
+      "semana": 22,
+      "programa": "ESCA",
+      "control": "2008",
+      "nodo": "16071",
+      "n_viviendas": 15,
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "comunidad": "Punta de Mata- Sector 05 de Julio"
+    },
+    {
+      "semana": 22,
+      "programa": "ESCA",
+      "control": "2009",
+      "nodo": "16071",
+      "n_viviendas": 12,
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "comunidad": "Punta de Mata- Sector 18 de Mayo"
+    },
+    {
+      "semana": 22,
+      "programa": "ESCA",
+      "control": "2019",
+      "nodo": "16066",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "comunidad": "La Pradera- Villa Las Americas (invasión de la Puente)"
+    },
+    {
+      "semana": 22,
+      "programa": "ESCA",
+      "control": "2025",
+      "nodo": "16061",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Urb. Valle de Luna"
+    },
+    {
+      "semana": 22,
+      "programa": "ESCA",
+      "control": "3009",
+      "nodo": "16108",
+      "n_viviendas": 15,
+      "municipio": "CEDEÑO",
+      "parroquia": "Areo",
+      "comunidad": "Areo"
+    },
+    {
+      "semana": 22,
+      "programa": "ESCA",
+      "control": "3013",
+      "nodo": "16013",
+      "n_viviendas": 15,
+      "municipio": "PIAR",
+      "parroquia": "GUANAGUANA",
+      "comunidad": "Los Ranchos de Pueblo Nuevo-Rotación I-2018"
+    },
+    {
+      "semana": 23,
+      "programa": "ESCA",
+      "control": "2003",
+      "nodo": "16102",
+      "n_viviendas": 17,
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "comunidad": "Sector Los Pinos- Caripito"
+    },
+    {
+      "semana": 23,
+      "programa": "ESCA",
+      "control": "2005",
+      "nodo": "16081",
+      "n_viviendas": 14,
+      "municipio": "CARIPE",
+      "parroquia": "TERESEN",
+      "comunidad": "Teresen- Caripe"
+    },
+    {
+      "semana": 23,
+      "programa": "ESCA",
+      "control": "2022",
+      "nodo": "16008",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Urb. Valle Real- Tipuro II"
+    },
+    {
+      "semana": 23,
+      "programa": "ESCA",
+      "control": "2031",
+      "nodo": "16073",
+      "n_viviendas": 12,
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "comunidad": "Barrio Santa Ines"
+    },
+    {
+      "semana": 23,
+      "programa": "ESCA",
+      "control": "2036",
+      "nodo": "16012",
+      "n_viviendas": 14,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "La Cruz"
+    },
+    {
+      "semana": 23,
+      "programa": "ESCA",
+      "control": "3012",
+      "nodo": "16114",
+      "n_viviendas": 13,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "Sector La Manga"
+    },
+    {
+      "semana": 24,
+      "programa": "ESCA",
+      "control": "2023",
+      "nodo": "16061",
+      "n_viviendas": 12,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Callejon Henriquez- Boquerón"
+    },
+    {
+      "semana": 24,
+      "programa": "ESCA",
+      "control": "2032",
+      "nodo": "16114",
+      "n_viviendas": 12,
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "comunidad": "Centro- Calle Carabobo"
+    },
+    {
+      "semana": 24,
+      "programa": "ESCA",
+      "control": "2039",
+      "nodo": "16054",
+      "n_viviendas": 16,
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "comunidad": "Urb. Campo Claro"
+    },
+    {
+      "semana": 24,
+      "programa": "ESCA",
+      "control": "2046",
+      "nodo": "16077",
+      "n_viviendas": 16,
+      "municipio": "PUNCERES",
+      "parroquia": "Punceres",
+      "comunidad": "23 de Enero- San Juan de Azagua"
+    },
+    {
+      "semana": 24,
+      "programa": "ESCA",
+      "control": "3008",
+      "nodo": "16102",
+      "n_viviendas": 15,
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "comunidad": "Caripito"
+    },
+    {
+      "semana": 24,
+      "programa": "ESCA",
+      "control": "3011",
+      "nodo": "16068",
+      "n_viviendas": 15,
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "comunidad": "Urb. Lomas Real- Tipuro"
+    }
+  ],
+  "por_control": {
+    "0004": {
+      "n_viviendas": 14,
+      "semanas": [
+        1
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16036",
+      "n_semanas": 1
+    },
+    "0017": {
+      "n_viviendas": 21,
+      "semanas": [
+        1
+      ],
+      "programa": "EHM",
+      "municipio": "ACOSTA",
+      "parroquia": "Acosta",
+      "nodo": "16094",
+      "n_semanas": 1
+    },
+    "0071": {
+      "n_viviendas": 16,
+      "semanas": [
+        1
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "El Corozo",
+      "nodo": "16026",
+      "n_semanas": 1
+    },
+    "0031": {
+      "n_viviendas": 15,
+      "semanas": [
+        2
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16059",
+      "n_semanas": 1
+    },
+    "0048": {
+      "n_viviendas": 15,
+      "semanas": [
+        2
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "San Vicente",
+      "nodo": "16031",
+      "n_semanas": 1
+    },
+    "0074": {
+      "n_viviendas": 15,
+      "semanas": [
+        2
+      ],
+      "programa": "EHM",
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "nodo": "16095",
+      "n_semanas": 1
+    },
+    "0024": {
+      "n_viviendas": 16,
+      "semanas": [
+        3
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16071",
+      "n_semanas": 1
+    },
+    "0056": {
+      "n_viviendas": 16,
+      "semanas": [
+        3
+      ],
+      "programa": "EHM",
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "nodo": "16115",
+      "n_semanas": 1
+    },
+    "0077": {
+      "n_viviendas": 14,
+      "semanas": [
+        3
+      ],
+      "programa": "EHM",
+      "municipio": "CEDEÑO",
+      "parroquia": "Cedeño",
+      "nodo": "16115",
+      "n_semanas": 1
+    },
+    "0001": {
+      "n_viviendas": 15,
+      "semanas": [
+        4
+      ],
+      "programa": "EHM",
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "nodo": "16102",
+      "n_semanas": 1
+    },
+    "0026": {
+      "n_viviendas": 16,
+      "semanas": [
+        4
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16012",
+      "n_semanas": 1
+    },
+    "0051": {
+      "n_viviendas": 15,
+      "semanas": [
+        4
+      ],
+      "programa": "EHM",
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "nodo": "16076",
+      "n_semanas": 1
+    },
+    "0068": {
+      "n_viviendas": 15,
+      "semanas": [
+        4
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Maturín",
+      "nodo": "16012",
+      "n_semanas": 1
+    },
+    "0015": {
+      "n_viviendas": 15,
+      "semanas": [
+        5
+      ],
+      "programa": "EHM",
+      "municipio": "AGUASAY",
+      "parroquia": "Aguasay",
+      "nodo": "16061",
+      "n_semanas": 1
+    },
+    "0043": {
+      "n_viviendas": 17,
+      "semanas": [
+        5
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16117",
+      "n_semanas": 1
+    },
+    "0078": {
+      "n_viviendas": 15,
+      "semanas": [
+        5
+      ],
+      "programa": "EHM",
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "nodo": "16061",
+      "n_semanas": 1
+    },
+    "0037": {
+      "n_viviendas": 16,
+      "semanas": [
+        6
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16102",
+      "n_semanas": 1
+    },
+    "0064": {
+      "n_viviendas": 16,
+      "semanas": [
+        6
+      ],
+      "programa": "EHM",
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "nodo": "16025",
+      "n_semanas": 1
+    },
+    "0073": {
+      "n_viviendas": 15,
+      "semanas": [
+        6
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16031",
+      "n_semanas": 1
+    },
+    "0013": {
+      "n_viviendas": 17,
+      "semanas": [
+        7
+      ],
+      "programa": "EHM",
+      "municipio": "PUNCERES",
+      "parroquia": "Punceres",
+      "nodo": "16039",
+      "n_semanas": 1
+    },
+    "0018": {
+      "n_viviendas": 16,
+      "semanas": [
+        7
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16020",
+      "n_semanas": 1
+    },
+    "0032": {
+      "n_viviendas": 15,
+      "semanas": [
+        7
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16020",
+      "n_semanas": 1
+    },
+    "0025": {
+      "n_viviendas": 15,
+      "semanas": [
+        8
+      ],
+      "programa": "EHM",
+      "municipio": "CARIPE",
+      "parroquia": "Caripe",
+      "nodo": "16105",
+      "n_semanas": 1
+    },
+    "0045": {
+      "n_viviendas": 15,
+      "semanas": [
+        8
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16015",
+      "n_semanas": 1
+    },
+    "0066": {
+      "n_viviendas": 16,
+      "semanas": [
+        8
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16115",
+      "n_semanas": 1
+    },
+    "0083": {
+      "n_viviendas": 14,
+      "semanas": [
+        8
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Maturín",
+      "nodo": "16015",
+      "n_semanas": 1
+    },
+    "0003": {
+      "n_viviendas": 16,
+      "semanas": [
+        9
+      ],
+      "programa": "EHM",
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "El Tejero",
+      "nodo": "16033",
+      "n_semanas": 1
+    },
+    "0027": {
+      "n_viviendas": 15,
+      "semanas": [
+        9
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16117",
+      "n_semanas": 1
+    },
+    "0040": {
+      "n_viviendas": 15,
+      "semanas": [
+        9
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16038",
+      "n_semanas": 1
+    },
+    "0055": {
+      "n_viviendas": 21,
+      "semanas": [
+        9
+      ],
+      "programa": "EHM",
+      "municipio": "AGUASAY",
+      "parroquia": "Aguasay",
+      "nodo": "16066",
+      "n_semanas": 1
+    },
+    "0011": {
+      "n_viviendas": 15,
+      "semanas": [
+        10
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16031",
+      "n_semanas": 1
+    },
+    "0041": {
+      "n_viviendas": 16,
+      "semanas": [
+        10
+      ],
+      "programa": "EHM",
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "nodo": "16059",
+      "n_semanas": 1
+    },
+    "0063": {
+      "n_viviendas": 18,
+      "semanas": [
+        10
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "La Pica",
+      "nodo": "16082",
+      "n_semanas": 1
+    },
+    "0019": {
+      "n_viviendas": 15,
+      "semanas": [
+        11
+      ],
+      "programa": "EHM",
+      "municipio": "PIAR",
+      "parroquia": "Piar",
+      "nodo": "16051",
+      "n_semanas": 1
+    },
+    "0038": {
+      "n_viviendas": 15,
+      "semanas": [
+        11
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16106",
+      "n_semanas": 1
+    },
+    "6005": {
+      "n_viviendas": 14,
+      "semanas": [
+        11
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16051",
+      "n_semanas": 1
+    },
+    "0023": {
+      "n_viviendas": 14,
+      "semanas": [
+        12
+      ],
+      "programa": "EHM",
+      "municipio": "SOTILLO",
+      "parroquia": "Sotillo",
+      "nodo": "16068",
+      "n_semanas": 1
+    },
+    "0057": {
+      "n_viviendas": 14,
+      "semanas": [
+        12
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16010",
+      "n_semanas": 1
+    },
+    "0082": {
+      "n_viviendas": 11,
+      "semanas": [
+        12
+      ],
+      "programa": "EHM",
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "nodo": "16060",
+      "n_semanas": 1
+    },
+    "6008": {
+      "n_viviendas": 15,
+      "semanas": [
+        12
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16042",
+      "n_semanas": 1
+    },
+    "0060": {
+      "n_viviendas": 15,
+      "semanas": [
+        13
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16017",
+      "n_semanas": 1
+    },
+    "0072": {
+      "n_viviendas": 15,
+      "semanas": [
+        13
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16038",
+      "n_semanas": 1
+    },
+    "0002": {
+      "n_viviendas": 19,
+      "semanas": [
+        14
+      ],
+      "programa": "EHM",
+      "municipio": "CARIPE",
+      "parroquia": "La Guanota",
+      "nodo": "16044",
+      "n_semanas": 1
+    },
+    "0079": {
+      "n_viviendas": 18,
+      "semanas": [
+        14
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16036",
+      "n_semanas": 1
+    },
+    "6003": {
+      "n_viviendas": 15,
+      "semanas": [
+        14
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16057",
+      "n_semanas": 1
+    },
+    "0020": {
+      "n_viviendas": 15,
+      "semanas": [
+        15
+      ],
+      "programa": "EHM",
+      "municipio": "CEDEÑO",
+      "parroquia": "San Félix",
+      "nodo": "16082",
+      "n_semanas": 1
+    },
+    "0034": {
+      "n_viviendas": 15,
+      "semanas": [
+        15
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16102",
+      "n_semanas": 1
+    },
+    "0061": {
+      "n_viviendas": 15,
+      "semanas": [
+        15
+      ],
+      "programa": "EHM",
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "nodo": "16075",
+      "n_semanas": 1
+    },
+    "0014": {
+      "n_viviendas": 16,
+      "semanas": [
+        16
+      ],
+      "programa": "EHM",
+      "municipio": "AGUASAY",
+      "parroquia": "Aguasay",
+      "nodo": "16117",
+      "n_semanas": 1
+    },
+    "0046": {
+      "n_viviendas": 15,
+      "semanas": [
+        16
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16071",
+      "n_semanas": 1
+    },
+    "0052": {
+      "n_viviendas": 16,
+      "semanas": [
+        16
+      ],
+      "programa": "EHM",
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "nodo": "16054",
+      "n_semanas": 1
+    },
+    "0065": {
+      "n_viviendas": 16,
+      "semanas": [
+        16
+      ],
+      "programa": "EHM",
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "nodo": "16071",
+      "n_semanas": 1
+    },
+    "0039": {
+      "n_viviendas": 16,
+      "semanas": [
+        17
+      ],
+      "programa": "EHM",
+      "municipio": "CEDEÑO",
+      "parroquia": "Cedeño",
+      "nodo": "16018",
+      "n_semanas": 1
+    },
+    "0049": {
+      "n_viviendas": 18,
+      "semanas": [
+        17
+      ],
+      "programa": "EHM",
+      "municipio": "URACOA",
+      "parroquia": "Uracoa",
+      "nodo": "16088",
+      "n_semanas": 1
+    },
+    "5007": {
+      "n_viviendas": 16,
+      "semanas": [
+        17
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16088",
+      "n_semanas": 1
+    },
+    "0016": {
+      "n_viviendas": 16,
+      "semanas": [
+        18
+      ],
+      "programa": "EHM",
+      "municipio": "CEDEÑO",
+      "parroquia": "Areo",
+      "nodo": "16093",
+      "n_semanas": 1
+    },
+    "0021": {
+      "n_viviendas": 15,
+      "semanas": [
+        18
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16051",
+      "n_semanas": 1
+    },
+    "0033": {
+      "n_viviendas": 15,
+      "semanas": [
+        18
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16038",
+      "n_semanas": 1
+    },
+    "6006": {
+      "n_viviendas": 15,
+      "semanas": [
+        18
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16050",
+      "n_semanas": 1
+    },
+    "0005": {
+      "n_viviendas": 14,
+      "semanas": [
+        19
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16036",
+      "n_semanas": 1
+    },
+    "0054": {
+      "n_viviendas": 15,
+      "semanas": [
+        19
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Maturín",
+      "nodo": "16068",
+      "n_semanas": 1
+    },
+    "0075": {
+      "n_viviendas": 16,
+      "semanas": [
+        19
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16046",
+      "n_semanas": 1
+    },
+    "0012": {
+      "n_viviendas": 16,
+      "semanas": [
+        20
+      ],
+      "programa": "EHM",
+      "municipio": "URACOA",
+      "parroquia": "Uracoa",
+      "nodo": "16031",
+      "n_semanas": 1
+    },
+    "0042": {
+      "n_viviendas": 17,
+      "semanas": [
+        20
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16088",
+      "n_semanas": 1
+    },
+    "0058": {
+      "n_viviendas": 15,
+      "semanas": [
+        20
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16020",
+      "n_semanas": 1
+    },
+    "0084": {
+      "n_viviendas": 15,
+      "semanas": [
+        20
+      ],
+      "programa": "EHM",
+      "municipio": "SOTILLO",
+      "parroquia": "Los Barrancos de Fajardo",
+      "nodo": "16020",
+      "n_semanas": 1
+    },
+    "0009": {
+      "n_viviendas": 15,
+      "semanas": [
+        21
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16074",
+      "n_semanas": 1
+    },
+    "0050": {
+      "n_viviendas": 15,
+      "semanas": [
+        21
+      ],
+      "programa": "EHM",
+      "municipio": "ACOSTA",
+      "parroquia": "Acosta",
+      "nodo": "16115",
+      "n_semanas": 1
+    },
+    "0059": {
+      "n_viviendas": 14,
+      "semanas": [
+        21
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16074",
+      "n_semanas": 1
+    },
+    "0022": {
+      "n_viviendas": 16,
+      "semanas": [
+        22
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16015",
+      "n_semanas": 1
+    },
+    "0035": {
+      "n_viviendas": 15,
+      "semanas": [
+        22
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "San Vicente",
+      "nodo": "16017",
+      "n_semanas": 1
+    },
+    "0070": {
+      "n_viviendas": 16,
+      "semanas": [
+        22
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16095",
+      "n_semanas": 1
+    },
+    "0010": {
+      "n_viviendas": 15,
+      "semanas": [
+        23
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16036",
+      "n_semanas": 1
+    },
+    "0047": {
+      "n_viviendas": 15,
+      "semanas": [
+        23
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16082",
+      "n_semanas": 1
+    },
+    "0062": {
+      "n_viviendas": 15,
+      "semanas": [
+        23
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16017",
+      "n_semanas": 1
+    },
+    "0076": {
+      "n_viviendas": 15,
+      "semanas": [
+        23
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16031",
+      "n_semanas": 1
+    },
+    "0030": {
+      "n_viviendas": 15,
+      "semanas": [
+        24
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16068",
+      "n_semanas": 1
+    },
+    "0069": {
+      "n_viviendas": 14,
+      "semanas": [
+        24
+      ],
+      "programa": "EHM",
+      "municipio": "SOTILLO",
+      "parroquia": "Los Barrancos de Fajardo",
+      "nodo": "16056",
+      "n_semanas": 1
+    },
+    "0081": {
+      "n_viviendas": 16,
+      "semanas": [
+        24
+      ],
+      "programa": "EHM",
+      "municipio": "SOTILLO",
+      "parroquia": "Los Barrancos de Fajardo",
+      "nodo": "16056",
+      "n_semanas": 1
+    },
+    "0007": {
+      "n_viviendas": 18,
+      "semanas": [
+        25
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16017",
+      "n_semanas": 1
+    },
+    "0036": {
+      "n_viviendas": 15,
+      "semanas": [
+        25
+      ],
+      "programa": "EHM",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16017",
+      "n_semanas": 1
+    },
+    "0067": {
+      "n_viviendas": 19,
+      "semanas": [
+        25
+      ],
+      "programa": "EHM",
+      "municipio": "SOTILLO",
+      "parroquia": "Los Barrancos de Fajardo",
+      "nodo": "16056",
+      "n_semanas": 1
+    },
+    "2050": {
+      "n_viviendas": 15,
+      "semanas": [
+        1
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16036",
+      "n_semanas": 1
+    },
+    "2062": {
+      "n_viviendas": 15,
+      "semanas": [
+        1
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16036",
+      "n_semanas": 1
+    },
+    "2074": {
+      "n_viviendas": 16,
+      "semanas": [
+        1
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16015",
+      "n_semanas": 1
+    },
+    "2084": {
+      "n_viviendas": 16,
+      "semanas": [
+        1
+      ],
+      "programa": "ESCA",
+      "municipio": "ACOSTA",
+      "parroquia": "Acosta",
+      "nodo": "16071",
+      "n_semanas": 1
+    },
+    "2098": {
+      "n_viviendas": 19,
+      "semanas": [
+        1
+      ],
+      "programa": "ESCA",
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "nodo": "16059",
+      "n_semanas": 1
+    },
+    "3038": {
+      "n_viviendas": 15,
+      "semanas": [
+        1
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16012",
+      "n_semanas": 1
+    },
+    "2068": {
+      "n_viviendas": 15,
+      "semanas": [
+        2
+      ],
+      "programa": "ESCA",
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "nodo": "16102",
+      "n_semanas": 1
+    },
+    "2075": {
+      "n_viviendas": 15,
+      "semanas": [
+        2
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16058",
+      "n_semanas": 1
+    },
+    "2085": {
+      "n_viviendas": 15,
+      "semanas": [
+        2
+      ],
+      "programa": "ESCA",
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "nodo": "16091",
+      "n_semanas": 1
+    },
+    "3006": {
+      "n_viviendas": 16,
+      "semanas": [
+        2
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16031",
+      "n_semanas": 1
+    },
+    "3023": {
+      "n_viviendas": 15,
+      "semanas": [
+        2
+      ],
+      "programa": "ESCA",
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "nodo": "16086",
+      "n_semanas": 1
+    },
+    "3036": {
+      "n_viviendas": 14,
+      "semanas": [
+        2
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16115",
+      "n_semanas": 1
+    },
+    "2063": {
+      "n_viviendas": 15,
+      "semanas": [
+        3
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16036",
+      "n_semanas": 1
+    },
+    "2076": {
+      "n_viviendas": 14,
+      "semanas": [
+        3
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16068",
+      "n_semanas": 1
+    },
+    "2086": {
+      "n_viviendas": 15,
+      "semanas": [
+        3
+      ],
+      "programa": "ESCA",
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "nodo": "16086",
+      "n_semanas": 1
+    },
+    "3046": {
+      "n_viviendas": 15,
+      "semanas": [
+        3
+      ],
+      "programa": "ESCA",
+      "municipio": "SANTA BARBARA",
+      "parroquia": "SANTA BARBARA",
+      "nodo": "16000",
+      "n_semanas": 1
+    },
+    "2053": {
+      "n_viviendas": 15,
+      "semanas": [
+        4
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16061",
+      "n_semanas": 1
+    },
+    "2077": {
+      "n_viviendas": 15,
+      "semanas": [
+        4
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16061",
+      "n_semanas": 1
+    },
+    "2087": {
+      "n_viviendas": 15,
+      "semanas": [
+        4
+      ],
+      "programa": "ESCA",
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "nodo": "16086",
+      "n_semanas": 1
+    },
+    "3002": {
+      "n_viviendas": 16,
+      "semanas": [
+        4
+      ],
+      "programa": "ESCA",
+      "municipio": "CARIPE",
+      "parroquia": "SAN AGUSTIN",
+      "nodo": "16044",
+      "n_semanas": 1
+    },
+    "3029": {
+      "n_viviendas": 15,
+      "semanas": [
+        4
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16061",
+      "n_semanas": 1
+    },
+    "2054": {
+      "n_viviendas": 15,
+      "semanas": [
+        5
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16061",
+      "n_semanas": 1
+    },
+    "2064": {
+      "n_viviendas": 15,
+      "semanas": [
+        5
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16038",
+      "n_semanas": 1
+    },
+    "2078": {
+      "n_viviendas": 14,
+      "semanas": [
+        5
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16082",
+      "n_semanas": 1
+    },
+    "2088": {
+      "n_viviendas": 14,
+      "semanas": [
+        5
+      ],
+      "programa": "ESCA",
+      "municipio": "LIBERTADOR",
+      "parroquia": "TABASCA",
+      "nodo": "16014",
+      "n_semanas": 1
+    },
+    "3034": {
+      "n_viviendas": 14,
+      "semanas": [
+        5
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16017",
+      "n_semanas": 1
+    },
+    "3044": {
+      "n_viviendas": 16,
+      "semanas": [
+        5
+      ],
+      "programa": "ESCA",
+      "municipio": "CEDEÑO",
+      "parroquia": "Areo",
+      "nodo": "16087",
+      "n_semanas": 1
+    },
+    "2055": {
+      "n_viviendas": 16,
+      "semanas": [
+        6
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16068",
+      "n_semanas": 1
+    },
+    "2079": {
+      "n_viviendas": 16,
+      "semanas": [
+        6
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16017",
+      "n_semanas": 1
+    },
+    "2089": {
+      "n_viviendas": 16,
+      "semanas": [
+        6
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16061",
+      "n_semanas": 1
+    },
+    "3003": {
+      "n_viviendas": 13,
+      "semanas": [
+        6
+      ],
+      "programa": "ESCA",
+      "municipio": "CARIPE",
+      "parroquia": "SAN AGUSTIN",
+      "nodo": "16044",
+      "n_semanas": 1
+    },
+    "3005": {
+      "n_viviendas": 15,
+      "semanas": [
+        6
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16054",
+      "n_semanas": 1
+    },
+    "3040": {
+      "n_viviendas": 15,
+      "semanas": [
+        6
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16054",
+      "n_semanas": 1
+    },
+    "2056": {
+      "n_viviendas": 15,
+      "semanas": [
+        7
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16031",
+      "n_semanas": 1
+    },
+    "2065": {
+      "n_viviendas": 15,
+      "semanas": [
+        7
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16052",
+      "n_semanas": 1
+    },
+    "2080": {
+      "n_viviendas": 15,
+      "semanas": [
+        7
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16115",
+      "n_semanas": 1
+    },
+    "2090": {
+      "n_viviendas": 11,
+      "semanas": [
+        7
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16001",
+      "n_semanas": 1
+    },
+    "3017": {
+      "n_viviendas": 15,
+      "semanas": [
+        7
+      ],
+      "programa": "ESCA",
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "nodo": "16071",
+      "n_semanas": 1
+    },
+    "3032": {
+      "n_viviendas": 15,
+      "semanas": [
+        7
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16017",
+      "n_semanas": 1
+    },
+    "2069": {
+      "n_viviendas": 15,
+      "semanas": [
+        8
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "EL FURRIAL",
+      "nodo": "16094",
+      "n_semanas": 1
+    },
+    "2081": {
+      "n_viviendas": 16,
+      "semanas": [
+        8
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16079",
+      "n_semanas": 1
+    },
+    "2091": {
+      "n_viviendas": 17,
+      "semanas": [
+        8
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16115",
+      "n_semanas": 1
+    },
+    "3022": {
+      "n_viviendas": 20,
+      "semanas": [
+        8
+      ],
+      "programa": "ESCA",
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "nodo": "16086",
+      "n_semanas": 1
+    },
+    "3030": {
+      "n_viviendas": 15,
+      "semanas": [
+        8
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16061",
+      "n_semanas": 1
+    },
+    "2058": {
+      "n_viviendas": 14,
+      "semanas": [
+        9
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16031",
+      "n_semanas": 1
+    },
+    "2066": {
+      "n_viviendas": 14,
+      "semanas": [
+        9
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16007",
+      "n_semanas": 1
+    },
+    "2070": {
+      "n_viviendas": 14,
+      "semanas": [
+        9
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "San Vicente",
+      "nodo": "16095",
+      "n_semanas": 1
+    },
+    "2092": {
+      "n_viviendas": 18,
+      "semanas": [
+        9
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16042",
+      "n_semanas": 1
+    },
+    "3035": {
+      "n_viviendas": 15,
+      "semanas": [
+        9
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16114",
+      "n_semanas": 1
+    },
+    "2071": {
+      "n_viviendas": 12,
+      "semanas": [
+        10
+      ],
+      "programa": "ESCA",
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "nodo": "16102",
+      "n_semanas": 1
+    },
+    "2083": {
+      "n_viviendas": 15,
+      "semanas": [
+        10
+      ],
+      "programa": "ESCA",
+      "municipio": "CARIPE",
+      "parroquia": "SABANA DE PIEDRA",
+      "nodo": "16112",
+      "n_semanas": 1
+    },
+    "2093": {
+      "n_viviendas": 14,
+      "semanas": [
+        10
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "San Vicente",
+      "nodo": "16095",
+      "n_semanas": 1
+    },
+    "3025": {
+      "n_viviendas": 15,
+      "semanas": [
+        10
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Maturín",
+      "nodo": "16029",
+      "n_semanas": 1
+    },
+    "3045": {
+      "n_viviendas": 16,
+      "semanas": [
+        10
+      ],
+      "programa": "ESCA",
+      "municipio": "SANTA BARBARA",
+      "parroquia": "SANTA BARBARA",
+      "nodo": "16080",
+      "n_semanas": 1
+    },
+    "2060": {
+      "n_viviendas": 15,
+      "semanas": [
+        11
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16036",
+      "n_semanas": 1
+    },
+    "2067": {
+      "n_viviendas": 16,
+      "semanas": [
+        11
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "La Pica",
+      "nodo": "16042",
+      "n_semanas": 1
+    },
+    "2072": {
+      "n_viviendas": 16,
+      "semanas": [
+        11
+      ],
+      "programa": "ESCA",
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "nodo": "16071",
+      "n_semanas": 1
+    },
+    "2094": {
+      "n_viviendas": 16,
+      "semanas": [
+        11
+      ],
+      "programa": "ESCA",
+      "municipio": "PIAR",
+      "parroquia": "Piar",
+      "nodo": "16106",
+      "n_semanas": 1
+    },
+    "2096": {
+      "n_viviendas": 18,
+      "semanas": [
+        11
+      ],
+      "programa": "ESCA",
+      "municipio": "URACOA",
+      "parroquia": "Uracoa",
+      "nodo": "16088",
+      "n_semanas": 1
+    },
+    "3027": {
+      "n_viviendas": 15,
+      "semanas": [
+        11
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16004",
+      "n_semanas": 1
+    },
+    "2061": {
+      "n_viviendas": 14,
+      "semanas": [
+        12
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16036",
+      "n_semanas": 1
+    },
+    "2073": {
+      "n_viviendas": 16,
+      "semanas": [
+        12
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Maturín",
+      "nodo": "16076",
+      "n_semanas": 1
+    },
+    "2095": {
+      "n_viviendas": 14,
+      "semanas": [
+        12
+      ],
+      "programa": "ESCA",
+      "municipio": "PUNCERES",
+      "parroquia": "Punceres",
+      "nodo": "16039",
+      "n_semanas": 1
+    },
+    "3026": {
+      "n_viviendas": 14,
+      "semanas": [
+        12
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16036",
+      "n_semanas": 1
+    },
+    "3039": {
+      "n_viviendas": 15,
+      "semanas": [
+        12
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16031",
+      "n_semanas": 1
+    },
+    "2007": {
+      "n_viviendas": 14,
+      "semanas": [
+        13
+      ],
+      "programa": "ESCA",
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "nodo": "16071",
+      "n_semanas": 1
+    },
+    "2016": {
+      "n_viviendas": 17,
+      "semanas": [
+        13
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16015",
+      "n_semanas": 1
+    },
+    "2017": {
+      "n_viviendas": 15,
+      "semanas": [
+        13
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16057",
+      "n_semanas": 1
+    },
+    "2038": {
+      "n_viviendas": 15,
+      "semanas": [
+        13
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16054",
+      "n_semanas": 1
+    },
+    "3020": {
+      "n_viviendas": 15,
+      "semanas": [
+        13
+      ],
+      "programa": "ESCA",
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "El Tejero",
+      "nodo": "16033",
+      "n_semanas": 1
+    },
+    "3031": {
+      "n_viviendas": 15,
+      "semanas": [
+        13
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16082",
+      "n_semanas": 1
+    },
+    "2002": {
+      "n_viviendas": 15,
+      "semanas": [
+        14
+      ],
+      "programa": "ESCA",
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "nodo": "16102",
+      "n_semanas": 1
+    },
+    "2004": {
+      "n_viviendas": 13,
+      "semanas": [
+        14
+      ],
+      "programa": "ESCA",
+      "municipio": "CARIPE",
+      "parroquia": "Caripe",
+      "nodo": "16105",
+      "n_semanas": 1
+    },
+    "2037": {
+      "n_viviendas": 16,
+      "semanas": [
+        14
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16012",
+      "n_semanas": 1
+    },
+    "2043": {
+      "n_viviendas": 15,
+      "semanas": [
+        14
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "La Pica",
+      "nodo": "16042",
+      "n_semanas": 1
+    },
+    "3016": {
+      "n_viviendas": 15,
+      "semanas": [
+        14
+      ],
+      "programa": "ESCA",
+      "municipio": "CEDEÑO",
+      "parroquia": "Areo",
+      "nodo": "16108",
+      "n_semanas": 1
+    },
+    "3043": {
+      "n_viviendas": 15,
+      "semanas": [
+        14
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "La Pica",
+      "nodo": "16082",
+      "n_semanas": 1
+    },
+    "2010": {
+      "n_viviendas": 16,
+      "semanas": [
+        15
+      ],
+      "programa": "ESCA",
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "nodo": "16086",
+      "n_semanas": 1
+    },
+    "2012": {
+      "n_viviendas": 13,
+      "semanas": [
+        15
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16036",
+      "n_semanas": 1
+    },
+    "2014": {
+      "n_viviendas": 15,
+      "semanas": [
+        15
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16036",
+      "n_semanas": 1
+    },
+    "2042": {
+      "n_viviendas": 12,
+      "semanas": [
+        15
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "JUSEPIN",
+      "nodo": "16011",
+      "n_semanas": 1
+    },
+    "2049": {
+      "n_viviendas": 19,
+      "semanas": [
+        15
+      ],
+      "programa": "ESCA",
+      "municipio": "URACOA",
+      "parroquia": "Uracoa",
+      "nodo": "16088",
+      "n_semanas": 1
+    },
+    "3041": {
+      "n_viviendas": 14,
+      "semanas": [
+        15
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16054",
+      "n_semanas": 1
+    },
+    "2006": {
+      "n_viviendas": 12,
+      "semanas": [
+        16
+      ],
+      "programa": "ESCA",
+      "municipio": "CEDEÑO",
+      "parroquia": "Areo",
+      "nodo": "16108",
+      "n_semanas": 1
+    },
+    "2026": {
+      "n_viviendas": 14,
+      "semanas": [
+        16
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16068",
+      "n_semanas": 1
+    },
+    "2029": {
+      "n_viviendas": 14,
+      "semanas": [
+        16
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16017",
+      "n_semanas": 1
+    },
+    "2041": {
+      "n_viviendas": 15,
+      "semanas": [
+        16
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16035",
+      "n_semanas": 1
+    },
+    "3015": {
+      "n_viviendas": 14,
+      "semanas": [
+        16
+      ],
+      "programa": "ESCA",
+      "municipio": "CARIPE",
+      "parroquia": "Caripe",
+      "nodo": "16105",
+      "n_semanas": 1
+    },
+    "2027": {
+      "n_viviendas": 14,
+      "semanas": [
+        17
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16082",
+      "n_semanas": 1
+    },
+    "2030": {
+      "n_viviendas": 13,
+      "semanas": [
+        17
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16001",
+      "n_semanas": 1
+    },
+    "2040": {
+      "n_viviendas": 14,
+      "semanas": [
+        17
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16031",
+      "n_semanas": 1
+    },
+    "2047": {
+      "n_viviendas": 12,
+      "semanas": [
+        17
+      ],
+      "programa": "ESCA",
+      "municipio": "PUNCERES",
+      "parroquia": "CACHIPO",
+      "nodo": "16087",
+      "n_semanas": 1
+    },
+    "3014": {
+      "n_viviendas": 15,
+      "semanas": [
+        17
+      ],
+      "programa": "ESCA",
+      "municipio": "ACOSTA",
+      "parroquia": "SAN FRANCISCO",
+      "nodo": "16104",
+      "n_semanas": 1
+    },
+    "3042": {
+      "n_viviendas": 16,
+      "semanas": [
+        17
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "JUSEPIN",
+      "nodo": "16011",
+      "n_semanas": 1
+    },
+    "2011": {
+      "n_viviendas": 9,
+      "semanas": [
+        18
+      ],
+      "programa": "ESCA",
+      "municipio": "LIBERTADOR",
+      "parroquia": "Libertador",
+      "nodo": "16086",
+      "n_semanas": 1
+    },
+    "2024": {
+      "n_viviendas": 14,
+      "semanas": [
+        18
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16068",
+      "n_semanas": 1
+    },
+    "2033": {
+      "n_viviendas": 7,
+      "semanas": [
+        18
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16114",
+      "n_semanas": 1
+    },
+    "3024": {
+      "n_viviendas": 15,
+      "semanas": [
+        18
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Maturín",
+      "nodo": "16109",
+      "n_semanas": 1
+    },
+    "3037": {
+      "n_viviendas": 15,
+      "semanas": [
+        18
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16115",
+      "n_semanas": 1
+    },
+    "2001": {
+      "n_viviendas": 12,
+      "semanas": [
+        19
+      ],
+      "programa": "ESCA",
+      "municipio": "AGUASAY",
+      "parroquia": "Aguasay",
+      "nodo": "16003",
+      "n_semanas": 1
+    },
+    "2013": {
+      "n_viviendas": 16,
+      "semanas": [
+        19
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16036",
+      "n_semanas": 1
+    },
+    "2028": {
+      "n_viviendas": 16,
+      "semanas": [
+        19
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16017",
+      "n_semanas": 1
+    },
+    "3019": {
+      "n_viviendas": 15,
+      "semanas": [
+        19
+      ],
+      "programa": "ESCA",
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "nodo": "16071",
+      "n_semanas": 1
+    },
+    "3028": {
+      "n_viviendas": 15,
+      "semanas": [
+        19
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16015",
+      "n_semanas": 1
+    },
+    "2015": {
+      "n_viviendas": 20,
+      "semanas": [
+        20
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16015",
+      "n_semanas": 1
+    },
+    "2034": {
+      "n_viviendas": 17,
+      "semanas": [
+        20
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16115",
+      "n_semanas": 1
+    },
+    "2044": {
+      "n_viviendas": 18,
+      "semanas": [
+        20
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "San Vicente",
+      "nodo": "16095",
+      "n_semanas": 1
+    },
+    "2045": {
+      "n_viviendas": 10,
+      "semanas": [
+        20
+      ],
+      "programa": "ESCA",
+      "municipio": "PIAR",
+      "parroquia": "Piar",
+      "nodo": "16106",
+      "n_semanas": 1
+    },
+    "3018": {
+      "n_viviendas": 13,
+      "semanas": [
+        20
+      ],
+      "programa": "ESCA",
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "nodo": "16071",
+      "n_semanas": 1
+    },
+    "3033": {
+      "n_viviendas": 14,
+      "semanas": [
+        20
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16017",
+      "n_semanas": 1
+    },
+    "2018": {
+      "n_viviendas": 14,
+      "semanas": [
+        21
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16066",
+      "n_semanas": 1
+    },
+    "2020": {
+      "n_viviendas": 12,
+      "semanas": [
+        21
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16061",
+      "n_semanas": 1
+    },
+    "2035": {
+      "n_viviendas": 15,
+      "semanas": [
+        21
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16115",
+      "n_semanas": 1
+    },
+    "2048": {
+      "n_viviendas": 16,
+      "semanas": [
+        21
+      ],
+      "programa": "ESCA",
+      "municipio": "SOTILLO",
+      "parroquia": "Sotillo",
+      "nodo": "16010",
+      "n_semanas": 1
+    },
+    "3007": {
+      "n_viviendas": 15,
+      "semanas": [
+        21
+      ],
+      "programa": "ESCA",
+      "municipio": "ACOSTA",
+      "parroquia": "Acosta",
+      "nodo": "16074",
+      "n_semanas": 1
+    },
+    "3010": {
+      "n_viviendas": 13,
+      "semanas": [
+        21
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16063",
+      "n_semanas": 1
+    },
+    "2008": {
+      "n_viviendas": 15,
+      "semanas": [
+        22
+      ],
+      "programa": "ESCA",
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "nodo": "16071",
+      "n_semanas": 1
+    },
+    "2009": {
+      "n_viviendas": 12,
+      "semanas": [
+        22
+      ],
+      "programa": "ESCA",
+      "municipio": "EZEQUIEL ZAMORA",
+      "parroquia": "Ezequiel Zamora",
+      "nodo": "16071",
+      "n_semanas": 1
+    },
+    "2019": {
+      "n_viviendas": 14,
+      "semanas": [
+        22
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Alto de los Godos",
+      "nodo": "16066",
+      "n_semanas": 1
+    },
+    "2025": {
+      "n_viviendas": 15,
+      "semanas": [
+        22
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16061",
+      "n_semanas": 1
+    },
+    "3009": {
+      "n_viviendas": 15,
+      "semanas": [
+        22
+      ],
+      "programa": "ESCA",
+      "municipio": "CEDEÑO",
+      "parroquia": "Areo",
+      "nodo": "16108",
+      "n_semanas": 1
+    },
+    "3013": {
+      "n_viviendas": 15,
+      "semanas": [
+        22
+      ],
+      "programa": "ESCA",
+      "municipio": "PIAR",
+      "parroquia": "GUANAGUANA",
+      "nodo": "16013",
+      "n_semanas": 1
+    },
+    "2003": {
+      "n_viviendas": 17,
+      "semanas": [
+        23
+      ],
+      "programa": "ESCA",
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "nodo": "16102",
+      "n_semanas": 1
+    },
+    "2005": {
+      "n_viviendas": 14,
+      "semanas": [
+        23
+      ],
+      "programa": "ESCA",
+      "municipio": "CARIPE",
+      "parroquia": "TERESEN",
+      "nodo": "16081",
+      "n_semanas": 1
+    },
+    "2022": {
+      "n_viviendas": 15,
+      "semanas": [
+        23
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16008",
+      "n_semanas": 1
+    },
+    "2031": {
+      "n_viviendas": 12,
+      "semanas": [
+        23
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Las Cocuizas",
+      "nodo": "16073",
+      "n_semanas": 1
+    },
+    "2036": {
+      "n_viviendas": 14,
+      "semanas": [
+        23
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16012",
+      "n_semanas": 1
+    },
+    "3012": {
+      "n_viviendas": 13,
+      "semanas": [
+        23
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16114",
+      "n_semanas": 1
+    },
+    "2023": {
+      "n_viviendas": 12,
+      "semanas": [
+        24
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16061",
+      "n_semanas": 1
+    },
+    "2032": {
+      "n_viviendas": 12,
+      "semanas": [
+        24
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "SAN SIMON",
+      "nodo": "16114",
+      "n_semanas": 1
+    },
+    "2039": {
+      "n_viviendas": 16,
+      "semanas": [
+        24
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "Santa Cruz",
+      "nodo": "16054",
+      "n_semanas": 1
+    },
+    "2046": {
+      "n_viviendas": 16,
+      "semanas": [
+        24
+      ],
+      "programa": "ESCA",
+      "municipio": "PUNCERES",
+      "parroquia": "Punceres",
+      "nodo": "16077",
+      "n_semanas": 1
+    },
+    "3008": {
+      "n_viviendas": 15,
+      "semanas": [
+        24
+      ],
+      "programa": "ESCA",
+      "municipio": "BOLIVAR",
+      "parroquia": "Bolívar",
+      "nodo": "16102",
+      "n_semanas": 1
+    },
+    "3011": {
+      "n_viviendas": 15,
+      "semanas": [
+        24
+      ],
+      "programa": "ESCA",
+      "municipio": "MATURIN",
+      "parroquia": "BOQUERON",
+      "nodo": "16068",
+      "n_semanas": 1
+    }
+  }
+}

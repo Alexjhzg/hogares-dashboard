@@ -2,6 +2,7 @@ import { state } from '../core/index.js';
 import { $ } from '../utils/index.js';
 import { IS_INE } from '../core/index.js';
 import { renderActiveFilterTags } from './tags.js';
+import { populateEncuestadores } from './ui-panel.js';
 
 let _renderAll = () => {};
 
@@ -13,6 +14,7 @@ export function setRenderAll(fn) { _renderAll = fn; }
  * Filters state.rawData based on all active UI inputs and updates state.filtered.
  */
 export function applyFilters() {
+    populateEncuestadores();
     const query    = $('searchEncuesta')?.value.toLowerCase() ?? '';
     const enc      = $('filterEncuestador')?.value ?? '';
     const fi       = $('filterFechaInicio')?.value ?? '';
@@ -30,6 +32,48 @@ export function applyFilters() {
     const hTrans   = $('filterHoraTransmision')?.value ?? '';
     const hInicio   = $('filterHoraInicio')?.value ?? '';
     const clasif   = $('filterClasificacion')?.value ?? '';
+    const tasaNoRespFilter = $('filterTasaNoRespuesta')?.value ?? '';
+
+    const satisfiedControls = new Set();
+    if (tasaNoRespFilter !== '') {
+        const stats = {};
+        const program = state.assetName && state.assetName.toUpperCase().includes('EHM') ? 'EHM' : 'ESCA';
+        
+        // Cargar planificadas
+        if (state.planificacionData?.por_semana) {
+            state.planificacionData.por_semana.forEach(item => {
+                if (item.programa !== program) return;
+                const ctrlCode = String(item.control).replace(/\D/g, '').padStart(4, '0');
+                if (!stats[ctrlCode]) stats[ctrlCode] = { planif: 0, tipoA: 0, tipoB: 0, tipoC: 0, totalCaptured: 0 };
+                stats[ctrlCode].planif += item.n_viviendas || 0;
+            });
+        }
+        
+        // Contar observadas en rawData
+        state.rawData.forEach(r => {
+            const m = r._meta;
+            if (!m || !m.control) return;
+            const ctrlCode = String(m.control).replace(/\D/g, '').padStart(4, '0');
+            if (!stats[ctrlCode]) stats[ctrlCode] = { planif: 0, tipoA: 0, tipoB: 0, tipoC: 0, totalCaptured: 0 };
+            stats[ctrlCode].totalCaptured++;
+            if (m.tipo_vivienda === 'TIPO A') stats[ctrlCode].tipoA++;
+            else if (m.tipo_vivienda === 'TIPO B') stats[ctrlCode].tipoB++;
+            else if (m.tipo_vivienda === 'TIPO C') stats[ctrlCode].tipoC++;
+        });
+        
+        // Evaluar condición usando la fórmula oficial unificada
+        Object.entries(stats).forEach(([ctrlCode, s]) => {
+            const basePlanif = s.planif > 0 ? s.planif : s.totalCaptured;
+            const divisor = basePlanif - (s.tipoB + s.tipoC);
+            const rate = divisor > 0 ? (s.tipoA / divisor) * 100 : (s.tipoA > 0 ? 100 : 0);
+            
+            if (tasaNoRespFilter === 'con_no_resp' && rate > 0) {
+                satisfiedControls.add(ctrlCode);
+            } else if (tasaNoRespFilter === 'sin_no_resp' && rate === 0) {
+                satisfiedControls.add(ctrlCode);
+            }
+        });
+    }
 
     state.filtered = state.rawData.filter(r => {
         const m = r._meta;
@@ -57,6 +101,12 @@ export function applyFilters() {
         if (mun && m.mun !== mun) return false;
         if (parroquia && m.par !== parroquia) return false;
         if (nodo && m.nodo !== nodo) return false;
+
+        // 4b. Non-Response Filter by Control
+        if (tasaNoRespFilter !== '') {
+            const ctrlCode = String(m.control).replace(/\D/g, '').padStart(4, '0');
+            if (!satisfiedControls.has(ctrlCode)) return false;
+        }
 
         // 5. Survey Status
         if (estado === 'completada' && m.estado !== 'completada') return false;
@@ -92,15 +142,18 @@ export function resetFilters() {
         'filterControl', 'filterMunicipio', 'filterParroquia', 'filterNodo',
         'filterEstado', 'filterCondicion', 'filterSituacionVivienda', 'filterUso', 
         'filterAlerta', 'filterHoraTransmision', 'filterHoraInicio', 'filterClasificacion',
-        'searchEncuesta', 'mm111SearchControl'
+        'filterTasaNoRespuesta', 'searchEncuesta', 'mm111SearchControl'
     ];
     
     ids.forEach(id => {
         const el = $(id);
-        if (el) el.value = '';
+        if (el) {
+            el.value = '';
+            if (el.tagName === 'SELECT') {
+                el.dispatchEvent(new Event('change'));
+            }
+        }
     });
-
-    if ($('filterMunicipio')) $('filterMunicipio').dispatchEvent(new Event('change'));
     
     // Reset Entity Filters
     state.filterINE = false;
@@ -117,6 +170,12 @@ export function resetFilters() {
     if (typeof window.setQuickFilter === 'function') {
         window.setQuickFilter('all');
     }
+
+    // Remove active highlight from any custom preset chip
+    document.querySelectorAll('.custom-preset-chip').forEach(chip => {
+        chip.classList.remove('ring-2', 'ring-indigo-400', 'bg-indigo-500/20');
+        chip.classList.add('bg-indigo-500/10');
+    });
 
     renderActiveFilterTags();
     if (typeof _renderAll === 'function') _renderAll();

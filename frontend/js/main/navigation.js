@@ -59,6 +59,14 @@ export function switchTab(tabId) {
         if (!state.mm111Table && state.filtered.length > 0) renderMM111();
     }
 
+    // Reportes tab: lazy-load the module on first visit
+    if (tabId === 'tab-reportes') {
+        import('../reportes/index.js').then(({ initReportesTab }) => {
+            initReportesTab();
+            if (window.lucide) window.lucide.createIcons();
+        }).catch(err => console.error('[navigation] Error loading reportes module:', err));
+    }
+
     // Force charts to resize
     setTimeout(() => {
         Object.values(state.charts).forEach(chart => {
@@ -72,3 +80,4 @@ export function switchTab(tabId) {
     
     if (window.lucide) window.lucide.createIcons();
 }
+

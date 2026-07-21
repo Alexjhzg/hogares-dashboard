@@ -6,10 +6,29 @@
 export function getInconsistenciasTabHTML() {
     return `
     <div id="tab-inconsistencias" class="tab-content flex flex-col gap-4 sm:gap-6 hidden-tab lg:h-[calc(100vh-180px)] h-auto overflow-y-auto lg:overflow-visible">
-      <div class="flex justify-between items-end px-2">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 px-2">
         <div>
           <h2 class="text-2xl font-black font-outfit text-slate-900 dark:text-white">Motor de Inconsistencias</h2>
           <p class="text-sm text-slate-500">Detección automática de anomalías en el levantamiento.</p>
+        </div>
+        
+        <!-- Leyenda de Severidad -->
+        <div class="flex items-center gap-3 bg-white/80 dark:bg-slate-900/60 backdrop-blur-md rounded-xl p-2.5 border border-slate-200 dark:border-white/5 text-[10px] shadow-sm select-none">
+          <div class="text-[9px] uppercase font-bold text-slate-400 tracking-wider border-r border-slate-200 dark:border-slate-800/80 pr-2.5 mr-0.5">Severidad</div>
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-[#EF4444]"></span>
+              <span class="text-slate-600 dark:text-slate-300 font-medium">Crítico</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-[#F59E0B]"></span>
+              <span class="text-slate-600 dark:text-slate-300 font-medium">Advertencia</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-[#8B5CF6]"></span>
+              <span class="text-slate-600 dark:text-slate-300 font-medium">Ubicación / GPS</span>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import { ALERT_MAP } from '../core/index.js';
+import { ALERT_MAP, SUBTIPO_STYLES, SUBTIPO_NOMENCLATURA } from '../core/index.js';
 
 export function getModalLayout(data) {
     const { 
@@ -6,7 +6,7 @@ export function getModalLayout(data) {
         segmentMatchStatus, actualSegClasses, actualSegText, actualSeg, 
         stSect, stNodo, stEncuestador, stCedula, stFecha, stEstado, stDur, 
         stControl, stLinea, stSerie, ctrlPanelHtml, stHogares, stPers, 
-        stCond, stUso, stDist, hasAlerts, alertsHtml, hasMapData, 
+        stCond, stUso, stSubtipo, stDist, hasAlerts, alertsHtml, hasMapData, 
         isFlagged, walkedDistance, rawDist, durMin, declaredSeg, alertas 
     } = data;
 
@@ -109,6 +109,8 @@ export function getModalLayout(data) {
                         <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Nro. Personas</div>${stPers}</div>
                     </div>
                     <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Condición de Ocupación</div>${stCond}</div>
+                    ${stSubtipo ? `<div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Subtipo de Vivienda</div>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-widest ${(SUBTIPO_STYLES[stSubtipo] || SUBTIPO_STYLES['DEFAULT']).badge}">${SUBTIPO_NOMENCLATURA[stSubtipo] ? SUBTIPO_NOMENCLATURA[stSubtipo] + ' - ' : ''}${stSubtipo}</span></div>` : ''}
                     <div><div class="text-[10px] text-slate-500 font-bold uppercase mb-0.5">Uso Estructural</div>${stUso}</div>
                     <div class="pt-2 border-t border-slate-200 dark:border-slate-700">
                         <div class="text-[10px] text-slate-500 font-bold uppercase mb-1">Desplazamiento (Inicio &rarr; Fin)</div>

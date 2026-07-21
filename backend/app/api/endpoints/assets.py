@@ -2,19 +2,21 @@ from fastapi import APIRouter, BackgroundTasks, HTTPException
 import httpx
 from app.services.kobo_service import kobo_service, prefetch_cache
 from app.services.normalization import normalize_record, filter_record
+from app.services.upcaster import upcaster_chain
 
 router = APIRouter()
 
 
 def _normalize_payload(raw_data: dict) -> dict:
     """
-    Aplica normalización y filtrado de campos al payload crudo de Kobo.
+    Aplica normalización, upcasting y filtrado de campos al payload crudo de Kobo.
     Función auxiliar para no duplicar lógica entre el endpoint y el prefetch.
     """
     results = raw_data.get("results", [])
+    upcast_results = [upcaster_chain.upcast_record(r) for r in results]
     filtered_results = [
-        filter_record({**r, "_backend_meta": normalize_record(r)})
-        for r in results
+        filter_record({**ur, "_backend_meta": normalize_record(ur)})
+        for ur in upcast_results
     ]
     return {
         "count":   raw_data.get("count", 0),

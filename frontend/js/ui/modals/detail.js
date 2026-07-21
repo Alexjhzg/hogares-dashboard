@@ -15,6 +15,16 @@ export function getDetailModalHTML() {
             <i data-lucide="file-json" class="text-brand-purple w-6 h-6"></i> Ficha de Inspección
           </h3>
           <div class="flex items-center gap-2">
+            <!-- Navegación de registros -->
+            <div class="flex items-center gap-1.5 mr-2 sm:mr-4 border-r border-slate-200 dark:border-slate-800 pr-2 sm:pr-4">
+              <button id="btnDetailPrev" class="p-2 bg-white dark:bg-slate-800 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white transition-all border border-slate-200 dark:border-slate-700 disabled:opacity-30 disabled:pointer-events-none" title="Registro Anterior">
+                <i data-lucide="chevron-left" class="w-4 h-4"></i>
+              </button>
+              <span id="detailModalRecordIndex" class="text-xs font-mono font-bold text-slate-400 dark:text-slate-500 min-w-[3.5rem] text-center">0 / 0</span>
+              <button id="btnDetailNext" class="p-2 bg-white dark:bg-slate-800 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white transition-all border border-slate-200 dark:border-slate-700 disabled:opacity-30 disabled:pointer-events-none" title="Registro Siguiente">
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
             <button id="btnDetailExpand" class="p-2 bg-white dark:bg-slate-800 rounded-lg text-slate-500 hover:text-slate-900 transition-all border border-slate-200 dark:border-slate-700">
               <i data-lucide="maximize" id="detailModalExpandIcon" class="w-4 h-4"></i>
             </button>

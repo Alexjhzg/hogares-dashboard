@@ -8,6 +8,7 @@ export const state = {
     filtered: [],
     encMap: {},           // cedula → metrics object
     assetName: '',        // Name of the currently loaded KoboToolbox form
+    planificacionData: null, // Raw planned housing catalog
 
     // Charts — keys match destroyChart() ids 
     charts: {},

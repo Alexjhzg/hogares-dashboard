@@ -1,8 +1,7 @@
-import { state } from '../core/index.js';
-import { ROWS_PER_PAGE } from '../core/index.js';
+import { state, ROWS_PER_PAGE, getMunicipioLabel } from '../core/index.js';
 import { showDetailModal } from '../modal/index.js';
 import { 
-    estadoFormatter, duracionFormatter, alertasFormatter, actionButtonFormatter 
+    estadoFormatter, duracionFormatter, alertasFormatter, subtipoFormatter
 } from './formatters.js';
 
 export function initGrid(initialData = []) {
@@ -23,7 +22,7 @@ export function initGrid(initialData = []) {
         columns: [
             { formatter: 'responsiveCollapse', width: 30, minWidth: 30, hozAlign: 'center', headerSort: false, resizable: false, responsive: 0 },
             {
-                title: 'Identificación', frozen: true,
+                title: 'Identificación',
                 columns: [
                     { title: 'Cédula',  field: 'cedula',  headerFilter: 'input', minWidth: 90,  responsive: 0 },
                     { title: 'Nombre',  field: 'nombre',  headerFilter: 'input', minWidth: 140, responsive: 0 },
@@ -46,6 +45,7 @@ export function initGrid(initialData = []) {
                 title: 'Métricas',
                 columns: [
                     { title: 'Estado', field: 'estado', width: 100, responsive: 0, formatter: estadoFormatter, headerFilter: 'list', headerFilterParams: { valuesLookup: true, clearable: true } },
+                    { title: 'Subtipo', field: 'subtipo', minWidth: 160, responsive: 1, formatter: subtipoFormatter, headerFilter: 'list', headerFilterParams: { valuesLookup: true, clearable: true } },
                     { title: 'Dur.', field: 'durMin', width: 70, hozAlign: 'center', responsive: 2, formatter: duracionFormatter },
                     { title: 'Alertas', field: 'alertas', minWidth: 160, headerSort: false, responsive: 2, formatter: alertasFormatter },
                 ]
@@ -56,17 +56,6 @@ export function initGrid(initialData = []) {
                     { title: 'Hog.', field: 'hogares',  width: 50, hozAlign: 'center', responsive: 4 },
                     { title: 'Pers.', field: 'personas', width: 50, hozAlign: 'center', responsive: 4 },
                 ]
-            },
-            {
-                title: 'Acciones', width: 120, headerSort: false, hozAlign: 'center', responsive: 0,
-                formatter: actionButtonFormatter,
-                cellClick: (e, cell) => {
-                    e.stopPropagation();
-                    const btn = e.target.closest('button');
-                    if (!btn) return;
-                    const rec = cell.getData()._rec;
-                    if (rec && btn.dataset.action === 'view') showDetailModal(rec);
-                }
             }
         ],
         rowFormatter: row => {
@@ -95,11 +84,12 @@ export function updateGrid(data = state.filtered) {
             serie:    m.n_serie  || '',
             linea:    m.n_linea  || '',
             fecha:    m.fecha    || '',
-            mun:      m.mun      || '',
+            mun:      getMunicipioLabel(m.mun || ''),
             par:      m.par      || '',
             nodo:     m.nodo     || '',
             segmento: m.segmento || '',
             sector:   m.sector   || '',
+            subtipo:  m.subtipo_vivienda || '',
             estado:   m.estado   || '',
             durMin:   m.durMin,
             alertas:  m.alertas  || [],

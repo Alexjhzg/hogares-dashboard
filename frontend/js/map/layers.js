@@ -25,6 +25,7 @@ export function drawGeoJSONLayer() {
     if (!state.geoJSONData || !state.map || state.geoJSONLayer) return;
     try {
         state.geoJSONLayer = L.geoJSON(state.geoJSONData, {
+            smoothFactor: 0,
             style: (feature) => {
                 const props = feature.properties;
                 const isRural = props.cod_seg === '000' || props.cod_seg === '0';

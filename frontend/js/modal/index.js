@@ -1,7 +1,7 @@
 // ─── Modals (Refactorized) ─────────────────────────────────────────────────────
 // Orchestrator for Detail Modal and UI interactions.
 
-import { state } from '../core/index.js';
+import { state, getMunicipioLabel } from '../core/index.js';
 import { $, matchSegmentCodes } from '../utils/index.js';
 import { extractNested, fmt, parseGeo, calcDistance, _padM, _ctrlKey } from './utils.js';
 import { 
@@ -14,10 +14,71 @@ import { initOrUpdateMiniMap } from './modal-map.js';
 
 // ── Detail Modal ──────────────────────────────────────────────────────────────
 
+let currentNavList = [];
+let currentNavIndex = -1;
+
+function updateNavigationState(rec) {
+    const activeTabBtn = document.querySelector('#mainTabs .tab-btn.active');
+    const activeTab = activeTabBtn ? activeTabBtn.getAttribute('data-tab') : 'tab-resumen';
+
+    let list = [];
+    if (activeTab === 'tab-inconsistencias' && state.inconsistenciasTabulator) {
+        const rows = state.inconsistenciasTabulator.getData("active");
+        list = rows.map(r => r._rec).filter(Boolean);
+    } else if (state.detailTable) {
+        const rows = state.detailTable.getData("active");
+        list = rows.map(r => r._rec).filter(Boolean);
+    }
+
+    if (!list || list.length === 0 || !list.includes(rec)) {
+        if (state.filtered && state.filtered.includes(rec)) {
+            list = state.filtered;
+        } else if (state.rawData && state.rawData.includes(rec)) {
+            list = state.rawData;
+        } else {
+            list = [rec];
+        }
+    }
+
+    currentNavList = list;
+    currentNavIndex = list.indexOf(rec);
+}
+
+export function navigateDetailModal(direction) {
+    const nextIndex = currentNavIndex + direction;
+    if (nextIndex >= 0 && nextIndex < currentNavList.length) {
+        const nextRec = currentNavList[nextIndex];
+        showDetailModal(nextRec);
+    }
+}
+
 export function showDetailModal(rec) {
     const modal = $('detailModal');
     const body  = $('detailModalBody');
     if (!modal || !body || !rec) return;
+
+    // Update navigation
+    updateNavigationState(rec);
+
+    // Destroy existing mini map if it exists, since the body HTML will be overwritten
+    if (state.detailMiniMapObj) {
+        try {
+            state.detailMiniMapObj.remove();
+        } catch (err) {
+            console.error('[Modal] Error removing previous map object:', err);
+        }
+        state.detailMiniMapObj = null;
+    }
+
+    const idxLabel = $('detailModalRecordIndex');
+    if (idxLabel) {
+        idxLabel.textContent = `${currentNavIndex + 1} / ${currentNavList.length}`;
+    }
+
+    const btnPrev = $('btnDetailPrev');
+    const btnNext = $('btnDetailNext');
+    if (btnPrev) btnPrev.disabled = currentNavIndex <= 0;
+    if (btnNext) btnNext.disabled = currentNavIndex >= currentNavList.length - 1;
 
     // 1. Data Extraction & Formatting
     // Prefer _meta (already normalized) over raw Kobo paths to avoid picking up
@@ -25,7 +86,7 @@ export function showDetailModal(rec) {
     const m = rec._meta || {};
     const data = {
         stEntidad: fmt(m.ent || rec['S1/ent'] || rec['ent'] || null),
-        stMpio:    fmt(m.mun  || null),
+        stMpio:    fmt(getMunicipioLabel(m.mun || null)),
         stParr:    fmt(m.par  || null),
         stSect:    fmt(m.sector || null),
         stNodo:    fmt(m.nodo  || null),
@@ -46,6 +107,7 @@ export function showDetailModal(rec) {
         stPers:    fmt(m.totalPers ?? null),
         stUso:     fmt(m.uso     || null),
         stCond:    fmt(m.condicion || null),
+        stSubtipo: m.subtipo_vivienda || null,
         alertas:   m.alertas   || [],
         hasAlerts: m.hasAlerts || false,
         isFlagged: m.flag_distance_gt_500,

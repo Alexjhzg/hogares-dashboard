@@ -5,12 +5,12 @@
 
 import { state }            from '../core/index.js';
 import { $ }                from '../utils/index.js';
-import { loadAssets, loadData } from '../api/index.js';
+import { loadAssets, loadData, loadPlanificacionData } from '../api/index.js';
 import { processData }      from '../data/index.js';
-import { populateFilters, setRenderAll } from '../filters/index.js';
+import { populateFilters, setRenderAll, initCustomPresets } from '../filters/index.js';
 import { updateGrid, renderRankingTable } from '../table/index.js';
 import { renderMap, initVerRutaButton, loadGeoJSONData, loadControlsData } from '../map/index.js';
-import { closeDetailModal } from '../modal/index.js';
+import { closeDetailModal, navigateDetailModal } from '../modal/index.js';
 import { renderMM111 }      from '../mm111/index.js';
 import { renderInconsistencias } from '../inconsistencias/index.js';
 import { 
@@ -25,7 +25,7 @@ import {
 import { injectLayout } from '../ui/index.js';
 
 import { initTheme } from './theme.js';
-import { updateKPIs } from './kpis.js';
+import { updateKPIs, updateSubtiposBreakdown } from './kpis.js';
 import { switchTab } from './navigation.js';
 import { setMapState } from './map-layout.js';
 import { bindEvents } from './events.js';
@@ -37,6 +37,7 @@ console.log('main/index.js: Modular orchestrator initializing ✓');
 function renderAll() {
     console.log('main/index.js: renderAll() starting');
     try { updateKPIs(); } catch (e) { console.error('KPI Update Error:', e); }
+    try { updateSubtiposBreakdown(); } catch (e) { console.warn('Subtipos Breakdown Error:', e); }
     
     // Charts: Each wrapped to prevent cascading failure
     const chartFn = [
@@ -89,8 +90,12 @@ async function init() {
     bindEvents({
         onProcessData,
         renderRankingTable,
-        closeDetailModal
+        closeDetailModal,
+        navigateDetailModal
     });
+
+    // Custom Presets (localStorage-persisted quick filters)
+    initCustomPresets();
 
     checkLibraryHealth();
     
@@ -98,6 +103,7 @@ async function init() {
     
     Promise.allSettled([
         loadGeoJSONData(),
+        loadPlanificacionData(),
         loadControlsData().then(() => {
             if (state.rawData.length > 0) {
                 console.log('main/index.js: Refreshing data with catalog index…');

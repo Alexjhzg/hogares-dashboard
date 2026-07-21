@@ -18,7 +18,7 @@ export function getResumenTabHTML() {
       </div>
 
       <!-- TIER 1: Indicadores Críticos de Producción -->
-      <section class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
+      <section class="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-7 gap-4">
         <div class="card-premium group relative animate-slide-up" title="Volumen total de formularios recibidos en el servidor sin distinción de su estado de completitud.">
           <div class="card-glow bg-blue-500/10 group-hover:bg-blue-500/20"></div>
           <div class="h-10 w-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center mb-4">
@@ -46,22 +46,31 @@ export function getResumenTabHTML() {
           <div class="text-[10px] font-bold text-orange-400 tracking-wider uppercase mt-1">No Efectivas</div>
         </div>
 
-        <div class="card-premium group relative animate-slide-up" title="Rendimiento porcentual calculado como (Encuestas Efectivas / Total Encuestas Recibidas) * 100.">
-          <div class="card-glow bg-sky-500/10 group-hover:bg-sky-500/20"></div>
-          <div class="h-10 w-10 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center mb-4">
+        <div class="card-premium group relative animate-slide-up" title="Comparativa porcentual entre encuestas efectivas y no efectivas: (Efectivas / (Efectivas + No Efectivas)) * 100.">
+          <div class="card-glow bg-teal-500/10 group-hover:bg-teal-500/20"></div>
+          <div class="h-10 w-10 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center mb-4">
             <i data-lucide="percent" class="w-5 h-5"></i>
           </div>
           <div class="kpi-value-text" id="kpiTasaEfectividad">0%</div>
-          <div class="text-[10px] font-bold text-sky-400 tracking-wider uppercase mt-1">Tasa de Efectividad</div>
+          <div class="text-[10px] font-bold text-teal-400 tracking-wider uppercase mt-1">Tasa de Efectividad</div>
+        </div>
+
+        <div class="card-premium group relative animate-slide-up" title="Tasa de no respuesta calculada sobre el total de viviendas elegibles: (Tipo A / (Planificadas - (Tipo B + Tipo C))) * 100.">
+          <div class="card-glow bg-purple-500/10 group-hover:bg-purple-500/20"></div>
+          <div class="h-10 w-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center mb-4">
+            <i data-lucide="user-x" class="w-5 h-5"></i>
+          </div>
+          <div class="kpi-value-text" id="kpiTasaNoRespuesta">0%</div>
+          <div class="text-[10px] font-bold text-purple-400 tracking-wider uppercase mt-1">Tasa No Respuesta</div>
         </div>
 
         <div class="card-premium group relative animate-slide-up" title="Cantidad de encuestadores únicos que han sincronizado datos en el periodo y filtros seleccionados.">
-          <div class="card-glow bg-purple-500/10 group-hover:bg-purple-500/20"></div>
-          <div class="h-10 w-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center mb-4">
+          <div class="card-glow bg-cyan-500/10 group-hover:bg-cyan-500/20"></div>
+          <div class="h-10 w-10 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center mb-4">
             <i data-lucide="users" class="w-5 h-5"></i>
           </div>
           <div class="kpi-value-text" id="kpiEncuestadores">0</div>
-          <div class="text-[10px] font-bold text-purple-400 tracking-wider uppercase mt-1">Encuestadores Activos</div>
+          <div class="text-[10px] font-bold text-cyan-400 tracking-wider uppercase mt-1">Encuestadores Activos</div>
         </div>
 
         <div class="card-premium group relative animate-slide-up" title="Entrevistas que han disparado alguna regla del motor de inconsistencias o validaciones técnicas.">
@@ -102,40 +111,10 @@ export function getResumenTabHTML() {
         </div>
       </section>
 
-      <!-- TIER 1.5: Clasificación de Estados de Vivienda (Ahorra arriba de las donas) -->
-      <section class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div class="card-premium !border-l-2 !border-l-brand-purple" title="Viviendas donde no se pudo realizar la entrevista por ausencia o rechazo.">
-          <div class="kpi-label !mt-0 mb-1 flex items-center gap-1.5"><i data-lucide="user-round-x" class="w-4 h-4 text-brand-purple"></i> TIPO A</div>
-          <div class="flex items-baseline gap-2">
-            <div class="kpi-value-text text-xl" id="kpiTipoA">0</div>
-            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter" id="pctTipoA">0%</div>
-          </div>
-          <div class="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-widest">Ausentes / Rechazos</div>
-        </div>
-        <div class="card-premium !border-l-2 !border-l-brand-orange" title="Viviendas desocupadas, en construcción o de uso ocasional.">
-          <div class="kpi-label !mt-0 mb-1 flex items-center gap-1.5"><i data-lucide="brick-wall" class="w-4 h-4 text-brand-orange"></i> TIPO B</div>
-          <div class="flex items-baseline gap-2">
-            <div class="kpi-value-text text-xl" id="kpiTipoB">0</div>
-            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter" id="pctTipoB">0%</div>
-          </div>
-          <div class="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-widest">Desocupadas / Construcción</div>
-        </div>
-        <div class="card-premium !border-l-2 !border-l-brand-red" title="Viviendas demolidas, inexistentes o de uso no residencial permanente.">
-          <div class="kpi-label !mt-0 mb-1 flex items-center gap-1.5"><i data-lucide="hammer" class="w-4 h-4 text-brand-red"></i> TIPO C</div>
-          <div class="flex items-baseline gap-2">
-            <div class="kpi-value-text text-xl" id="kpiTipoC">0</div>
-            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter" id="pctTipoC">0%</div>
-          </div>
-          <div class="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-widest">Inexistentes / Demolidas</div>
-        </div>
-        <div class="card-premium !border-l-2 !border-l-brand-emerald" title="Viviendas con entrevistas exitosas (Ocupadas con ocupantes presentes).">
-          <div class="kpi-label !mt-0 mb-1 flex items-center gap-1.5"><i data-lucide="user-check" class="w-4 h-4 text-brand-emerald"></i> TIPO E</div>
-          <div class="flex items-baseline gap-2">
-            <div class="kpi-value-text text-xl" id="kpiTipoE">0</div>
-            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter" id="pctTipoE">0%</div>
-          </div>
-          <div class="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-widest">Entrevistas Efectivas</div>
-        </div>
+      <!-- TIER 1.5: Clasificación y Desglose Detallado de Viviendas -->
+      <section id="subtiposBreakdownContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Rendered dynamically by kpis.js updateSubtiposBreakdown() -->
+        <div class="col-span-full text-center text-slate-400 text-xs py-6 animate-pulse">Cargando desglose de viviendas...</div>
       </section>
 
       <!-- SECCIÓN 1: Distribución y Tipologías (DONAS) -->

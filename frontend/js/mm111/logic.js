@@ -1,4 +1,4 @@
-import { state } from '../core/index.js';
+import { state, getMunicipioLabel } from '../core/index.js';
 import { $ } from '../utils/index.js';
 import { clearMM111Header, updateMM111Grid } from './render.js';
 
@@ -22,8 +22,8 @@ export function loadMM111ControlData(controlNro) {
     const first = records[0];
 
     // Update Header Fields
-    if ($('mm111Entidad'))   $('mm111Entidad').textContent   = first['S1/ent'] || first._meta.mun || 'N/A';
-    if ($('mm111Municipio')) $('mm111Municipio').textContent = first._meta.mun || 'N/A';
+    if ($('mm111Entidad'))   $('mm111Entidad').textContent   = first['S1/ent'] || getMunicipioLabel(first._meta.mun || 'N/A');
+    if ($('mm111Municipio')) $('mm111Municipio').textContent = getMunicipioLabel(first._meta.mun || 'N/A');
     if ($('mm111Parroquia')) $('mm111Parroquia').textContent = first._meta.par || 'N/A';
     if ($('mm111CPoblado'))  $('mm111CPoblado').textContent  = first['S1/cpoblado'] || 'N/A';
 
@@ -61,6 +61,26 @@ export function loadMM111ControlData(controlNro) {
         if (inputFin)    inputFin.value    = dates[dates.length - 1];
     }
 
+    // Calculate and update Levantamiento Duration
+    const completedRecords = records.filter(r => r._meta && r._meta.estado === 'completada');
+    const durs = completedRecords.map(r => r._meta.durMin).filter(d => d !== null && !isNaN(d));
+    if (durs.length > 0) {
+        const avgMin = Math.round(durs.reduce((s, d) => s + d, 0) / durs.length);
+        const totalMin = Math.round(durs.reduce((s, d) => s + d, 0));
+        const hrs = Math.floor(totalMin / 60);
+        const mins = totalMin % 60;
+        const totalStr = hrs > 0 ? `${hrs}h ${mins}m` : `${mins}m`;
+        
+        if ($('mm111Duracion')) {
+            $('mm111Duracion').innerHTML = `
+                <span class="text-slate-800 dark:text-slate-200 font-bold">${avgMin} min prom.</span>
+                <span class="text-[10px] text-slate-400 dark:text-slate-500 block mt-0.5">Total: ${totalStr}</span>
+            `;
+        }
+    } else {
+        if ($('mm111Duracion')) $('mm111Duracion').textContent = '0 min';
+    }
+
     updateMM111Grid(records);
 }
 
@@ -76,7 +96,7 @@ export function getControlMetadata() {
         if (!controlMap.has(m.control)) {
             controlMap.set(m.control, {
                 control: m.control,
-                mun: m.mun || 'N/A',
+                mun: getMunicipioLabel(m.mun || 'N/A'),
                 seg: m.segmento || '',
                 sec: m.sector || ''
             });

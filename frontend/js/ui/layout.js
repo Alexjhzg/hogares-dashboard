@@ -11,7 +11,8 @@ import {
     getMapaTabHTML,
     getRankingTabHTML,
     getMM111TabHTML,
-    getInconsistenciasTabHTML
+    getInconsistenciasTabHTML,
+    getReportesTabHTML
 } from './tabs/index.js';
 
 // Import Modals & Overlays
@@ -41,7 +42,8 @@ export function injectLayout() {
         getMapaTabHTML(),
         getRankingTabHTML(),
         getMM111TabHTML(),
-        getInconsistenciasTabHTML()
+        getInconsistenciasTabHTML(),
+        getReportesTabHTML()
     ].join('');
     
     // We append because main might already have some structural layout from Shell
