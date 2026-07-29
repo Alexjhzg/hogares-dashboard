@@ -9,6 +9,7 @@ export function openFiltersPanel() {
     if (!panel || !overlay) return;
 
     panel.classList.remove('translate-x-full');
+    panel.classList.add('translate-x-0', 'translate-y-0');
     overlay.classList.remove('hidden');
     setTimeout(() => overlay.classList.remove('opacity-0'), 10);
 }
@@ -19,6 +20,7 @@ export function closeFiltersPanel() {
     if (!panel || !overlay) return;
 
     panel.classList.add('translate-x-full');
+    panel.classList.remove('translate-x-0', 'translate-y-0');
     overlay.classList.add('opacity-0');
     setTimeout(() => overlay.classList.add('hidden'), 300);
 }

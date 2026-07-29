@@ -1,5 +1,6 @@
 import { state } from '../core/index.js';
 import { $ } from '../utils/index.js';
+import { toggleMapTouchInteraction } from '../map/index.js';
 
 /**
  * Manages the different layout states for the map section.
@@ -12,6 +13,13 @@ export function setMapState(mode) {
     const headerLabel = kpiGrid ? kpiGrid.querySelector('.header-label') : null;
     
     if (!wrapper || !kpiGrid || !mapContainer) return;
+
+    // Auto-enable map dragging in fullscreen, or auto-lock on mobile when exiting fullscreen
+    if (mode === 'full') {
+        toggleMapTouchInteraction(true);
+    } else if (window.innerWidth < 768) {
+        toggleMapTouchInteraction(false);
+    }
 
     // 1. ABSOLUTE RESET: Clean up conflicting classes
     document.body.classList.remove('has-map-fullscreen');

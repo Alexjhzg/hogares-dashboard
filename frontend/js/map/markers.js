@@ -49,15 +49,18 @@ export function renderMap() {
             color = '#F59E0B'; borderColor = '#D97706'; alertBadge = 'No Efectiva';
         }
 
-        const durText = m.durMin !== null ? `${Math.round(m.durMin)} min` : '—';
-        const distText = m.distance_m !== null ? `${Math.round(m.distance_m)} m` : '—';
-
-        const html = getSurveyMarkerPopupHtml(m, r._uuid, color, borderColor, alertBadge, alertas, durText, distText);
-
-        return L.circleMarker([m.lat, m.lng], {
+        const marker = L.circleMarker([m.lat, m.lng], {
             radius: 7, fillColor: color, color: borderColor,
             weight: 2, opacity: 0.9, fillOpacity: 0.7,
-        }).bindPopup(html, { className: 'custom-popup', maxWidth: 320 });
+        });
+
+        marker.bindPopup(() => {
+            const durText = m.durMin !== null ? `${Math.round(m.durMin)} min` : '—';
+            const distText = m.distance_m !== null ? `${Math.round(m.distance_m)} m` : '—';
+            return getSurveyMarkerPopupHtml(m, r._uuid, color, borderColor, alertBadge, alertas, durText, distText);
+        }, { className: 'custom-popup', maxWidth: 320 });
+
+        return marker;
     });
 
     state.markerCluster.addLayers(markers);

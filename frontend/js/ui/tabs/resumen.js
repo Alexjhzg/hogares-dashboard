@@ -89,8 +89,8 @@ export function getResumenTabHTML() {
           <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4 text-brand-orange/80"></i> Duración Media</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiDuracion">0m</div>
         </div>
-        <div class="card-premium !border-l-2 !border-l-teal-500" title="Censo total de personas registradas dentro de los hogares que respondieron la encuesta de manera efectiva.">
-          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="users" class="w-4 h-4 text-teal-500/80"></i> Integrantes</div>
+        <div class="card-premium !border-l-2 !border-l-teal-500" title="Promedio de integrantes censados por cada hogar que respondió la encuesta de manera efectiva.">
+          <div class="kpi-label !mt-0 mb-2 flex items-center gap-1.5"><i data-lucide="users" class="w-4 h-4 text-teal-500/80"></i> Prom. Integrantes / Hogar</div>
           <div class="kpi-value-text text-slate-900 dark:text-white" id="kpiPersonas">0</div>
         </div>
         <div class="card-premium !border-l-2 !border-l-indigo-500" title="Cantidad de hogares donde solo se registró a un (1) habitante o encuestado.">

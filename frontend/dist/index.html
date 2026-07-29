@@ -24,25 +24,25 @@
   <script src="https://unpkg.com/tabulator-tables@6.3.1/dist/js/tabulator.min.js"></script>
 
   <!-- Custom Styles -->
-  <script type="module" crossorigin src="./assets/index-C51096hM.js"></script>
+  <script type="module" crossorigin src="./assets/index-Y5GOT1hi.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/core-VcZXWso8.js">
-  <link rel="stylesheet" crossorigin href="./assets/index-BUFKYfo-.css">
+  <link rel="stylesheet" crossorigin href="./assets/index-jyl2RdqI.css">
 </head>
 
-<body class="bg-slate-50 text-slate-800 dark:bg-surface-dark dark:text-slate-300 font-sans min-h-screen flex flex-col transition-colors duration-300">
+<body class="bg-[#f0f4f8] text-slate-800 dark:bg-surface-dark dark:text-slate-300 font-sans min-h-screen flex flex-col transition-colors duration-300">
 
   <!-- ======= HEADER ======= -->
-  <header class="sticky top-0 z-[var(--z-header)] glass-panel border-b-0 px-3 sm:px-6 py-2.5 sm:py-4 flex items-center justify-between shadow-md transition-all">
+  <header class="sticky top-0 z-[var(--z-header)] bg-slate-50 dark:bg-slate-900 border-b border-slate-200/80 dark:border-slate-800/80 px-3 sm:px-6 py-2.5 sm:py-3.5 flex items-center justify-between shadow-md transition-all">
     <div class="flex items-center gap-2 sm:gap-4 overflow-hidden">
-      <div class="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-brand-blue/20 text-brand-blue flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.3)] shrink-0">
+      <div class="h-10 w-10 sm:h-11 sm:w-11 rounded-xl bg-brand-blue/20 text-brand-blue flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.3)] shrink-0 touch-target-min">
         <i data-lucide="activity" class="w-5 h-5 sm:w-6 h-6"></i>
       </div>
       <div class="min-w-0">
         <h1 class="text-sm sm:text-lg font-outfit font-black tracking-tight text-slate-800 dark:text-white flex items-center gap-1.5">
           <span class="truncate">DashboardSociales</span>
-          <span class="hidden sm:inline-block bg-brand-blue/20 text-brand-blue text-[9px] px-1.5 py-0.5 rounded-md uppercase tracking-widest font-bold">SEEM</span>
+          <span class="bg-brand-blue/20 text-brand-blue text-[9px] px-1.5 py-0.5 rounded-md uppercase tracking-widest font-bold shrink-0">SEEM</span>
         </h1>
-        <p class="text-[9px] sm:text-[10px] text-slate-400 font-medium uppercase tracking-widest font-inter hidden sm:block">ESCA/EHM</p>
+        <p class="text-[9px] sm:text-[10px] text-slate-400 font-medium uppercase tracking-widest font-inter">ESCA/EHM</p>
       </div>
     </div>
 
@@ -55,19 +55,19 @@
         <span id="connectionStatus" class="transition-colors text-[10px] text-brand-emerald font-bold font-inter uppercase tracking-tighter">Live Connection</span>
       </div>
 
-      <select id="assetSelect" class="bg-white dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-xl px-2 sm:px-4 py-1.5 text-[11px] sm:text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:border-brand-blue/50 transition-all cursor-pointer font-inter appearance-none pr-7 sm:pr-10 relative max-w-[110px] sm:max-w-none">
-        <option value="">— Cargar Encuesta —</option>
+      <select id="assetSelect" class="bg-white dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-xl px-2 sm:px-4 py-2 text-xs sm:text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:border-brand-blue/50 transition-all cursor-pointer font-inter appearance-none pr-7 sm:pr-10 relative max-w-[130px] sm:max-w-none min-h-[44px]">
+        <option value="">— Encuesta —</option>
       </select>
 
       <div class="h-5 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block mx-1"></div>
 
       <div class="flex items-center gap-1">
-        <button id="btnThemeToggle" class="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-blue dark:hover:text-white transition-all active:scale-95">
-          <i data-lucide="moon" class="w-4 h-4" id="iconMoon"></i>
-          <i data-lucide="sun" class="w-4 h-4" id="iconSun"></i>
+        <button id="btnThemeToggle" class="w-11 h-11 flex items-center justify-center bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-blue dark:hover:text-white transition-all touch-active touch-target-min" title="Cambiar Tema">
+          <i data-lucide="moon" class="w-5 h-5" id="iconMoon"></i>
+          <i data-lucide="sun" class="w-5 h-5" id="iconSun"></i>
         </button>
-        <button id="btnRefresh" title="Sincronizar con Kobo" class="group w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-blue transition-all active:scale-95">
-          <i data-lucide="refresh-cw" class="w-4 h-4 group-hover:rotate-180 transition-transform"></i>
+        <button id="btnRefresh" title="Sincronizar con Kobo" class="group w-11 h-11 flex items-center justify-center bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-blue transition-all touch-active touch-target-min">
+          <i data-lucide="refresh-cw" class="w-5 h-5 group-hover:rotate-180 transition-transform"></i>
         </button>
       </div>
       <div id="statusBadge" class="hidden">Conectando...</div>
@@ -75,18 +75,18 @@
   </header>
 
   <!-- ======= MAIN CONTENT (Shell) ======= -->
-  <main id="mainContent" class="flex-1 overflow-y-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 flex flex-col gap-4 hidden max-w-[1800px] mx-auto w-full">
+  <main id="mainContent" class="flex-1 overflow-y-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-6 flex flex-col gap-4 hidden max-w-[1800px] mx-auto w-full pb-safe">
     
     <!-- Permanent Navigation Shell -->
-    <section class="glass-panel rounded-xl p-3 md:p-4 flex flex-col gap-3 overflow-visible z-20">
-      <div class="flex flex-col lg:flex-row gap-4 items-stretch lg:items-end justify-between">
+    <section class="glass-panel rounded-xl p-3 md:p-4 flex flex-col gap-3 overflow-visible relative z-30">
+      <div class="flex flex-col lg:flex-row gap-3 sm:gap-4 items-stretch lg:items-end justify-between">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 flex-1">
           <!-- Encuestador -->
           <div class="lg:col-span-3">
             <label class="block text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1.5 ml-1">Encuestador</label>
             <div class="relative">
               <i data-lucide="user" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 pointer-events-none z-10"></i>
-              <select id="filterEncuestador" class="w-full bg-white dark:bg-surface-dark/80 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-xs sm:text-sm text-slate-700 dark:text-slate-200 focus:border-brand-blue/50 focus:ring-1 outline-none transition-all appearance-none cursor-pointer">
+              <select id="filterEncuestador" class="w-full bg-white dark:bg-surface-dark/80 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-700 dark:text-slate-200 focus:border-brand-blue/50 focus:ring-1 outline-none transition-all appearance-none cursor-pointer min-h-[44px]">
                 <option value="">Todos los encuestadores</option>
               </select>
             </div>
@@ -97,7 +97,7 @@
             <label class="block text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1.5 ml-1">Municipio</label>
             <div class="relative">
               <i data-lucide="map-pin" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 pointer-events-none z-10"></i>
-              <select id="filterMunicipio" class="w-full bg-white dark:bg-surface-dark/80 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-xs sm:text-sm text-slate-700 dark:text-slate-200 focus:border-brand-blue/50 focus:ring-1 outline-none transition-all appearance-none cursor-pointer">
+              <select id="filterMunicipio" class="w-full bg-white dark:bg-surface-dark/80 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-700 dark:text-slate-200 focus:border-brand-blue/50 focus:ring-1 outline-none transition-all appearance-none cursor-pointer min-h-[44px]">
                 <option value="">Todos los municipios</option>
               </select>
             </div>
@@ -108,7 +108,7 @@
             <label class="block text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1.5 ml-1">Semana</label>
             <div class="relative">
               <i data-lucide="calendar" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 pointer-events-none z-10"></i>
-              <select id="filterSemana" class="w-full bg-white dark:bg-surface-dark/80 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-xs sm:text-sm text-slate-700 dark:text-slate-200 focus:border-brand-blue/50 focus:ring-1 outline-none transition-all appearance-none cursor-pointer">
+              <select id="filterSemana" class="w-full bg-white dark:bg-surface-dark/80 border border-slate-300 dark:border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-700 dark:text-slate-200 focus:border-brand-blue/50 focus:ring-1 outline-none transition-all appearance-none cursor-pointer min-h-[44px]">
                 <option value="">Todas las semanas</option>
               </select>
             </div>
@@ -117,7 +117,7 @@
           <!-- Periodo -->
           <div class="lg:col-span-3">
             <label class="block text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-1.5 ml-1">Periodo</label>
-            <div class="flex items-center gap-1.5 bg-white dark:bg-surface-dark/80 border border-slate-300 dark:border-slate-700 rounded-xl p-1 focus-within:border-brand-blue/50 transition-all h-[38px]">
+            <div class="flex items-center gap-1.5 bg-white dark:bg-surface-dark/80 border border-slate-300 dark:border-slate-700 rounded-xl p-1 focus-within:border-brand-blue/50 transition-all h-[44px]">
               <input type="date" id="filterFechaInicio" class="flex-1 min-w-0 bg-transparent text-slate-700 dark:text-slate-300 px-1.5 py-1 text-xs outline-none" />
               <span class="text-slate-400 font-black text-[9px]">→</span>
               <input type="date" id="filterFechaFin" class="flex-1 min-w-0 bg-transparent text-slate-700 dark:text-slate-300 px-1.5 py-1 text-xs outline-none" />
@@ -126,53 +126,55 @@
         </div>
 
         <div class="flex-none grid grid-cols-2 lg:flex lg:flex-row items-center gap-2 w-full lg:w-auto">
-          <button id="filterINE" class="flex items-center justify-center gap-2 px-3 py-2 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-emerald transition-all text-xs font-bold whitespace-nowrap group w-full lg:w-auto">
+          <button id="filterINE" class="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-emerald transition-all text-xs font-bold whitespace-nowrap group w-full lg:w-auto touch-active touch-target-min">
             <i data-lucide="chart-column-increasing" class="w-4 h-4"></i><span>Solo INE</span>
           </button>
-          <button id="filterSEGEN" class="flex items-center justify-center gap-2 px-3 py-2 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-purple transition-all text-xs font-bold whitespace-nowrap group w-full lg:w-auto">
+          <button id="filterSEGEN" class="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-purple transition-all text-xs font-bold whitespace-nowrap group w-full lg:w-auto touch-active touch-target-min">
             <i data-lucide="map-pinned" class="w-4 h-4"></i><span>Solo SEGEN</span>
           </button>
-          <button id="btnReset" class="flex items-center justify-center gap-2 px-3 py-2 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-orange transition-all text-xs font-bold whitespace-nowrap group w-full lg:w-auto" title="Limpiar"><i data-lucide="brush-cleaning" class="w-4 h-4 group-hover:-rotate-12 transition-transform"></i><span>Limpiar</span></button>
-          <button id="btnOpenFilters" class="flex items-center justify-center gap-2 btn-primary relative w-full lg:w-auto"><i data-lucide="sliders-horizontal" class="w-4 h-4"></i><span>Más Filtros</span><span id="activeFiltersBadge" class="hidden absolute -top-2 -right-2 bg-brand-orange text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-surface-dark animate-pulse">0</span></button>
+          <button id="btnReset" class="flex items-center justify-center gap-2 px-3 py-2.5 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-500 hover:text-brand-orange transition-all text-xs font-bold whitespace-nowrap group w-full lg:w-auto touch-active touch-target-min" title="Limpiar"><i data-lucide="brush-cleaning" class="w-4 h-4 group-hover:-rotate-12 transition-transform"></i><span>Limpiar</span></button>
+          <button id="btnOpenFilters" class="flex items-center justify-center gap-2 px-3 py-2.5 bg-brand-blue text-white rounded-xl text-xs font-bold whitespace-nowrap shadow-md hover:bg-brand-blue/90 transition-all relative w-full lg:w-auto touch-active touch-target-min min-h-[44px]">
+            <i data-lucide="sliders-horizontal" class="w-4 h-4"></i><span>Más Filtros</span>
+            <span id="activeFiltersBadge" class="hidden absolute -top-2 -right-2 bg-brand-orange text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-surface-dark animate-pulse">0</span>
+          </button>
         </div>
       </div>
 
       <!-- Presets de 1-Clic & Contenedor de Tags Activos -->
       <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-200/50 dark:border-white/5">
         <div class="flex flex-wrap items-center gap-1.5">
-          <span class="text-[9px] uppercase font-bold text-slate-400 tracking-wider mr-1">Presets Rápido:</span>
-          <button id="presetAlertas" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 transition-all flex items-center gap-1">
-            <i data-lucide="shield-alert" class="w-3 h-3"></i><span>Con Alertas</span>
+          <span class="text-[9px] uppercase font-bold text-slate-400 tracking-wider mr-1 hidden sm:inline">Presets:</span>
+          <button id="presetAlertas" class="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 transition-all flex items-center gap-1 touch-active min-h-[36px]">
+            <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i><span>Alertas</span>
           </button>
-          <button id="presetNoRespuesta" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 border border-purple-500/20 transition-all flex items-center gap-1">
-            <i data-lucide="user-x" class="w-3 h-3"></i><span>No Respuesta</span>
+          <button id="presetNoRespuesta" class="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 border border-purple-500/20 transition-all flex items-center gap-1 touch-active min-h-[36px]">
+            <i data-lucide="user-x" class="w-3.5 h-3.5"></i><span>No Resp.</span>
           </button>
-          <button id="presetNoEfectivas" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/20 transition-all flex items-center gap-1">
-            <i data-lucide="help-circle" class="w-3 h-3"></i><span>No Efectivas</span>
+          <button id="presetNoEfectivas" class="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 border border-orange-500/20 transition-all flex items-center gap-1 touch-active min-h-[36px]">
+            <i data-lucide="help-circle" class="w-3.5 h-3.5"></i><span>No Efec.</span>
           </button>
 
           <!-- Custom presets (rendered dynamically by presets.js) -->
           <div id="customPresetsContainer" class="hidden flex flex-wrap items-center gap-1.5"></div>
 
           <!-- Save preset button -->
-          <button id="btnSavePreset" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-100 hover:bg-indigo-500/10 dark:bg-white/5 dark:hover:bg-indigo-500/15 text-slate-400 hover:text-indigo-400 border border-slate-200 dark:border-white/10 hover:border-indigo-400/30 transition-all flex items-center gap-1" title="Guardar filtros actuales como preset">
-            <i data-lucide="plus" class="w-3 h-3"></i><span>Guardar</span>
+          <button id="btnSavePreset" class="px-3 py-1.5 rounded-lg text-[11px] font-bold bg-slate-100 hover:bg-indigo-500/10 dark:bg-white/5 dark:hover:bg-indigo-500/15 text-slate-400 hover:text-indigo-400 border border-slate-200 dark:border-white/10 hover:border-indigo-400/30 transition-all flex items-center gap-1 touch-active min-h-[36px]" title="Guardar filtros actuales como preset">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i><span>Guardar</span>
           </button>
         </div>
         <div id="activeFiltersContainer" class="hidden flex flex-wrap items-center gap-1.5 max-w-full"></div>
       </div>
     </section>
 
-    <!-- Tabbed Navigation -->
+    <!-- Tabbed Navigation (Mobile Optimized Pills) -->
     <div class="flex items-center justify-center lg:justify-start w-full">
       <nav id="mainTabs" class="flex items-center gap-1 p-1.5 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 rounded-[22px] backdrop-blur-md shadow-sm relative z-10 w-full lg:w-fit overflow-x-auto no-scrollbar">
-        <button data-tab="tab-resumen" class="tab-btn active"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span class="hidden sm:inline">Vista General</span></button>
-        <button data-tab="tab-mapa" class="tab-btn"><i data-lucide="map" class="w-4 h-4"></i><span class="hidden sm:inline">Cobertura y Datos</span></button>
-        <button data-tab="tab-ranking" class="tab-btn"><i data-lucide="bar-chart-2" class="w-4 h-4"></i><span class="hidden sm:inline">Desempeño</span></button>
-        <button data-tab="tab-mm111" class="tab-btn"><i data-lucide="clipboard-list" class="w-4 h-4"></i><span class="hidden sm:inline">MM-111</span></button>
-        <button data-tab="tab-inconsistencias" class="tab-btn"><i data-lucide="shield-alert" class="w-4 h-4"></i><span class="hidden sm:inline">Inconsistencias</span></button>
-        <button data-tab="tab-reportes" class="tab-btn"><i data-lucide="file-spreadsheet" class="w-4 h-4"></i><span class="hidden sm:inline">Reportes</span></button>
-
+        <button data-tab="tab-resumen" class="tab-btn active flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all touch-active"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span class="text-[11px] sm:text-xs font-semibold whitespace-nowrap">General</span></button>
+        <button data-tab="tab-mapa" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all touch-active"><i data-lucide="map" class="w-4 h-4"></i><span class="text-[11px] sm:text-xs font-semibold whitespace-nowrap">Mapa</span></button>
+        <button data-tab="tab-ranking" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all touch-active"><i data-lucide="bar-chart-2" class="w-4 h-4"></i><span class="text-[11px] sm:text-xs font-semibold whitespace-nowrap">Ranking</span></button>
+        <button data-tab="tab-mm111" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all touch-active"><i data-lucide="clipboard-list" class="w-4 h-4"></i><span class="text-[11px] sm:text-xs font-semibold whitespace-nowrap">MM-111</span></button>
+        <button data-tab="tab-inconsistencias" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all touch-active"><i data-lucide="shield-alert" class="w-4 h-4"></i><span class="text-[11px] sm:text-xs font-semibold whitespace-nowrap">Alertas</span></button>
+        <button data-tab="tab-reportes" class="tab-btn flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all touch-active"><i data-lucide="file-spreadsheet" class="w-4 h-4"></i><span class="text-[11px] sm:text-xs font-semibold whitespace-nowrap">Reportes</span></button>
       </nav>
     </div>
 

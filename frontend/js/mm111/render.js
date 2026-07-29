@@ -23,8 +23,8 @@ export function updateMM111Grid(records) {
         }
         const calle = calleParts.length > 0 ? calleParts.join(', ') : (rec['S1/direccion'] || '-');
 
-        // Nro Casa / Contacto
-        const nro = rec['control_de_la_entrevista/in10'] || rec['control_entrevista/in10'] || '-';
+        // Nro Casa / Contacto (in10)
+        const nro = rec._meta?.nroCasa || rec['control_de_la_entrevista/in10'] || rec['control_entrevista/in10'] || rec['in10'] || rec['S1/in10'] || '-';
         // Referencia / Descripción
         const ref = rec['control_de_la_entrevista/in11'] || rec['control_entrevista/in11'] || '-';
 
@@ -35,7 +35,7 @@ export function updateMM111Grid(records) {
             edificacion: rec['S1/Edificaci_n'] || rec['S1/edificacion'] || '-',
             estructura: rec['S1/estructura'] || rec['S1/unidad'] || '-',
             calle: calle,
-            listadoCalleNro: '-', // No data for now, placeholder for physical layout alignment
+            listadoCalleNro: nro,
             nroCasa: nro,
             descripcion: ref,
             residente: rec._meta.residente || '-',
@@ -75,29 +75,32 @@ function listadoMM111Formatter(cell) {
 }
 
 function initMM111Table(initialData) {
+    const isMobile = window.innerWidth < 768;
+
     state.mm111Table = new Tabulator("#mm111Grid", {
         data: initialData,
-        layout: "fitColumns",
+        layout: isMobile ? "fitDataFill" : "fitColumns",
         height: "100%",
         responsiveLayout: "collapse",
         placeholder: "<div class='p-12 text-center text-slate-400 font-medium'>Seleccione un número de Control para visualizar el listado de las encuestas.</div>",
         columns: [
+            { formatter: "responsiveCollapse", width: 32, minWidth: 32, hozAlign: "center", headerSort: false, resizable: false, responsive: 0 },
             {
-                title: "Línea", field: "linea", width: 65, hozAlign: "center",
+                title: "Línea", field: "linea", width: 65, hozAlign: "center", responsive: 0,
                 formatter: cell => `<span class="font-mono font-bold text-slate-700 dark:text-slate-200">${cell.getValue()}</span>`
             },
-            { title: "Manz.", field: "manzana", width: 65, hozAlign: "center" },
-            { title: "Parc.", field: "parcela", width: 65, hozAlign: "center" },
-            { title: "Edif.", field: "edificacion", width: 65, hozAlign: "center" },
-            { title: "Estr.", field: "estructura", width: 65, hozAlign: "center" },
-            { title: "Calle / Rumbo", field: "calle", minWidth: 150, formatter: "textarea" },
-            { title: "Listado C./N° Casa", field: "listadoCalleNro", minWidth: 150, hozAlign: "center" },
-            { title: "Listado MM-111", field: "descripcion", minWidth: 260, formatter: listadoMM111Formatter },
-            { title: "Panel", field: "panel", width: 60, hozAlign: "center" },
-            { title: "Serie", field: "serie", width: 60, hozAlign: "center", formatter: cell => `<span class="font-mono opacity-70">${cell.getValue()}</span>` },
-            { title: "Condición Inclusión", field: "razon", minWidth: 150, formatter: badgeRazonFormatter },
-            { title: "Observaciones", field: "observaciones", minWidth: 120, formatter: "textarea" },
-            { title: "Fecha", field: "fecha", width: 95, hozAlign: "center" },
+            { title: "Manz.", field: "manzana", width: 65, hozAlign: "center", responsive: 1 },
+            { title: "Parc.", field: "parcela", width: 65, hozAlign: "center", responsive: 1 },
+            { title: "Edif.", field: "edificacion", width: 65, hozAlign: "center", responsive: 1 },
+            { title: "Estr.", field: "estructura", width: 65, hozAlign: "center", responsive: 1 },
+            { title: "Calle / Rumbo", field: "calle", minWidth: 160, responsive: 0, formatter: "textarea" },
+            { title: "Listado C./N° Casa", field: "listadoCalleNro", minWidth: 140, hozAlign: "center", responsive: 0, formatter: cell => `<span class="font-mono font-bold text-slate-700 dark:text-slate-200">${cell.getValue()}</span>` },
+            { title: "Listado MM-111", field: "descripcion", minWidth: 240, responsive: 0, formatter: listadoMM111Formatter },
+            { title: "Panel", field: "panel", width: 60, hozAlign: "center", responsive: 2 },
+            { title: "Serie", field: "serie", width: 60, hozAlign: "center", responsive: 2, formatter: cell => `<span class="font-mono opacity-70">${cell.getValue()}</span>` },
+            { title: "Condición Inclusión", field: "razon", minWidth: 150, responsive: 0, formatter: badgeRazonFormatter },
+            { title: "Observaciones", field: "observaciones", minWidth: 130, responsive: 2, formatter: "textarea" },
+            { title: "Fecha", field: "fecha", width: 95, hozAlign: "center", responsive: 1 },
             {
                 title: "Duración", field: "duracion", width: 90, hozAlign: "center",
                 formatter: cell => {

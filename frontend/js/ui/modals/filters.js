@@ -10,20 +10,23 @@ export function getFiltersOffCanvasHTML() {
       aria-hidden="true"></div>
 
     <div id="offCanvasFilters"
-      class="fixed inset-y-0 right-0 z-[var(--z-offcanvas)] w-full sm:w-[400px] border-l border-slate-200 dark:border-white/10 transform translate-x-full transition-transform duration-300 ease-out flex flex-col shadow-[-10px_0_40px_rgba(0,0,0,0.1)] dark:shadow-[-10px_0_40px_rgba(0,0,0,0.5)] bg-white dark:bg-slate-900"
+      class="fixed inset-y-0 right-0 z-[var(--z-offcanvas)] w-full sm:w-[400px] border-l border-slate-200 dark:border-white/10 transform translate-x-full transition-transform duration-300 ease-out flex flex-col shadow-[-10px_0_40px_rgba(0,0,0,0.1)] dark:shadow-[-10px_0_40px_rgba(0,0,0,0.5)] bg-white dark:bg-slate-900 pb-safe"
       role="dialog" aria-modal="true" aria-labelledby="filtersTitle">
+
+      <!-- Drag indicator for Mobile Bottom Sheet -->
+      <div class="mobile-drag-handle sm:hidden"></div>
 
       <!-- Background glow elements -->
       <div class="absolute top-0 right-0 w-64 h-64 bg-brand-blue/10 rounded-full blur-[80px] pointer-events-none"></div>
 
-      <div class="flex items-center justify-between p-6 border-b border-slate-100 dark:border-slate-800/80 relative z-10">
+      <div class="flex items-center justify-between p-4 sm:p-6 border-b border-slate-100 dark:border-slate-800/80 relative z-10">
         <div>
-          <h3 id="filtersTitle" class="font-outfit font-black text-xl text-slate-800 dark:text-white flex items-center gap-2">
-            <i data-lucide="settings-2" class="text-brand-blue w-6 h-6"></i> Reglas de Filtrado
+          <h3 id="filtersTitle" class="font-outfit font-black text-lg sm:text-xl text-slate-800 dark:text-white flex items-center gap-2">
+            <i data-lucide="settings-2" class="text-brand-blue w-5 h-5 sm:w-6 sm:h-6"></i> Reglas de Filtrado
           </h3>
-          <p class="text-[10px] text-slate-400 font-medium uppercase tracking-widest mt-1">Refina el bloque de datos</p>
+          <p class="text-[9px] sm:text-[10px] text-slate-400 font-medium uppercase tracking-widest mt-0.5">Refina el bloque de datos</p>
         </div>
-        <button id="btnCloseFilters" class="p-2.5 bg-slate-100 dark:bg-slate-800/50 hover:bg-slate-200 rounded-xl border border-slate-200 dark:border-slate-700 transition-all">
+        <button id="btnCloseFilters" class="p-2.5 bg-slate-100 dark:bg-slate-800/50 hover:bg-slate-200 rounded-xl border border-slate-200 dark:border-slate-700 transition-all touch-active touch-target-min">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -35,12 +38,6 @@ export function getFiltersOffCanvasHTML() {
             <i data-lucide="tag" class="w-3.5 h-3.5 text-brand-orange"></i> Metadatos
           </h4>
           <div class="space-y-4">
-            <div>
-              <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Agrupación Semanal</label>
-              <select id="filterSemana" class="w-full bg-white dark:bg-surface-dark border rounded-xl px-3 py-2 text-sm outline-none">
-                <option value="">Consolidado global</option>
-              </select>
-            </div>
             <div>
               <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Supervisor Control</label>
               <select id="filterControl" class="w-full bg-white dark:bg-surface-dark border rounded-xl px-3 py-2 text-sm outline-none">
@@ -82,12 +79,6 @@ export function getFiltersOffCanvasHTML() {
             <i data-lucide="map-pinned" class="w-3.5 h-3.5 text-brand-blue"></i> Geografía
           </h4>
           <div class="space-y-4">
-            <div>
-              <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Municipio</label>
-              <select id="filterMunicipio" class="w-full bg-white dark:bg-surface-dark border rounded-xl px-3 py-2 text-sm outline-none focus:border-brand-blue">
-                <option value="">Todos los municipios</option>
-              </select>
-            </div>
             <div>
               <label class="block text-[11px] font-bold text-slate-500 mb-1.5 ml-1">Parroquia</label>
               <select id="filterParroquia" class="w-full bg-white dark:bg-surface-dark border rounded-xl px-3 py-2 text-sm outline-none focus:border-brand-blue">

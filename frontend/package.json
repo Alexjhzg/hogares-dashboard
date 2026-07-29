@@ -12,10 +12,11 @@
     "vitest": "^4.1.5"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "optimize:geojson": "node scripts/optimize-geojson.js"
   },
   "keywords": [],
   "author": "",

@@ -155,7 +155,7 @@ export function showDetailModal(rec) {
     data.walkedDistance = ptIni && ptFin ? calcDistance(ptIni, ptFin) : null;
     
     data.stDist = data.walkedDistance !== null
-        ? `<span class="font-outfit font-black ${data.walkedDistance > 30 ? 'text-brand-red' : 'text-brand-emerald'}">${Math.round(data.walkedDistance)} m</span>`
+        ? `<span class="font-outfit font-black ${data.walkedDistance > 30 ? 'text-brand-red' : 'text-brand-emerald'}">${Math.round(data.walkedDistance)} metros</span>`
         : '<span class="text-slate-500 font-medium italic">N/A</span>';
 
     data.hasMapData = ptStart || ptIni || ptFin || ptMain;

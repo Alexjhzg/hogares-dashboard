@@ -8,9 +8,14 @@ export function getMapaTabHTML() {
     <div id="tab-mapa" class="tab-content flex flex-col gap-4 hidden-tab animate-fade-in">
       <div id="mapSectionWrapper" class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:h-[80vh] lg:min-h-[700px] transition-all duration-500">
         <!-- Leaflet Container -->
-        <div id="mapDisplayContainer" class="lg:col-span-10 relative glass-panel rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 shadow-inner">
+        <div id="mapDisplayContainer" class="lg:col-span-10 relative glass-panel rounded-xl overflow-hidden border border-slate-200 dark:border-white/5 shadow-inner min-h-[380px] sm:min-h-[480px] lg:min-h-0">
           <div id="mapControlGroup"
             class="absolute bottom-4 right-4 z-[var(--z-map-control)] flex items-center bg-white/90 dark:bg-slate-900/80 backdrop-blur-md border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden shadow-xl dark:shadow-2xl transition-all">
+            <button id="btnToggleMapTouch"
+              class="p-2.5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-white border-r border-slate-200 dark:border-white/10 group flex items-center justify-center transition-all touch-active cursor-pointer min-h-[44px] min-w-[44px]"
+              title="Scroll libre activo. Toca para interactuar con el mapa.">
+              <i data-lucide="lock" class="w-4 h-4 text-brand-orange" id="iconMapLock"></i>
+            </button>
             <button id="btnMapStateNormal" class="p-2.5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-white border-r border-slate-200 dark:border-white/10 group" title="Normal">
               <i data-lucide="layout-dashboard" class="w-4 h-4 opacity-70 group-hover:opacity-100"></i>
             </button>

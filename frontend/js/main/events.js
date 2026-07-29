@@ -6,6 +6,7 @@ import { setMapState } from './map-layout.js';
 import { switchTab } from './navigation.js';
 import { updateKPIs } from './kpis.js';
 import { initSearchableCombobox } from '../ui/components/combobox.js';
+import { toggleMapTouchInteraction } from '../map/index.js';
 
 export function bindEvents(callbacks) {
     const { onProcessData } = callbacks;
@@ -127,6 +128,7 @@ export function bindEvents(callbacks) {
     if ($('btnMapStateNormal'))   $('btnMapStateNormal').addEventListener('click', () => setMapState('normal'));
     if ($('btnMapStateExpanded')) $('btnMapStateExpanded').addEventListener('click', () => setMapState('expanded'));
     if ($('btnMapStateFull'))     $('btnMapStateFull').addEventListener('click', () => setMapState('full'));
+    if ($('btnToggleMapTouch'))   $('btnToggleMapTouch').addEventListener('click', () => toggleMapTouchInteraction());
     
     if ($('btnToggleMapKpis')) {
         $('btnToggleMapKpis').addEventListener('click', () => {

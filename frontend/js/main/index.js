@@ -99,21 +99,32 @@ async function init() {
 
     checkLibraryHealth();
     
-    // Parallel discovery and initial data load
-    
+    // 1. Primary data load (Survey Assets + Planificacion) for immediate dashboard render
     Promise.allSettled([
-        loadGeoJSONData(),
         loadPlanificacionData(),
-        loadControlsData().then(() => {
-            if (state.rawData.length > 0) {
-                console.log('main/index.js: Refreshing data with catalog index…');
-                onProcessData();
-            }
-        }),
         loadAssets(uid => loadData(uid, onProcessData))
     ]).then(() => {
-        console.log('main/index.js: Bootstrap phase completed.');
+        console.log('main/index.js: Primary dashboard data ready.');
         if (window.lucide) lucide.createIcons();
+
+        // 2. Idle-phase background load of heavy spatial layers (IndexedDB cached)
+        const loadSpatialLayers = () => {
+            Promise.allSettled([
+                loadGeoJSONData(),
+                loadControlsData().then(() => {
+                    if (state.rawData.length > 0) {
+                        console.log('main/index.js: Spatial catalog index ready.');
+                        onProcessData();
+                    }
+                })
+            ]);
+        };
+
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(loadSpatialLayers, { timeout: 2000 });
+        } else {
+            setTimeout(loadSpatialLayers, 100);
+        }
     });
 }
 

@@ -1,20 +1,24 @@
 import { state } from '../core/index.js';
 import { COLORS } from '../core/index.js';
 import { getSegmentPopupHtml, getControlTooltipHtml } from './templates.js';
+import { getCachedGeoJSON, setCachedGeoJSON, simplifyGeoJSONClient } from './spatial-cache.js';
 
 /**
- * Loads the segment polygons from the GeoJSON file into state.
+ * Loads the segment polygons from the GeoJSON file into state (with on-the-fly client simplification).
  */
 export async function loadGeoJSONData() {
     if (state.geoJSONData) return;
     try {
-        const response = await fetch('data/segmentos_monagas.geojson');
-        if (!response.ok) throw new Error('Error loading GeoJSON');
-        const data = await response.json();
+        let data = await getCachedGeoJSON('segmentos_monagas');
+        if (!data) {
+            const response = await fetch('data/segmentos_monagas.geojson');
+            if (!response.ok) throw new Error('Error loading GeoJSON');
+            data = await response.json();
+            // Intermediate client-side simplification step if not pre-processed
+            data = simplifyGeoJSONClient(data);
+            setCachedGeoJSON('segmentos_monagas', data);
+        }
         state.geoJSONData = data;
-
-
-
         drawGeoJSONLayer();
     } catch (e) {
         console.error('FAILED TO LOAD GEOJSON:', e);
@@ -75,9 +79,15 @@ export function drawGeoJSONLayer() {
 export async function loadControlsData() {
     if (state.controlsIndex) return;
     try {
-        const response = await fetch('data/CONTROLES.geojson');
-        if (!response.ok) throw new Error(`Error loading CONTROLES.geojson: ${response.status}`);
-        state.controlsData = await response.json();
+        let data = await getCachedGeoJSON('controles_monagas');
+        if (!data) {
+            const response = await fetch('data/CONTROLES.geojson');
+            if (!response.ok) throw new Error(`Error loading CONTROLES.geojson: ${response.status}`);
+            data = await response.json();
+            data = simplifyGeoJSONClient(data, 0.00002, 5);
+            setCachedGeoJSON('controles_monagas', data);
+        }
+        state.controlsData = data;
 
         state.controlsIndex = new Map();
         state.validControls = new Set();

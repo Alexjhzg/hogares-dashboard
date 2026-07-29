@@ -2,6 +2,10 @@ fastapi
 uvicorn
 httpx
 python-dotenv
+shapely
+numpy
+requests
+pydantic
 pytest
 pytest-asyncio
 pytest-cov

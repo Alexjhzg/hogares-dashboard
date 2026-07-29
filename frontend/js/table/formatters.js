@@ -68,10 +68,12 @@ export const desgloseTipologiaFormatter = (cell) => {
     const tA = d.tipoA || 0;
     const tB = d.tipoB || 0;
     const tC = d.tipoC || 0;
+    const tE = d.tipoE !== undefined ? d.tipoE : (d.completadas || 0);
     return `<div style="display:flex;align-items:center;gap:4px;justify-content:center;">
         <span title="Tipo A (Ausentes/Rechazos): ${tA}" style="background:rgba(139,92,246,0.15);color:#8B5CF6;border:1px solid rgba(139,92,246,0.3);font-size:9px;font-weight:800;padding:1px 5px;border-radius:4px;">A: ${tA}</span>
         <span title="Tipo B (Desocupadas): ${tB}" style="background:rgba(245,158,11,0.15);color:#F59E0B;border:1px solid rgba(245,158,11,0.3);font-size:9px;font-weight:800;padding:1px 5px;border-radius:4px;">B: ${tB}</span>
         <span title="Tipo C (No Residencial/Demolida): ${tC}" style="background:rgba(100,116,139,0.15);color:#64748B;border:1px solid rgba(100,116,139,0.3);font-size:9px;font-weight:800;padding:1px 5px;border-radius:4px;">C: ${tC}</span>
+        <span title="Tipo E (Efectivas): ${tE}" style="background:rgba(16,185,129,0.15);color:#10B981;border:1px solid rgba(16,185,129,0.3);font-size:9px;font-weight:800;padding:1px 5px;border-radius:4px;">E: ${tE}</span>
     </div>`;
 };
 

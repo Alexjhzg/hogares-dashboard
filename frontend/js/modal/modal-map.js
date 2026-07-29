@@ -8,13 +8,15 @@ export function initOrUpdateMiniMap(params) {
     const { displayLat, displayLng, declaredSeg, actualSeg, ptStart, ptIni, ptFin, ptMain, isFlagged, rec } = params;
     
     // Extraer clave única del registro actual para filtrar la vivienda esperada
-    const rawControl = extractNested(rec, 'group_sh53u78/control') || extractNested(rec, 'control') || '';
-    const rawSerie   = extractNested(rec, 'n_serie') || '';
-    const rawLinea   = extractNested(rec, 'n_linea') || '';
+    const m = (rec && rec._meta) ? rec._meta : {};
+    const rawControl = m.control || extractNested(rec, 'control') || extractNested(rec, 'group_sh53u78/control') || '';
+    const rawSerie   = m.n_serie || extractNested(rec, 'n_serie') || extractNested(rec, 'group_sh53u78/n_serie') || '';
+    const rawLinea   = m.n_linea || extractNested(rec, 'n_linea') || extractNested(rec, 'group_sh53u78/n_linea') || '';
     const targetKey  = _ctrlKey(rawControl, rawSerie, rawLinea);
+    const ctrlOnly   = String(rawControl || '').trim().slice(-4);
 
     if (!state.detailMiniMapObj) {
-        state.detailMiniMapObj = L.map('detailMap', { zoomControl: false }).setView([displayLat, displayLng], 16);
+        state.detailMiniMapObj = L.map('detailMap', { zoomControl: false, preferCanvas: true }).setView([displayLat, displayLng], 16);
         const satLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', { maxZoom: 20, subdomains: ['mt0','mt1','mt2','mt3'], attribution: '&copy; Google' });
         const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' });
         satLayer.addTo(state.detailMiniMapObj);
@@ -85,19 +87,29 @@ export function initOrUpdateMiniMap(params) {
         overlays['Segmentos'] = segLayer;
     }
 
-    // Draw Dwellings (Viviendas) - Filtrado para mostrar solo la de este registro
+    // Draw Dwellings (Viviendas) - Filtrado para mostrar la vivienda esperada del registro
     if (state.controlsData) {
         const vLayer = L.geoJSON(state.controlsData, {
             filter: (feature) => {
                 const p = feature.properties;
-                // Usamos la misma lógica de clave que el dashboard
                 const featKey = _ctrlKey(p.CONTROL, p.SERIE, p.LINEA);
-                return featKey === targetKey;
+                if (featKey === targetKey) return true;
+
+                // Fallback: coincidencia por Control + Línea
+                const featCtrl = String(p.CONTROL || '').trim().slice(-4);
+                const featLinea = String(parseInt(p.LINEA, 10) || 0);
+                const tgtLinea = String(parseInt(rawLinea, 10) || 0);
+
+                if (ctrlOnly && featCtrl === ctrlOnly) {
+                    if (tgtLinea !== '0' && featLinea === tgtLinea) return true;
+                    if (tgtLinea === '0') return true;
+                }
+                return false;
             },
             pointToLayer: (feature, latlng) => {
                 return L.circleMarker(latlng, {
-                    radius: 7,             // Un poco más grande en la ficha para que resalte
-                    fillColor: '#38BDF8',  // Azul celeste único
+                    radius: 7,             // Destacado en el minimapa de la ficha
+                    fillColor: '#38BDF8',  // Azul celeste
                     color: '#ffffff',
                     weight: 2,
                     opacity: 1,
@@ -107,7 +119,7 @@ export function initOrUpdateMiniMap(params) {
             onEachFeature: (feature, layer) => {
                 layer.bindPopup(getControlTooltipHtml(feature.properties), { className: 'custom-popup' });
             }
-        }).addTo(state.detailMiniMapObj); // En la ficha sí lo mostramos por defecto
+        }).addTo(state.detailMiniMapObj);
         
         overlays['Vivienda Esperada'] = vLayer;
     }

@@ -127,6 +127,8 @@ export function initSearchableCombobox(select) {
     }
 
     function openDropdown() {
+        wrapper.classList.add('combobox-open', 'z-[10000]');
+        if (parent) parent.style.zIndex = '10000';
         dropdown.classList.remove('hidden');
         arrow.classList.add('rotate-180');
         input.removeAttribute('readonly');
@@ -145,6 +147,8 @@ export function initSearchableCombobox(select) {
     }
 
     function closeDropdown() {
+        wrapper.classList.remove('combobox-open', 'z-[10000]', 'z-[1000]');
+        if (parent) parent.style.zIndex = '';
         dropdown.classList.add('hidden');
         arrow.classList.remove('rotate-180');
         input.setAttribute('readonly', 'true');

@@ -44,15 +44,18 @@ export function renderRankingTable(rows) {
         tipoA: m.tipoA || 0,
         tipoB: m.tipoB || 0,
         tipoC: m.tipoC || 0,
+        tipoE: m.tipoE !== undefined ? m.tipoE : (m.completadas || 0),
         personas: m.personas || 0,
         alertasCount: m.alertasCount || 0,
     }));
 
     // 2. Tabulator Instance Management
+    const isMobile = window.innerWidth < 640;
+
     if (!state.rankingTabulator) {
         state.rankingTabulator = new Tabulator('#rankingTable', {
             data: tableData,
-            layout: 'fitColumns',
+            layout: isMobile ? 'fitDataFill' : 'fitColumns',
             height: '460px',
             responsiveLayout: 'collapse',
             persistence: false,
@@ -61,19 +64,17 @@ export function renderRankingTable(rows) {
             columns: [
                 { formatter: 'responsiveCollapse', width: 30, minWidth: 30, hozAlign: 'center', headerSort: false, resizable: false, responsive: 0 },
                 {
-                    title: '#', field: 'pos', width: 50, hozAlign: 'center', headerSort: false, frozen: true, responsive: 0,
+                    title: '#', field: 'pos', width: 42, hozAlign: 'center', headerSort: false, frozen: !isMobile, responsive: 0,
                     formatter: cell => `<span style="color:#64748b;font-weight:800;font-size:12px;">${cell.getValue()}</span>`
                 },
-                { title: 'Encuestador', field: 'nombre', minWidth: 140, frozen: true, responsive: 0, formatter: rankingNombreFormatter },
+                { title: 'Encuestador', field: 'nombre', minWidth: 130, frozen: !isMobile, responsive: 0, formatter: rankingNombreFormatter },
                 { title: 'Volumen', field: 'encuestas', hozAlign: 'center', width: 85, sorter: 'number', responsive: 0,
                     formatter: cell => `<span style="font-weight:800;color:#3B82F6;font-size:13px">${cell.getValue()}</span>` },
-                { title: 'Efectivas (E)', field: 'completadas', hozAlign: 'center', width: 85, sorter: 'number', responsive: 1,
-                    formatter: cell => `<span style="font-weight:800;color:#10B981;font-size:13px">${cell.getValue()}</span>` },
                 { title: 'No Resp. (A)', field: 'noRespuesta', hozAlign: 'center', width: 85, sorter: 'number', responsive: 1,
                     formatter: cell => `<span style="font-weight:800;color:#8B5CF6;font-size:13px">${cell.getValue()}</span>` },
                 { title: '% No Resp.', field: 'pctNoRespuesta', hozAlign: 'center', minWidth: 110, sorter: 'number', responsive: 0, formatter: noRespuestaFormatter },
                 { title: '% Efectividad', field: 'pctCompleta', hozAlign: 'center', minWidth: 110, sorter: 'number', responsive: 2, formatter: efectividadFormatter },
-                { title: 'Tipologías (A/B/C)', field: 'tipoA', hozAlign: 'center', minWidth: 140, headerSort: false, responsive: 2, formatter: desgloseTipologiaFormatter },
+                { title: 'Tipo', field: 'tipoA', hozAlign: 'center', minWidth: 180, headerSort: false, responsive: 2, formatter: desgloseTipologiaFormatter },
                 { title: 'Alertas', field: 'alertasCount', hozAlign: 'center', width: 75, sorter: 'number', responsive: 2,
                     formatter: cell => {
                         const val = cell.getValue();

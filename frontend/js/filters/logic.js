@@ -134,7 +134,7 @@ export function applyFilters() {
 }
 
 /**
- * Clear all filter inputs and reset the filtered state.
+ * Clear all filter inputs and reset the filtered state in a single fast pass.
  */
 export function resetFilters() {
     const ids = [
@@ -149,8 +149,17 @@ export function resetFilters() {
         const el = $(id);
         if (el) {
             el.value = '';
-            if (el.tagName === 'SELECT') {
-                el.dispatchEvent(new Event('change'));
+            // Silently sync custom combobox if initialized
+            const parent = el.parentNode;
+            if (parent) {
+                const wrapper = parent.querySelector(`.combobox-container[data-select-id="${id}"]`);
+                if (wrapper) {
+                    const input = wrapper.querySelector('.combobox-input');
+                    const clearBtn = wrapper.querySelector('.combobox-clear');
+                    const opt0 = el.options[0];
+                    if (input) input.value = opt0 ? opt0.textContent : '';
+                    if (clearBtn) clearBtn.classList.add('hidden');
+                }
             }
         }
     });
@@ -160,10 +169,9 @@ export function resetFilters() {
     state.filterSEGEN = false;
     ['filterINE', 'filterSEGEN'].forEach(id => {
         const el = $(id);
-        if (el) el.classList.remove('active', 'bg-brand-emerald', 'bg-brand-purple', 'text-white');
+        if (el) el.classList.remove('active', 'bg-brand-emerald', 'bg-brand-purple', 'text-white', 'border-brand-emerald', 'border-brand-purple');
     });
 
-    state.filtered = [...state.rawData];
     state.quickFilterMode = 'all';
 
     // Reset visual state of map quick filters if they exist
@@ -177,6 +185,6 @@ export function resetFilters() {
         chip.classList.add('bg-indigo-500/10');
     });
 
-    renderActiveFilterTags();
-    if (typeof _renderAll === 'function') _renderAll();
+    // Execute filter recalculation and render ONCE
+    applyFilters();
 }
